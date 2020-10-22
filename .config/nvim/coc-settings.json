@@ -1,4 +1,10 @@
 {
+  "codeLens.enable": true,
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.errorSign": "x",
+  "diagnostic.warningSign": "w",
+  "diagnostic.infoSign": "i",
+  "diagnostic.hintSign": "h",
   "languageserver": {
     "go": {
       "command": "gopls",
