@@ -5,25 +5,18 @@
   "diagnostic.warningSign": "w",
   "diagnostic.infoSign": "i",
   "diagnostic.hintSign": "h",
+  "diagnostic.refreshOnInsertMode": true,
+  "coc.preferences.formatOnSaveFiletypes": ["*"],
   "languageserver": {
     "go": {
       "command": "gopls",
-      "rootPatterns": [
-        "go.mod"
-      ],
+      "rootPatterns": ["go.mod"],
       "trace.server": "verbose",
-      "filetypes": [
-        "go"
-      ]
+      "filetypes": ["go"]
     },
     "ccls": {
       "command": "ccls",
-      "filetypes": [
-        "c",
-        "cpp",
-        "objc",
-        "objcpp"
-      ],
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
       "rootPatterns": [
         ".ccls",
         "compile_commands.json",
