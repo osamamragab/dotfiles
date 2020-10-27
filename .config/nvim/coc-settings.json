@@ -6,6 +6,11 @@
   "diagnostic.infoSign": "i",
   "diagnostic.hintSign": "h",
   "coc.preferences.formatOnSaveFiletypes": ["*"],
+  "python.formatting.provider": "black",
+  "vetur.format.scriptInitialIndent": true,
+  "vetur.format.styleInitialIndent": true,
+  "eslint.packageManager": "yarn",
+  "prettier.trailingComma": "none",
   "languageserver": {
     "go": {
       "command": "gopls",
