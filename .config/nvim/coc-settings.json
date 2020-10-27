@@ -5,7 +5,6 @@
   "diagnostic.warningSign": "w",
   "diagnostic.infoSign": "i",
   "diagnostic.hintSign": "h",
-  "diagnostic.refreshOnInsertMode": true,
   "coc.preferences.formatOnSaveFiletypes": ["*"],
   "languageserver": {
     "go": {
