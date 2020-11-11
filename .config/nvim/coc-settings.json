@@ -9,6 +9,7 @@
   "diagnostic.virtualText": true,
   "diagnostic.refreshOnInsertMode": true,
   "coc.preferences.formatOnSaveFiletypes": ["*"],
+  "python.jediEnabled": false,
   "python.formatting.provider": "black",
   "eslint.packageManager": "yarn",
   "prettier.trailingComma": "none",
