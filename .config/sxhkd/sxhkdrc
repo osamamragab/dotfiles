@@ -1,0 +1,32 @@
+super + Return
+	$TERMINAL
+
+alt + v
+	$TERMINAL -e vim
+
+alt + b
+	$BROWSER
+
+alt + f
+	$TERMINAL -e nnn -Rr
+
+alt + p
+	mpv $(xclip -o)
+
+alt + {equal, minus, BackSpace}
+	$HOME/dotfiles/scripts/volume.sh {up, down, toggle}
+
+super + shift + BackSpace
+	$HOME/dotfiles/scripts/shutdown.sh
+
+Print
+	maim -u -i $(xdotool getactivewindow) | xclip -sel clip -t image/png
+
+shift + Print
+	maim -u -i $(xdotool getactivewindow) ~/Pictures/screenshot-$(date +%s).png
+
+ctrl + Print
+	maim -s | xclip -sel clip -t image/png
+
+ctrl + shift + Print
+	maim -s ~/Pictures/screenshot-$(date +%s).png
