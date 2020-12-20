@@ -2,7 +2,7 @@ super + Return
 	$TERMINAL
 
 alt + v
-	$TERMINAL -e vim
+	$TERMINAL -e $EDITOR
 
 alt + b
 	$BROWSER
