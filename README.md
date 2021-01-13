@@ -25,4 +25,5 @@ Inspired by:
 - [Luke Smith](http://github.com/LukeSmithxyz/voidrice)
 - [Fatih Arslan](https://github.com/fatih/dotfiles)
 - [Vim Galore](https://github.com/mhinz/vim-galore)
+- [How to Do 90% of What Plugins Do (With Just Vim)](https://www.youtube.com/watch?v=XA2WjJbmmoM)
 - [How to Configure Git](https://github.com/SuperJones/New-Computer-Setup/wiki/How-to-Configure-Git)
