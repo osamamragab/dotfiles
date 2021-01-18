@@ -30,3 +30,6 @@ ctrl + Print
 
 ctrl + shift + Print
 	maim -s ~/Pictures/screenshot-$(date +%s).png
+
+ctrl + shift + alt + {period, comma, r, z, s, space, equal, minus}
+	mpc -q {next, prev, repeat, random, single, toggle, volume +5, volume -5}
