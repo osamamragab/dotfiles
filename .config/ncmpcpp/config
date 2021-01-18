@@ -1,0 +1,12 @@
+ncmpcpp_directory = "~/.config/ncmpcpp"
+mpd_music_dir = "~/Music"
+external_editor = nvim
+use_console_editor = yes
+current_item_prefix = $(cyan)$r$b
+current_item_suffix = $/r$(end)$/b
+main_window_color = white
+empty_tag_color = magenta
+progressbar_look = ->
+progressbar_elapsed_color = blue:b
+media_library_albums_split_by_date = no
+ignore_leading_the = yes
