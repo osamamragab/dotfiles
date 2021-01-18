@@ -31,5 +31,8 @@ ctrl + Print
 ctrl + shift + Print
 	maim -s ~/Pictures/screenshot-$(date +%s).png
 
-ctrl + shift + alt + {period, comma, r, z, s, space, equal, minus}
-	mpc -q {next, prev, repeat, random, single, toggle, volume +5, volume -5}
+ctrl + shift + alt + {period, comma, r, z, s, space, BackSpace, equal, minus}
+	mpc -q {next, prev, repeat, random, single, toggle, seek 0, volume +5, volume -5}
+
+ctrl + shift + alt + p
+	notify-send "Playing" "$(mpc current)"
