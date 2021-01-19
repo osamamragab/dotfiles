@@ -4,14 +4,17 @@ super + Return
 alt + v
 	$TERMINAL -e $EDITOR
 
-alt + b
-	$BROWSER
-
 alt + f
 	$TERMINAL -e nnn -Rr
 
+alt + m
+	$TERMINAL -e ncmpcpp
+
 alt + p
 	mpv $(xclip -o)
+
+alt + b
+	$BROWSER
 
 alt + {equal, minus, BackSpace}
 	$HOME/dotfiles/scripts/volume.sh {up, down, toggle}
