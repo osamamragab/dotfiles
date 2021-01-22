@@ -39,3 +39,6 @@ ctrl + shift + alt + {period, comma, r, z, s, space, BackSpace, equal, minus}
 
 ctrl + shift + alt + p
 	notify-send "Playing" "$(mpc current)"
+
+ctrl + shift + BackSpace
+	dunstctl set-paused toggle
