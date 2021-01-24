@@ -16,6 +16,9 @@ alt + p
 alt + b
 	$BROWSER
 
+alt + shift + l
+	xautolock -locknow
+
 alt + {equal, minus, BackSpace}
 	$HOME/dotfiles/scripts/volume.sh {up, down, toggle}
 
