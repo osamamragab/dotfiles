@@ -26,7 +26,8 @@
       "rootPatterns": ["go.mod"],
       "trace.server": "verbose",
       "filetypes": ["go"]
-    },
+    }
+    /*
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "objc", "objcpp"],
@@ -43,5 +44,6 @@
         }
       }
     }
+    */
   }
 }
