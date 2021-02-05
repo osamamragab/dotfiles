@@ -13,6 +13,9 @@ alt + m
 alt + p
 	mpv $(xclip -o)
 
+alt + e
+	$TERMINAL -e neomutt
+
 alt + b
 	$BROWSER
 
