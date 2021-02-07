@@ -7,4 +7,6 @@ image/jpeg=img.desktop;
 image/gif=img.desktop;
 application/pdf=pdf.desktop;
 application/postscript=pdf.desktop;
+video/mp4=video.desktop
+video/x-matroska=video.desktop
 x-scheme-handler/mailto=mail.desktop;
