@@ -1,0 +1,28 @@
+#!/bin/sh
+
+urls=""
+output="%(title)s.%(ext)s"
+format="22/best[ext=mp4]/best"
+
+while [ $# -ne 0 ]; do
+  case "$1" in
+	-pl | --playlist)
+		output="%(playlist_title)s/%(title)s.%(ext)s"
+		;;
+	-pls | --playlist-sorted)
+		output="%(playlist_title)s/%(playlist_index)s. %(title)s.%(ext)s"
+		;;
+	-a | --audio | --no-vid | --no-video)
+		format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio"
+		;;
+	-v | --vid | --video | --no-audio)
+		format="bestvideo[ext=mp4]/bestvideo"
+		;;
+	*)
+		[ "$urls" ] && urls="$urls $1" || urls="$1"
+		;;
+	esac
+	shift
+done
+
+youtube-dl -ic --add-metadata -o "$output" -f "$format" $urls

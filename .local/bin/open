@@ -1,0 +1,5 @@
+#!/bin/sh
+
+for i in "$@"; do
+	setsid nohup xdg-open "$i" > /dev/null 2> /dev/null
+done

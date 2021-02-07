@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ $# -lt 2 ]; then
+	printf "usage:\n\t%s files... message\n" "$(basename "$0")"
+	exit 1
+fi
+
+for msg in "$@"; do :; done
+
+for f in "$@"; do
+	[ "$f" = "$msg" ] && continue
+	[ "$files" ] && files="$files $f" || files="$f"
+done
+
+git add $files && git commit -m "$msg"

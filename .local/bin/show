@@ -1,0 +1,9 @@
+#!/bin/sh
+
+for p in "$@"; do
+	if [ -f "$p" ]; then
+		cat "$p"
+	elif [ -d "$p" ]; then
+		ls "$p"
+	fi
+done
