@@ -1,0 +1,10 @@
+[Default Applications]
+text/plain=text.desktop;
+text/x-shellscript=text.desktop
+inode/directory=file.desktop
+image/png=img.desktop;
+image/jpeg=img.desktop;
+image/gif=img.desktop;
+application/pdf=pdf.desktop;
+application/postscript=pdf.desktop;
+x-scheme-handler/mailto=mail.desktop;
