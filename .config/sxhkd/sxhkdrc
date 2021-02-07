@@ -23,10 +23,10 @@ alt + shift + l
 	slock
 
 alt + {equal, minus, BackSpace}
-	$HOME/dotfiles/scripts/volume.sh {up, down, toggle}
+	volumectl {up, down, toggle}
 
 super + shift + BackSpace
-	$HOME/dotfiles/scripts/shutdown.sh
+	dmenushutdown
 
 Print
 	maim -u -i $(xdotool getactivewindow) | xclip -sel clip -t image/png
