@@ -42,7 +42,7 @@ for f in "$@"; do
 	dn="$(dirname "$n")"
 	bn=$(basename "$n")
 	bdn=$(basename "$dn")
-	[ "$bdn" = "$bn" -o "${bdn}rc" = "$bn" ] && n="$dn"
+	[ "$bdn" = "$bn" ] || [ "${bdn}rc" = "$bn" ] && n="$dn"
 
 	[ "$names" ] && names="$names, $n" || names="$n"
 done
