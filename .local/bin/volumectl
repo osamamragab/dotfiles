@@ -1,7 +1,9 @@
 #!/bin/sh
 
-[ "$1" = "up" ] && pamixer --allow-boost -i 5
-[ "$1" = "down" ] && pamixer --allow-boost -d 5
-[ "$1" = "toggle" ] && pamixer -t
+case "$1" in
+	up) pamixer --allow-boost -i 5 ;;
+	down) pamixer --allow-boost -d 5 ;;
+	toggle) pamixer -t ;;
+esac
 
 pkill -RTMIN+7 dwmblocks
