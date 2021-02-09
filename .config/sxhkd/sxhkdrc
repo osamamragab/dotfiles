@@ -10,14 +10,14 @@ alt + f
 alt + m
 	$TERMINAL -e ncmpcpp
 
-alt + p
-	mpv $(xclip -o)
-
 alt + e
 	$TERMINAL -e neomutt
 
 alt + b
 	$BROWSER
+
+alt + p
+	mpv $(xclip -o)
 
 alt + shift + l
 	slock
