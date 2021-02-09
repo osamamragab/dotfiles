@@ -1,16 +1,16 @@
 #!/bin/sh
 
-if [ ! "$1" ]; then
+if [ -z "$1" ]; then
 	printf "usage:\n\t%s archive_file_name\n" "$(basename "$0")"
 	exit 1
 fi
 
-if [ ! -f "$1" -o ! -r "$1" ]; then
+if [ ! -r "$1" ]; then
 	echo "$1: file does not exists or not readable"
 	exit 1
 fi
 
-case $1 in
+case "$1" in
 	*.tar.bz2) tar xvjf "$1" ;;
 	*.tar.gz) tar xvzf "$1" ;;
 	*.tar.xz) tar Jxvf "$1" ;;
