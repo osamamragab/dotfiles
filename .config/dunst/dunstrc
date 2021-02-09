@@ -1,3 +1,5 @@
+# vim: ft=cfg
+
 [global]
 	monitor = 0
 	follow = keyboard
@@ -24,12 +26,6 @@
 [experimental]
 	per_monitor_dpi = false
 
-[shortcuts]
-	close = ctrl+space
-	close_all = ctrl+shift+space
-	history = ctrl+grave
-	context = ctrl+shift+period
-
 [urgency_low]
 	background = "#1c1e1f"
 	foreground = "#ffffff"
@@ -44,5 +40,3 @@
 	background = "#cc2421"
 	foreground = "#ffffff"
 	timeout = 0
-
-# vim: ft=cfg
