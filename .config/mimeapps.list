@@ -10,3 +10,5 @@ application/postscript=pdf.desktop
 video/mp4=video.desktop
 video/x-matroska=video.desktop
 x-scheme-handler/mailto=mail.desktop
+x-scheme-handler/http=browser.desktop
+x-scheme-handler/https=browser.desktop
