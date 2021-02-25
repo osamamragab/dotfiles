@@ -1,0 +1,4 @@
+#!/bin/sh
+
+[ -z "$1" ] || [ -z "$2" ] && exit 1
+[ "$(setxkbmap -query | grep layout | awk '{print $2}')" = "$1" ] && setxkbmap "$2" || setxkbmap "$1"
