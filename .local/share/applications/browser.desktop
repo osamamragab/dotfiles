@@ -1,4 +1,4 @@
 [Desktop Entry]
 Type=Application
 Name=Web Browser
-Exec=/usr/bin/chromium %u
+Exec=/usr/bin/firefox %u
