@@ -40,3 +40,7 @@
 	background = "#cc2421"
 	foreground = "#ffffff"
 	timeout = 0
+
+[play_sound]
+	summary = "*"
+	script = ~/.local/bin/playnotificationsound

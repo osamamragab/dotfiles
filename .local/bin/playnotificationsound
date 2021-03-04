@@ -1,0 +1,2 @@
+#!/bin/sh
+aplay -q ~/.local/share/notification_sound.wav >/dev/null 2>&1
