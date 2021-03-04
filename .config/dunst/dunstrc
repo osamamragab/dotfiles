@@ -21,7 +21,7 @@
 	icon_position = left
 	max_icon_size = 40
 	dmenu = /usr/local/bin/dmenu -p dunst:
-	browser = /usr/bin/chromium -new-tab
+	browser = /usr/bin/firefox --new-tab
 
 [experimental]
 	per_monitor_dpi = false
