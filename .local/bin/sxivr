@@ -12,7 +12,7 @@ case "$@" in
 		for url in "$@"; do
 			curl -sSL -o "$dir/$(basename "$url")" "$url"
 		done
-		sxiv "$dir/*"
+		sxiv "$dir"
 		rm -r "$dir"
 		;;
 	*) sxiv "$@" ;;
