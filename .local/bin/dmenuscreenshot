@@ -1,0 +1,13 @@
+#!/bin/sh
+
+scopt="$(printf "select\\ncurrent window\\nfull screen\\nselect (copy)\\ncurrent window (copy)\\nfull screen (copy)" | dmenu -l 6 -i -p "screenshot:")"
+[ -z "$scopt" ] && exit 1
+
+case "$scopt" in
+	"select") maim -s "$HOME/pics/screenshot-$(date '+%Y%m%d-%H%M%S').png" ;;
+	"current window") maim -u -i "$(xdotool getactivewindow)" "$HOME/pics/screenshot-$(date '+%Y%m%d-%H%M%S').png" ;;
+	"full screen") maim -u "$HOME/pics/screenshot-$(date '+%Y%m%d-%H%M%S').png" ;;
+	"select (copy)") maim -s | xclip -sel clip -t image/png ;;
+	"current window (copy)") maim -u -i "$(xdotool getactivewindow)" | xclip -sel clip -t image/png ;;
+	"full screen (copy)") maim -u | xclip -sel clip -t image/png ;;
+esac
