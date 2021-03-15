@@ -7,17 +7,9 @@ while read -r f; do
 		R) convert -rotate -90 "$f" "$f" ;;
 		f) convert -flop "$f" "$f" ;;
 		i) notify-send "file info" "$(mediainfo "$f")" ;;
-		d)
-			[ "$(printf "no\\nyes" | dmenu -i -p "delete $f?")" = "yes" ] &&
-			rm "$f" && notify-send "$f deleted."
-			;;
-		y)
-			printf "%s" "$f" | tr -d '\n' | xclip -sel clip &&
-			notify-send "$f copied to clipboard" &
-			;;
-		Y)
-			readlink -f "$f" | tr -d '\n' | xclip -sel clip &&
-			notify-send "$(readlink -f "$f") copied to clipboard" &
-			;;
+		d) [ "$(printf "no\\nyes" | dmenu -i -p "delete $f?")" = "yes" ] && rm "$f" && notify-send "$f deleted" ;;
+		D) rm "$f" && notify-send "$f deleted" ;;
+		y) printf "%s" "$f" | tr -d '\n' | xclip -sel clip && notify-send "$f copied to clipboard" & ;;
+		Y) readlink -f "$f" | tr -d '\n' | xclip -sel clip && notify-send "$(readlink -f "$f") copied to clipboard" & ;;
 	esac
 done
