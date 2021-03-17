@@ -8,7 +8,8 @@ __git_branch() {
 	[ "$br" ] && echo "($br) "
 }
 
-PS1='%B%{%F{cyan}%}%c %{%F{blue}%}$(__git_branch)%{%F{green}%}>%b%{%f%} '
+autoload -U colors && colors
+PS1="%B%{$fg[cyan]%}%c %{$fg[blue]%}$(__git_branch)%{$fg[green]%}>%{$reset_color%}%b "
 
 HISTSIZE=10000000
 SAVEHIST=10000000
