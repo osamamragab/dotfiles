@@ -21,10 +21,12 @@ export GOPATH="${XDG_DATA_HOME:-$HOME/.local/share}/go"
 export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
 export MBSYNCRC="${XDG_CONFIG_HOME:-$HOME/.config}/mbsync/config"
 export WEECHAT_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/weechat"
+export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 
 export PATH="$HOME/bin:$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$HOME/.deno/bin:$HOME/.yarn/bin:$PATH"
 
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
+export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 
 export LESS_TERMCAP_mb="$(printf '%b' '\e[01;31m')"
 export LESS_TERMCAP_md="$(printf '%b' '\e[01;31m')"
@@ -36,6 +38,5 @@ export LESS_TERMCAP_us="$(printf '%b' '\e[01;32m')"
 
 export MOZ_USE_XINPUT2="1"
 export _JAVA_AWT_WM_NONREPARENTING=1
-export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 
 [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
