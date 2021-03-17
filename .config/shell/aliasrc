@@ -1,8 +1,8 @@
 #!/bin/sh
 
 alias ls="ls -p --color=auto"
-alias ll="ls -alF"
 alias la="ls -A"
+alias ll="ls -AlF"
 alias l="ls -CF"
 
 alias grep="grep --color=auto"
