@@ -12,7 +12,6 @@ PS1='%B%{%F{cyan}%}%c %{%F{blue}%}$(__git_branch)%{%F{green}%}>%b%{%f%} '
 
 HISTSIZE=10000000
 SAVEHIST=10000000
-HISTFILE=~/.history
 
 autoload -U compinit
 zstyle ":completion:*" menu select
