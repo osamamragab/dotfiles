@@ -1,0 +1,67 @@
+[init]
+	defaultBranch = main
+
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+	ui = true
+
+[color "branch"]
+	current = green
+	remote = yellow
+
+[user]
+	name = Osama
+	email = iosamaify@gmail.com
+	username = osamai
+
+[alias]
+	co = checkout
+	st = status -sb
+	br = branch
+	ci = commit
+	ca = commit -a
+	cm = commit -m
+	cam = commit -am
+	fo = fetch origin
+	dt = difftool
+	cl = clone
+	cld = clone --depth 1
+	unstage = reset HEAD --
+	undo = reset --soft HEAD^
+
+	logg = log --oneline --graph --decorate
+	lastcm = log -1 HEAD
+	tree = ls-tree --full-tree -r HEAD
+	ls = ls-files
+	sync = !git fetch origin && git remote prune origin && :
+	reebase-master = !git fetch origin master:master && git rebase master
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+
+[http]
+	sslVerify = false
+
+[credential]
+	helper = cache --timeout=3600
+
+[help]
+	autocorrect = 1
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[push]
+	default = simple
+
+[pull]
+	ff = only
+
+[pager]
+	branch = false
