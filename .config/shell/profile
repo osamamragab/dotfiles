@@ -38,4 +38,4 @@ export MOZ_USE_XINPUT2="1"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 
-[ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx
+[ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
