@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -z "$1" ]; then
-	printf "usage:\n\t%s archive_file_name\n" "$(basename "$0")"
+	printf "usage:\n\t%s <archive>\n" "$(basename "$0")"
 	exit 1
 fi
 
@@ -11,17 +11,19 @@ if [ ! -r "$1" ]; then
 fi
 
 case "$1" in
-	*.tar.bz2) tar xvjf "$1" ;;
-	*.tar.gz) tar xvzf "$1" ;;
-	*.tar.xz) tar Jxvf "$1" ;;
+	*.tar.bz2|*.tbz2) tar -xvjf "$1" ;;
+	*.tar.gz|*.tgz) tar -xvzf "$1" ;;
+	*.tar.xz) tar -Jxvf "$1" ;;
+	*.tbz2) tar -xvjf "$1" ;;
+	*.tgz) tar -xvzf "$1" ;;
+	*.tar) tar -xvf "$1" ;;
 	*.bz2) bunzip2 "$1" ;;
-	*.rar) rar x "$1" ;;
 	*.gz) gunzip "$1" ;;
-	*.tar) tar xvf "$1" ;;
-	*.tbz2) tar xvjf "$1" ;;
-	*.tgz) tar xvzf "$1" ;;
+	*.xz) unxz "$1" ;;
+	*.lzma) unlzma "$1" ;;
 	*.zip) unzip -d "$(echo "$1" | sed 's/\(.*\)\.zip/\1/')" "$1" ;;
+	*.rar) unrar x -ad "$1" ;;
 	*.Z) uncompress "$1" ;;
 	*.7z) 7z x "$1" ;;
-	*) echo "file type is not supported" ;;
+	*) echo "$1: unknown archive type" ;;
 esac
