@@ -55,7 +55,7 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey "^e" edit-command-line
 
-[ -s "$HOME/dotfiles/.aliases" ] && . "$HOME/dotfiles/.aliases"
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 
 # https://github.com/rupa/z
 [ -s "$HOME/programs/z/z.sh" ] && . "$HOME/programs/z/z.sh"
