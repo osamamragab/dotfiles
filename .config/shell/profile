@@ -26,7 +26,6 @@ export PATH="$HOME/bin:$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$HOME/.deno/
 
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 
-export LESS=-R
 export LESS_TERMCAP_mb="$(printf '%b' '\e[01;31m')"
 export LESS_TERMCAP_md="$(printf '%b' '\e[01;31m')"
 export LESS_TERMCAP_me="$(printf '%b' '\e[0m')"
@@ -37,5 +36,6 @@ export LESS_TERMCAP_us="$(printf '%b' '\e[01;32m')"
 
 export MOZ_USE_XINPUT2="1"
 export _JAVA_AWT_WM_NONREPARENTING=1
+export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 
 [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx
