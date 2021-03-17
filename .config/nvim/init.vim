@@ -3,7 +3,7 @@ set nocompatible
 syntax enable
 filetype plugin indent on
 
-call plug#begin('~/dotfiles/.vim/plugged')
+call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
 Plug 'rust-lang/rust.vim'
 Plug 'racer-rust/vim-racer'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
