@@ -45,3 +45,6 @@ def_key "U"
 
 def_key "P"
 	show_playlist
+
+def_key "s"
+	toggle_single
