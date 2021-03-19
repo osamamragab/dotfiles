@@ -46,7 +46,6 @@ set hidden
 set nowrap
 set path+=**
 set wildmenu
-"set title
 
 set hlsearch
 set smartcase
@@ -55,9 +54,7 @@ set incsearch
 
 set nobackup
 set nowritebackup
-
 set swapfile
-set directory^=$HOME/.vim/tmp//
 
 set autoindent
 set noexpandtab
