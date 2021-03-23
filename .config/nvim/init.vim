@@ -89,7 +89,6 @@ colorscheme molokai
 
 if g:colors_name == "molokai"
 	hi Function ctermfg=83 guifg=#5fff5f
-	hi def link GoBuiltins Function
 endif
 
 hi! def link Label Statement
