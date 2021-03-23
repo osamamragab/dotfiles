@@ -9,7 +9,7 @@ __git_branch() {
 }
 
 autoload -U colors && colors
-PS1="%B%{$fg[cyan]%}%c %{$fg[blue]%}$(__git_branch)%{$fg[green]%}>%{$reset_color%}%b "
+PS1="%B%{$fg[cyan]%}%c %{$fg[blue]%}\$(__git_branch)%{$fg[green]%}>%{$reset_color%}%b "
 
 HISTSIZE=10000000
 SAVEHIST=10000000
@@ -27,7 +27,7 @@ bindkey -M menuselect "h" vi-backward-char
 bindkey -M menuselect "k" vi-up-line-or-history
 bindkey -M menuselect "l" vi-forward-char
 bindkey -M menuselect "j" vi-down-line-or-history
-bindkey -M menuselect '^[[Z' reverse-menu-complete
+bindkey -M menuselect "^[[Z" reverse-menu-complete
 
 bindkey -v "^?" backward-delete-char
 bindkey "^[[P" delete-char
