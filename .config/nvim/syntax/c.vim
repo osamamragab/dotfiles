@@ -8,3 +8,5 @@ hi def link cUserFunction Function
 
 hi def link cInclude Statement
 hi def link cStorageClass Statement
+
+hi def link cPreCondit Conditional
