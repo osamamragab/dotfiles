@@ -88,7 +88,7 @@ let g:rehash256=1
 colorscheme molokai
 
 if g:colors_name == "molokai"
-	hi Function ctermfg=83 guifg=#5fff5f
+	hi Function ctermfg=112 guifg=#87d700
 endif
 
 hi! def link Label Statement
