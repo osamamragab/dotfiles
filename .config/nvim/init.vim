@@ -5,7 +5,6 @@ filetype plugin indent on
 
 call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
 Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'voldikss/vim-floaterm'
@@ -14,7 +13,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'junegunn/goyo.vim'
