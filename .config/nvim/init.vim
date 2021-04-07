@@ -7,7 +7,6 @@ call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plug
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'editorconfig/editorconfig-vim'
-Plug 'voldikss/vim-floaterm'
 Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
@@ -89,8 +88,6 @@ if g:colors_name == "molokai"
 	hi Function ctermfg=112 guifg=#87d700
 endif
 
-hi! def link Label Statement
-
 hi Normal ctermfg=255
 hi LineNr ctermbg=234
 
@@ -105,8 +102,6 @@ hi PmenuThumb ctermbg=236
 hi SignColumn ctermbg=234
 hi SignifySignAdd ctermfg=28
 hi SignifySignChange ctermfg=26
-
-hi FloatermBorder guibg=none
 
 let mapleader=' '
 
@@ -126,12 +121,6 @@ let g:lightline = {
 \ }
 
 let g:signify_sign_change='~'
-
-let g:floaterm_width=1.0
-let g:floaterm_height=0.3
-let g:floaterm_position='bottom'
-let g:floaterm_keymap_toggle='<C-f>'
-let g:floaterm_title='Terminal'
 
 let g:rustfmt_autosave=1
 let g:rust_recommended_style=0
