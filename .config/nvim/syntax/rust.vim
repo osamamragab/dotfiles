@@ -8,3 +8,6 @@ hi def link rustPanic Function
 
 hi def link rustModPath cleared
 hi def link rustModPathSep Operator
+
+hi def link rustUnsafeKeyword Statement
+hi def link rustStorage Statement
