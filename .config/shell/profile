@@ -26,6 +26,7 @@ export WEECHAT_HOME="${XDG_CONFIG_HOME:-$HOME/.config}/weechat"
 export NCFTPDIR="${XDG_CONFIG_HOME:-$HOME/.config}/ncftp"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 export IPYTHONDIR="${XDG_CONFIG_HOME:-$HOME/.config}/ipython"
+export NLTK_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/nltk_data"
 
 export PATH="$HOME/bin:$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$DENO_INSTALL_ROOT:$HOME/.yarn/bin:$PATH"
 
