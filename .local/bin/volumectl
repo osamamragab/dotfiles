@@ -1,8 +1,8 @@
 #!/bin/sh
 
 case "$1" in
-	up) pamixer --allow-boost -i 5 ;;
-	down) pamixer --allow-boost -d 5 ;;
+	up) pamixer --allow-boost -i ${2:-5} ;;
+	down) pamixer --allow-boost -d ${2:-5} ;;
 	toggle) pamixer -t ;;
 	*) exit 1 ;;
 esac
