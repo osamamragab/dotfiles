@@ -37,22 +37,6 @@ video() {
 	"$outdir/video-$(printdate).mkv" &
 }
 
-webcamhidef() {
-	ffmpeg \
-	-f v4l2 \
-	-i /dev/video0 \
-	-video_size 1920x1080 \
-	"$outdir/webcam-$(printdate).mkv" &
-}
-
-webcam() {
-	ffmpeg \
-	-f v4l2 \
-	-i /dev/video0 \
-	-video_size 640x480 \
-	"$outdir/webcam-$(printdate).mkv" &
-}
-
 audio() {
 	ffmpeg \
 	-f alsa -i default \
@@ -73,6 +57,31 @@ videoselected() {
 	"$outdir/videoselected-$(printdate).mkv" &
 }
 
+checkwebcam() {
+	if [ ! -b /dev/video0 ]; then
+		notify-send -a "$(basename "$0")" "Error" "webcam is not connected (/dev/video0)"
+		exit 1
+	fi
+}
+
+webcam() {
+	checkwebcam
+	ffmpeg \
+	-f v4l2 \
+	-i /dev/video0 \
+	-video_size 640x480 \
+	"$outdir/webcam-$(printdate).mkv" &
+}
+
+webcamhidef() {
+	checkwebcam
+	ffmpeg \
+	-f v4l2 \
+	-i /dev/video0 \
+	-video_size 1920x1080 \
+	"$outdir/webcam-$(printdate).mkv" &
+}
+
 stoprecording() {
 	recpid="$(sed -n 1p "$recfile")"
 	kill -15 "$recpid"
@@ -89,7 +98,7 @@ if [ -s "$recfile" ]; then
 fi
 
 choice="$1"
-[ -z "$choice" ] && choice="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "record:")"
+[ -z "$choice" ] && choice="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -l 6 -i -p "record:")"
 
 case "$choice" in
 	screencast) screencast ;;
