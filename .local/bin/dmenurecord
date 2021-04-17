@@ -1,61 +1,8 @@
 #!/bin/sh
 
-# modified version of Luke's dmenurecord script
-# https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/dmenurecord
-
-STATUSBAR="${STATUSBAR:-dwmblocks}"
 recfile="/tmp/recordinginfo"
 outdir="$HOME/vids/recordings"
-
-printdate() {
-	date '+%Y%m%d-%H%M%S'
-}
-
-updatestatus() {
-	[ "$1" ] && sed -i "2s/.*/$1/" "$recfile"
-	pkill -RTMIN+9 "$STATUSBAR"
-}
-
-screencast() {
-	ffmpeg -y \
-	-f x11grab \
-	-framerate 60 \
-	-s "$(xdpyinfo | awk '/dimensions/{print $2}')" \
-	-i "$DISPLAY" \
-	-f alsa -i default \
-	-r 30 \
-	-c:v h264 -crf 0 -preset ultrafast -c:a aac \
-	"$outdir/screencast-$(printdate).mp4" &
-}
-
-video() {
-	ffmpeg \
-	-f x11grab \
-	-s "$(xdpyinfo | awk '/dimensions/{print $2}')" \
-	-i "$DISPLAY" \
-	-c:v libx264 -qp 0 -r 30 \
-	"$outdir/video-$(printdate).mkv" &
-}
-
-audio() {
-	ffmpeg \
-	-f alsa -i default \
-	-c:a flac \
-	"$outdir/audio-$(printdate).flac" &
-}
-
-videoselected() {
-	slop -f "%x %y %w %h" > /tmp/slop
-	read -r X Y W H < /tmp/slop
-	rm /tmp/slop
-	ffmpeg \
-	-f x11grab \
-	-framerate 60 \
-	-video_size "$W"x"$H" \
-	-i :0.0+"$X,$Y" \
-	-c:v libx264 -qp 0 -r 30 \
-	"$outdir/videoselected-$(printdate).mkv" &
-}
+datefmt="+%Y%m%d-%H%M%S"
 
 checkwebcam() {
 	if [ ! -b /dev/video0 ]; then
@@ -64,29 +11,11 @@ checkwebcam() {
 	fi
 }
 
-webcam() {
-	checkwebcam
-	ffmpeg \
-	-f v4l2 \
-	-i /dev/video0 \
-	-video_size 640x480 \
-	"$outdir/webcam-$(printdate).mkv" &
-}
-
-webcamhidef() {
-	checkwebcam
-	ffmpeg \
-	-f v4l2 \
-	-i /dev/video0 \
-	-video_size 1920x1080 \
-	"$outdir/webcam-$(printdate).mkv" &
-}
-
 stoprecording() {
 	recpid="$(sed -n 1p "$recfile")"
 	kill -15 "$recpid"
 	rm -f "$recfile"
-	updatestatus
+	pkill -RTMIN+9 dwmblocks
 	sleep 3
 	kill -9 "$recpid" 2> /dev/null
 }
@@ -101,15 +30,62 @@ choice="$1"
 [ -z "$choice" ] && choice="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -l 6 -i -p "record:")"
 
 case "$choice" in
-	screencast) screencast ;;
-	audio) audio ;;
-	video) video ;;
-	"video (select)") videoselected ;;
-	webcam) webcam ;;
-	"webcam (hi-def)") webcamhidef ;;
+	screencast)
+		ffmpeg -y \
+			-f x11grab \
+			-framerate 60 \
+			-s "$(xdpyinfo | awk '/dimensions/{print $2}')" \
+			-i "$DISPLAY" \
+			-f alsa -i default \
+			-r 30 \
+			-c:v h264 -crf 0 -preset ultrafast -c:a aac \
+			"$outdir/screencast-$(date "$datefmt").mp4" &
+		;;
+	video)
+		ffmpeg \
+			-f x11grab \
+			-s "$(xdpyinfo | awk '/dimensions/{print $2}')" \
+			-i "$DISPLAY" \
+			-c:v libx264 -qp 0 -r 30 \
+			"$outdir/video-$(date "$datefmt").mkv" &
+		;;
+	audio)
+		ffmpeg \
+			-f alsa -i default \
+			-c:a flac \
+			"$outdir/audio-$(date "$datefmt").flac" &
+		;;
+	"video (select)")
+		slop -f "%x %y %w %h" > /tmp/slop
+		read -r X Y W H < /tmp/slop
+		rm /tmp/slop
+		ffmpeg \
+			-f x11grab \
+			-framerate 60 \
+			-video_size "$W"x"$H" \
+			-i :0.0+"$X,$Y" \
+			-c:v libx264 -qp 0 -r 30 \
+			"$outdir/videoselected-$(date "$datefmt").mkv" &
+		;;
+	webcam)
+		checkwebcam
+		ffmpeg \
+			-f v4l2 \
+			-i /dev/video0 \
+			-video_size 640x480 \
+			"$outdir/webcam-$(date "$datefmt").mkv" &
+		;;
+	"webcam (hi-def)")
+		checkwebcam
+		ffmpeg \
+			-f v4l2 \
+			-i /dev/video0 \
+			-video_size 1920x1080 \
+			"$outdir/webcam-$(date "$datefmt").mkv" &
+		;;
 	stop) [ -s "$recfile" ] && (stoprecording && exit) || exit 1 ;;
 	*) exit 1 ;;
 esac
 
-printf "%d\n\n" $! > "$recfile"
-updatestatus "$choice"
+printf "%d\n%s" $! "$choice" > "$recfile"
+pkill -RTMIN+9 dwmblocks
