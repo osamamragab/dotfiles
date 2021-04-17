@@ -74,16 +74,23 @@ videoselected() {
 }
 
 stoprecording() {
-	recpid="$(cat "$recfile" | sed -n 1p)"
+	recpid="$(sed -n 1p "$recfile")"
 	kill -15 "$recpid"
 	rm -f "$recfile"
 	updatestatus
 	sleep 3
 	kill -9 "$recpid" 2> /dev/null
-	exit
 }
 
+if [ -s "$recfile" ]; then
+	res="$(printf "no\\nyes" | dmenu -i -p "stop current recording?")"
+	[ "$res" = "yes" ] && stoprecording
+	exit
+fi
+
 choice="$1"
+[ -z "$choice" ] && choice="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "record:")"
+
 case "$choice" in
 	screencast) screencast ;;
 	audio) audio ;;
@@ -91,24 +98,9 @@ case "$choice" in
 	"video (select)") videoselected ;;
 	webcam) webcam ;;
 	"webcam (hi-def)") webcamhidef ;;
-	stop) [ -s "$recfile" ] && stoprecording ;;
-	*)
-		if [ -s "$recfile" ]; then
-			res="$(printf "no\\nyes" | dmenu -i -p "stop recording?")"
-			[ "$res" = "yes" ] && stoprecording
-		fi
-
-		choice="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "record:")"
-		case "$choice" in
-			screencast) screencast ;;
-			audio) audio ;;
-			video) video ;;
-			"video (select)") videoselected ;;
-			webcam) webcam ;;
-			"webcam (hi-def)") webcamhidef ;;
-		esac
-		;;
+	stop) [ -s "$recfile" ] && (stoprecording && exit) || exit 1 ;;
+	*) exit 1 ;;
 esac
 
-echo "$!\n" > "$recfile"
+printf "%d\n\n" $! > "$recfile"
 updatestatus "$choice"
