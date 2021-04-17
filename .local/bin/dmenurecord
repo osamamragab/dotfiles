@@ -1,0 +1,114 @@
+#!/bin/sh
+
+# modified version of Luke's dmenurecord script
+# https://github.com/LukeSmithxyz/voidrice/blob/master/.local/bin/dmenurecord
+
+STATUSBAR="${STATUSBAR:-dwmblocks}"
+recfile="/tmp/recordinginfo"
+outdir="$HOME/vids/recordings"
+
+printdate() {
+	date '+%Y%m%d-%H%M%S'
+}
+
+updatestatus() {
+	[ "$1" ] && sed -i "2s/.*/$1/" "$recfile"
+	pkill -RTMIN+9 "$STATUSBAR"
+}
+
+screencast() {
+	ffmpeg -y \
+	-f x11grab \
+	-framerate 60 \
+	-s "$(xdpyinfo | awk '/dimensions/{print $2}')" \
+	-i "$DISPLAY" \
+	-f alsa -i default \
+	-r 30 \
+	-c:v h264 -crf 0 -preset ultrafast -c:a aac \
+	"$outdir/screencast-$(printdate).mp4" &
+}
+
+video() {
+	ffmpeg \
+	-f x11grab \
+	-s "$(xdpyinfo | awk '/dimensions/{print $2}')" \
+	-i "$DISPLAY" \
+	-c:v libx264 -qp 0 -r 30 \
+	"$outdir/video-$(printdate).mkv" &
+}
+
+webcamhidef() {
+	ffmpeg \
+	-f v4l2 \
+	-i /dev/video0 \
+	-video_size 1920x1080 \
+	"$outdir/webcam-$(printdate).mkv" &
+}
+
+webcam() {
+	ffmpeg \
+	-f v4l2 \
+	-i /dev/video0 \
+	-video_size 640x480 \
+	"$outdir/webcam-$(printdate).mkv" &
+}
+
+audio() {
+	ffmpeg \
+	-f alsa -i default \
+	-c:a flac \
+	"$outdir/audio-$(printdate).flac" &
+}
+
+videoselected() {
+	slop -f "%x %y %w %h" > /tmp/slop
+	read -r X Y W H < /tmp/slop
+	rm /tmp/slop
+	ffmpeg \
+	-f x11grab \
+	-framerate 60 \
+	-video_size "$W"x"$H" \
+	-i :0.0+"$X,$Y" \
+	-c:v libx264 -qp 0 -r 30 \
+	"$outdir/videoselected-$(printdate).mkv" &
+}
+
+stoprecording() {
+	recpid="$(cat "$recfile" | sed -n 1p)"
+	kill -15 "$recpid"
+	rm -f "$recfile"
+	updatestatus
+	sleep 3
+	kill -9 "$recpid" 2> /dev/null
+	exit
+}
+
+choice="$1"
+case "$choice" in
+	screencast) screencast ;;
+	audio) audio ;;
+	video) video ;;
+	"video (select)") videoselected ;;
+	webcam) webcam ;;
+	"webcam (hi-def)") webcamhidef ;;
+	stop) [ -s "$recfile" ] && stoprecording ;;
+	*)
+		if [ -s "$recfile" ]; then
+			res="$(printf "no\\nyes" | dmenu -i -p "stop recording?")"
+			[ "$res" = "yes" ] && stoprecording
+		fi
+
+		choice="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -p "record:")"
+		case "$choice" in
+			screencast) screencast ;;
+			audio) audio ;;
+			video) video ;;
+			"video (select)") videoselected ;;
+			webcam) webcam ;;
+			"webcam (hi-def)") webcamhidef ;;
+		esac
+		;;
+esac
+
+echo "$!\n" > "$recfile"
+updatestatus "$choice"
