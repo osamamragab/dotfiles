@@ -195,4 +195,4 @@ au WinLeave,InsertEnter * set nocursorline
 " remove trailing spaces
 au BufWritePre * :%s/\s\+$//e
 
-command! MakeTags !ctags -R .
+command! MakeTags !ctags -R -o .tags
