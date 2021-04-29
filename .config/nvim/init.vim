@@ -77,6 +77,8 @@ set conceallevel=2
 
 set fileformats=unix,dos,mac
 
+set conceallevel=0
+
 set background=dark
 
 "let g:molokai_original=1
