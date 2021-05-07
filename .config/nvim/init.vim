@@ -123,7 +123,11 @@ let NERDTreeShowHidden=1
 
 let g:lightline = {
 	\ 'colorscheme': 'wombat',
-	\ 'active': {'right': [['lineinfo'], ['percent'], ['filetype', 'fileencoding', 'fileformat']]},
+	\ 'component_function': {'gitbranch': 'FugitiveHead'},
+	\ 'active': {
+			\ 'left': [['mode', 'paste'], ['gitbranch', 'filename', 'modified', 'readonly']],
+			\ 'right': [['lineinfo'], ['percent'], ['filetype', 'fileencoding', 'fileformat']],
+	\ },
 \ }
 
 let g:signify_sign_change='~'
