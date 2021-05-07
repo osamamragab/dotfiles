@@ -69,7 +69,7 @@ set mouse=a
 
 set updatetime=300
 
-set completeopt=menu,menuone
+set completeopt=menuone,noinsert,noselect
 set nocursorcolumn
 set nocursorline
 set pumheight=10
