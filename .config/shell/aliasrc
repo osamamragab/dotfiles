@@ -1,5 +1,9 @@
 #!/bin/sh
 
+alias cp="cp -nv"
+alias mv="mv -nv"
+alias rm="rm -v"
+
 alias ls="ls -p --color=auto"
 alias la="ls -A"
 alias ll="ls -AlF"
