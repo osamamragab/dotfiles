@@ -26,8 +26,6 @@ set exrc
 set secure
 
 set autoread
-set autowrite
-set ttyfast
 set lazyredraw
 set number
 set linebreak
