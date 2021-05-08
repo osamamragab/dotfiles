@@ -68,7 +68,7 @@ set updatetime=300
 set fileformats=unix,dos,mac
 set conceallevel=0
 
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noinsert
 set nocursorcolumn
 set nocursorline
 set pumheight=10
