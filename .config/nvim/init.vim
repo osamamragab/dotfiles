@@ -30,7 +30,6 @@ set lazyredraw
 set number
 set linebreak
 set showbreak=++
-set ruler
 set undolevels=1000
 set belloff=all
 set splitright
@@ -40,7 +39,10 @@ set noshowmatch
 set hidden
 set nowrap
 set path+=**
+
+set ruler
 set wildmenu
+set laststatus=2
 
 set hlsearch
 set smartcase
@@ -52,30 +54,25 @@ set nowritebackup
 set swapfile
 
 set autoindent
+set backspace=indent,eol,start
+set smarttab
 set noexpandtab
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set backspace=indent,eol,start
 
-set clipboard^=unnamed
-set clipboard^=unnamedplus
-
-set display+=lastline
-
+set clipboard^=unnamed,unnamedplus
 set mouse=a
-
+set display+=lastline
 set updatetime=300
+set fileformats=unix,dos,mac
+set conceallevel=0
 
 set completeopt=menuone,noinsert,noselect
 set nocursorcolumn
 set nocursorline
 set pumheight=10
 set conceallevel=2
-
-set fileformats=unix,dos,mac
-
-set conceallevel=0
 
 set background=dark
 set termguicolors
