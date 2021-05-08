@@ -143,7 +143,6 @@ let g:go_imports_mode='gopls'
 let g:go_rename_command='gopls'
 let g:go_implements_mode='gopls'
 let g:go_gopls_complete_unimported=1
-let g:go_diagnostics_enabled=1
 let g:go_doc_popup_window=1
 let g:go_highlight_build_constraints=1
 let g:go_highlight_operators=1
