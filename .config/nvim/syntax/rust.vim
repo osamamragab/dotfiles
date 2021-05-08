@@ -1,4 +1,5 @@
-hi def link rustIdentifier cleared
+hi def link rustIdentifier Normal
+hi def link rustAttribute Normal
 
 hi def link rustSigil Operator
 hi def link rustQuestionMark Operator
