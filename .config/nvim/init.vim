@@ -175,7 +175,7 @@ noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 
 " completion menu
-inoremap <C-space> <C-x><C-o>
+inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
 
 " nerdtree shortcuts
 noremap <C-b> :NERDTreeToggle<cr>
