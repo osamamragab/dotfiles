@@ -173,15 +173,18 @@ noremap <C-k> <C-w>k
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 
-" completion menu
-inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
-
 " nerdtree shortcuts
 noremap <C-b> :NERDTreeToggle<cr>
 nnoremap <leader>w <esc>:w<cr>
 nnoremap <leader>q <esc>:q<cr>
 nnoremap <leader>Q <esc>:q!<cr>
 nnoremap <leader>n <esc>:nohlsearch<cr>
+
+" completion menu
+inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
+
+" write as root
+cnoremap w!! w !doas tee >/dev/null %
 
 augroup filetypedetect
 	au BufNewFile,BufRead *.h set ft=c
