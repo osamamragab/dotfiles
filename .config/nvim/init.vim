@@ -15,7 +15,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'junegunn/goyo.vim'
-Plug 'preservim/nerdtree'
 Plug 'itchyny/lightline.vim'
 Plug 'fatih/molokai'
 Plug 'sainnhe/sonokai'
@@ -67,12 +66,8 @@ set display+=lastline
 set updatetime=300
 set fileformats=unix,dos,mac
 set conceallevel=0
-
 set completeopt=menuone,noinsert
-set nocursorcolumn
-set nocursorline
 set pumheight=10
-set conceallevel=2
 
 set background=dark
 set termguicolors
@@ -107,14 +102,12 @@ hi SignifySignChange ctermfg=26 guifg=#005fd7
 let mapleader=' '
 
 let g:netrw_banner=0
-let g:netrw_browse_split=4
+let g:netrw_browse_split=0
 let g:netrw_altv=1
+let g:netrw_winsize=25
 let g:netrw_liststyle=3
-let g:netrw_list_hide=netrw_gitignore#Hide()
-let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
-
-let g:NERDTreeWinPos='right'
-let NERDTreeShowHidden=1
+let g:netrw_list_hide='.git' " netrw_gitignore#Hide()
+noremap <C-b> :Lexplore!<cr>
 
 let g:lightline = {
 	\ 'colorscheme': 'wombat',
@@ -172,13 +165,6 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
-
-" nerdtree shortcuts
-noremap <C-b> :NERDTreeToggle<cr>
-nnoremap <leader>w <esc>:w<cr>
-nnoremap <leader>q <esc>:q<cr>
-nnoremap <leader>Q <esc>:q!<cr>
-nnoremap <leader>n <esc>:nohlsearch<cr>
 
 " completion menu
 inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
