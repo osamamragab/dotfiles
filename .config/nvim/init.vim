@@ -11,7 +11,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'junegunn/goyo.vim'
@@ -152,9 +151,6 @@ inoremap jj <esc>
 " disable that stupid list
 nnoremap q: :q
 
-" clear search highlight
-" nnoremap <C-n> :nohl<cr>
-
 " delete without yanking
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
@@ -165,6 +161,8 @@ noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
+
+nnoremap <C-p> :GFiles<cr>
 
 " completion menu
 inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
