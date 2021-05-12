@@ -119,6 +119,9 @@ let g:lightline = {
 
 let g:signify_sign_change='~'
 
+let g:fzf_buffers_jump=1
+let g:fzf_preview_window=['right:70%', 'ctrl-/']
+
 let g:rustfmt_autosave=1
 let g:rust_recommended_style=0
 
