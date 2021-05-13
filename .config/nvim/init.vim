@@ -26,6 +26,7 @@ set secure
 set autoread
 set lazyredraw
 set number
+set relativenumber
 set linebreak
 set showbreak=++
 set undolevels=1000
