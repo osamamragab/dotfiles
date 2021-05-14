@@ -1,7 +1,7 @@
 #!/bin/sh
 
-alias cp="cp -nv"
-alias mv="mv -nv"
+alias cp="cp -iv"
+alias mv="mv -iv"
 alias rm="rm -v"
 
 alias ls="ls -p --color=auto"
