@@ -15,9 +15,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'itchyny/lightline.vim'
-Plug 'fatih/molokai'
 Plug 'sainnhe/sonokai'
-Plug 'joshdick/onedark.vim'
+"Plug 'fatih/molokai'
+"Plug 'joshdick/onedark.vim'
 call plug#end()
 
 set exrc
@@ -72,32 +72,14 @@ set pumheight=10
 set background=dark
 set termguicolors
 
-"let g:molokai_original=1
-let g:rehash256=1
+"let g:rehash256=1
+let g:sonokai_better_performance=1
+let g:sonokai_transparent_background=1
 
-colorscheme molokai
+colorscheme sonokai
 
-if g:colors_name == 'molokai'
-	hi! def link Label Statement
-	hi! def link Delimiter cleared
-	hi Special guibg=none
-	hi Function ctermfg=112 guifg=#87d700
-endif
-
-hi Normal ctermbg=234 ctermfg=255 guibg=#1c1c1c guifg=#ffffff
-hi LineNr ctermbg=234 guibg=#1c1c1c
-
-hi TabLine ctermbg=233 guibg=#121212
-hi TabLineFill ctermfg=233 guifg=#121212
-
-hi Pmenu ctermbg=233 ctermfg=252 guifg=#d0d0d0
-hi PmenuSel ctermbg=235 ctermfg=252 guibg=#262626
-hi PmenuSbar ctermbg=233 guibg=#121212
-hi PmenuThumb ctermbg=236 guibg=#303030
-
-hi SignColumn ctermbg=234 guibg=#1c1c1c
-hi SignifySignAdd ctermfg=28 guifg=#008700
-hi SignifySignChange ctermfg=26 guifg=#005fd7
+hi! def link Label Statement
+hi! def link Delimiter Normal
 
 let mapleader=' '
 
@@ -110,7 +92,7 @@ let g:netrw_list_hide='.git' " netrw_gitignore#Hide()
 noremap <C-b> :Lexplore!<cr>
 
 let g:lightline = {
-	\ 'colorscheme': 'wombat',
+	\ 'colorscheme': 'sonokai',
 	\ 'component_function': {'gitbranch': 'FugitiveHead'},
 	\ 'active': {
 			\ 'left': [['mode', 'paste'], ['gitbranch', 'filename', 'modified', 'readonly']],
