@@ -7,7 +7,7 @@ hi def link rustQuestionMark Operator
 hi def link rustMacro Function
 hi def link rustPanic Function
 
-hi def link rustModPath cleared
+hi def link rustModPath Normal
 hi def link rustModPathSep Operator
 
 hi def link rustUnsafeKeyword Statement
