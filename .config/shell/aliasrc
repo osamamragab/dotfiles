@@ -6,7 +6,7 @@ alias rm="rm -v"
 
 alias ls="ls -p --color=auto"
 alias la="ls -A"
-alias ll="ls -AlF"
+alias ll="ls -AlFh"
 alias l="ls -CF"
 
 alias grep="grep --color=auto"
