@@ -1,5 +1,3 @@
-# vim: ft=cfg
-
 [global]
 	monitor = 0
 	follow = keyboard
@@ -43,4 +41,6 @@
 
 [play_sound]
 	summary = "*"
-	script = ~/.local/bin/playnotificationsound
+	script = ~/.local/bin/dunstplaysound
+
+# vim: ft=cfg
