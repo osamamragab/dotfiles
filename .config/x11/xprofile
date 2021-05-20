@@ -5,6 +5,7 @@ mpd &
 dunst &
 xset r rate 300 50 &
 setxkbmap -option caps:escape &
+xcompmgr &
 unclutter -noevents &
 [ -f "$HOME/.local/share/bg" ] && xwallpaper --zoom "$HOME/.local/share/bg" &
 
