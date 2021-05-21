@@ -7,17 +7,16 @@ call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plug
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'editorconfig/editorconfig-vim'
-Plug 'Raimondi/delimitMate'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'Raimondi/delimitMate'
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/fzf.vim'
 Plug 'rhysd/clever-f.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
-"Plug 'fatih/molokai'
-"Plug 'joshdick/onedark.vim'
 call plug#end()
 
 set exrc
