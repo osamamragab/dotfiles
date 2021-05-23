@@ -58,6 +58,8 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey "^e" edit-command-line
 
+bindkey -s "^t" 'tmux\n'
+
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 
 # https://github.com/rupa/z
