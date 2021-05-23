@@ -60,6 +60,7 @@ bindkey "^e" edit-command-line
 
 bindkey -s "^t" 'tmux\n'
 bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
+bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 
