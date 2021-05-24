@@ -58,9 +58,10 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey "^e" edit-command-line
 
-bindkey -s "^t" 'tmux\n'
 bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
+bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || $EDITOR "$HOME/docs/todo.md"\n'
+#bindkey -s "^[t" '[ -d .git ] && grep TODO -nr *\n'
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 
