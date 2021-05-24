@@ -1,19 +1,11 @@
 #!/bin/sh
 
-case "$1" in
-	-d)
-		redshift -x >/dev/null 2>&1
-		safeeyes -d >/dev/null 2>&1
-		exit 0
-		;;
-	-q)
-		redshift -x >/dev/null 2>&1
-		safeeyes -q >/dev/null 2>&1
-		pkill redshift >/dev/null 2>&1
-		pkill safeeyes >/dev/null 2>&1
-		exit 0
-		;;
-esac
+if [ "$1" = "-q" ]; then
+	redshift -x >/dev/null 2>&1
+	safeeyes -q >/dev/null 2>&1
+	pkill redshift >/dev/null 2>&1
+	exit 0
+fi
 
 ! pidof -s redshift >/dev/null 2>&1 && setsid -f redshift -P -O 4500 -g 0.95 >/dev/null 2>&1
 ! pidof -s safeeyes >/dev/null 2>&1 && setsid -f safeeyes -e >/dev/null 2>&1
