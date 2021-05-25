@@ -158,9 +158,10 @@ inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
 
 augroup filetypedetect
 	au BufNewFile,BufRead *.h set ft=c
-	au FileType yaml setlocal expandtab
 	au FileType python setlocal expandtab
 	au FileType ruby setlocal expandtab
+	au FileType yaml setlocal expandtab
+	au FileType markdown setlocal expandtab
 augroup END
 
 " smart cursorline
