@@ -22,6 +22,7 @@ Inspired by:
 
 - [anaHr](https://www.youtube.com/playlist?list=PL8pYI62gCNsWZeum5ynEDd3PtD-C6K4s3)
 - [Luke Smith](http://github.com/LukeSmithxyz/voidrice)
+- [ThePrimeagen](https://github.com/awesome-streamers/awesome-streamerrc/tree/master/ThePrimeagen)
 - [Fatih Arslan](https://github.com/fatih/dotfiles)
 - [Vim Galore](https://github.com/mhinz/vim-galore)
 - [Mastering the Vim Language](https://www.youtube.com/watch?v=wlR5gYd6um0)
