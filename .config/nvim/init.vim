@@ -157,7 +157,9 @@ inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
 "cnoremap w!! w !doas tee % >/dev/null
 
 augroup filetypedetect
-	au BufNewFile,BufRead *.h set ft=c
+	au BufNewFile,BufRead *.h setlocal ft=c
+	au BufNewFile,BufRead *.dockerfile setlocal ft=dockerfile
+
 	au FileType python setlocal expandtab
 	au FileType ruby setlocal expandtab
 	au FileType yaml setlocal expandtab
