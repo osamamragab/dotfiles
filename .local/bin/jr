@@ -1,29 +1,38 @@
 #!/bin/sh
 
-filename="${JOURNALDIR:-$HOME/.local/share/journal}/$(date '+%Y-%m-%d').md"
+JOURNALDIR="${JOURNALDIR:-$HOME/.local/share/journal}"
 
-if [ "$1" ]; then
-	case "$1" in
-		-e|e|edit)
-			$EDITOR "$filename"
-			;;
-		-r|r|read)
-			[ -s "$filename" ] || (echo "$(basename "$0"): today's journal is empty" >&2; exit 1)
-			if command -v glow >/dev/null 2>&1; then
-				glow -p "$filename"
-			elif command -v pandoc >/dev/null 2>&1 && command -v lynx >/dev/null 2>&1; then
-				pandoc -t html "$filename" | lynx -stdin
-			else
-				$EDITOR -R "$filename"
-			fi
-			;;
-		*)
-			echo "$(basename "$0"): unknown option $1" >&2
-			exit 1
-			;;
-	esac
+panic() {
+	echo "$(basename "$0"): $1" >&2
+	exit 1
+}
+
+jrview() {
+	if command -v glow >/dev/null 2>&1; then
+		glow -p "$1"
+	else
+		pandoc -t html "$1" | lynx -stdin
+	fi
+}
+
+if [ $# -eq 0 ]; then
+	fn="$JOURNALDIR/$(date "+%Y-%m-%d").md"
+	[ -s "$fn" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" > "$fn"
+	$EDITOR "$fn" +$
 	exit 0
 fi
 
-[ -s "$filename" ] || printf "# %s\n\n" "$(date '+%Y %B %d')" > "$filename"
-$EDITOR "$filename" +$
+case "$1" in
+	e|edit) cmd="$EDITOR" ;;
+	r|read) cmd="$EDITOR -R" ;;
+	v|view) cmd="jrview" ;;
+	*) panic "unknown option $1" ;;
+esac
+
+sel="${2:-$(ls -r "$JOURNALDIR" | sed "s/.md$//" | dmenu -fn Monospace-12 -l 10 -p "journal date:")}"
+[ -z "$sel" ] && exit 0
+
+[ "$sel" = "today" ] && $cmd "$JOURNALDIR/$(date "+%Y-%m-%d").md" && exit 0
+[ -f "$JOURNALDIR/$sel.md" ] || panic "file not found"
+
+$cmd "$JOURNALDIR/$sel.md"
