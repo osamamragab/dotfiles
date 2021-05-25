@@ -154,7 +154,7 @@ nnoremap <C-p> :GFiles<cr>
 inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
 
 " write as root
-cnoremap w!! w !doas tee >/dev/null %
+"cnoremap w!! w !doas tee % >/dev/null
 
 augroup filetypedetect
 	au BufNewFile,BufRead *.h set ft=c
@@ -169,6 +169,12 @@ au WinEnter,InsertLeave * set cursorline
 au WinLeave,InsertEnter * set nocursorline
 
 " remove trailing spaces
-au BufWritePre * :%s/\s\+$//e
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keepp %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+command! Trim call TrimWhitespace()
 
+" make tags file
 command! MakeTags !ctags -R
