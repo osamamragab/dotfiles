@@ -1,0 +1,23 @@
+#!/bin/sh
+
+filename="${JOURNALDIR:-$HOME/.local/share/journal}/$(date '+%Y-%m-%d').md"
+
+if [ "$1" ]; then
+	case "$1" in
+		-e|edit)
+			$EDITOR "$filename"
+			;;
+		-r|read)
+			[ -s "$filename" ] || (echo "$(basename "$0"): today's journal is empty" >&2; exit 1)
+			$EDITOR -R "$filename"
+			;;
+		*)
+			echo "$(basename "$0"): unknown option $1" >&2
+			exit 1
+			;;
+	esac
+	exit 0
+fi
+
+[ -s "$filename" ] || printf "# %s\n\n" "$(date '+%Y %B %d')" > "$filename"
+$EDITOR "$filename" +$
