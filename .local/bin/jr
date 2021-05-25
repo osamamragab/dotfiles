@@ -4,12 +4,18 @@ filename="${JOURNALDIR:-$HOME/.local/share/journal}/$(date '+%Y-%m-%d').md"
 
 if [ "$1" ]; then
 	case "$1" in
-		-e|edit)
+		-e|e|edit)
 			$EDITOR "$filename"
 			;;
-		-r|read)
+		-r|r|read)
 			[ -s "$filename" ] || (echo "$(basename "$0"): today's journal is empty" >&2; exit 1)
-			$EDITOR -R "$filename"
+			if command -v glow >/dev/null 2>&1; then
+				glow -p "$filename"
+			elif command -v pandoc >/dev/null 2>&1 && command -v lynx >/dev/null 2>&1; then
+				pandoc -t html "$filename" | lynx -stdin
+			else
+				$EDITOR -R "$filename"
+			fi
 			;;
 		*)
 			echo "$(basename "$0"): unknown option $1" >&2
