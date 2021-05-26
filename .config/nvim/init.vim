@@ -103,7 +103,7 @@ let g:signify_sign_change='~'
 
 let g:fzf_buffers_jump=1
 let g:fzf_preview_window=['right:70%', 'ctrl-/']
-let $FZF_DEFAULT_OPTS='--reverse'
+"let $FZF_DEFAULT_OPTS='--reverse'
 
 let g:rustfmt_autosave=1
 let g:rust_recommended_style=0
@@ -137,10 +137,13 @@ inoremap jj <esc>
 " disable that stupid list
 nnoremap q: :q
 
-" delete without yanking
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
 xnoremap <leader>p "_dP
+
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y gg"+yG
 
 " move faster between windows
 noremap <C-j> <C-w>j
