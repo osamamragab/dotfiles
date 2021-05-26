@@ -4,9 +4,9 @@ syntax enable
 filetype plugin indent on
 
 call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
+Plug 'editorconfig/editorconfig-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
@@ -163,7 +163,6 @@ inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
 augroup filetypedetect
 	au BufNewFile,BufRead *.h setlocal ft=c
 	au BufNewFile,BufRead *.dockerfile setlocal ft=dockerfile
-
 	au FileType python setlocal expandtab
 	au FileType ruby setlocal expandtab
 	au FileType yaml setlocal expandtab
@@ -172,16 +171,24 @@ augroup END
 
 " smart cursorline
 set cursorline
-au WinEnter,InsertLeave * set cursorline
-au WinLeave,InsertEnter * set nocursorline
+augroup smartcursorline
+	au!
+	au WinEnter,InsertLeave * set cursorline
+	au WinLeave,InsertEnter * set nocursorline
+augroup END
 
 " remove trailing spaces
 fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keepp %s/\s\+$//e
-    call winrestview(l:save)
+    let l:view = winsaveview()
+    silent! keepp %s/\s\+$//e
+    call winrestview(l:view)
 endfun
 command! Trim call TrimWhitespace()
+
+augroup autotrim
+	au!
+	au BufWritePre * call TrimWhitespace()
+augroup END
 
 " make tags file
 command! MakeTags !ctags -R
