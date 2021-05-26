@@ -1,5 +1,0 @@
-#!/bin/sh
-
-[ -z "$1" ] || [ -z "$2" ] && exit 1
-[ "$(setxkbmap -query | awk '/layout/{print $2}')" = "$1" ] && setxkbmap "$2" || setxkbmap "$1"
-pkill -RTMIN+8 dwmblocks
