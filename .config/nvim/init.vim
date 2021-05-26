@@ -133,7 +133,7 @@ let g:go_test_show_name=1
 let g:omni_sql_no_default_maps=1
 
 " esc is far away
-inoremap jj <esc>
+"inoremap jj <esc>
 
 " disable that stupid list
 nnoremap q: :q
@@ -145,6 +145,10 @@ xnoremap <leader>p "_dP
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
+
+" move highlighted text
+vnoremap J :m '>+1<cr>gv=gv
+vnoremap K :m '<-2<cr>gv=gv
 
 " move faster between windows
 noremap <C-j> <C-w>j
