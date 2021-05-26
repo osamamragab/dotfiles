@@ -1,0 +1,20 @@
+#!/bin/sh
+
+CODEPROJECTSDIR="${CODEDIR:-$HOME/code/projects}"
+CODEORGDIR="${CODEDIR:-$HOME/code/org}"
+
+sel="$1"
+if [ -z "$sel" ]; then
+	items="$(find "$CODEPROJECTSDIR" -maxdepth 1 -mindepth 1 -type d)"
+	items="$items\n$(find "$CODEORGDIR" -maxdepth 2 -mindepth 1 -type d)"
+	sel="$(echo "$items" | fzf)"
+	[ -z "$sel" ] && exit 0
+fi
+
+name="$(basename "$sel")"
+
+tmux switchc -t "$name" 2>/dev/null && exit 0
+
+tmux new -d -c "$sel" -s "$name" 2>/dev/null &&
+	tmux switchc -t "$name" 2>/dev/null ||
+	tmux new -A -c "$sel" -s "$name"
