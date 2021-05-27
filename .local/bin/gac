@@ -12,4 +12,5 @@ for f in "$@"; do
 	[ "$files" ] && files="$files $f" || files="$f"
 done
 
+# shellcheck disable=SC2086
 git add $files && git commit -m "$msg"

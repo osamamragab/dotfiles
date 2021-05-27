@@ -25,4 +25,5 @@ while [ $# -ne 0 ]; do
 	shift
 done
 
+# shellcheck disable=SC2086
 youtube-dl -ic --add-metadata -o "$output" -f "$format" $urls

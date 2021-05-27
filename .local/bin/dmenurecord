@@ -17,19 +17,19 @@ stoprecording() {
 	rm -f "$recfile"
 	pkill -RTMIN+9 dwmblocks
 	sleep 3
-	kill -9 "$recpid" 2> /dev/null
+	kill -9 "$recpid" 2>/dev/null
 }
 
 if [ -s "$recfile" ]; then
 	res="$(printf "no\\nyes" | dmenu -i -p "stop current recording?")"
 	[ "$res" = "yes" ] && stoprecording
-	exit
+	exit 0
 fi
 
-choice="$1"
-[ -z "$choice" ] && choice="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -l 6 -i -p "record:")"
+sel="$1"
+[ -z "$sel" ] && sel="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -l 6 -i -p "record:")"
 
-case "$choice" in
+case "$sel" in
 	screencast)
 		ffmpeg -y \
 			-f x11grab \
@@ -83,9 +83,13 @@ case "$choice" in
 			-video_size 1920x1080 \
 			"$outdir/webcam-$(date "$datefmt").mkv" &
 		;;
-	stop) [ -s "$recfile" ] && (stoprecording && exit) || exit 1 ;;
+	stop)
+		[ -s "$recfile" ] || exit 1
+		stoprecording
+		exit 0
+		;;
 	*) exit 1 ;;
 esac
 
-printf "%d\n%s" $! "$choice" > "$recfile"
+printf "%d\n%s" $! "$sel" > "$recfile"
 pkill -RTMIN+9 dwmblocks
