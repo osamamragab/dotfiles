@@ -110,15 +110,25 @@ noremap <C-b> :Lexplore!<cr>
 
 let g:lightline = {
 	\ 'colorscheme': 'wombat',
-	\ 'component_function': {'gitbranch': 'FugitiveHead'},
+	\ 'component_function': {'gitbranch': 'FugitiveHead', 'filename': 'LightlineFilename'},
 	\ 'active': {
 			\ 'left': [['mode', 'paste'], ['gitbranch', 'filename', 'modified', 'readonly']],
 			\ 'right': [['lineinfo'], ['percent'], ['filetype', 'fileencoding', 'fileformat']],
 	\ },
 \ }
+
 if g:colors_name ==# 'gruvbox' || g:colors_name ==# 'sonokai'
 	let g:lightline.colorscheme=g:colors_name
 endif
+
+fun! LightlineFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
+  return expand('%')
+endfun
 
 let g:signify_sign_change='~'
 
