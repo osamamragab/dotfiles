@@ -4,7 +4,7 @@ urls=""
 output="%(title)s.%(ext)s"
 format="22/best[ext=mp4]/best"
 
-while [ $# -ne 0 ]; do
+while [ $# -gt 0 ]; do
   case "$1" in
 	-pl | --playlist)
 		output="%(playlist_title)s/%(title)s.%(ext)s"

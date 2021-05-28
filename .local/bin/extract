@@ -1,11 +1,11 @@
 #!/bin/sh
 
-if [ $# = 0 ]; then
+if [ $# -eq 0 ]; then
 	printf "usage: %s [archives]\n" "$(basename "$0")" >&2
 	exit 1
 fi
 
-while [ $# != 0 ]; do
+while [ $# -gt 0 ]; do
 	[ -r "$1" ] || echo "$1: file does not exists or not readable" >&2
 	case "$1" in
 		*.tar.bz2|*.tbz2) tar -xvjf "$1" ;;
