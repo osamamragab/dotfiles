@@ -1,0 +1,33 @@
+{
+	"codeLens.enable": true,
+	"diagnostic.checkCurrentLine": true,
+	"diagnostic.virtualText": true,
+	"suggest.autoTrigger": "trigger",
+	"coc.preferences.formatOnSaveFiletypes": ["*"],
+	"python.formatting.provider": "black",
+	"eslint.packageManager": "yarn",
+	"languageserver": {
+		"go": {
+			"command": "gopls",
+			"rootPatterns": ["go.mod"],
+			"trace.server": "verbose",
+			"filetypes": ["go"]
+		},
+		"ccls": {
+			"command": "ccls",
+			"filetypes": ["c", "cpp", "objc", "objcpp"],
+			"rootPatterns": [
+				".ccls",
+				"compile_commands.json",
+				".vim/",
+				".git/",
+				".hg/"
+			],
+			"initializationOptions": {
+				"cache": {
+					"directory": "/tmp/ccls"
+				}
+			}
+		}
+	}
+}
