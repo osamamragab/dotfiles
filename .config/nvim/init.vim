@@ -4,6 +4,12 @@ syntax enable
 filetype plugin indent on
 
 call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'hrsh7th/nvim-compe'
+" Plug 'glepnir/lspsaga.nvim'
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'nvim-treesitter/playground'
+Plug 'neoclide/coc.nvim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -173,7 +179,8 @@ noremap <C-l> <C-w>l
 nnoremap <C-p> :GFiles<cr>
 
 " completion menu
-inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
+inoremap <silent><expr> <C-space> coc#refresh()
+"inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
 
 " write as root
 "cnoremap w!! w !doas tee % >/dev/null
