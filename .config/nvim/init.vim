@@ -14,10 +14,11 @@ Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/fzf.vim'
-Plug 'rhysd/clever-f.vim'
+" Plug 'rhysd/clever-f.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
+" Plug 'gruvbox-community/gruvbox'
 call plug#end()
 
 set exrc
@@ -72,11 +73,21 @@ set pumheight=10
 set background=dark
 set termguicolors
 
-"let g:rehash256=1
+if has('termguicolors')
+	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+endif
+
 let g:sonokai_better_performance=1
 let g:sonokai_transparent_background=1
-
 colorscheme sonokai
+
+" let g:gruvbox_contrast_dark='hard'
+" let g:gruvbox_sign_column='dark0_hard'
+" let g:gruvbox_transparent_bg=2
+" let g:gruvbox_invert_selection=0
+" let g:gruvbox_bold=0
+" colorscheme gruvbox
 
 hi! def link Label Statement
 hi! def link Delimiter Normal
@@ -92,13 +103,16 @@ let g:netrw_list_hide='.git' " netrw_gitignore#Hide()
 noremap <C-b> :Lexplore!<cr>
 
 let g:lightline = {
-	\ 'colorscheme': 'sonokai',
+	\ 'colorscheme': 'wombat',
 	\ 'component_function': {'gitbranch': 'FugitiveHead'},
 	\ 'active': {
 			\ 'left': [['mode', 'paste'], ['gitbranch', 'filename', 'modified', 'readonly']],
 			\ 'right': [['lineinfo'], ['percent'], ['filetype', 'fileencoding', 'fileformat']],
 	\ },
 \ }
+if g:colors_name ==# 'gruvbox' || g:colors_name ==# 'sonokai'
+	let g:lightline.colorscheme=g:colors_name
+endif
 
 let g:signify_sign_change='~'
 
