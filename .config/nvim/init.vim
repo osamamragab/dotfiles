@@ -20,7 +20,6 @@ Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
 Plug 'mhinz/vim-signify'
 Plug 'junegunn/fzf.vim'
-" Plug 'rhysd/clever-f.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
@@ -106,7 +105,7 @@ let g:netrw_altv=1
 let g:netrw_winsize=25
 let g:netrw_liststyle=3
 let g:netrw_list_hide='.git' " netrw_gitignore#Hide()
-noremap <C-b> :Lexplore!<cr>
+" noremap <C-b> :Lexplore!<cr>
 
 let g:lightline = {
 	\ 'colorscheme': 'wombat',
@@ -162,9 +161,6 @@ let g:go_test_show_name=1
 
 let g:omni_sql_no_default_maps=1
 
-" esc is far away
-"inoremap jj <esc>
-
 " disable that stupid list
 nnoremap q: :q
 
@@ -187,6 +183,12 @@ noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 
 nnoremap <C-p> :GFiles<cr>
+
+" go to definition
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gt <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " completion menu
 inoremap <silent><expr> <C-space> coc#refresh()
