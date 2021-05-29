@@ -14,8 +14,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-commentary'
 Plug 'Raimondi/delimitMate'
 Plug 'mhinz/vim-signify'
@@ -49,7 +49,7 @@ set ruler
 set wildmenu
 set laststatus=2
 
-set hlsearch
+set nohlsearch
 set smartcase
 set ignorecase
 set incsearch
@@ -73,6 +73,8 @@ set updatetime=300
 set fileformats=unix,dos,mac
 set conceallevel=0
 set completeopt=menuone,noinsert
+set cmdheight=1
+set scrolloff=8
 set pumheight=10
 
 set background=dark
@@ -186,9 +188,9 @@ nnoremap <C-p> :GFiles<cr>
 
 " go to definition
 nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gt <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gt <Plug>(coc-type-definition)
+" nmap <silent> gi <Plug>(coc-implementation)
 
 " completion menu
 inoremap <silent><expr> <C-space> coc#refresh()
