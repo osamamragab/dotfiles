@@ -28,7 +28,7 @@ export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 export IPYTHONDIR="${XDG_CONFIG_HOME:-$HOME/.config}/ipython"
 export NLTK_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/nltk_data"
 
-export PATH="$HOME/bin:$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$DENO_INSTALL_ROOT:$HOME/.local/share/yarn/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$DENO_INSTALL_ROOT:$(yarn global bin):$(gem env | awk '/EXECUTABLE DIRECTORY/{print $4}'):$PATH"
 
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
