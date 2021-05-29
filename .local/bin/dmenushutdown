@@ -1,9 +1,15 @@
 #!/bin/sh
 
-case "$(printf "lock\nshutdown\nreboot\nexit" | dmenu -i)" in
+sel="${1:-$(printf "lock\nexit\nreboot\nshutdown" | dmenu -i)}"
+[ -z "$sel" ] && exit 1
+
+case "$sel" in
 	lock) slock ;;
-	shutdown) doas poweroff ;;
-	reboot) doas reboot ;;
 	exit) pkill dwm ;;
-	*) exit 1 ;;
+	reboot) doas reboot ;;
+	shutdown) doas poweroff ;;
+	*)
+		echo "$(basename "$0"): invalid input $sel" >&2
+		exit 1
+		;;
 esac
