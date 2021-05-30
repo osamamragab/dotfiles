@@ -106,8 +106,8 @@ let g:netrw_browse_split=0
 let g:netrw_altv=1
 let g:netrw_winsize=25
 let g:netrw_liststyle=3
-let g:netrw_list_hide='.git' " netrw_gitignore#Hide()
-" noremap <C-b> :Lexplore!<cr>
+let g:netrw_list_hide=netrw_gitignore#Hide()
+noremap <C-b> :Lexplore!<CR>
 
 let g:lightline = {
 	\ 'colorscheme': 'wombat',
@@ -175,8 +175,8 @@ vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
 
 " move highlighted text
-vnoremap J :m '>+1<cr>gv=gv
-vnoremap K :m '<-2<cr>gv=gv
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " move faster between windows
 noremap <C-j> <C-w>j
@@ -184,7 +184,7 @@ noremap <C-k> <C-w>k
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 
-nnoremap <C-p> :GFiles<cr>
+nnoremap <C-p> :GFiles<CR>
 
 " go to definition
 nmap <silent> gd <Plug>(coc-definition)
@@ -197,7 +197,7 @@ inoremap <silent><expr> <C-space> coc#refresh()
 "inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
 
 " write as root
-"cnoremap w!! w !doas tee % >/dev/null
+cnoremap SudoWrite w !doas tee % >/dev/null
 
 augroup filetypedetect
 	au BufNewFile,BufRead *.h setlocal ft=c
