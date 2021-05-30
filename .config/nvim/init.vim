@@ -1,5 +1,3 @@
-set nocompatible
-
 syntax enable
 filetype plugin indent on
 
@@ -62,6 +60,7 @@ set wildmode=longest,full
 set wildmenu
 set completeopt=menuone,noinsert
 
+set incsearch
 set nohlsearch
 set ignorecase
 set smartcase
