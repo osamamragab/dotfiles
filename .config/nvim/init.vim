@@ -29,14 +29,19 @@ call plug#end()
 set exrc
 set secure
 set path+=**
+set lazyredraw
 set hidden
-set belloff=all
 set clipboard^=unnamed,unnamedplus
 set mouse=a
 set updatetime=300
-set undolevels=1000
+set belloff=all
 
-set lazyredraw
+set nobackup
+set nowritebackup
+set swapfile
+set undolevels=1000
+set undofile
+
 set number
 set relativenumber
 set conceallevel=0
@@ -64,10 +69,6 @@ set smartcase
 set nowrap
 set linebreak
 set showbreak=++
-
-set nobackup
-set nowritebackup
-set swapfile
 
 set background=dark
 set termguicolors
