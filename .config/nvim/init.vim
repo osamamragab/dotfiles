@@ -15,10 +15,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-commentary'
-Plug 'Raimondi/delimitMate'
-Plug 'mhinz/vim-signify'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'mhinz/vim-signify'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
 " Plug 'gruvbox-community/gruvbox'
@@ -127,7 +128,7 @@ let g:signify_sign_change = '~'
 
 let g:fzf_buffers_jump = 1
 let g:fzf_preview_window = ['right:70%', 'ctrl-/']
-"let $FZF_DEFAULT_OPTS = '--reverse'
+" let $FZF_DEFAULT_OPTS = '--reverse'
 
 let g:rustfmt_autosave = 1
 let g:rust_recommended_style = 0
