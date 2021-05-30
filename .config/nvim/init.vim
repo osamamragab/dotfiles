@@ -28,54 +28,46 @@ call plug#end()
 
 set exrc
 set secure
+set path+=**
+set hidden
+set belloff=all
+set clipboard^=unnamed,unnamedplus
+set mouse=a
+set updatetime=300
+set undolevels=1000
 
-set autoread
 set lazyredraw
 set number
 set relativenumber
-set linebreak
-set showbreak=++
-set undolevels=1000
-set belloff=all
+set conceallevel=0
+set cmdheight=1
+set pumheight=10
+set scrolloff=8
 set splitright
 set splitbelow
-set noshowmode
-set noshowmatch
-set hidden
-set nowrap
-set path+=**
-
-set ruler
-set wildmenu
-set laststatus=2
-
-set nohlsearch
-set smartcase
-set ignorecase
-set incsearch
-
-set nobackup
-set nowritebackup
-set swapfile
 
 set autoindent
-set backspace=indent,eol,start
 set smarttab
 set noexpandtab
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 
-set clipboard^=unnamed,unnamedplus
-set mouse=a
-set display+=lastline
-set updatetime=300
-set fileformats=unix,dos,mac
-set conceallevel=0
+set wildmode=longest,full
+set wildmenu
 set completeopt=menuone,noinsert
-set cmdheight=1
-set scrolloff=8
-set pumheight=10
+
+set nohlsearch
+set ignorecase
+set smartcase
+
+set nowrap
+set linebreak
+set showbreak=++
+
+set nobackup
+set nowritebackup
+set swapfile
 
 set background=dark
 set termguicolors
@@ -85,8 +77,8 @@ if has('termguicolors')
 	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 endif
 
-let g:sonokai_better_performance=1
-let g:sonokai_transparent_background=1
+let g:sonokai_better_performance = 1
+let g:sonokai_transparent_background = 1
 colorscheme sonokai
 
 " let g:gruvbox_contrast_dark='hard'
@@ -99,14 +91,14 @@ colorscheme sonokai
 hi! def link Label Statement
 hi! def link Delimiter Normal
 
-let mapleader=' '
+let mapleader = ' '
 
-let g:netrw_banner=0
-let g:netrw_browse_split=0
-let g:netrw_altv=1
-let g:netrw_winsize=25
-let g:netrw_liststyle=3
-let g:netrw_list_hide=netrw_gitignore#Hide()
+let g:netrw_banner = 0
+let g:netrw_browse_split = 0
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+let g:netrw_liststyle = 3
+let g:netrw_list_hide = netrw_gitignore#Hide()
 noremap <C-b> :Lexplore!<CR>
 
 let g:lightline = {
@@ -131,37 +123,37 @@ fun! LightlineFilename()
   return expand('%')
 endfun
 
-let g:signify_sign_change='~'
+let g:signify_sign_change = '~'
 
-let g:fzf_buffers_jump=1
-let g:fzf_preview_window=['right:70%', 'ctrl-/']
-"let $FZF_DEFAULT_OPTS='--reverse'
+let g:fzf_buffers_jump = 1
+let g:fzf_preview_window = ['right:70%', 'ctrl-/']
+"let $FZF_DEFAULT_OPTS = '--reverse'
 
-let g:rustfmt_autosave=1
-let g:rust_recommended_style=0
+let g:rustfmt_autosave = 1
+let g:rust_recommended_style = 0
 
-let g:go_fmt_autosave=1
-let g:go_fmt_command='goimports'
-let g:go_list_type='quickfix'
-let g:go_echo_command_info=1
-let g:go_autodetect_gopath=1
-let g:go_metalinter_autosave_enabled=['vet', 'golint']
-let g:go_metalinter_enabled=['vet', 'golint']
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-let g:go_imports_mode='gopls'
-let g:go_rename_command='gopls'
-let g:go_implements_mode='gopls'
-let g:go_gopls_complete_unimported=1
-let g:go_doc_popup_window=1
-let g:go_highlight_build_constraints=1
-let g:go_highlight_operators=1
-let g:go_fmt_fail_silently=1
-let g:go_diagnostics_level=2
-let g:go_imports_autosave=1
-let g:go_test_show_name=1
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = 'goimports'
+let g:go_list_type = 'quickfix'
+let g:go_echo_command_info = 1
+let g:go_autodetect_gopath = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+let g:go_metalinter_enabled = ['vet', 'golint']
+let g:go_def_mode = 'gopls'
+let g:go_info_mode = 'gopls'
+let g:go_imports_mode = 'gopls'
+let g:go_rename_command = 'gopls'
+let g:go_implements_mode = 'gopls'
+let g:go_gopls_complete_unimported = 1
+let g:go_doc_popup_window = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_operators = 1
+let g:go_fmt_fail_silently = 1
+let g:go_diagnostics_level = 2
+let g:go_imports_autosave = 1
+let g:go_test_show_name = 1
 
-let g:omni_sql_no_default_maps=1
+let g:omni_sql_no_default_maps = 1
 
 " disable that stupid list
 nnoremap q: :q
