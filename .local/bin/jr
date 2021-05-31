@@ -22,10 +22,14 @@ if [ $# -eq 0 ]; then
 	exit 0
 fi
 
-case "$1" in
-	e|edit) cmd="$EDITOR" ;;
-	r|read) cmd="$EDITOR -R" ;;
-	v|view) cmd="jrview" ;;
+case "$(echo "$1" | sed "s/^-\+//" )" in
+	e | edit) cmd="$EDITOR" ;;
+	r | read) cmd="$EDITOR -R" ;;
+	v | view) cmd="jrview" ;;
+	h | help)
+		printf "usage:\n  %s <edit | read | view>\n" "$(basename "$0")"
+		exit 0
+		;;
 	*) panic "unknown command '$1'" ;;
 esac
 
