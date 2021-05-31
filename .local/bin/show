@@ -1,9 +1,12 @@
 #!/bin/sh
 
-for p in "$@"; do
-	if [ -f "$p" ]; then
-		cat "$p"
-	elif [ -d "$p" ]; then
-		ls "$p"
+for x in "$@"; do
+	if [ -r "$x" ]; then
+		cat "$x"
+	elif [ -d "$x" ]; then
+		ls -p --color=auto "$x"
+	else
+		echo "$(basename "$0"): invalid input \"$x\"" >&2
+		exit 1
 	fi
 done
