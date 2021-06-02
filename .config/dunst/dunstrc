@@ -12,7 +12,7 @@
   idle_threshold = 120
 	font = "IBM Plex Mono" 12
 	markup = full
-	format = "<b>%a</b>\n%s: %b"
+	format = "<b>%a</b>\n%s: <i>%b</i>"
 	show_age_threshold = 60
 	word_wrap = true
 	hide_duplicate_count = true
@@ -32,7 +32,7 @@
 [urgency_normal]
 	background = "#1c1e1f"
 	foreground = "#ffffff"
-	timeout = 5
+	timeout = 10
 
 [urgency_critical]
 	background = "#cc2421"
