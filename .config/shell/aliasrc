@@ -10,7 +10,7 @@ alias la="ls -A"
 alias ll="ls -AlFh"
 alias l="ls -CF"
 
-alias grep="grep --color=auto"
+alias grep="grep -Hn --color=auto"
 
 alias gst="git status -sb"
 alias gph="git push"
