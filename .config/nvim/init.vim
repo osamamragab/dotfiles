@@ -43,6 +43,7 @@ set undofile
 
 set number
 set relativenumber
+set signcolumn=yes
 set conceallevel=0
 set cmdheight=1
 set pumheight=10
