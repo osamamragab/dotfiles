@@ -203,12 +203,12 @@ augroup filetypedetect
 augroup END
 
 " smart cursorline
-set cursorline
-augroup smartcursorline
-	au!
-	au WinEnter,InsertLeave * set cursorline
-	au WinLeave,InsertEnter * set nocursorline
-augroup END
+" set cursorline
+" augroup smartcursorline
+" 	au!
+" 	au WinEnter,InsertLeave * set cursorline
+" 	au WinLeave,InsertEnter * set nocursorline
+" augroup END
 
 " remove trailing spaces
 fun! TrimWhitespace()
