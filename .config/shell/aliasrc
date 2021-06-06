@@ -17,6 +17,7 @@ alias gst="git status -sb"
 alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
+alias gdfd="git diff | delta"
 
 alias xi="doas xbps-install -Sy"
 alias xr="doas xbps-remove -R"
