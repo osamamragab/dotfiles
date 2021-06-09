@@ -63,7 +63,9 @@ bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
 bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || $EDITOR "$HOME/docs/todo.md"\n'
 #bindkey -s "^[t" '[ -d .git ] && grep TODO -nr *\n'
 
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
+alias doas="doas "
+
+[ -s "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 
 # https://github.com/rupa/z
 [ -s "$HOME/programs/z/z.sh" ] && . "$HOME/programs/z/z.sh"
