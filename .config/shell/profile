@@ -28,21 +28,24 @@ export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 export IPYTHONDIR="${XDG_CONFIG_HOME:-$HOME/.config}/ipython"
 export NLTK_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/nltk_data"
 
-export PATH="$HOME/bin:$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$DENO_INSTALL_ROOT:$(yarn global bin):$(gem env | awk '/EXECUTABLE DIRECTORY/{print $4}'):$PATH"
+PATH="$HOME/bin:$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$DENO_INSTALL_ROOT:$PATH"
+command -v yarn >/dev/null 2>&1 && PATH="$PATH:$(yarn global bin)"
+command -v gem  >/dev/null 2>&1 && PATH="$PATH:$(gem env | awk '/EXECUTABLE DIRECTORY/{print $4}')"
+export PATH
 
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 
-export LESS_TERMCAP_mb="$(printf '%b' '\e[01;31m')"
-export LESS_TERMCAP_md="$(printf '%b' '\e[01;31m')"
-export LESS_TERMCAP_me="$(printf '%b' '\e[0m')"
-export LESS_TERMCAP_se="$(printf '%b' '\e[0m')"
-export LESS_TERMCAP_so="$(printf '%b' '\e[01;44;33m')"
-export LESS_TERMCAP_ue="$(printf '%b' '\e[0m')"
-export LESS_TERMCAP_us="$(printf '%b' '\e[01;32m')"
+export LESS_TERMCAP_mb="$(printf "%b" "\e[01;31m")"
+export LESS_TERMCAP_md="$(printf "%b" "\e[01;31m")"
+export LESS_TERMCAP_me="$(printf "%b" "\e[0m")"
+export LESS_TERMCAP_se="$(printf "%b" "\e[0m")"
+export LESS_TERMCAP_so="$(printf "%b" "\e[01;44;33m")"
+export LESS_TERMCAP_ue="$(printf "%b" "\e[0m")"
+export LESS_TERMCAP_us="$(printf "%b" "\e[01;32m")"
 
 export FZF_DEFAULT_COMMAND="rg --files --hidden -L -g '!.git'"
 
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-[ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+[ -z "$DISPLAY" ] && [ "$(tty)" = /dev/tty1 ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
