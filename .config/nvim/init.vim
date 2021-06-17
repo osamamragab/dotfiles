@@ -131,6 +131,15 @@ let g:fzf_buffers_jump = 1
 let g:fzf_preview_window = ['right:70%', 'ctrl-/']
 " let $FZF_DEFAULT_OPTS = '--reverse'
 
+fun! RipgrepFzf(query, fullscreen)
+	let cmdfmt = "rg --column --line-number --no-heading --color=always --smart-case --hidden --glob '!.git' -- %s || true"
+	let initcmd = printf(cmdfmt, shellescape(a:query))
+	let relcmd = printf(cmdfmt, '{q}')
+	let opts = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.relcmd]}
+	call fzf#vim#grep(initcmd, 1, fzf#vim#with_preview(opts), a:fullscreen)
+endfun
+command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
+
 let g:rustfmt_autosave = 1
 let g:rust_recommended_style = 0
 
