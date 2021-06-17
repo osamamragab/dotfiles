@@ -65,7 +65,18 @@ bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || $EDITOR "$HOME/docs/todo.m
 
 alias doas="doas "
 
-[ -s "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 
 # https://github.com/rupa/z
-[ -s "$HOME/programs/z/z.sh" ] && . "$HOME/programs/z/z.sh"
+[ -f "$HOME/programs/z/z.sh" ] && . "$HOME/programs/z/z.sh"
+
+plgdir="/usr/share/zsh/plugins"
+if [ -d "$plgdir" ]; then
+	[ -f "$plgdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ] &&
+		. "$plgdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
+	[ -f "$plgdir/zsh-history-substring-search/zsh-history-substring-search.zsh" ] &&
+		. "$plgdir/zsh-history-substring-search/zsh-history-substring-search.zsh"
+	[ -f "$plgdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ] &&
+		. "$plgdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+fi
+unset plgdir
