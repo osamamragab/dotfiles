@@ -39,24 +39,40 @@ bindkey "^[[1;5C" forward-word
 # vi cursor shapes
 zle-keymap-select() {
 	case $KEYMAP in
-		vicmd) echo -ne '\e[1 q' ;;
-		viins|main) echo -ne '\e[5 q' ;;
+		vicmd) echo -ne "\e[1 q" ;;
+		viins|main) echo -ne "\e[5 q" ;;
 	esac
 }
 zle -N zle-keymap-select
 zle-line-init() {
 	zle -K viins
-	echo -ne '\e[5 q'
+	echo -ne "\e[5 q"
 }
 zle -N zle-line-init
-echo -ne '\e[5 q'
+echo -ne "\e[5 q"
 preexec() {
-	echo -ne '\e[5 q'
+	echo -ne "\e[5 q"
 }
 
 autoload edit-command-line
 zle -N edit-command-line
 bindkey "^e" edit-command-line
+
+plgdir="/usr/share/zsh/plugins"
+if [ -d "$plgdir" ]; then
+	[ -f "$plgdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ] &&
+		. "$plgdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
+	[ -f "$plgdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ] &&
+		. "$plgdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+	[ -f "$plgdir/zsh-history-substring-search/zsh-history-substring-search.zsh" ] &&
+		. "$plgdir/zsh-history-substring-search/zsh-history-substring-search.zsh"
+fi
+unset plgdir
+
+bindkey -a "k" history-substring-search-up
+bindkey -a "j" history-substring-search-down
+bindkey "^[[A" history-substring-search-up
+bindkey "^[[B" history-substring-search-down
 
 bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
@@ -69,14 +85,3 @@ alias doas="doas "
 
 # https://github.com/rupa/z
 [ -f "$HOME/programs/z/z.sh" ] && . "$HOME/programs/z/z.sh"
-
-plgdir="/usr/share/zsh/plugins"
-if [ -d "$plgdir" ]; then
-	[ -f "$plgdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ] &&
-		. "$plgdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
-	[ -f "$plgdir/zsh-history-substring-search/zsh-history-substring-search.zsh" ] &&
-		. "$plgdir/zsh-history-substring-search/zsh-history-substring-search.zsh"
-	[ -f "$plgdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ] &&
-		. "$plgdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
-fi
-unset plgdir
