@@ -189,6 +189,11 @@ noremap <C-k> <C-w>k
 noremap <C-h> <C-w>h
 noremap <C-l> <C-w>l
 
+nnoremap <C-k> :cnext<CR>zz
+nnoremap <C-j> :cprev<CR>zz
+nnoremap <leader>k :lnext<CR>zz
+nnoremap <leader>j :lprev<CR>zz
+
 nnoremap <C-p> :GFiles<CR>
 
 nnoremap <leader>gd  :lua vim.lsp.buf.definition()<CR>
