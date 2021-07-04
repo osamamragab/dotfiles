@@ -202,6 +202,12 @@ nnoremap <leader>gsd :lua vim.lsp.diagnostic.show_line_diagnostics(); vim.lsp.ut
 nnoremap <leader>gn  :lua vim.lsp.diagnostic.goto_next()<CR>
 " nnoremap <leader>gll :lua vim.lsp.diagnostic.set_loclist({ open_loclist = false })<CR>
 
+inoremap <silent><expr> <C-Space> compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm({ 'keys': "\<Plug>delimitMateCR", 'mode': '' })
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
 " write as root
 cnoremap SudoWrite w !doas tee % >/dev/null
 
