@@ -2,15 +2,14 @@ syntax enable
 filetype plugin indent on
 
 call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
-" Plug 'neovim/nvim-lspconfig'
-" Plug 'hrsh7th/nvim-compe'
-" Plug 'glepnir/lspsaga.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
+Plug 'glepnir/lspsaga.nvim'
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'nvim-treesitter/playground'
-Plug 'neoclide/coc.nvim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'rust-lang/rust.vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
@@ -24,6 +23,9 @@ Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
 " Plug 'gruvbox-community/gruvbox'
 call plug#end()
+
+lua require("lsp")
+" lua require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
 
 set exrc
 set secure
@@ -60,7 +62,7 @@ set softtabstop=2
 
 set wildmode=longest,full
 set wildmenu
-set completeopt=menuone,noinsert
+set completeopt=menuone,noselect
 
 set incsearch
 set nohlsearch
@@ -189,15 +191,16 @@ noremap <C-l> <C-w>l
 
 nnoremap <C-p> :GFiles<CR>
 
-" go to definition
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gr <Plug>(coc-references)
-" nmap <silent> gt <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-
-" completion menu
-inoremap <silent><expr> <C-space> coc#refresh()
-"inoremap <expr> <C-space> &omnifunc == '' ? '<C-x><C-n>' : '<C-x><C-o>'
+nnoremap <leader>gd  :lua vim.lsp.buf.definition()<CR>
+nnoremap <leader>gi  :lua vim.lsp.buf.implementation()<CR>
+nnoremap <leader>gsh :lua vim.lsp.buf.signature_help()<CR>
+nnoremap <leader>grr :lua vim.lsp.buf.references()<CR>
+nnoremap <leader>grn :lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>gh  :lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>gca :lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>gsd :lua vim.lsp.diagnostic.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
+nnoremap <leader>gn  :lua vim.lsp.diagnostic.goto_next()<CR>
+" nnoremap <leader>gll :lua vim.lsp.diagnostic.set_loclist({ open_loclist = false })<CR>
 
 " write as root
 cnoremap SudoWrite w !doas tee % >/dev/null
