@@ -5,8 +5,7 @@ call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plug
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" Plug 'nvim-treesitter/playground'
+Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -223,6 +222,11 @@ command! Trim call TrimWhitespace()
 augroup autotrim
 	au!
 	au BufWritePre * call TrimWhitespace()
+augroup END
+
+augroup goautofmt
+	au!
+	au BufWritePre *.go GoFmt
 augroup END
 
 " make tags file
