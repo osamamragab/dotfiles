@@ -8,7 +8,6 @@ Plug 'glepnir/lspsaga.nvim'
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'nvim-treesitter/playground'
 Plug 'rust-lang/rust.vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
@@ -145,27 +144,6 @@ command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
 let g:rustfmt_autosave = 1
 let g:rust_recommended_style = 0
-
-let g:go_fmt_autosave = 1
-let g:go_fmt_command = 'goimports'
-let g:go_list_type = 'quickfix'
-let g:go_echo_command_info = 1
-let g:go_autodetect_gopath = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint']
-let g:go_metalinter_enabled = ['vet', 'golint']
-let g:go_def_mode = 'gopls'
-let g:go_info_mode = 'gopls'
-let g:go_imports_mode = 'gopls'
-let g:go_rename_command = 'gopls'
-let g:go_implements_mode = 'gopls'
-let g:go_gopls_complete_unimported = 1
-let g:go_doc_popup_window = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_operators = 1
-let g:go_fmt_fail_silently = 1
-let g:go_diagnostics_level = 2
-let g:go_imports_autosave = 1
-let g:go_test_show_name = 1
 
 let g:omni_sql_no_default_maps = 1
 
