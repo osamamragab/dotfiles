@@ -1,10 +1,17 @@
 local lsp = require("lspconfig")
 
-lsp.clangd.setup({ root_dir = function() return vim.loop.cwd() end })
+local function on_attach()
+end
 
-lsp.rust_analyzer.setup({})
+lsp.clangd.setup({
+	on_attach = on_attach,
+	root_dir = function() return vim.loop.cwd() end,
+})
+
+lsp.rust_analyzer.setup({ on_attach = on_attach })
 
 lsp.gopls.setup({
+	on_attach = on_attach,
 	cmd = {"gopls"},
 	settings = {
 		gopls = {
@@ -16,11 +23,11 @@ lsp.gopls.setup({
 	},
 })
 
-lsp.pyright.setup({})
+lsp.pyright.setup({ on_attach = on_attach })
 
-lsp.tsserver.setup({})
-lsp.svelte.setup({})
-lsp.vuels.setup({})
+lsp.tsserver.setup({ on_attach = on_attach })
+lsp.svelte.setup({ on_attach = on_attach })
+lsp.vuels.setup({ on_attach = on_attach })
 
 require("compe").setup({
 	enabled = true,
