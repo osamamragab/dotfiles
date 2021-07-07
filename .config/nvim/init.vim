@@ -81,8 +81,10 @@ if has('termguicolors')
 	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 endif
 
+let g:sonokai_style = 'atlantis'
 let g:sonokai_better_performance = 1
 let g:sonokai_transparent_background = 1
+let g:sonokai_diagnostic_virtual_text = 'colored'
 
 colorscheme sonokai
 
