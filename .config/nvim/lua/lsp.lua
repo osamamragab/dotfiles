@@ -52,6 +52,35 @@ lsp.vuels.setup({
 	capabilities = capabilities,
 })
 
+local sumneko_lua_path = vim.fn.expand("$HOME/programs/lua-language-server")
+lsp.sumneko_lua.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	cmd = {sumneko_lua_path.."/bin/Linux/lua-language-server", "-E", sumneko_lua_path.."/main.lua"},
+	settings = {
+		Lua = {
+			runtime = {
+				version = "LuaJIT",
+				path = vim.split(package.path, ";"),
+			},
+			diagnostics = {
+				globals = {"vim", "love"},
+			},
+			workspace = {
+				library = {
+					["/usr/share/lua/5.3"] = true,
+					[vim.fn.expand("$HOME/.local/share/luarocks/share/lua/5.3")] = true,
+					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+				},
+			},
+			telemetry = {
+				enable = false,
+			},
+		},
+	},
+})
+
 require("compe").setup({
 	enabled = true,
 	autocomplete = true,
