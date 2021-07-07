@@ -3,15 +3,24 @@ local lsp = require("lspconfig")
 local function on_attach()
 end
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 lsp.clangd.setup({
 	on_attach = on_attach,
+	capabilities = capabilities,
 	root_dir = function() return vim.loop.cwd() end,
 })
 
-lsp.rust_analyzer.setup({ on_attach = on_attach })
+
+lsp.rust_analyzer.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
 lsp.gopls.setup({
 	on_attach = on_attach,
+	capabilities = capabilities,
 	cmd = {"gopls"},
 	settings = {
 		gopls = {
@@ -23,11 +32,25 @@ lsp.gopls.setup({
 	},
 })
 
-lsp.pyright.setup({ on_attach = on_attach })
+lsp.pyright.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
-lsp.tsserver.setup({ on_attach = on_attach })
-lsp.svelte.setup({ on_attach = on_attach })
-lsp.vuels.setup({ on_attach = on_attach })
+lsp.tsserver.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
+lsp.svelte.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
+lsp.vuels.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 
 require("compe").setup({
 	enabled = true,
