@@ -1,31 +1,6 @@
 syntax enable
 filetype plugin indent on
 
-call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
-Plug 'glepnir/lspsaga.nvim'
-Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
-Plug 'rust-lang/rust.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-commentary'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'Raimondi/delimitMate'
-Plug 'mhinz/vim-signify'
-Plug 'simrat39/symbols-outline.nvim'
-Plug 'editorconfig/editorconfig-vim'
-Plug 'itchyny/lightline.vim'
-Plug 'sainnhe/sonokai'
-" Plug 'gruvbox-community/gruvbox'
-call plug#end()
-
-lua require("lsp")
-" lua require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
-
 set exrc
 set secure
 set path+=**
@@ -72,6 +47,32 @@ set nowrap
 set linebreak
 set showbreak=++
 
+call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
+Plug 'neovim/nvim-lspconfig'
+Plug 'glepnir/lspsaga.nvim'
+Plug 'hrsh7th/nvim-compe'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-commentary'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'mhinz/vim-signify'
+Plug 'simrat39/symbols-outline.nvim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'rust-lang/rust.vim'
+Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
+Plug 'sbdchd/neoformat'
+Plug 'itchyny/lightline.vim'
+Plug 'sainnhe/sonokai'
+" Plug 'gruvbox-community/gruvbox'
+call plug#end()
+
+lua require("lsp")
+" lua require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
+
 set background=dark
 set termguicolors
 
@@ -82,6 +83,7 @@ endif
 
 let g:sonokai_better_performance = 1
 let g:sonokai_transparent_background = 1
+
 colorscheme sonokai
 
 " let g:gruvbox_contrast_dark='hard'
@@ -217,6 +219,7 @@ fun! TrimWhitespace()
     silent! keepp %s/\s\+$//e
     call winrestview(l:view)
 endfun
+
 command! Trim call TrimWhitespace()
 
 augroup autotrim
@@ -226,7 +229,7 @@ augroup END
 
 augroup goautofmt
 	au!
-	au BufWritePre *.go GoFmt
+	au BufWritePre *.go undojoin | GoFmt
 augroup END
 
 " make tags file
