@@ -1,8 +1,6 @@
 syntax enable
 filetype plugin indent on
 
-set exrc
-set secure
 set path+=**
 set lazyredraw
 set hidden
@@ -47,10 +45,14 @@ set nowrap
 set linebreak
 set showbreak=++
 
+set exrc
+set secure
+
 call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'hrsh7th/nvim-compe'
+" Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
@@ -64,6 +66,7 @@ Plug 'simrat39/symbols-outline.nvim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
+Plug 'psf/black'
 Plug 'sbdchd/neoformat'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
@@ -229,9 +232,10 @@ augroup autotrim
 	au BufWritePre * call TrimWhitespace()
 augroup END
 
-augroup goautofmt
+augroup autofmt
 	au!
 	au BufWritePre *.go undojoin | GoFmt
+	au BufWritePre *.py undojoin | Black
 augroup END
 
 " make tags file
