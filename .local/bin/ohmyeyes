@@ -1,29 +1,28 @@
 #!/bin/sh
 
 run() {
-	! pidof -s redshift >/dev/null 2>&1 &&
-		setsid -f redshift -P -O 4500 -g 0.95 >/dev/null 2>&1
-	! pidof -s safeeyes >/dev/null 2>&1 &&
-		setsid -f safeeyes -e >/dev/null 2>&1
+	pidof -s redshift >/dev/null || setsid -f redshift -P -O 4500 -g 0.95 >/dev/null
+	pidof -s safeeyes >/dev/null || setsid -f safeeyes -e >/dev/null
 }
 
 quit() {
-	redshift -x >/dev/null 2>&1
-	safeeyes -q >/dev/null 2>&1
-	pkill redshift >/dev/null 2>&1
+	redshift -x >/dev/null
+	safeeyes -q >/dev/null
+}
+
+toggle() {
+	f="/tmp/.ohmyeyes"
+	if [ -f "$f" ]; then
+		quit
+		rm "$f"
+		exit 0
+	fi
+	run
+	touch "$f"
 }
 
 case "$1" in
-	-t)
-		f="/tmp/.ohmyeyes"
-		if [ -f "$f" ]; then
-			quit
-			rm "$f"
-			exit 0
-		fi
-		run
-		touch "$f"
-		;;
+	-t) toggle ;;
 	-q) quit ;;
 	*) run ;;
 esac
