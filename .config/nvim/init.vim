@@ -219,21 +219,16 @@ augroup END
 " augroup END
 
 " remove trailing spaces
-fun! TrimWhitespace()
+fun! s:trimwhitespace()
     let l:view = winsaveview()
     silent! keepp %s/\s\+$//e
     call winrestview(l:view)
 endfun
-
-command! Trim call TrimWhitespace()
-
-augroup autotrim
-	au!
-	au BufWritePre * call TrimWhitespace()
-augroup END
+command! Trim call s:trimwhitespace()
 
 augroup autofmt
 	au!
+	au BufWritePre *    undojoin | Trim
 	au BufWritePre *.go undojoin | GoFmt
 	au BufWritePre *.py undojoin | Black
 augroup END
