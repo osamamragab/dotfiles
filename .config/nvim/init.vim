@@ -226,11 +226,16 @@ fun! s:trimwhitespace()
 endfun
 command! Trim call s:trimwhitespace()
 
+fun! s:goonsave()
+	GoFmt
+	GoImports
+endfun
+
 augroup autofmt
 	au!
-	au BufWritePre *    undojoin | Trim
-	au BufWritePre *.go undojoin | GoFmt
-	au BufWritePre *.py undojoin | Black
+	au BufWritePre *    silent! undojoin | Trim
+	au BufWritePre *.go silent! undojoin | call s:goonsave()
+	au BufWritePre *.py silent! undojoin | Black
 augroup END
 
 " make tags file
