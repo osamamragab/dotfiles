@@ -52,7 +52,7 @@ call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plug
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'hrsh7th/nvim-compe'
-" Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
@@ -74,7 +74,7 @@ Plug 'sainnhe/sonokai'
 call plug#end()
 
 lua require("lsp")
-" lua require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
+lua require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
 
 set background=dark
 set termguicolors
