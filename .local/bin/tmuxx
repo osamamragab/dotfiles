@@ -13,6 +13,7 @@ if [ -z "$sel" ] || [ "$sel" = "_" ]; then
 	fi
 	[ -z "$sel" ] && exit 0
 fi
+[ "$sel" = "." ] && sel="$(pwd)"
 
 name="$(basename "$sel")"
 tmux switchc -t "$name" 2>/dev/null && exit 0
