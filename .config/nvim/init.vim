@@ -188,6 +188,7 @@ nnoremap <C-j> :cprev<CR>zz
 nnoremap <leader>k :lnext<CR>zz
 nnoremap <leader>j :lprev<CR>zz
 
+nnoremap <leader>gs :G<CR>
 nnoremap <C-p> :GFiles<CR>
 
 nnoremap <leader>gd  :lua vim.lsp.buf.definition()<CR>
