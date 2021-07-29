@@ -52,7 +52,8 @@ call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plug
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'hrsh7th/nvim-compe'
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+" Plug 'nvim-treesitter/playground'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
@@ -71,6 +72,8 @@ Plug 'sbdchd/neoformat'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
 " Plug 'gruvbox-community/gruvbox'
+" Plug 'joshdick/onedark.vim'
+" Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 lua require("lsp")
@@ -89,14 +92,20 @@ let g:sonokai_better_performance = 1
 let g:sonokai_transparent_background = 1
 let g:sonokai_diagnostic_virtual_text = 'colored'
 
+" let g:gruvbox_contrast_dark = 'hard'
+" let g:gruvbox_sign_column = 'dark0_hard'
+" let g:gruvbox_invert_selection = 0
+" let g:gruvbox_bold = 0
+
 colorscheme sonokai
 
-" let g:gruvbox_contrast_dark='hard'
-" let g:gruvbox_sign_column='dark0_hard'
-" let g:gruvbox_transparent_bg=2
-" let g:gruvbox_invert_selection=0
-" let g:gruvbox_bold=0
-" colorscheme gruvbox
+if index(['gruvbox', 'onedark', 'nord'], g:colors_name) >= 0
+	hi Normal guibg=NONE ctermbg=NONE
+	hi SignColumn guibg=NONE ctermbg=NONE
+	if g:colors_name ==# 'gruvbox'
+		hi CursorLineNr guibg=NONE ctermbg=NONE
+	endif
+endif
 
 hi! def link Label Statement
 hi! def link Delimiter Normal
@@ -120,7 +129,7 @@ let g:lightline = {
 	\ },
 \ }
 
-if g:colors_name ==# 'gruvbox' || g:colors_name ==# 'sonokai'
+if index(['sonokai', 'gruvbox', 'onedark', 'nord'], g:colors_name) >= 0
 	let g:lightline.colorscheme=g:colors_name
 endif
 
