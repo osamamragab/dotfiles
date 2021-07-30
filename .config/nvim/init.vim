@@ -160,20 +160,21 @@ command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 let g:rustfmt_autosave = 1
 let g:rust_recommended_style = 0
 
-let g:omni_sql_no_default_maps = 1
-
-" disable that stupid list
 nnoremap q: :q
+nnoremap <silent> Q <nop>
 
-nnoremap <leader>d "_d
-xnoremap <leader>d "_d
-xnoremap <leader>p "_dP
-
+nnoremap Y y$
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
 
-" move highlighted text
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+vnoremap <leader>p "_dP
+
+inoremap <C-c> <esc>
+
+" moving text
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
@@ -188,8 +189,8 @@ nnoremap <C-j> :cprev<CR>zz
 nnoremap <leader>k :lnext<CR>zz
 nnoremap <leader>j :lprev<CR>zz
 
-nnoremap <leader>gs :G<CR>
 nnoremap <C-p> :GFiles<CR>
+nnoremap <leader>gs :G<CR>
 
 nnoremap <leader>gd  :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>gi  :lua vim.lsp.buf.implementation()<CR>
@@ -220,21 +221,13 @@ augroup filetypedetect
 	au FileType markdown setlocal expandtab
 augroup END
 
-" smart cursorline
-" set cursorline
-" augroup smartcursorline
-" 	au!
-" 	au WinEnter,InsertLeave * set cursorline
-" 	au WinLeave,InsertEnter * set nocursorline
-" augroup END
-
 " remove trailing spaces
 fun! s:trimwhitespace()
     let l:view = winsaveview()
     silent! keepp %s/\s\+$//e
     call winrestview(l:view)
 endfun
-command! Trim call s:trimwhitespace()
+com! Trim call s:trimwhitespace()
 
 fun! s:goonsave()
 	GoFmt
@@ -248,5 +241,4 @@ augroup autofmt
 	au BufWritePre *.py silent! undojoin | Black
 augroup END
 
-" make tags file
-command! MakeTags !ctags -R
+com! W w
