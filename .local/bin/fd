@@ -1,13 +1,21 @@
 #!/bin/sh
 
 usage() {
-	echo "usage: $(basename "$0") [-m maxdepth] [-t type] <name>" >&2
+	echo "usage: $(basename "$0") [-m maxdepth] [-t type] [-I] [-II] [name]" >&2
 	exit 1
 }
 
 maxdepth=0
 type=""
 name=""
+exact=0
+
+addtype() {
+	case "$1" in
+		[bcdpflsD]) [ "$type" ] && type="$type,$1" || type="$1" ;;
+		*) return 1 ;;
+	esac
+}
 
 while [ $# -gt 0 ]; do
 	case "$1" in
@@ -19,12 +27,12 @@ while [ $# -gt 0 ]; do
 			shift
 			;;
 		-t)
-			case "$2" in
-				[bcdpflsD]) [ "$type" ] && type="$type,$2" || type="$2" ;;
-				*) usage ;;
-			esac
+			addtype "$2" || usage
 			shift
 			;;
+		-f | -d) addtype "${1#?}" || usage ;;
+		-I)  exact=1 ;;
+		-II) exact=2 ;;
 		*) name="$1" ;;
 	esac
 	shift
@@ -33,7 +41,11 @@ done
 args="."
 [ "$maxdepth" -ne 0 ] && args="$args -maxdepth $maxdepth"
 [ "$type" ] && args="$args -type $type"
-[ "$name" ] && args="$args -iname '*$name*'"
+[ "$name" ] && case "$exact" in
+	0) args="$args -iname '*$name*'" ;;
+	1) args="$args -iname '$name'" ;;
+	2) args="$args -name '$name'" ;;
+esac
 args="$args -printf '%P\n'"
 
 printf "%s" "$args" | xargs find
