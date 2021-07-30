@@ -172,11 +172,27 @@ nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 vnoremap <leader>p "_dP
 
-inoremap <C-c> <esc>
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+nnoremap <C-j> :cnext<CR>zzzv
+
+nnoremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
+nnoremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
 
 " moving text
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+
+inoremap <C-c> <esc>
+
+" undo breakpoints
+inoremap . .<C-g>u
+inoremap , ,<C-g>u
+inoremap ; ;<C-g>u
+inoremap ( (<C-g>u
+inoremap [ [<C-g>u
+inoremap { {<C-g>u
 
 " move faster between windows
 noremap <C-j> <C-w>j
