@@ -1,10 +1,11 @@
 #!/bin/sh
 
+xset r rate 300 50 &
+xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" &
+# setxkbmap -option caps:escape &
 dwmblocks &
 mpd &
 dunst &
-xset r rate 300 50 &
-setxkbmap -option caps:escape &
 xcompmgr &
 unclutter -noevents &
 [ -f "$HOME/.local/share/bg" ] && xwallpaper --zoom "$HOME/.local/share/bg" &

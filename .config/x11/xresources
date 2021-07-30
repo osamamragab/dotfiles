@@ -1,0 +1,5 @@
+*.background: #1c1e1f
+*.foreground: #f8f9fa
+
+*.font: monospace:size=10
+*.alpha: 0.8
