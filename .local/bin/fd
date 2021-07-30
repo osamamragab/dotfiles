@@ -48,4 +48,4 @@ args="."
 esac
 args="$args -printf '%P\n'"
 
-printf "%s" "$args" | xargs find
+printf "%s" "$args" | xargs find | sed 1d
