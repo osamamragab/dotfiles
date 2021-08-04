@@ -12,12 +12,6 @@ lsp.clangd.setup({
 	root_dir = function() return vim.loop.cwd() end,
 })
 
-
-lsp.rust_analyzer.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
-
 lsp.gopls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -30,6 +24,11 @@ lsp.gopls.setup({
 			staticcheck = true,
 		},
 	},
+})
+
+lsp.rust_analyzer.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
 })
 
 lsp.pyright.setup({
@@ -104,8 +103,8 @@ require("compe").setup({
 	},
 	source = {
 		path = true,
-		buffer = true,
 		calc = true,
+		buffer = true,
 		nvim_lsp = true,
 		nvim_lua = true,
 		-- vsnip = true,

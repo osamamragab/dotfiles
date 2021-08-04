@@ -190,9 +190,7 @@ inoremap <C-c> <esc>
 inoremap . .<C-g>u
 inoremap , ,<C-g>u
 inoremap ; ;<C-g>u
-inoremap ( (<C-g>u
-inoremap [ [<C-g>u
-inoremap { {<C-g>u
+inoremap : :<C-g>u
 
 " move faster between windows
 noremap <C-j> <C-w>j
