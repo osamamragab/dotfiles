@@ -1,0 +1,9 @@
+#!/bin/sh
+
+exec 2>/dev/null
+
+fn="$(basename -- "$1")"
+fs="$(du -Hh -- "$1" | cut -f 1)"
+gm="${2}x${3}"
+
+echo "($fs)  [$gm]  $fn"
