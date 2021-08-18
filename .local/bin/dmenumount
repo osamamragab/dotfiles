@@ -1,0 +1,69 @@
+#!/bin/sh
+
+getmount() {
+	[ -z "$sel" ] && exit 1
+	# shellcheck disable=SC2086
+	mp="$(find $1 2>/dev/null | dmenu -i -p "mount point:")" || exit 1
+	[ -z "$mp" ] && exit 1
+	if [ ! -d "$mp" ]; then
+		mkask="$(printf "no\nyes" | dmenu -i -p "$mp does not exist, create?")" || exit 1
+		[ "$mkask" = "yes" ] || exit 1
+		mkdir -p "$mp" || sudo -A mkdir -p "$mp"
+	fi
+}
+
+mountusb() {
+	sel="$(echo "$usbdrives" | dmenu -i -p "mount usb:")" || exit 1
+	sel="$(echo "$sel" | cut -d " " -f 1)"
+	sudo -A mount "$sel" 2>/dev/null && notify-send -a "$(basename "$0")" "usb mounting" "$sel mounted" && exit 0
+	mounted="$(lsblk -nrpo "name,type,mountpoint" | awk '$3 !~ /\/boot|\/home$|SWAP/ && length($3)>1 {printf "-not ( -path *%s -prune ) ", $3}')"
+	getmount "/mnt /media /mount $HOME -mindepth 1 -maxdepth 2 -type d $mounted"
+	parttype="$(lsblk -no fstype "$sel")"
+	case "$parttype" in
+		vfat)
+			sudo -A mount -t vfat "$sel" "$mp" -o rw,umask=0000
+			;;
+		exfat)
+			sudo -A mount "$sel" "$mp" -o uid="$(id -u)",gid="$(id -g)"
+			;;
+		*)
+			sudo -A mount "$sel" "$mp"
+			sudo -A chown "$(whoami)":"$(groups | cut -d " " -f 1)" "$mp"
+			;;
+	esac
+	notify-send -a "$(basename "$0")" "usb mounting" "$sel mounted to $mp"
+}
+
+mountandroid() {
+	sel="$(echo "$anddrives" | dmenu -i -p "mount android:")" || exit 1
+	sel="$(echo "$sel" | cut -d : -f 1)"
+	getmount "$HOME -mindepth 1 -maxdepth 2 -type d"
+	simple-mtpfs --device "$sel" "$mp"
+	echo "ok" | dmenu -i -p "tap Allow on your phone if it asks for permission" || exit 1
+	simple-mtpfs --device "$sel" "$mp"
+	notify-send -a "$(basename "$0")" "android mounting" "android device mounted to $mp"
+}
+
+asktype() {
+	sel="$(printf "usb\nandroid" | dmenu -i -p "mount type:")" || exit 1
+	case "$sel" in
+		usb) mountusb ;;
+		android) mountandroid ;;
+	esac
+}
+
+usbdrives="$(lsblk -rpo "name,type,size,mountpoint" | grep "part\|rom" | awk '$4=="" {printf "%s (%s)\n", $1, $3}')"
+anddrives="$(simple-mtpfs -l 2>/dev/null)"
+
+if [ "$usbdrives" ] && [ "$anddrives" ]; then
+	echo "mountable usb drive(s) and android device(s) detected"
+	asktype
+elif [ "$usbdrives" ]; then
+	echo "usb drive(s) detected"
+	mountusb
+elif [ "$anddrives" ]; then
+	echo "android device(s) detected"
+	mountandroid
+else
+	echo "no usb drive or android device detected"
+fi
