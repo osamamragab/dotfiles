@@ -4,6 +4,7 @@ text/x-shellscript=text.desktop
 inode/directory=file.desktop
 image/png=image.desktop
 image/jpeg=image.desktop
+image/webp=image.desktop
 image/gif=image.desktop
 application/pdf=pdf.desktop
 application/postscript=pdf.desktop
