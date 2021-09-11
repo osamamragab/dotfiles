@@ -1,0 +1,43 @@
+#!/bin/sh
+
+NOTESDIR="${NOTESDIR:-$HOME/.local/share/notes}"
+[ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || (echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1)
+
+opennote() {
+	if [ -t 0 ]; then
+		$EDITOR "$1"
+	else
+		setsid -f "$TERMINAL" -e "$EDITOR" "$1"
+	fi
+}
+
+if [ $# -gt 0 ]; then
+	while [ $# -gt 0 ]; do
+		case "$1" in
+			*.md|*.txt) $EDITOR "$NOTESDIR/$1" ;;
+			*)
+				if [ -f "$NOTESDIR/$1.md" ]; then
+					opennote "$NOTESDIR/$1.md"
+				elif [ -f "$NOTESDIR/$1.txt" ]; then
+					opennote "$NOTESDIR/$1.txt"
+				elif [ -d "$NOTESDIR/$1" ]; then
+					NOTESDIR="$NOTESDIR/$1" "$0"
+				else
+					opennote "$NOTESDIR/$1"
+				fi
+				shift
+				continue
+				;;
+		esac
+		shift
+	done
+	exit 0
+fi
+
+if [ -t 0 ]; then
+	sel="$(find "$NOTESDIR" -type f -printf "%P\n" | fzf)"
+else
+	sel="$(find "$NOTESDIR" -type f -printf "%P\n" | dmenu -i -F -l 10 -p "notes:")"
+fi
+[ -z "$sel" ] && exit 1
+opennote "$NOTESDIR/$sel"
