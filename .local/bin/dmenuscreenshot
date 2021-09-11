@@ -1,6 +1,6 @@
 #!/bin/sh
 
-scopt="$(printf "select\\ncurrent window\\nfull screen\\nselect (copy)\\ncurrent window (copy)\\nfull screen (copy)" | dmenu -l 6 -i -p "screenshot:")"
+scopt="$(printf "select\\ncurrent window\\nfull screen\\nselect (copy)\\ncurrent window (copy)\\nfull screen (copy)" | dmenu -i -F -l 6 -p "screenshot:")"
 [ -z "$scopt" ] && exit 1
 
 case "$scopt" in

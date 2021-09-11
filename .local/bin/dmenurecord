@@ -27,7 +27,7 @@ if [ -s "$recfile" ]; then
 fi
 
 sel="$1"
-[ -z "$sel" ] && sel="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -l 6 -i -p "record:")"
+[ -z "$sel" ] && sel="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -F -l 6 -p "record:")"
 
 case "$sel" in
 	screencast)
