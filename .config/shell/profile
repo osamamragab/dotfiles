@@ -29,6 +29,7 @@ export IPYTHONDIR="${XDG_CONFIG_HOME:-$HOME/.config}/ipython"
 export NLTK_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/nltk_data"
 export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
+export NOTESDIR="${XDG_DATA_HOME:-$HOME/.local/share}/notes"
 
 export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$DENO_INSTALL_ROOT:$YARN_PREFIX/bin:$GEM_HOME/bin:$PATH"
 
