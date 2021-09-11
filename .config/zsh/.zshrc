@@ -59,21 +59,21 @@ autoload edit-command-line
 zle -N edit-command-line
 bindkey "^e" edit-command-line
 
-plgdir="/usr/share/zsh/plugins"
-if [ -d "$plgdir" ]; then
-	[ -f "$plgdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ] &&
-		. "$plgdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
-	[ -f "$plgdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ] &&
-		. "$plgdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
-	[ -f "$plgdir/zsh-history-substring-search/zsh-history-substring-search.zsh" ] &&
-		. "$plgdir/zsh-history-substring-search/zsh-history-substring-search.zsh"
+plugdir="/usr/share/zsh/plugins"
+if [ -d "$plugdir" ]; then
+	[ -f "$plugdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ] &&
+		. "$plugdir/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
+	[ -f "$plugdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ] &&
+		. "$plugdir/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+	if [ -f "$plugdir/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
+		. "$plugdir/zsh-history-substring-search/zsh-history-substring-search.zsh"
+		bindkey -a "k" history-substring-search-up
+		bindkey -a "j" history-substring-search-down
+		bindkey "^[[A" history-substring-search-up
+		bindkey "^[[B" history-substring-search-down
+	fi
 fi
-unset plgdir
-
-bindkey -a "k" history-substring-search-up
-bindkey -a "j" history-substring-search-down
-bindkey "^[[A" history-substring-search-up
-bindkey "^[[B" history-substring-search-down
+unset plugdir
 
 bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
