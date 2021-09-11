@@ -16,6 +16,7 @@ SAVEHIST=10000000
 
 MAILCHECK=0
 
+fpath=($fpath "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/completions")
 autoload -U compinit
 zstyle ":completion:*" menu select
 zmodload zsh/complist
@@ -23,7 +24,7 @@ compinit
 _comp_options+=(globdots)
 
 bindkey -v
-export KEYTIMEOUT=1
+KEYTIMEOUT=1
 
 bindkey -M menuselect "h" vi-backward-char
 bindkey -M menuselect "k" vi-up-line-or-history
@@ -76,8 +77,8 @@ bindkey "^[[B" history-substring-search-down
 
 bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
-bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || $EDITOR "$HOME/docs/todo.md"\n'
-#bindkey -s "^[t" '[ -d .git ] && grep TODO -nr *\n'
+bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || $EDITOR "${NOTESDIR:-$HOME/.local/share/notes}/todo.md"\n'
+#bindkey -s "^[t" '[ -d .git ] && grep TODO -Hnr *\n'
 
 alias doas="doas "
 
