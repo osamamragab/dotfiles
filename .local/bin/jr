@@ -33,7 +33,7 @@ case "$(echo "$1" | sed "s/^-\+//" )" in
 	*) panic "unknown command '$1'" ;;
 esac
 
-sel="${2:-$(find "$JOURNALDIR" -maxdepth 1 -type f -printf '%P\n' | sed "s/.md$//" | sort -r | dmenu -fn Monospace-12 -l 10 -p "select date:")}"
+sel="${2:-$(find "$JOURNALDIR" -maxdepth 1 -type f -printf '%P\n' | sed "s/.md$//" | sort -r | dmenu -fn monospace-12 -l 10 -p "select date:")}"
 [ -z "$sel" ] && exit 0
 
 [ "$sel" = "today" ] && $cmd "$JOURNALDIR/$(date "+%Y-%m-%d").md" && exit 0

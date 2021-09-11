@@ -12,7 +12,7 @@ checkwebcam() {
 }
 
 stoprecording() {
-	recpid="$(sed -n 1p "$recfile")"
+	recpid="$(head -n 1 "$recfile")"
 	kill -15 "$recpid"
 	rm -f "$recfile"
 	pkill -RTMIN+9 dwmblocks

@@ -9,7 +9,7 @@ if [ -z "$sel" ] || [ "$sel" = "_" ]; then
 	if [ -t 0 ]; then
 		sel="$(echo "$items" | fzf)"
 	else
-		sel="$(echo "$items" | dmenu -i -F -fn Monospace-12 -l 10 -p "project:")"
+		sel="$(echo "$items" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")"
 	fi
 	[ -z "$sel" ] && exit 0
 fi
