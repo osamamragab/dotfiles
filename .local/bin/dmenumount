@@ -36,7 +36,7 @@ mountusb() {
 
 mountandroid() {
 	sel="$(echo "$anddrives" | dmenu -i -p "mount android:")" || exit 1
-	sel="$(echo "$sel" | cut -d : -f 1)"
+	sel="$(echo "$sel" | cut -d ":" -f 1)"
 	getmount "$HOME -mindepth 1 -maxdepth 2 -type d"
 	simple-mtpfs --device "$sel" "$mp"
 	echo "ok" | dmenu -i -p "tap Allow on your phone if it asks for permission" || exit 1
