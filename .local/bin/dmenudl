@@ -1,0 +1,41 @@
+#!/bin/sh
+
+# shellcheck disable=SC2088
+DLDIRS="${DLDIRS:-~/dls:~/music:~/docs:~/vids:~/pics}"
+
+url="${1:-$(xclip -o | dmenu -p "url:" || exit 1)}"
+[ -z "$url" ] && exit 1
+
+sel="$(echo "$DLDIRS" | tr ":" "\n" | dmenu -i -F -fn monospace-12 -l 5 -p "dir:")"
+[ -z "$sel" ] && exit 1
+
+path="$sel"
+if [ "$(echo "$sel" | cut -c1)" = "~" ]; then
+	sel="$(echo "$sel" | cut -c3-)"
+	path="$HOME/$sel"
+fi
+[ -d "$path" ] || mkdir -p "$path" || (echo "$(basename "$0"): can't create dir $path" >&2; exit 1)
+
+case "$sel" in
+	dls | docs | pics)
+		opts="--content-disposition -P '$path'"
+		case "$(basename "$url")" in
+			*?*) opts="$opts -O $(basename "$url" | cut -d? -f1)" ;;
+		esac
+		echo "$opts" | xargs wget "$url"
+		;;
+	music | vids)
+		opts="-o '$path/%(title)s.%(ext)s'"
+		[ "$sel" = "music" ] && opts="$opts -a"
+		echo "$opts" | xargs dl "$url"
+		;;
+	*)
+		sel="$(printf "generic\nvideo\naudio" | dmenu -i -F -r -p "type:")"
+		[ -z "$sel" ] && exit 1
+		case "$sel" in
+			generic) wget --content-disposition -P "$path" "$url" ;;
+			video) dl -o "$path/%(title)s.%(ext)s" "$url" ;;
+			music) dl -a -o "$path/%(title)s.%(ext)s" "$url" ;;
+		esac
+		;;
+esac
