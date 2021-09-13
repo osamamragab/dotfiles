@@ -1,7 +1,7 @@
 #!/bin/sh
 
-input="${1:-$(printf "" | dmenu -p "input:")}"
-[ -z "$input" ] && exit 1
+input="${1:-$(printf "" | dmenu -p "input:")}" || exit 1
+[ -z "$input" ] && input="$(xclip -o)"
 
 case "$(printf "copy\ndl\nbrowser\nsurf\nlynx\nmpv" | dmenu -i -p "action:")" in
 	copy) printf "%s" "$input" | xclip -sel clip ;;
