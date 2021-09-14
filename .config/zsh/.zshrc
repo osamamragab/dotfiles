@@ -77,7 +77,7 @@ unset plugdir
 
 bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
-bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || $EDITOR "${NOTESDIR:-$HOME/.local/share/notes}/todo.md"\n'
+bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 #bindkey -s "^[t" '[ -d .git ] && grep TODO -Hnr *\n'
 
 alias doas="doas "
