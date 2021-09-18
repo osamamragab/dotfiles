@@ -1,9 +1,9 @@
 #!/bin/sh
 
-NOTESDIR="${NOTESDIR:-$HOME/.local/share/notes}"
+NOTESDIR="${NOTESDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/notes}"
 [ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || (echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1)
 
-opennote() {
+open() {
 	if [ -t 0 ]; then
 		$EDITOR "$1"
 	else
@@ -11,33 +11,31 @@ opennote() {
 	fi
 }
 
-if [ $# -gt 0 ]; then
-	while [ $# -gt 0 ]; do
-		case "$1" in
-			*.md|*.txt) $EDITOR "$NOTESDIR/$1" ;;
-			*)
-				if [ -f "$NOTESDIR/$1.md" ]; then
-					opennote "$NOTESDIR/$1.md"
-				elif [ -f "$NOTESDIR/$1.txt" ]; then
-					opennote "$NOTESDIR/$1.txt"
-				elif [ -d "$NOTESDIR/$1" ]; then
-					NOTESDIR="$NOTESDIR/$1" "$0"
-				else
-					opennote "$NOTESDIR/$1"
-				fi
-				shift
-				continue
-				;;
-		esac
-		shift
-	done
+if [ $# -eq 0 ]; then
+	if [ -t 0 ]; then
+		sel="$(find "$NOTESDIR" -type f -printf "%P\n" | fzf)"
+	else
+		sel="$(find "$NOTESDIR" -type f -printf "%P\n" | dmenu -i -F -l 10 -p "notes:")"
+	fi
+	[ -z "$sel" ] && exit 1
+	open "$NOTESDIR/$sel"
 	exit 0
 fi
 
-if [ -t 0 ]; then
-	sel="$(find "$NOTESDIR" -type f -printf "%P\n" | fzf)"
-else
-	sel="$(find "$NOTESDIR" -type f -printf "%P\n" | dmenu -i -F -l 10 -p "notes:")"
-fi
-[ -z "$sel" ] && exit 1
-opennote "$NOTESDIR/$sel"
+while [ $# -gt 0 ]; do
+	case "$1" in
+		*.txt | *.md) open "$NOTESDIR/$1" ;;
+		*)
+			if [ -d "$NOTESDIR/$1" ]; then
+				NOTESDIR="$NOTESDIR/$1" "$0"
+			elif [ -f "$NOTESDIR/$1.md" ]; then
+				open "$NOTESDIR/$1.md"
+			elif [ -f "$NOTESDIR/$1.txt" ]; then
+				open "$NOTESDIR/$1.txt"
+			else
+				open "$NOTESDIR/$1"
+			fi
+			;;
+	esac
+	shift
+done
