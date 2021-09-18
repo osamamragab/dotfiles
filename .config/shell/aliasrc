@@ -11,8 +11,7 @@ alias ll="ls -AlFh"
 alias l="ls -CF"
 
 alias grep="grep --color=auto"
-alias grepn="grep -Hn"
-alias grepr="grep -Hnr"
+alias gr="grep -Hnr"
 
 alias gst="git status -sb"
 alias gph="git push"
