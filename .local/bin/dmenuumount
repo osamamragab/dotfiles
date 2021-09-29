@@ -22,7 +22,7 @@ asktype() {
 	esac
 }
 
-usbdrives="$(lsblk -nrpo "name,type,size,mountpoint" | awk '$4 !~ /\/boot|\/efi|\/home$|SWAP/ && length($4)>1 {printf "%s (%s)\n", $4, $3}')"
+usbdrives="$(lsblk -nrpo "name,type,size,mountpoint,label" | awk -F':' '{gsub(/ /,":")} $4!~/\/boot|\/efi|\/home$|SWAP/ && length($4)>1 {printf "%s (%s) %s\n",$4,$3,$5}')"
 anddrives="$(grep simple-mtpfs /etc/mtab)"
 
 if [ "$usbdrives" ] && [ "$anddrives" ]; then
