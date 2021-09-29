@@ -13,6 +13,7 @@ PS1="%B%{$fg[cyan]%}%c %{$fg[blue]%}\$(__git_branch)%{$fg[green]%}>%{$reset_colo
 
 HISTSIZE=10000000
 SAVEHIST=10000000
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 
 MAILCHECK=0
 
