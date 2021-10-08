@@ -31,7 +31,7 @@ export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 export NOTESDIR="${XDG_DATA_HOME:-$HOME/.local/share}/notes"
 
-export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$DENO_INSTALL_ROOT:$YARN_PREFIX/bin:$GEM_HOME/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$DENO_INSTALL_ROOT:$YARN_PREFIX/bin:$GEM_HOME/bin:$(luarocks path --lr-bin | cut -d ":" -f 1):$PATH"
 
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
@@ -48,4 +48,4 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden -L -g '!.git'"
 
 export _JAVA_AWT_WM_NONREPARENTING=1
 
-[ -z "$DISPLAY" ] && [ "$(tty)" = /dev/tty1 ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+[ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
