@@ -36,6 +36,11 @@ export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$DENO_INSTAL
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 
+export FZF_DEFAULT_COMMAND="rg --files --hidden -L -g '!.git'"
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+export LESS="-R"
+export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export LESS_TERMCAP_mb="$(printf "%b" "\e[01;31m")"
 export LESS_TERMCAP_md="$(printf "%b" "\e[01;31m")"
 export LESS_TERMCAP_me="$(printf "%b" "\e[0m")"
@@ -43,9 +48,5 @@ export LESS_TERMCAP_se="$(printf "%b" "\e[0m")"
 export LESS_TERMCAP_so="$(printf "%b" "\e[01;44;33m")"
 export LESS_TERMCAP_ue="$(printf "%b" "\e[0m")"
 export LESS_TERMCAP_us="$(printf "%b" "\e[01;32m")"
-
-export FZF_DEFAULT_COMMAND="rg --files --hidden -L -g '!.git'"
-
-export _JAVA_AWT_WM_NONREPARENTING=1
 
 [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
