@@ -23,4 +23,10 @@ case "${sel##\~/}" in
 		;;
 esac
 
-notify-send -a "$(basename "$0")" "download finished" "$url -> $sel"
+# shellcheck disable=SC2181
+if [ $? -ne 0 ]; then
+	notify-send -a "$(basename "$0")" "download failed" "$sel ($url)"
+	exit 1
+fi
+
+notify-send -a "$(basename "$0")" "download finished" "$sel ($url)"
