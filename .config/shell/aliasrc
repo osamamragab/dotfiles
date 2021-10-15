@@ -3,21 +3,20 @@
 alias cp="cp -iv"
 alias ln="ln -iv"
 alias mv="mv -iv"
-alias rm="rm -v"
+alias rm="rm -Iv"
 
-alias ls="ls -p --color=auto"
+alias ls="ls -hF --color=auto --group-directories-first"
 alias la="ls -A"
-alias ll="ls -AlFh"
-alias l="ls -CF"
+alias ll="ls -lA"
 
 alias grep="grep --color=auto"
-alias gr="grep -Hnr"
+alias gr="grep --exclude-dir={.git,node_modules} -Hnr"
 
 alias gst="git status -sb"
 alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
-alias gdfd="git diff | delta"
+gdfd() { git diff "$@" | delta; }
 
 alias xi="doas xbps-install -Sy"
 alias xr="doas xbps-remove -R"
