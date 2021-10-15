@@ -28,6 +28,7 @@ export MIX_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/mix"
 export IPYTHONDIR="${XDG_CONFIG_HOME:-$HOME/.config}/ipython"
 export NLTK_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/nltk_data"
 export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
+export CHTSH="${XDG_CONFIG_HOME:-$HOME/.config}/cht.sh"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 export NOTESDIR="${XDG_DATA_HOME:-$HOME/.local/share}/notes"
 
