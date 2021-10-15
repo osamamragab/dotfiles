@@ -18,10 +18,9 @@ alias gpl="git pull"
 alias gdf="git diff"
 gdfd() { git diff "$@" | delta; }
 
-alias xi="doas xbps-install -Sy"
-alias xr="doas xbps-remove -R"
+alias xi="xbps-install -S"
+alias xr="xbps-remove -R"
 alias xq="xbps-query -R"
-alias xs="xbps-query -Rs"
 
 alias cd..="cd .."
 alias x+="chmod +x"
