@@ -80,6 +80,19 @@ lsp.sumneko_lua.setup({
 	},
 })
 
+local elixirls_path = vim.fn.expand("$HOME/programs/elixir-ls")
+lsp.elixirls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	cmd = {elixirls_path.."/bin/language_server.sh"},
+	settings = {
+		elixirLS = {
+			dialyzerEnabled = false,
+			fetchDeps = false,
+		}
+	},
+})
+
 require("compe").setup({
 	enabled = true,
 	autocomplete = true,

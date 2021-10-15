@@ -69,6 +69,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
 Plug 'psf/black'
 Plug 'sbdchd/neoformat'
+Plug 'elixir-editors/vim-elixir'
 Plug 'itchyny/lightline.vim'
 Plug 'sainnhe/sonokai'
 " Plug 'gruvbox-community/gruvbox'
@@ -180,7 +181,7 @@ nnoremap <C-j> :cnext<CR>zzzv
 nnoremap <expr> k (v:count > 5 ? "m'" . v:count : '') . 'k'
 nnoremap <expr> j (v:count > 5 ? "m'" . v:count : '') . 'j'
 
-" moving text
+" move selected text
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
