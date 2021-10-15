@@ -39,18 +39,6 @@
 	sync = !git fetch origin && git remote prune origin && :
 	reebase-master = !git fetch origin master:master && git rebase master
 
-[url "git@github.com:"]
-	insteadOf = https://github.com/
-
-[http]
-	sslVerify = false
-
-[credential]
-	helper = cache --timeout=3600
-
-[help]
-	autocorrect = 1
-
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -62,6 +50,3 @@
 
 [pull]
 	ff = only
-
-[pager]
-	branch = false
