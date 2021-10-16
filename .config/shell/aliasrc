@@ -28,6 +28,7 @@ alias mkd="mkdir -pv"
 alias bc="bc -ql"
 alias ccat="highlight -O ansi"
 alias info="info --vi-keys"
+alias ffmpeg="ffmpeg -hide_banner"
 
 command -v nvim >/dev/null 2>&1 && alias vi="nvim" vim="nvim" vimdiff="nvim -d"
 
