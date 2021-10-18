@@ -2,8 +2,12 @@ local lsp = require("lspconfig")
 
 local cmp = require("cmp")
 local cmplsp = require("cmp_nvim_lsp")
+local luasnip = require("luasnip")
 
 cmp.setup({
+	snippet = {
+		expand = function(args) luasnip.lsp_expand(args.body) end,
+	},
 	mapping = {
 		["<C-d>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -13,20 +17,29 @@ cmp.setup({
 	},
 	sources = {
 		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
 		{ name = "buffer" },
-	}
+	},
+})
+
+require("luasnip.loaders.from_vscode").lazy_load({
+	paths = {(vim.env.XDG_CONFIG_HOME or vim.env.HOME.."/.config") .. "/nvim/plugged/friendly-snippets"},
+	include = nil,
+	exclude = {},
 })
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local function config(cfg)
-	return vim.tbl_deep_extend("force", { capabilities = cmplsp.update_capabilities(capabilities) }, cfg or {})
+	return vim.tbl_deep_extend("force", {
+		capabilities = cmplsp.update_capabilities(capabilities),
+	}, cfg or {})
 end
 
 
 lsp.clangd.setup(config({
 	cmd = { "clangd", "--background-index", "--clang-tidy" },
-	root_dir = function() return vim.loop.cwd() end
+	root_dir = function() return vim.loop.cwd() end,
 }))
 
 lsp.gopls.setup(config({
@@ -51,7 +64,7 @@ lsp.svelte.setup(config())
 
 lsp.vuels.setup(config())
 
-local sumneko_lua_path = vim.fn.expand("$HOME/programs/lua-language-server")
+local sumneko_lua_path = vim.env.HOME .. "/programs/lua-language-server"
 lsp.sumneko_lua.setup(config({
 	cmd = {sumneko_lua_path.."/bin/Linux/lua-language-server", "-E", sumneko_lua_path.."/main.lua"},
 	settings = {
@@ -68,7 +81,7 @@ lsp.sumneko_lua.setup(config({
 					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
 					["/usr/share/lua/5.3"] = true,
-					[vim.fn.expand("$HOME/.local/share/luarocks/share/lua/5.3")] = true,
+					[(vim.env.XDG_DATA_HOME or vim.env.HOME.."/.local/share") .. "/luarocks/share/lua/5.3"] = true,
 				},
 			},
 			telemetry = {
@@ -78,14 +91,14 @@ lsp.sumneko_lua.setup(config({
 	},
 }))
 
-local elixirls_path = vim.fn.expand("$HOME/programs/elixir-ls")
+local elixirls_path = vim.env.HOME .. "/programs/elixir-ls"
 lsp.elixirls.setup(config({
 	cmd = {elixirls_path.."/bin/language_server.sh"},
 	settings = {
 		elixirLS = {
 			dialyzerEnabled = false,
 			fetchDeps = false,
-		}
+		},
 	},
 }))
 

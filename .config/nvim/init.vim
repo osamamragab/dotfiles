@@ -48,12 +48,15 @@ set showbreak=++
 set exrc
 set secure
 
-call plug#begin(system('printf "%s" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/plugged"'))
+call plug#begin(($XDG_CONFIG_HOME != '' ? $XDG_CONFIG_HOME : $HOME . '/.config') . "/nvim/plugged")
 Plug 'neovim/nvim-lspconfig'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'rafamadriz/friendly-snippets'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 " Plug 'nvim-treesitter/playground'
 Plug 'tpope/vim-fugitive'
@@ -219,6 +222,8 @@ nnoremap <leader>gca :lua vim.lsp.buf.code_action()<CR>
 nnoremap <leader>gsd :lua vim.lsp.diagnostic.show_line_diagnostics(); vim.lsp.util.show_line_diagnostics()<CR>
 nnoremap <leader>gn  :lua vim.lsp.diagnostic.goto_next()<CR>
 " nnoremap <leader>gll :lua vim.lsp.diagnostic.set_loclist({ open_loclist = false })<CR>
+
+imap <silent><expr> <tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-or-jump' : '<tab>'
 
 " write as root
 cnoremap SudoWrite w !doas tee % >/dev/null
