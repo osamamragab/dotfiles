@@ -57,6 +57,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
+Plug 'mattn/emmet-vim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 " Plug 'nvim-treesitter/playground'
 Plug 'tpope/vim-fugitive'
@@ -125,6 +126,8 @@ let g:netrw_winsize = 25
 let g:netrw_liststyle = 3
 let g:netrw_list_hide = netrw_gitignore#Hide()
 noremap <C-b> :Lexplore!<CR>
+
+let g:user_emmet_settings = {'svelte': {'extends': 'html'}}
 
 let g:lightline = {
 	\ 'colorscheme': 'wombat',
