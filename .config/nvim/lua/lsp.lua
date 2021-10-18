@@ -1,20 +1,35 @@
 local lsp = require("lspconfig")
 
-local function on_attach()
-end
+local cmp = require("cmp")
+local cmplsp = require("cmp_nvim_lsp")
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-lsp.clangd.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	root_dir = function() return vim.loop.cwd() end,
+cmp.setup({
+	mapping = {
+		["<C-d>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.close(),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
+	},
+	sources = {
+		{ name = "nvim_lsp" },
+		{ name = "buffer" },
+	}
 })
 
-lsp.gopls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+local function config(cfg)
+	return vim.tbl_deep_extend("force", { capabilities = cmplsp.update_capabilities(capabilities) }, cfg or {})
+end
+
+
+lsp.clangd.setup(config({
+	cmd = { "clangd", "--background-index", "--clang-tidy" },
+	root_dir = function() return vim.loop.cwd() end
+}))
+
+lsp.gopls.setup(config({
 	cmd = {"gopls"},
 	settings = {
 		gopls = {
@@ -24,37 +39,20 @@ lsp.gopls.setup({
 			staticcheck = true,
 		},
 	},
-})
+}))
 
-lsp.rust_analyzer.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
+lsp.rust_analyzer.setup(config())
 
-lsp.pyright.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
+lsp.pyright.setup(config())
 
-lsp.tsserver.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
+lsp.tsserver.setup(config())
 
-lsp.svelte.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
+lsp.svelte.setup(config())
 
-lsp.vuels.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
+lsp.vuels.setup(config())
 
 local sumneko_lua_path = vim.fn.expand("$HOME/programs/lua-language-server")
-lsp.sumneko_lua.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
+lsp.sumneko_lua.setup(config({
 	cmd = {sumneko_lua_path.."/bin/Linux/lua-language-server", "-E", sumneko_lua_path.."/main.lua"},
 	settings = {
 		Lua = {
@@ -67,10 +65,10 @@ lsp.sumneko_lua.setup({
 			},
 			workspace = {
 				library = {
-					["/usr/share/lua/5.3"] = true,
-					[vim.fn.expand("$HOME/.local/share/luarocks/share/lua/5.3")] = true,
 					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+					["/usr/share/lua/5.3"] = true,
+					[vim.fn.expand("$HOME/.local/share/luarocks/share/lua/5.3")] = true,
 				},
 			},
 			telemetry = {
@@ -78,12 +76,10 @@ lsp.sumneko_lua.setup({
 			},
 		},
 	},
-})
+}))
 
 local elixirls_path = vim.fn.expand("$HOME/programs/elixir-ls")
-lsp.elixirls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
+lsp.elixirls.setup(config({
 	cmd = {elixirls_path.."/bin/language_server.sh"},
 	settings = {
 		elixirLS = {
@@ -91,39 +87,6 @@ lsp.elixirls.setup({
 			fetchDeps = false,
 		}
 	},
-})
-
-require("compe").setup({
-	enabled = true,
-	autocomplete = true,
-	debug = false,
-	min_length = 1,
-	preselect = "enable",
-	throttle_time = 80,
-	source_timeout = 200,
-	resolve_timeout = 800,
-	incomplete_delay = 400,
-	max_abbr_width = 100,
-	max_kind_width = 100,
-	max_menu_width = 100,
-	documentation = {
-		border = {"", "" ,"", " ", "", "", "", " "}, -- the border option is the same as `|help nvim_open_win|`
-		winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-		max_width = 120,
-		min_width = 60,
-		max_height = math.floor(vim.o.lines * 0.3),
-		min_height = 1,
-	},
-	source = {
-		path = true,
-		calc = true,
-		buffer = true,
-		nvim_lsp = true,
-		nvim_lua = true,
-		-- vsnip = true,
-		-- ultisnips = true,
-		-- luasnip = true,
-	},
-})
+}))
 
 require("symbols-outline").setup({})
