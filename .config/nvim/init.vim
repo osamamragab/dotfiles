@@ -123,9 +123,6 @@ let g:netrw_banner = 0
 let g:netrw_browse_split = 0
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
-let g:netrw_liststyle = 3
-let g:netrw_list_hide = netrw_gitignore#Hide()
-noremap <C-b> :Lexplore!<CR>
 
 let g:user_emmet_settings = {'svelte': {'extends': 'html'}}
 
@@ -201,19 +198,14 @@ inoremap , ,<C-g>u
 inoremap ; ;<C-g>u
 inoremap : :<C-g>u
 
-" move faster between windows
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-h> <C-w>h
-noremap <C-l> <C-w>l
-
 nnoremap <C-k> :cnext<CR>zz
 nnoremap <C-j> :cprev<CR>zz
 nnoremap <leader>k :lnext<CR>zz
 nnoremap <leader>j :lprev<CR>zz
 
-nnoremap <C-p> :GFiles<CR>
 nnoremap <leader>gs :G<CR>
+nnoremap <C-p> :GFiles<CR>
+nnoremap <C-b> :Lexplore!<CR>
 
 nnoremap <leader>gd  :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>gi  :lua vim.lsp.buf.implementation()<CR>
