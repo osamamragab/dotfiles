@@ -1,1 +1,1 @@
-syn match goDeclaration '\<func\>'
+syn keyword goDeclaration func
