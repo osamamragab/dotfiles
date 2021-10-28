@@ -37,6 +37,8 @@ export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$DENO_INSTAL
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 
+export NNN_FIFO="/tmp/nnn.fifo"
+export NNN_PLUG="x:!chmod +x \$nnn*;p:-preview-tabbed"
 export FZF_DEFAULT_COMMAND="rg --files --hidden -L -g '!.git'"
 export _JAVA_AWT_WM_NONREPARENTING=1
 
