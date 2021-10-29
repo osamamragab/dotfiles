@@ -5,10 +5,10 @@
 intended to be used with:
 
 - [Void Linux](https://voidlinux.org) (operating system)
-- [dwm](https://dwm.suckless.org) (window manager) \[[my build](https://github.com/osamai/dwm)\]
+- [dwm](https://dwm.suckless.org) (window manager) \[[my build](https://gitlab.com/osamai/dwm)\]
 - [dwmblocks](https://github.com/torrinfail/dwmblocks) (status bar)
-- [st](https://st.suckless.org) (terminal) \[[my build](https://github.com/osamai/st)\]
-- [dmenu](https://tools.suckless.org/dmenu/) (drop-down menu) \[[my build](https://github.com/osamai/dmenu)\]
+- [st](https://st.suckless.org) (terminal) \[[my build](https://gitlab.com/osamai/st)\]
+- [dmenu](https://tools.suckless.org/dmenu/) (drop-down menu) \[[my build](https://gitlab.com/osamai/dmenu)\]
 - [slock](https://tools.suckless.org/slock/) (screen locker)
 - [neovim](https://neovim.io) (text editor)
 - [nnn](https://github.com/jarun/nnn) (file manager)
