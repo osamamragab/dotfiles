@@ -7,7 +7,7 @@ fi
 
 case "$@" in
 	http*://*)
-		dir="/tmp/sxivr-$(date '+%s')"
+		dir="/tmp/sxivr-$(date "+%s")"
 		mkdir -p "$dir"
 		for url in "$@"; do
 			curl -sSL -o "$dir/$(basename "$url")" "$url"
