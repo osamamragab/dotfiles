@@ -1,29 +1,23 @@
 #!/bin/sh
 
-urls=""
-output="%(title)s.%(ext)s"
+cmd="youtube-dl"
+command -v yt-dlp >/dev/null 2>&1 && cmd="yt-dlp" ||
+	command -v youtube-dl >/dev/null 2>&1 || exit 1
+
 format="22/best[ext=mp4]/best"
+output="%(title)s.%(ext)s"
+urls=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
-	-pl | --playlist)
-		output="%(playlist_title)s/%(title)s.%(ext)s"
-		;;
-	-pls | --playlist-sorted)
-		output="%(playlist_title)s/%(playlist_index)s- %(title)s.%(ext)s"
-		;;
-	-a | --audio | --no-vid | --no-video)
-		format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio"
-		;;
-	-v | --vid | --video | --no-audio)
-		format="bestvideo[ext=mp4]/bestvideo"
-		;;
-	*)
-		[ "$urls" ] && urls="$urls $1" || urls="$1"
-		;;
+	-a) format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio" ;;
+	-v) format="bestvideo[ext=mp4]/bestvideo" ;;
+	-pl) output="%(playlist_title)s/%(title)s.%(ext)s" ;;
+	-pls) output="%(playlist_title)s/%(playlist_index)s- %(title)s.%(ext)s" ;;
+	*) [ "$urls" ] && urls="$urls $1" || urls="$1" ;;
 	esac
 	shift
 done
 
 # shellcheck disable=SC2086
-youtube-dl -ic --add-metadata -o "$output" -f "$format" $urls
+$cmd -ic --add-metadata -f "$format" -o "$output" $urls
