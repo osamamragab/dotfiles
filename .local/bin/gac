@@ -8,7 +8,7 @@ fi
 for msg in "$@"; do :; done
 
 for f in "$@"; do
-	[ "$f" = "$msg" ] && continue
+	[ "$f" = "$msg" ] && break
 	[ "$files" ] && files="$files $f" || files="$f"
 done
 

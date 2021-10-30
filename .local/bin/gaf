@@ -8,19 +8,10 @@ fi
 for msg in "$@"; do :; done
 
 for f in "$@"; do
-	[ "$f" = "$msg" ] && continue
-
+	[ "$f" = "$msg" ] && break
 	[ "$files" ] && files="$files $f" || files="$f"
 
 	n="$f"
-	case "$n" in
-		.*rc)
-			n="$(echo "$n" | cut -c 2-)"
-			[ -f "$f" ] && n="$(echo "$n" | rev | cut -c 3- | rev)"
-			;;
-		.*) n="$(echo "$n" | cut -c 2-)" ;;
-	esac
-
 	dn="$(dirname "$n")"
 	bn="$(basename "$n" | cut -d "." -f 1 | sed "s:/*$::")"
 	[ "$dn" = "." ] && n="$bn" || n="$dn/$bn"
