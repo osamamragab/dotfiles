@@ -2,6 +2,7 @@
 
 NOTESDIR="${NOTESDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/notes}"
 [ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || (echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1)
+cd "$NOTESDIR"
 
 open() {
 	if [ -t 0 ]; then
@@ -19,6 +20,13 @@ if [ $# -eq 0 ]; then
 	fi
 	[ -z "$sel" ] && exit 1
 	open "$NOTESDIR/$sel"
+	exit 0
+fi
+
+if [ "$1" = "-s" ]; then
+	shift
+	[ $# -eq 0 ] && exit 1
+	grep -Hnr "$@"
 	exit 0
 fi
 
