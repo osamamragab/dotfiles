@@ -8,6 +8,5 @@ mpd &
 dunst &
 xcompmgr &
 unclutter -noevents &
-[ -f "$HOME/.local/share/bg" ] && xwallpaper --zoom "$HOME/.local/share/bg" &
-
-! pidof -s pulseaudio >/dev/null 2>&1 && setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1
+[ -f "$HOME/.local/share/bg" ] && xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" &
+! pidof -s pulseaudio >/dev/null 2>&1 && setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1 &
