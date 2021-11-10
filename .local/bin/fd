@@ -18,19 +18,18 @@ addtype() {
 	esac
 }
 
+setmaxdepth() {
+	case "$1" in
+		""|*[!0-9]*) return 1 ;;
+		*) maxdepth="$1" ;;
+	esac
+}
+
 while [ $# -gt 0 ]; do
 	case "$1" in
-		-m)
-			case "$2" in
-				""|*[!0-9]*) usage ;;
-				*) maxdepth="$2" ;;
-			esac
-			shift
-			;;
-		-t)
-			addtype "$2" || usage
-			shift
-			;;
+		-m) setmaxdepth "$2" || usage; shift ;;
+		-m[1-9]) setmaxdepth "${1#??}" || usage ;;
+		-t) addtype "$2" || usage; shift ;;
 		-f | -d) addtype "${1#?}" || usage ;;
 		-0) null=1 ;;
 		-I) exact=1 ;;
