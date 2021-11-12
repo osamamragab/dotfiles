@@ -9,11 +9,11 @@ cmp.setup({
 		expand = function(args) luasnip.lsp_expand(args.body) end,
 	},
 	mapping = {
-		["<C-d>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-u>"] = cmp.mapping.scroll_docs(-4),
+		["<C-d>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.close(),
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		-- ["<CR>"] = cmp.mapping.confirm({ select = true }),
 	},
 	sources = {
 		{ name = "nvim_lsp" },
@@ -36,9 +36,8 @@ local function config(cfg)
 	}, cfg or {})
 end
 
-
 lsp.clangd.setup(config({
-	cmd = { "clangd", "--background-index", "--clang-tidy" },
+	cmd = {"clangd", "--background-index", "--clang-tidy"},
 	root_dir = function() return vim.loop.cwd() end,
 }))
 
@@ -60,9 +59,15 @@ lsp.pyright.setup(config())
 
 lsp.tsserver.setup(config())
 
+lsp.denols.setup(config())
+
 lsp.svelte.setup(config())
 
 lsp.vuels.setup(config())
+
+lsp.cssls.setup(config())
+
+lsp.yamlls.setup(config())
 
 local sumneko_lua_path = vim.env.HOME .. "/programs/lua-language-server"
 lsp.sumneko_lua.setup(config({
