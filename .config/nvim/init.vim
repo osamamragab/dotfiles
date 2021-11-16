@@ -226,6 +226,7 @@ cnoremap SudoWrite w !doas tee % >/dev/null
 augroup filetypedetect
 	au BufNewFile,BufRead *.h setlocal ft=c
 	au BufNewFile,BufRead *.dockerfile setlocal ft=dockerfile
+	au FileType c,cpp setlocal commentstring=//\ %s
 	au FileType python setlocal expandtab
 	au FileType ruby setlocal expandtab
 	au FileType yaml setlocal expandtab
