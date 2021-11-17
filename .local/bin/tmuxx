@@ -2,14 +2,17 @@
 
 CODEDIR="${CODEDIR:-$HOME/code}"
 
+getdirs() {
+	find "$1" -mindepth "${2:-1}" -maxdepth "${2:-1}" -type d | sed "s@$1/@@g"
+}
+
 sel="$1"
 if [ -z "$sel" ] || [ "$sel" = "_" ]; then
-	items="$(find "$CODEDIR/projects" -maxdepth 1 -mindepth 1 -type d)"
-	items="$items\n$(find "$CODEDIR/org" -maxdepth 2 -mindepth 1 -type d)"
+	dirs="$(getdirs "$CODEDIR/projects" 1)\n$(getdirs "$CODEDIR/org" 2)"
 	if [ -t 0 ]; then
-		sel="$(echo "$items" | fzf)"
+		sel="$(echo "$dirs" | fzf)"
 	else
-		sel="$(echo "$items" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")"
+		sel="$(echo "$dirs" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")"
 	fi
 	[ -z "$sel" ] && exit 0
 fi
