@@ -13,7 +13,7 @@ intended to be used with:
 - [neovim](https://neovim.io) (text editor)
 - [nnn](https://github.com/jarun/nnn) (file manager)
 - [mpv](https://mpv.io) (media player)
-- [sxiv](https://github.com/muennich/sxiv) (image viewer)
+- [nsxiv](https://github.com/nsxiv/nsxiv) (image viewer)
 - [zathura](https://git.pwmt.org/pwmt/zathura) (document viewer)
 
 ---
