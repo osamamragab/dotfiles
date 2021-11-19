@@ -7,7 +7,7 @@ notify() {
 		summ="$1"
 		body="$2"
 	fi
-	notify-send -a "sxiv" "$summ" "$body"
+	notify-send -a "nsxiv" "$summ" "$body"
 }
 
 finfo() {
