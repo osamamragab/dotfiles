@@ -73,7 +73,7 @@ Plug 'simrat39/symbols-outline.nvim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
-Plug 'psf/black'
+Plug 'psf/black', { 'branch': 'stable' }
 Plug 'sbdchd/neoformat'
 Plug 'elixir-editors/vim-elixir'
 Plug 'itchyny/lightline.vim'
@@ -165,6 +165,8 @@ command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
 
 let g:rustfmt_autosave = 1
 let g:rust_recommended_style = 0
+
+let g:black_quiet = 1
 
 nnoremap q: :q
 nnoremap <silent> Q <nop>
