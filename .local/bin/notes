@@ -2,7 +2,7 @@
 
 NOTESDIR="${NOTESDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/notes}"
 [ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || (echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1)
-cd "$NOTESDIR"
+cd "$NOTESDIR" || (echo "$(basename "$0"): can't cd to $NOTESDIR" >&2; exit 1)
 
 open() {
 	if [ -t 0 ]; then

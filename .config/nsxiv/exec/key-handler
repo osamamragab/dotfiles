@@ -28,6 +28,7 @@ while read -r f; do
 		d) [ "$(printf "no\nyes" | dmenu -i -p "delete $f?")" = "yes" ] && rm "$f" && notify "$f deleted" & ;;
 		D) rm "$f" && notify "$f deleted" & ;;
 		y) printf "%s" "$f" | tr -d "\n" | xclip -sel clip && notify "$f copied to clipboard" & ;;
-		Y) readlink -f "$f" | tr -d "\n" | xclip -sel clip && notify "$(readlink -f "$f") copied to clipboard" & ;;
+		Y) rf="$(readlink -f "$f")"; printf "%s" "$rf" | tr -d "\n" | xclip -sel clip && notify "$rf copied to clipboard" & ;;
+		g) ;; #drag&drop
 	esac
 done
