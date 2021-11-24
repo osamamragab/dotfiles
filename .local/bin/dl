@@ -14,6 +14,8 @@ while [ $# -gt 0 ]; do
 	-v) format="bestvideo[ext=mp4]/bestvideo" ;;
 	-pl) output="%(playlist_title)s/%(title)s.%(ext)s" ;;
 	-pls) output="%(playlist_title)s/%(playlist_index)s- %(title)s.%(ext)s" ;;
+	-o) [ $# -gt 1 ] && shift && output="$1" ;;
+	-*)	[ $# -eq 1 ] && [ -z "$urls" ] && urls="-- $1" ;;
 	*) [ "$urls" ] && urls="$urls $1" || urls="$1" ;;
 	esac
 	shift
