@@ -40,6 +40,7 @@ export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 
 export NNN_FIFO="/tmp/nnn.fifo"
 export NNN_PLUG="x:!chmod +x \$nnn*;p:-preview-tabbed"
+export NNN_ORDER="t:$HOME/dls"
 export FZF_DEFAULT_COMMAND="rg --files --hidden -L -g '!.git'"
 export QT_QPA_PLATFORMTHEME="gtk2"
 export _JAVA_AWT_WM_NONREPARENTING=1
