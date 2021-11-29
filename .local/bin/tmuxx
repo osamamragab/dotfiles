@@ -15,6 +15,8 @@ if [ -z "$sel" ] || [ "$sel" = "_" ]; then
 		sel="$(echo "$dirs" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")"
 	fi
 	[ -z "$sel" ] && exit 0
+	[ -d "$CODEDIR/projects/$sel" ] && sel="$CODEDIR/projects/$sel"
+	[ -d "$CODEDIR/org/$sel" ] && sel="$CODEDIR/org/$sel"
 fi
 
 if [ "$sel" = "." ]; then
