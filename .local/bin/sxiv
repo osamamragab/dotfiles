@@ -1,0 +1,4 @@
+#!/bin/sh
+
+command -v nsxiv >/dev/null 2>&1 && exec nsxiv "$@"
+exec /usr/bin/sxiv "$@"
