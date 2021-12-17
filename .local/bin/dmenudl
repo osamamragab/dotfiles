@@ -3,6 +3,18 @@
 # shellcheck disable=SC2088
 DLDIRS="${DLDIRS:-~/dls:~/music:~/docs:~/vids:~/pics}"
 
+notify() {
+	notify-send -a "$(basename "$0")" "$1" "$2"
+}
+
+panic() {
+	notify "$@"
+	exit 1
+}
+
+command -v dl >/dev/null 2>&1 || panic "error" "dl not found"
+command -v wget >/dev/null 2>&1 || panic "error" "wget not found"
+
 url="${1:-$(xclip -o | dmenu -p "url:")}" || exit 1
 sel="$(echo "$DLDIRS" | tr ":" "\n" | dmenu -i -F -fn monospace-12 -l 5 -p "dir:")" || exit 1
 
@@ -24,9 +36,6 @@ case "${sel##\~/}" in
 esac
 
 # shellcheck disable=SC2181
-if [ $? -ne 0 ]; then
-	notify-send -a "$(basename "$0")" "download failed" "$sel ($url)"
-	exit 1
-fi
+[ $? -ne 0 ] && panic "download failed" "$sel ($url)"
 
-notify-send -a "$(basename "$0")" "download finished" "$sel ($url)"
+notify "success" "download finished $sel ($url)"
