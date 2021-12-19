@@ -32,6 +32,7 @@ alias ffmpeg="ffmpeg -hide_banner"
 alias nnn="nnn -Rr"
 
 command -v nvim >/dev/null 2>&1 && alias vi="nvim" vim="nvim" vimdiff="nvim -d"
+command -v trash >/dev/null 2>&1 && alias rm="trash"
 
 sudocmd="sudo"
 command -v doas >/dev/null 2>&1 && sudocmd="doas"
