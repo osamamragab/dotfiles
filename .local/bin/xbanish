@@ -1,0 +1,4 @@
+#!/bin/sh
+
+[ -x /usr/bin/xbanish ] || exit 1
+exec /usr/bin/xbanish -i control -i mod1 -i mod4
