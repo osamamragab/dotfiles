@@ -1,0 +1,16 @@
+#!/bin/sh
+
+val="${2:-5}"
+
+case "$1" in
+	up) args="-i $((val - ($(pamixer --get-volume) % val)))" ;;
+	down)
+		d="$(($(pamixer --get-volume) % val))"
+		[ "$d" -eq 0 ] && d="$val"
+		args="-d $d"
+		;;
+	toggle) args="-t" ;;
+	*) exit 1 ;;
+esac
+
+pamixer --allow-boost $args && pkill -RTMIN+7 dwmblocks
