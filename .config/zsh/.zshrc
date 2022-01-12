@@ -1,6 +1,7 @@
 setopt autocd
 setopt interactive_comments
 setopt prompt_subst
+setopt histignorespace
 stty stop undef
 
 __git_branch() {
