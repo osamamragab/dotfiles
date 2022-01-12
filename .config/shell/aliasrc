@@ -23,6 +23,7 @@ alias xr="xbps-remove -R"
 alias xq="xbps-query -R"
 
 alias cd..="cd .."
+alias q="exit"
 alias x+="chmod +x"
 alias mkd="mkdir -pv"
 alias bc="bc -ql"
