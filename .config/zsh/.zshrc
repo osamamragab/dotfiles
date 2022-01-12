@@ -82,6 +82,12 @@ bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
 bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 #bindkey -s "^[t" '[ -d .git ] && grep TODO -Hnr *\n'
 
+NNN_FIFO="/tmp/nnn-$(shuf -i 100-999 -n 1).fifo"
+onexit() {
+	[ -p "$NNN_FIFO" ] && rm -f "$NNN_FIFO"
+}
+trap onexit EXIT
+
 alias doas="doas "
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
