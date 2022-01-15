@@ -5,7 +5,8 @@ xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
 [ -f "$HOME/.local/share/bg" ] && xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" &
 ! pidof -s pulseaudio >/dev/null 2>&1 && setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1 &
 
-for p in dwmblocks mpd dunst xcompmgr xbanish clipmenud; do
+for p in dwmblocks dunst xcompmgr xbanish clipmenud mpd mpDris2; do
+	command -v "$p" >/dev/null 2>&1 || continue
 	pidof -s "$p" || setsid -f "$p"
 done >/dev/null 2>&1
 
