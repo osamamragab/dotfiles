@@ -84,7 +84,7 @@ Plug 'sainnhe/sonokai'
 call plug#end()
 
 lua require("lsp")
-lua require("nvim-treesitter.configs").setup({ highlight = { enable = true } })
+lua require("nvim-treesitter.configs").setup({ highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }})
 
 set background=dark
 set termguicolors
