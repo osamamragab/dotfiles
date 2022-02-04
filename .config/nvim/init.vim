@@ -73,7 +73,7 @@ Plug 'simrat39/symbols-outline.nvim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
-Plug 'psf/black', { 'branch': 'stable' }
+Plug 'psf/black', { 'tag': 'stable' }
 Plug 'sbdchd/neoformat'
 Plug 'elixir-editors/vim-elixir'
 Plug 'itchyny/lightline.vim'
