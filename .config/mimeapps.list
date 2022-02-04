@@ -16,6 +16,7 @@ video/mpeg=video.desktop
 video/x-matroska=video.desktop
 video/quicktime=video.desktop
 audio/ogg=audio.desktop
+audio/flac=audio.desktop
 audio/mpeg=audio.desktop
 audio/x-m4a=audio.desktop
 audio/x-wav=audio.desktop
