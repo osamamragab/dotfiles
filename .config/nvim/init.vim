@@ -54,6 +54,7 @@ Plug 'glepnir/lspsaga.nvim'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'rafamadriz/friendly-snippets'
@@ -226,13 +227,13 @@ imap <silent><expr> <tab> luasnip#expand_or_jumpable() ? '<Plug>luasnip-expand-o
 cnoremap SudoWrite w !doas tee % >/dev/null
 
 augroup filetypedetect
-	au BufNewFile,BufRead *.h setlocal ft=c
-	au BufNewFile,BufRead *.dockerfile setlocal ft=dockerfile
-	au FileType c,cpp setlocal commentstring=//\ %s
-	au FileType python setlocal expandtab
-	au FileType ruby setlocal expandtab
-	au FileType yaml setlocal expandtab
-	au FileType markdown setlocal expandtab
+	autocmd BufNewFile,BufRead *.h setlocal ft=c
+	autocmd BufNewFile,BufRead *.dockerfile setlocal ft=dockerfile
+	autocmd FileType c,cpp setlocal commentstring=//\ %s
+	autocmd FileType python setlocal expandtab
+	autocmd FileType ruby setlocal expandtab
+	autocmd FileType yaml setlocal expandtab
+	autocmd FileType markdown setlocal expandtab
 augroup END
 
 " remove trailing spaces
@@ -249,10 +250,12 @@ fun! s:goonsave()
 endfun
 
 augroup autofmt
-	au!
-	au BufWritePre *    silent! undojoin | Trim
-	au BufWritePre *.go silent! undojoin | call s:goonsave()
-	au BufWritePre *.py silent! undojoin | Black
+	autocmd!
+	autocmd BufWritePre * silent! undojoin | Trim
+	" autocmd BufWritePre c,h,cpp,hpp,lua Neoformat
+	autocmd BufWritePre *.go silent! undojoin | call s:goonsave()
+	autocmd BufWritePre *.py silent! undojoin | Black
+	autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require("lsp_extensions").inlay_hints({})
 augroup END
 
 com! W w
