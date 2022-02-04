@@ -177,8 +177,8 @@ vnoremap <leader>y "+y
 nnoremap <leader>Y gg"+yG
 
 nnoremap <leader>d "_d
-vnoremap <leader>d "_d
-vnoremap <leader>p "_dP
+xnoremap <leader>d "_d
+xnoremap <leader>p "_dP
 
 nnoremap n nzzzv
 nnoremap N Nzzzv
