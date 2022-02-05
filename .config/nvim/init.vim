@@ -242,12 +242,14 @@ fun! s:trimwhitespace()
     silent! keepp %s/\s\+$//e
     call winrestview(l:view)
 endfun
-com! Trim call s:trimwhitespace()
+command! Trim call s:trimwhitespace()
 
 fun! s:goonsave()
 	GoFmt
 	GoImports
 endfun
+
+command! InlayHints :lua require("lsp_extensions").inlay_hints({ prefix = "-> ", highlight = "Comment", enabled = {"TypeHint", "ChainingHint", "ParameterHint" }})
 
 augroup autofmt
 	autocmd!
@@ -255,7 +257,7 @@ augroup autofmt
 	" autocmd BufWritePre c,h,cpp,hpp,lua Neoformat
 	autocmd BufWritePre *.go silent! undojoin | call s:goonsave()
 	autocmd BufWritePre *.py silent! undojoin | Black
-	autocmd BufEnter,BufWinEnter,TabEnter *.rs :lua require("lsp_extensions").inlay_hints({})
+	autocmd BufEnter,BufWinEnter,TabEnter *.rs silent! InlayHints
 augroup END
 
-com! W w
+command! W w
