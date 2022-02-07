@@ -18,7 +18,7 @@ HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 
 MAILCHECK=0
 
-fpath=($fpath "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/completions")
+fpath=("${XDG_CONFIG_HOME:-$HOME/.config}/zsh/completions" $fpath)
 autoload -U compinit
 zstyle ":completion:*" menu select
 zmodload zsh/complist
@@ -89,6 +89,8 @@ onexit() {
 trap onexit EXIT
 
 alias doas="doas "
+
+command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 
