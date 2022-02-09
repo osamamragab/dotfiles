@@ -56,7 +56,7 @@ xi "build tools" \
 
 xi "general tools" \
 	curl wget gnupg gnupg2 openssh pass passmenu keepassxc tmux nnn slop maim dunst xdg-utils xtools time entr vsv mlocate fzf ripgrep cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz zip unzip tlp delta tig exiftool redshift newsboat \
-	- lshw rsync inotify-tools earlyoom spt sc-im surfraw android-tools scrcpy translate-shell xautolock miniserve youtube-viewer aria2 openntpd bluez lprng qemu lftp fribidi arandr tree bat glow dragon catimg mdp screenkey git-extras git-lfs xoris fbida buku zbar qrencode srm trash-cli \
+	- lshw rsync inotify-tools earlyoom spt sc-im surfraw android-tools scrcpy translate-shell xautolock miniserve youtube-viewer aria2 openntpd bluez lprng firejail qemu lftp fribidi arandr tree bat glow dragon catimg mdp screenkey git-extras git-lfs xoris fbida buku zbar qrencode srm trash-cli \
 	-- glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
 
 xi "manual pages" \
@@ -110,6 +110,9 @@ xi "torrent tools" \
 
 xi "programming stuff" \
 	clang tcc go rustup python3 lua nodejs R perl ruby c gdb valgrind strace ltrace clang-analyzer rust-analyzer yarn binutils upx delve jq jo xxd
+RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup" \
+	CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo" \
+	rustup-init
 [ "$level" -gt 0 ] && xi _ clib gopls elixir clojure leiningen gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
 if [ "$level" -gt 1 ]; then
