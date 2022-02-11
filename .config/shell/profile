@@ -34,6 +34,8 @@ export ANSIBLE_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/ansible/ansible.cfg"
 export CHTSH="${XDG_CONFIG_HOME:-$HOME/.config}/cht.sh"
 export _Z_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/zdata"
 export NOTESDIR="${XDG_DATA_HOME:-$HOME/.local/share}/notes"
+export FLATPAK_USER_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/flatpak"
+export FLATPAK_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/flatpak"
 
 command -v luarocks >/dev/null 2>&1 && PATH="$(luarocks path --lr-bin | cut -d ":" -f 1):$PATH"
 command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
