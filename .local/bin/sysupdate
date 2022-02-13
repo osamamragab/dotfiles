@@ -68,10 +68,16 @@ fi
 
 if [ $optlocal -eq 1 ]; then
 	for p in dwm st dmenu dwmblocks surf tabbed slock sent; do
-		br="master"
-		[ "$p" = "surf" ] && br="surf-webkit2"
-		gitupdate "git@gitlab.com:osamai/$p.git" "origin/main" "upstream/$br"
+		ubr="master"
+		ups="git://git.suckless.org/$p"
+		case "$p" in
+			surf) ubr="surf-webkit2" ;;
+			dwmblocks) ups="git@github.com:torrinfail/dwmblocks.git" ;;
+		esac
+		git remote add upstream "$ups" >/dev/null 2>&1
+		gitupdate "git@gitlab.com:osamai/$p.git" "origin/main" "upstream/$ubr"
 	done
+
 	repos="git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:jarun/nnn.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
 	for r in $repos; do
 		gitupdate "$r" origin/master origin/master
