@@ -165,75 +165,13 @@ if [ -z "$guser" ]; then
 	read -r guser
 fi
 
-if [ "$guser" ]; then
-	echo "installing suckless programs..."
-	for p in dwm st dmenu dwmblocks surf tabbed slock sent; do
-		echo "installig $p"
-		ups="git://git.suckless.org/$p"
-		sbr="master"
-		case "$p" in
-			dwmblocks)
-				ups="git@github.com:torrinfail/$p.git"
-				;;
-			surf)
-				sbr="surf-webkit2"
-				xi "surf dependencies" \
-					webkit2gtk-devel gcr-devel gst-libav gst-plugins-good1
-				;;
-			sent)
-				xi "sent dependencies" \
-					farbfeld
-				;;
-		esac
-		[ -d "$PROGRAMSDIR/$p" ] || git clone "git@gitlab.com:$guser/$p.git" "$PROGRAMSDIR/$p"
-		cd "$PROGRAMSDIR/$p"
-		git checkout main
-		git remote add upstream "$ups"
-		git fetch "$ups" "$sbr" && git merge "$ups/$sbr"
-		doas make install && make clean
-	done
-fi
+xi "surf dependencies" \
+	webkit2gtk-devel gcr-devel gst-libav gst-plugins-good1
 
-echo "installing mutt-wizard..."
-[ -d "$PROGRAMSDIR/mutt-wizard" ] || git clone git@github.com:LukeSmithxyz/mutt-wizard.git "$PROGRAMSDIR/mutt-wizard"
-cd "$PROGRAMSDIR/mutt-wizard"
-git checkout master
-doas make install
+xi "sent dependencies" \
+	farbfeld
 
-echo "installing nnn..."
-[ -d "$PROGRAMSDIR/nnn" ] || git clone git@github.com:jarun/nnn.git "$PROGRAMSDIR/nnn"
-cd "$PROGRAMSDIR/nnn"
-git checkout master
-doas make install O_NERD=1 && make clean
-
-echo "installing hx..."
-[ -d "$PROGRAMSDIR/hx" ] || git clone git@github.com:krpors/hx.git "$PROGRAMSDIR/hx"
-cd "$PROGRAMSDIR/hx"
-git checkout master
-doas make install && make clean
-
-echo "installing z..."
-[ -d "$PROGRAMSDIR/z" ] || git clone git@github.com:rupa/z.git "$PROGRAMSDIR/z"
-doas cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1
-doas chmod 644 /usr/local/share/man/man1/z.1
-
-PYENV_ROOT="${PYENV_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}}/pyenv"
-echo "installing pyenv"
-[ -d "$PYENV_ROOT" ] || git clone git@github.com:pyenv/pyenv.git "$PYENV_ROOT"
-cd "$PYENV_ROOT"
-git checkout master
-./src/configure make -C src
-
-echo "installing lua-language-server"
-[ -d "$PROGRAMSDIR/lua-language-server" ] || git clone git@github.com:sumneko/lua-language-server.git
-cd "$PROGRAMSDIR/lua-language-server"
-git submodule update --init --recursive
-cd 3rd/luamake && ./compile/install.sh && cd ../.. && ./3rd/luamake/luamake rebuild
-
-echo "installing elixir-ls"
-[ -d "$PROGRAMSDIR/elixir-ls" ] || git clone git@github.com:elixir-lsp/elixir-ls
-cd "$PROGRAMSDIR/elixir-ls"
-mix deps.get && mix compile && mix elixir_ls.release -o bin
+[ -x "$cdir/.local/bin/sysupdate" ] && "$cdir/.local/bin/sysupdate" -local
 
 if [ ! -f "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim" ]; then
 	echo "installing vim plug..."
