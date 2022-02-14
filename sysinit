@@ -8,6 +8,9 @@ if [ -x "$cdir/setup.sh" ]; then
 	"$cdir/setup.sh"
 fi
 
+[ -s "$cdir/.config/shell/profile" ] &&
+	DISPLAY="${DISPLAY:-:0}" . "$cdir/.config/shell/profile"
+
 if ! command -v doas >/dev/null 2>&1; then
 	echo "installing doas..."
 	sudo xbps-install -Sy opendoas
@@ -110,8 +113,6 @@ xi "torrent tools" \
 
 xi "programming stuff" \
 	clang tcc go rustup python3 lua nodejs R perl ruby c gdb valgrind strace ltrace clang-analyzer rust-analyzer yarn binutils upx delve jq jo xxd
-RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup" \
-	CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo" \
 	rustup-init
 [ "$level" -gt 0 ] && xi _ clib gopls elixir clojure leiningen gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
@@ -126,7 +127,7 @@ yarn global add typescript eslint prettier typescript-language-server pyright
 [ "$level" -gt 1 ] && yarn global add svgo ts-node nodemon serve livereload
 if ! command -v deno >/dev/null 2>&1; then
 	curl -fsSL https://deno.land/x/install/install.sh | \
-		DENO_INSTALL="${XDG_DATA_HOME:-$HOME/.local/share}/deno" sh
+		DENO_INSTALL="${DENO_INSTALL_ROOT%/bin}" sh
 fi
 
 xi "cheat sheet tools" \
@@ -179,7 +180,7 @@ if [ ! -f "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim" ]; then
 fi
 
 if [ -f /usr/lib/mpv-mpris/mpris.so ] && [ ! -f "$HOME/.config/mpv/scripts/mpris.so" ]; then
-	echo "linking mpv-mpris plugin"
+	echo "linking mpv-mpris plugin..."
 	[ -d "$HOME/.config/mpv/scripts" ] || mkdir -p "$HOME/.config/mpv/scripts"
 	doas ln -s /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts/mpris.so"
 fi
