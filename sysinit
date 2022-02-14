@@ -160,12 +160,6 @@ xi "fonts" \
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 [ -d "$PROGRAMSDIR" ] || mkdir -p "$PROGRAMSDIR"
 
-guser="$(git config --global --get user.username)"
-if [ -z "$guser" ]; then
-	printf "git username: "
-	read -r guser
-fi
-
 xi "surf dependencies" \
 	webkit2gtk-devel gcr-devel gst-libav gst-plugins-good1
 
