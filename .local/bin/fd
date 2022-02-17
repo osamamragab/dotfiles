@@ -1,15 +1,16 @@
 #!/bin/sh
 
-usage() {
-	echo "usage: $(basename "$0") [-m maxdepth] [-t type] [-0] [-I] [-II] [name]" >&2
-	exit 1
-}
-
 maxdepth=0
 type=""
 null=0
 exact=0
+dir=""
 name=""
+
+usage() {
+	echo "usage: $(basename "$0") [-m maxdepth] [-t type] [-0] [-I] [-II] [name]" >&2
+	exit 1
+}
 
 addtype() {
 	case "$1" in
@@ -34,12 +35,15 @@ while [ $# -gt 0 ]; do
 		-0) null=1 ;;
 		-I) exact=1 ;;
 		-II) exact=2 ;;
-		*) name="$1" ;;
+		*)
+			[ "$name" ] && dir="$name"
+			name="$1"
+			;;
 	esac
 	shift
 done
 
-args="."
+args="${dir:-.}"
 [ "$maxdepth" -ne 0 ] && args="$args -maxdepth $maxdepth"
 [ "$type" ] && args="$args -type $type"
 [ "$name" ] && case $exact in
@@ -50,4 +54,5 @@ esac
 args="$args -printf"
 [ $null -eq 1 ] && args="$args '%P\0'" || args="$args '%P\n'"
 
-printf "%s" "$args" | xargs find | sed "1{/^$/d}"
+out="$(printf "%s" "$args" | xargs find)" || exit 1
+echo "$out" | sed "1{/^$/d}"
