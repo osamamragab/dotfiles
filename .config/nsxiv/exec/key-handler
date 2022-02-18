@@ -29,6 +29,6 @@ while read -r f; do
 		D) rm "$f" && notify "$f deleted" & ;;
 		y) printf "%s" "$f" | tr -d "\n" | xclip -sel clip && notify "$f copied to clipboard" & ;;
 		Y) rf="$(readlink -f "$f")"; printf "%s" "$rf" | tr -d "\n" | xclip -sel clip && notify "$rf copied to clipboard" & ;;
-		g) ;; #drag&drop
+		g) dragon -x "$f" ;;
 	esac
 done
