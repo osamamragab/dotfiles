@@ -60,7 +60,7 @@ xi "build tools" \
 xi "general tools" \
 	curl wget gnupg gnupg2 openssh pass passmenu keepassxc tmux nnn slop maim dunst xdg-utils xtools time entr vsv mlocate fzf ripgrep cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz zip unzip tlp delta tig exiftool redshift newsboat srm trash-cli spt bat buku lftp xoris dragon \
 	- lshw rsync inotify-tools earlyoom sc-im surfraw android-tools scrcpy translate-shell xautolock miniserve youtube-viewer aria2 openntpd bluez lprng firejail qemu fribidi arandr tree glow catimg mdp screenkey git-extras git-lfs fbida zbar qrencode \
-	-- glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
+	-- flatpak flatpak-builder glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
 
 xi "manual pages" \
 	man-pages man-pages-posix
