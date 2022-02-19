@@ -1,4 +1,4 @@
 #!/bin/sh
 
-[ "$(dunstctl count displayed)" -gt 1 ] && exit 0
-aplay -q "$HOME/.local/share/notification_sound.wav" >/dev/null 2>&1
+[ "$(dunstctl count displayed)" -eq 1 ] &&
+	aplay -q "$HOME/.local/share/notification.wav" >/dev/null 2>&1
