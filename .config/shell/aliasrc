@@ -1,5 +1,7 @@
 #!/bin/sh
 
+alias e="${EDITOR:-vi}"
+
 alias cp="cp -iv"
 alias ln="ln -iv"
 alias mv="mv -iv"
