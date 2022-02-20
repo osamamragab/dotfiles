@@ -15,7 +15,7 @@ stoprecording() {
 	recpid="$(head -n 1 "$recfile")"
 	kill -15 "$recpid"
 	rm -f "$recfile"
-	pkill -RTMIN+9 dwmblocks
+	pkill -x -RTMIN+9 dwmblocks
 	sleep 3
 	kill -9 "$recpid" 2>/dev/null
 }
@@ -92,4 +92,4 @@ case "$sel" in
 esac
 
 printf "%d\n%s" $! "$sel" > "$recfile"
-pkill -RTMIN+9 dwmblocks
+pkill -x -RTMIN+9 dwmblocks

@@ -13,4 +13,4 @@ case "$1" in
 	*) exit 1 ;;
 esac
 
-pamixer --allow-boost $args && pkill -RTMIN+7 dwmblocks
+pamixer --allow-boost $args && pkill -x -RTMIN+7 dwmblocks
