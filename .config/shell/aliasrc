@@ -1,6 +1,10 @@
 #!/bin/sh
 
 alias e="${EDITOR:-vi}"
+alias q="exit"
+alias x+="chmod +x"
+alias mkd="mkdir -pv"
+alias cd..="cd .."
 
 alias cp="cp -iv"
 alias ln="ln -iv"
@@ -24,15 +28,11 @@ alias xi="xbps-install -S"
 alias xr="xbps-remove -R"
 alias xq="xbps-query -R"
 
-alias cd..="cd .."
-alias q="exit"
-alias x+="chmod +x"
-alias mkd="mkdir -pv"
 alias bc="bc -ql"
+alias nnn="nnn -Rr"
 alias ccat="highlight -O ansi"
 alias info="info --vi-keys"
 alias ffmpeg="ffmpeg -hide_banner"
-alias nnn="nnn -Rr"
 alias flatpak="flatpak --user"
 
 command -v nvim >/dev/null 2>&1 && alias vi="nvim" vim="nvim" vimdiff="nvim -d"
@@ -40,7 +40,7 @@ command -v trash >/dev/null 2>&1 && alias rm="trash"
 
 sudocmd="sudo"
 command -v doas >/dev/null 2>&1 && sudocmd="doas"
-for cmd in su xbps-install xbps-remove sv vsv mount umount updatedb reboot poweroff shutdown; do
+for cmd in su xbps-install xbps-remove xbps-pkgdb sv vsv mount umount updatedb reboot poweroff shutdown; do
 	alias $cmd="$sudocmd $cmd"
 done
 unset sudocmd cmd
