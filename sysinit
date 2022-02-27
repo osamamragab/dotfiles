@@ -59,7 +59,7 @@ xi "build tools" \
 
 xi "general tools" \
 	curl wget gnupg gnupg2 openssh pass passmenu keepassxc tmux nnn slop maim dunst xdg-utils xtools time entr vsv mlocate fzf ripgrep cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz zip unzip tlp delta tig exiftool redshift newsboat srm trash-cli spt bat buku lftp xoris dragon \
-	- lshw rsync inotify-tools earlyoom sc-im surfraw android-tools scrcpy translate-shell xautolock miniserve youtube-viewer aria2 openntpd bluez lprng firejail qemu fribidi arandr tree glow catimg mdp screenkey git-extras git-lfs fbida zbar qrencode \
+	- lshw rsync inotify-tools earlyoom sc-im android-tools scrcpy translate-shell xautolock miniserve youtube-viewer aria2 openntpd bluez lprng firejail qemu fribidi arandr tree glow catimg mdp screenkey git-extras git-lfs fbida zbar qrencode \
 	-- flatpak flatpak-builder glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
 
 xi "manual pages" \
@@ -104,8 +104,8 @@ xi "chatting applications" \
 
 xi "web browsers" \
 	firefox lynx w3m tor \
-	- amfora sacc torbrowser-launcher \
-	-- lagrange
+	- amfora sacc surfraw \
+	-- netsurf lagrange torbrowser-launcher
 
 xi "torrent tools" \
 	transmission rtorrent \
@@ -114,7 +114,7 @@ xi "torrent tools" \
 xi "programming stuff" \
 	clang tcc go rustup python3 lua nodejs R perl ruby c gdb valgrind strace ltrace clang-analyzer rust-analyzer yarn binutils upx delve jq jo xxd ired
 	rustup-init
-[ "$level" -gt 0 ] && xi _ clib gopls elixir clojure leiningen gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
+[ "$level" -gt 0 ] && xi _ clib gopls elixir sbcl clojure leiningen gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
 if [ "$level" -gt 1 ]; then
 	xi _ clisp erlang ctags grpc protobuf terraform tflint tokei misspell pgcli hexedit hyperfine svgcleaner
