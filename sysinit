@@ -104,7 +104,7 @@ xi "chatting applications" \
 
 xi "web browsers" \
 	firefox lynx w3m tor \
-	- amfora sacc surfraw \
+	- amfora sacc surfraw ddgr \
 	-- netsurf lagrange torbrowser-launcher
 
 xi "torrent tools" \
