@@ -1,8 +1,9 @@
 #!/bin/sh
 
 xset r rate 300 50 &
-xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
-[ -f "$HOME/.local/share/bg" ] && xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" &
+xset -q | grep "Caps Lock:\s*on" && xdotool key Caps_Lock &
+# xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
+[ -f "$HOME/.local/share/bg" ] && wal -i "$HOME/.local/share/bg" >/dev/null 2>&1 &
 ! pidof -s pulseaudio >/dev/null 2>&1 && setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1 &
 
 for p in dwmblocks dunst xcompmgr xbanish clipmenud mpd mpDris2; do
