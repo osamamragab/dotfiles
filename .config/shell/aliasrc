@@ -33,6 +33,7 @@ alias nnn="nnn -Rr"
 alias ccat="highlight -O ansi"
 alias info="info --vi-keys"
 alias ffmpeg="ffmpeg -hide_banner"
+alias ddgr="ddgr -x -n 5 --unsafe --noua"
 
 command -v nvim >/dev/null 2>&1 && alias vi="nvim" vim="nvim" vimdiff="nvim -d"
 command -v trash >/dev/null 2>&1 && alias rm="trash"
