@@ -21,6 +21,7 @@ finfo() {
 while read -r f; do
 	case "$1" in
 		w) xwallpaper --zoom "$f" & ;;
+		W) wal -i "$f" >/dev/null 2>&1 & ;;
 		r) convert -rotate 90 "$f" "$f" ;;
 		R) convert -rotate -90 "$f" "$f" ;;
 		f) convert -flop "$f" "$f" ;;
