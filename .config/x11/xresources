@@ -1,10 +1,13 @@
 *.font: monospace:size=10
 *.alpha: 0.8
 
-
 st.font: IBM Plex Mono:pixelsize=17.7:antialias=true:autohint=true:style=SemiBold
 st.alpha: 0.92
 st.alphaOffset: 0.3
+
+*.background: #1c1c1c
+*.foreground: #d8dee9
+*.cursorColor: #ffffff
 
 *.color0: #1c1c1c
 *.color1: #bf616a
@@ -22,6 +25,3 @@ st.alphaOffset: 0.3
 *.color13: #b48ead
 *.color14: #8fbcbb
 *.color15: #eceff4
-*.background: #2e3440
-*.foreground: #d8dee9
-*.cursorColor: white
