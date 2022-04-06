@@ -1,7 +1,7 @@
 #!/bin/sh
 
 run() {
-	spt -n "notify-send" -e "aplay -q $HOME/.local/share/ring.wav" >/dev/null 2>&1 &
+	spt -n "notify-send" >/dev/null 2>&1 &
 }
 
 case "${1:-$(printf "toggle\nstart\nstop\nshow" | dmenu -i -p "$(basename "$0")")}" in
