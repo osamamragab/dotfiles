@@ -234,6 +234,7 @@ augroup filetypedetect
 	autocmd FileType ruby setlocal expandtab
 	autocmd FileType yaml setlocal expandtab
 	autocmd FileType markdown setlocal expandtab
+	autocmd BufNewFile,BufRead xdefaults,Xdefaults,xresources,Xresources setlocal ft=xdefaults
 augroup END
 
 " remove trailing spaces
@@ -258,6 +259,7 @@ augroup autofmt
 	autocmd BufWritePre *.go silent! undojoin | call s:goonsave()
 	autocmd BufWritePre *.py silent! undojoin | Black
 	autocmd BufEnter,BufWinEnter,TabEnter *.rs silent! InlayHints
+	autocmd BufWritePost xdefaults,Xdefaults,xresources,Xresources !xrdb %
 augroup END
 
 command! W w
