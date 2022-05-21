@@ -35,5 +35,9 @@ elif [ "$anddrives" ]; then
 	echo "unmountable android device detected"
 	unmountandroid
 else
-	echo "no drives to unmount"
+	if [ -t 0 ]; then
+		echo "no drives to unmount"
+	else
+		notify-send -a "$(basename "$0")" "error" "no drives to unmount"
+	fi
 fi

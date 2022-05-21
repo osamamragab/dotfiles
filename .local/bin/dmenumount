@@ -65,5 +65,9 @@ elif [ "$anddrives" ]; then
 	echo "android device(s) detected"
 	mountandroid
 else
-	echo "no usb drive or android device detected"
+	if [ -t 0 ]; then
+		echo "no usb drive or android device detected"
+	else
+		notify-send -a "$(basename "$0")" "error" "no usb drive or android device detected"
+	fi
 fi
