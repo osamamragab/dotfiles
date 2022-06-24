@@ -149,7 +149,7 @@ xi "markup/latex tools" \
 
 xi "networking tools" \
 	nmap netcat lsof traceroute mtr wireshark wireshark-qt termshark inetutils iputils net-tools bind-utils socat websocat iperf3 arp-scan tcpreplay netsniff-ng aircrack-ng ettercap bettercap macchanger sqlmap wrk hey wuzz \
-	- hashcat hashcat-utils testssl.sh radamsa nemesis \
+	- hashcat hashcat-utils sslscan testssl.sh radamsa nemesis \
 	-- geoip geoip-data proxychains-ng thc-hydra kismet john urh
 cargo install xh
 pip install mitmproxy
