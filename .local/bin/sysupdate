@@ -1,6 +1,8 @@
 #!/bin/sh
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
+LOCALPROGRAMS="dwm st dmenu dwmblocks surf tabbed slock sent"
+LOCALREPOS="git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:jarun/nnn.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:mariusae/trickle.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
 doas() { $sudocmd "$@"; }
@@ -10,64 +12,52 @@ ifinst() { command -v "$1" >/dev/null 2>&1; }
 reponame() { basename "$1" | sed "s/\.git$//"; }
 
 gitupdate() {
-	[ $# -eq 3 ] || (echo "$(basename "$0"): gitupdate: requires 3 arguments but got $#" >&2; exit 1)
+	[ $# -eq 3 ] || (echo "$(basename "$0"): gitupdate: requires 3 arguments but got $#" >&2; return 1)
 	url="$1"
 	dir="$PROGRAMSDIR/$(reponame "$url")"
 	# sre="$(echo "$2" | cut -d "/" -f 1)"
 	sbr="$(echo "$2" | cut -d "/" -f 2)"
 	ure="$(echo "$3" | cut -d "/" -f 1)"
 	ubr="$(echo "$3" | cut -d "/" -f 2)"
-	echo; echo "updating $dir..."
+	echo "updating $dir..."
 	[ -d "$dir" ] || git clone "$url" "$dir"
-	cd "$dir" || exit 1
+	cd "$dir" || return 1
 	git checkout "$sbr"
 	git fetch "$ure" "$ubr"
 	git merge "$ure/$ubr"
 	[ -s .gitmodules ] && git submodule update --init --recursive
-	if [ -s Makefile ]; then
-		[ "$(basename "$(pwd)")" = "nnn" ] && args="O_NERD=1"
-		if grep -q "^install:" Makefile; then
-			echo "$args" | xargs "$sudocmd" make install || exit 1
-			grep -q "^clean:" Makefile && make clean
-		fi
+}
+
+makeinstall() {
+	if grep -q "^install:" Makefile; then
+		echo "$@" | xargs "$sudocmd" make install || return 1
+		grep -q "^clean:" Makefile && make clean
 	fi
 }
 
-optpkgs=0
-optlocal=0
-optclean=0
-for arg in "${@:--all}"; do
-	[ "${arg#--}" != "$arg" ] && arg="${arg#-}"
-	case "$arg" in
-		-pkgs) optpkgs=1 ;;
-		-local) optlocal=1 ;;
-		-clean) optclean=1 ;;
-		-all)
-			optpkgs=1
-			optlocal=1
-			optclean=1
-			;;
-	esac
-done
-
-if [ $optpkgs -eq 1 ]; then
-	doas xbps-install -Syu || exit 1
+updatepkgs() {
+	doas xbps-install -Syu
 	ifinst rustup && rustup update
-	ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
-	ifinst gem && gem update
 	ifinst deno && deno upgrade
 	ifinst yarn && yarn global upgrade
-	ifinst flatpak && flatpak update
-	# ifinst v && v upgrade
+	ifinst flatpak && flatpak update -y
+	# ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
+	# ifinst gem && gem update
 	# ifinst flutter && flutter upgrade
-	[ "$EDITOR" ] && ifinst "$EDITOR" && case "$EDITOR" in
-		vim) vim +PlugUpgrade +PlugUpdate +qa ;;
-		nvim) nvim +PlugUpgrade +PlugUpdate +TSUpdateSync +qa ;;
-	esac
-fi
+	[ "$EDITOR" ] && ifinst "$EDITOR" &&
+		case "$EDITOR" in
+			vim) vim +PlugUpgrade +PlugUpdate +qa ;;
+			nvim) nvim +PlugUpgrade +PlugUpdate +TSUpdateSync +qa ;;
+		esac
+}
 
-if [ $optlocal -eq 1 ]; then
-	for p in dwm st dmenu dwmblocks surf tabbed slock sent; do
+clean() {
+	doas xbps-remove -Ooy
+	doas vkpurge rm all
+}
+
+updatelocal() {
+	for p in $LOCALPROGRAMS; do
 		ubr="master"
 		ups="git://git.suckless.org/$p"
 		case "$p" in
@@ -76,12 +66,13 @@ if [ $optlocal -eq 1 ]; then
 		esac
 		git remote add upstream "$ups" >/dev/null 2>&1
 		gitupdate "git@gitlab.com:osamai/$p.git" "origin/main" "upstream/$ubr"
+		[ -s Makefile ] && makeinstall
 	done
 
-	repos="git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:jarun/nnn.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
-	for r in $repos; do
+	for r in $LOCALREPOS; do
 		gitupdate "$r" origin/master origin/master
 		case "$(reponame "$r")" in
+			nnn) [ -s Makefile ] && makeinstall O_NERD=1 ;;
 			z)
 				doas cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1 &&
 					doas chmod 644 /usr/local/share/man/man1/z.1
@@ -97,11 +88,20 @@ if [ $optlocal -eq 1 ]; then
 					mix compile &&
 					mix elixir_ls.release -o bin
 				;;
+			*) [ -s Makefile ] && makeinstall ;;
 		esac
 	done
-fi
+}
 
-if [ $optclean -eq 1 ]; then
-	doas xbps-remove -Ooy
-	doas vkpurge rm all
-fi
+for arg in "${@:-all}"; do
+	case "$arg" in
+		pkgs)  updatepkgs ;;
+		local) updatelocal ;;
+		clean) clean ;;
+		all)
+			updatepkgs
+			updatelocal
+			clean
+			;;
+	esac
+done
