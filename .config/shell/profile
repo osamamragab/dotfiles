@@ -3,7 +3,7 @@
 export TERMINAL="st"
 export EDITOR="nvim"
 export VISUAL="nvim"
-export BROWSER="brave-browser"
+export BROWSER="firefox"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -39,8 +39,7 @@ export FLATPAK_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/flatpak"
 
 command -v luarocks >/dev/null 2>&1 && PATH="$(luarocks path --lr-bin | cut -d ":" -f 1):$PATH"
 command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
-PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PYENV_ROOT/bin:$DENO_INSTALL_ROOT:$YARN_PREFIX/bin:$(echo "$GEM_PATH" | sed "s@:@/bin:@g")/bin:$PATH"
-export PATH
+export PATH="$HOME/bin:$HOME/.local/bin:$GOPATH/bin:$CARGO_HOME/bin:$PYENV_ROOT/bin:$DENO_INSTALL_ROOT:$YARN_PREFIX/bin:$(echo "$GEM_PATH" | sed "s@:@/bin:@g")/bin:$PATH"
 
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
