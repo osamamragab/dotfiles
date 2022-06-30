@@ -90,7 +90,7 @@ trap onexit EXIT
 
 alias doas="doas "
 
-command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
+# command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 
