@@ -103,9 +103,9 @@ xi "chatting applications" \
 	-- tuir toot Signal-Desktop telegram-desktop
 
 xi "web browsers" \
-	firefox lynx w3m tor \
-	- amfora sacc surfraw ddgr \
-	-- netsurf lagrange torbrowser-launcher
+	firefox w3m tor \
+	- lynx amfora sacc surfraw ddgr \
+	-- vimb lagrange torbrowser-launcher
 
 xi "torrent tools" \
 	transmission rtorrent \
