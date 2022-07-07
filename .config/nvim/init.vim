@@ -78,9 +78,9 @@ Plug 'psf/black', { 'tag': 'stable' }
 Plug 'sbdchd/neoformat'
 Plug 'elixir-editors/vim-elixir'
 Plug 'itchyny/lightline.vim'
-Plug 'sainnhe/sonokai'
+Plug 'joshdick/onedark.vim'
+" Plug 'sainnhe/sonokai'
 " Plug 'gruvbox-community/gruvbox'
-" Plug 'joshdick/onedark.vim'
 " Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
@@ -95,25 +95,21 @@ if has('termguicolors')
 	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 endif
 
-let g:sonokai_style = 'atlantis'
-let g:sonokai_better_performance = 1
-let g:sonokai_transparent_background = 1
-let g:sonokai_diagnostic_virtual_text = 'colored'
+" let g:sonokai_style = 'atlantis'
+" let g:sonokai_better_performance = 1
+" let g:sonokai_transparent_background = 1
+" let g:sonokai_diagnostic_virtual_text = 'colored'
 
 " let g:gruvbox_contrast_dark = 'hard'
 " let g:gruvbox_sign_column = 'dark0_hard'
 " let g:gruvbox_invert_selection = 0
 " let g:gruvbox_bold = 0
 
-colorscheme sonokai
+colorscheme onedark
 
-if index(['gruvbox', 'onedark', 'nord'], g:colors_name) >= 0
-	hi Normal guibg=NONE ctermbg=NONE
-	hi SignColumn guibg=NONE ctermbg=NONE
-	if g:colors_name ==# 'gruvbox'
-		hi CursorLineNr guibg=NONE ctermbg=NONE
-	endif
-endif
+hi Normal guibg=NONE ctermbg=NONE
+hi SignColumn guibg=NONE ctermbg=NONE
+hi CursorLineNr guibg=NONE ctermbg=NONE
 
 hi! def link Label Statement
 hi! def link Delimiter Normal
