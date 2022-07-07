@@ -77,8 +77,9 @@ if [ -d "$plugdir" ]; then
 fi
 unset plugdir
 
-bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
+bindkey -s "^a" 'xdg-open "$(fzf-tmux)" >/dev/null\n'
 bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
+bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 #bindkey -s "^[t" '[ -d .git ] && grep TODO -Hnr *\n'
 
