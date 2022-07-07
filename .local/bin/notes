@@ -14,12 +14,17 @@ open() {
 
 if [ $# -eq 0 ]; then
 	if [ -t 0 ]; then
-		sel="$(find "$NOTESDIR" -type f -printf "%P\n" | fzf)"
+		sel="$(find "$NOTESDIR" -type f -printf "%P\n" | fzf --print-query)"
+		case $? in
+			0) [ "$(echo "$sel" | head -1)" != "" ] && sel="$(echo "$sel" | tail -1)" || sel="" ;;
+			1) ;;
+			*) exit $? ;;
+		esac
 	else
-		sel="$(find "$NOTESDIR" -type f -printf "%P\n" | dmenu -i -F -l 10 -p "notes:")"
+		sel="$(find "$NOTESDIR" -type f -printf "%P\n" | dmenu -i -F -l 10 -p "notes:")" || exit $?
 	fi
-	[ -z "$sel" ] && exit 1
-	open "$NOTESDIR/$sel"
+	[ "$sel" != "${sel#^}" ] && sel="${sel#^}"
+	open "$NOTESDIR/${sel:-todo.md}"
 	exit 0
 fi
 
