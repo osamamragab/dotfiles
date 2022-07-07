@@ -1,28 +1,44 @@
 #!/bin/sh
 
 CODEDIR="${CODEDIR:-$HOME/code}"
+[ -t 0 ] && USETERM=1 || USETERM=0
 
 getdirs() {
 	find "$1" -mindepth "${2:-1}" -maxdepth "${2:-1}" -type d | sed "s@$1/@@g"
 }
 
-sel="$1"
-if [ -z "$sel" ] || [ "$sel" = "_" ]; then
+projsel() {
 	dirs="$(getdirs "$CODEDIR/projects" 1)\n$(getdirs "$CODEDIR/org" 2)"
-	if [ -t 0 ]; then
+	if [ "$USETERM" -eq 1 ]; then
 		sel="$(echo "$dirs" | fzf)"
 	else
 		sel="$(echo "$dirs" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")"
 	fi
-	[ -z "$sel" ] && exit 0
-	[ -d "$CODEDIR/projects/$sel" ] && sel="$CODEDIR/projects/$sel"
-	[ -d "$CODEDIR/org/$sel" ] && sel="$CODEDIR/org/$sel"
-fi
+	[ -z "$sel" ] && return 1
+	[ -d "$CODEDIR/projects/$sel" ] && echo "$CODEDIR/projects/$sel" && return 0
+	[ -d "$CODEDIR/org/$sel" ] && echo "$CODEDIR/org/$sel" && return 0
+}
 
-if [ "$sel" = "." ]; then
-	[ -t 0 ] || exit 1
-	sel="$(pwd)"
-fi
+case "$1" in
+	"") sel="$(projsel)" ;;
+	_)
+		USETERM=1
+		sel="$(projsel)"
+		;;
+	-)
+		USETERM=0
+		sel="$(projsel)"
+		;;
+	.)
+		if [ "$USETERM" -eq 1 ]; then
+			sel="$(pwd)"
+		else
+			sel="$(projsel)"
+		fi
+		;;
+esac
+
+[ -z "$sel" ] && exit 1
 
 name="$(basename "$sel")"
 tmux switchc -t "$name" 2>/dev/null && exit 0
@@ -36,7 +52,7 @@ if [ $# -gt 1 ]; then
 	done
 fi
 
-if [ -t 0 ]; then
+if [ "$USETERM" -eq 1 ]; then
 	tmux new -A -c "$sel" -s "$name"
 else
 	setsid -f "$TERMINAL" -t "$name" -e "$SHELL" -i -c "tmux new -A -c '$sel' -s '$name'"
