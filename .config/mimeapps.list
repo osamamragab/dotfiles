@@ -1,5 +1,6 @@
 [Default Applications]
 text/plain=text.desktop
+text/x-c=text.desktop
 text/x-shellscript=text.desktop
 inode/directory=file.desktop
 image/png=image.desktop
