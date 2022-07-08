@@ -9,11 +9,10 @@ cmp.setup({
 		expand = function(args) luasnip.lsp_expand(args.body) end,
 	},
 	mapping = {
-		["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), {"i", "c"}),
-		["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), {"i", "c"}),
-		["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), {"i", "c"}),
-		["<C-d>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-s>"] = cmp.mapping.confirm({ select = true }),
+		["<C-Space>"] = cmp.mapping.complete(),
 	},
 	sources = {
 		{ name = "nvim_lsp" },

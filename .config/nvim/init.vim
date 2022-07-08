@@ -34,7 +34,16 @@ set softtabstop=2
 
 set wildmode=longest,full
 set wildmenu
-set completeopt=menuone,noselect
+set wildignore+=**/.git/*
+set wildignore+=*.pyc
+set wildignore+=*_build/*
+set wildignore+=**/target/*
+set wildignore+=**/coverage/*
+set wildignore+=**/node_modules/*
+set wildignore+=**/android/*
+set wildignore+=**/ios/*
+
+set completeopt=menu,menuone,noselect
 
 set incsearch
 set nohlsearch
@@ -65,8 +74,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-commentary'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'ThePrimeagen/git-worktree.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'junegunn/goyo.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'mhinz/vim-signify'
@@ -84,8 +96,7 @@ Plug 'joshdick/onedark.vim'
 " Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
-lua require("lsp")
-lua require("nvim-treesitter.configs").setup({ highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }})
+lua require("x")
 
 set background=dark
 set termguicolors
@@ -147,19 +158,6 @@ endfun
 
 let g:signify_sign_change = '~'
 
-let g:fzf_buffers_jump = 1
-let g:fzf_preview_window = ['right:70%', 'ctrl-/']
-" let $FZF_DEFAULT_OPTS = '--reverse'
-
-fun! RipgrepFzf(query, fullscreen)
-	let cmdfmt = "rg --column --line-number --no-heading --color=always --smart-case --hidden --glob '!.git' -- %s || true"
-	let initcmd = printf(cmdfmt, shellescape(a:query))
-	let relcmd = printf(cmdfmt, '{q}')
-	let opts = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.relcmd]}
-	call fzf#vim#grep(initcmd, 1, fzf#vim#with_preview(opts), a:fullscreen)
-endfun
-command! -nargs=* -bang Rg call RipgrepFzf(<q-args>, <bang>0)
-
 let g:rustfmt_autosave = 1
 let g:rust_recommended_style = 0
 
@@ -202,9 +200,10 @@ nnoremap <C-j> :cprev<CR>zz
 nnoremap <leader>k :lnext<CR>zz
 nnoremap <leader>j :lprev<CR>zz
 
-nnoremap <leader>gs :G<CR>
-nnoremap <C-p> :GFiles<CR>
-nnoremap <C-b> :Lexplore!<CR>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 nnoremap <leader>gd  :lua vim.lsp.buf.definition()<CR>
 nnoremap <leader>gi  :lua vim.lsp.buf.implementation()<CR>
