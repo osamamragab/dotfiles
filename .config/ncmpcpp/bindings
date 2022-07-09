@@ -4,9 +4,9 @@ def_key "k"
 	scroll_up
 
 def_key "J"
-	page_down
+	move_selected_items_down
 def_key "K"
-	page_up
+	move_selected_items_up
 
 def_key "h"
 	previous_column
@@ -22,6 +22,12 @@ def_key "G"
 	move_end
 def_key "g"
 	move_home
+
+def_key "t"
+	jump_to_position_in_song
+
+def_key "b"
+	jump_to_browser
 
 def_key "."
 	seek_forward
@@ -45,6 +51,11 @@ def_key "l"
 def_key "l"
 	play_item
 
+def_key "L"
+	show_lyrics
+def_key "H"
+	toggle_lyrics_fetcher
+
 def_key "U"
 	update_database
 
@@ -53,5 +64,10 @@ def_key "P"
 
 def_key "s"
 	toggle_single
+
+def_key "f"
+	seek_forward
+def_key "d"
+	seek_backward
 
 # vim: ft=conf
