@@ -83,6 +83,7 @@ xi "music players" \
 
 xi "pdf tools" \
 	zathura zathura-pdf-mupdf mupdf \
+	- zathura-ps zathura-djvu \
 	-- wkhtmltopdf
 
 xi "video/photo/audio editors" \
