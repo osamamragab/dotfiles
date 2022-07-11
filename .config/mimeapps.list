@@ -12,6 +12,7 @@ image/vnd.djvu=pdf.desktop
 application/pdf=pdf.desktop
 application/epub+zip=pdf.desktop
 application/postscript=pdf.desktop
+application/x-mobipocket-ebook=pdf.desktop
 video/mp4=video.desktop
 video/mpeg=video.desktop
 video/x-matroska=video.desktop
