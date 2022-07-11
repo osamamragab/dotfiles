@@ -38,6 +38,7 @@ makeinstall() {
 updatepkgs() {
 	doas xbps-install -Syu
 	ifinst rustup && rustup update
+	ifinst bun && bun upgrade
 	ifinst deno && deno upgrade
 	ifinst yarn && yarn global upgrade
 	ifinst flatpak && flatpak update -y
