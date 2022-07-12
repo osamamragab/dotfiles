@@ -4,13 +4,13 @@ setopt prompt_subst
 setopt histignorespace
 stty stop undef
 
-__git_branch() {
+__promptcmd() {
+	pr="%F{$([ $? -eq 0 ] && echo "green" || echo "red")}>"
 	br="$(git symbolic-ref HEAD --short 2>/dev/null)"
-	[ "$br" ] && echo "($br) "
+	wd="%F{cyan}%c"
+	[ "$br" ] && echo "$wd %F{blue}($br) $pr" || echo "$wd $pr"
 }
-
-autoload -U colors && colors
-PS1="%B%{$fg[cyan]%}%c %{$fg[blue]%}\$(__git_branch)%{$fg[green]%}>%{$reset_color%}%b "
+PS1="%B\$(__promptcmd)%F{reset}%b "
 
 HISTSIZE=10000000
 SAVEHIST=10000000
