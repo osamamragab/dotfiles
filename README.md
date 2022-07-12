@@ -6,10 +6,10 @@ intended to be used with:
 
 - [Void Linux](https://voidlinux.org) (operating system)
 - [dwm](https://dwm.suckless.org) (window manager) \[[my build](https://gitlab.com/osamai/dwm)\]
-- [dwmblocks](https://github.com/torrinfail/dwmblocks) (status bar)
+- [dwmblocks](https://github.com/torrinfail/dwmblocks) (status bar) \[[my build](https://gitlab.com/osamai/dwmblocks)\]
 - [st](https://st.suckless.org) (terminal) \[[my build](https://gitlab.com/osamai/st)\]
 - [dmenu](https://tools.suckless.org/dmenu/) (drop-down menu) \[[my build](https://gitlab.com/osamai/dmenu)\]
-- [slock](https://tools.suckless.org/slock/) (screen locker)
+- [slock](https://tools.suckless.org/slock/) (screen locker) \[[my build](https://gitlab.com/osamai/slock)\]
 - [neovim](https://neovim.io) (text editor)
 - [nnn](https://github.com/jarun/nnn) (file manager)
 - [mpv](https://mpv.io) (media player)
