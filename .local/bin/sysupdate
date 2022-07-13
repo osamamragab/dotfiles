@@ -2,7 +2,7 @@
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 LOCALPROGRAMS="dwm st dmenu dwmblocks surf tabbed slock sent"
-LOCALREPOS="git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:jarun/nnn.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:mariusae/trickle.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
+LOCALREPOS="git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:jarun/nnn.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
 doas() { $sudocmd "$@"; }
@@ -40,10 +40,11 @@ updatepkgs() {
 	ifinst rustup && rustup update
 	ifinst bun && bun upgrade
 	ifinst deno && deno upgrade
+	ifinst pnpm && pnpm update -g
 	ifinst yarn && yarn global upgrade
-	ifinst flatpak && flatpak update -y
-	# ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
 	# ifinst gem && gem update
+	# ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
+	# ifinst flatpak && flatpak update -y
 	# ifinst flutter && flutter upgrade
 	[ "$EDITOR" ] && ifinst "$EDITOR" &&
 		case "$EDITOR" in
