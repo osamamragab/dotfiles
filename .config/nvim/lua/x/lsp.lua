@@ -60,6 +60,10 @@ lsp.tsserver.setup(config())
 
 lsp.denols.setup(config())
 
+lsp.emmet_ls.setup(config({
+	filetypes = {"html", "css", "svelte", "vue", "jsx", "tsx"},
+}))
+
 lsp.svelte.setup(config())
 
 lsp.vuels.setup(config())
