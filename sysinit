@@ -113,7 +113,7 @@ xi "torrent tools" \
 	- btfs
 
 xi "programming stuff" \
-	clang lld tcc go rustup python3 lua nodejs R perl ruby c gdb valgrind strace ltrace clang-analyzer rust-analyzer yarn binutils upx delve jq jo xxd ired
+	clang lld tcc go rustup python3 lua nodejs R perl ruby c gdb valgrind strace ltrace clang-analyzer rust-analyzer pnpm yarn binutils upx delve jq jo xxd ired
 	rustup-init
 [ "$level" -gt 0 ] && xi _ clib gopls elixir sbcl clojure leiningen gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
@@ -123,9 +123,9 @@ if [ "$level" -gt 1 ]; then
 	pip install mycli litecli
 fi
 cargo install cargo-edit cargo-update cargo-watch cargo-make rusty-tags stylua
-yarn global add typescript eslint prettier typescript-language-server pyright
-[ "$level" -gt 0 ] && yarn global add sass pug @vue/cli vls svelte-language-server vscode-langservers-extracted yaml-language-server
-[ "$level" -gt 1 ] && yarn global add svgo ts-node nodemon serve livereload
+pnpm add -g typescript eslint prettier typescript-language-server pyright
+[ "$level" -gt 0 ] && pnpm add -g sass pug @vue/cli vls svelte-language-server vscode-langservers-extracted yaml-language-server emmet-ls
+[ "$level" -gt 1 ] && pnpm add -g svgo ts-node nodemon http-server serve livereload
 if ! command -v deno >/dev/null 2>&1; then
 	curl -fsSL https://deno.land/x/install/install.sh | \
 		DENO_INSTALL="${DENO_INSTALL_ROOT%/bin}" sh
