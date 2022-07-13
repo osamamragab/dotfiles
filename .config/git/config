@@ -13,7 +13,7 @@
 	remote = yellow
 
 [user]
-	name = Osama
+	name = osama
 	email = iosamaify@gmail.com
 	username = osamai
 
@@ -31,13 +31,10 @@
 	cld = clone --depth 1
 	unstage = reset HEAD --
 	undo = reset --soft HEAD^
-
 	logg = log --oneline --graph --decorate
 	lastcm = log -1 HEAD
 	tree = ls-tree --full-tree -r HEAD
 	ls = ls-files
-	sync = !git fetch origin && git remote prune origin && :
-	reebase-master = !git fetch origin master:master && git rebase master
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
@@ -47,6 +44,7 @@
 
 [push]
 	default = simple
+	autoSetupRemote = true
 
 [pull]
 	ff = only
