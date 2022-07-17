@@ -1,1 +1,2 @@
 alias q exit
+alias cd.. cd ..
