@@ -55,4 +55,4 @@ args="$args -printf"
 [ $null -eq 1 ] && args="$args '%P\0'" || args="$args '%P\n'"
 
 out="$(printf "%s" "$args" | xargs find)" || exit 1
-echo "$out" | sed "1{/^$/d}"
+echo "$out" | sed '1{/^$/d}'
