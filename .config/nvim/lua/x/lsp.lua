@@ -8,17 +8,35 @@ cmp.setup({
 	snippet = {
 		expand = function(args) luasnip.lsp_expand(args.body) end,
 	},
-	mapping = {
+	mapping = cmp.mapping.preset.insert({
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-s>"] = cmp.mapping.confirm({ select = true }),
 		["<C-Space>"] = cmp.mapping.complete(),
-	},
-	sources = {
+		["<C-e>"] = cmp.mapping.abort(),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
+	}),
+	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
+	}, {
 		{ name = "buffer" },
-	},
+	})
+})
+
+cmp.setup.cmdline("/", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = "buffer" }
+	}
+})
+
+cmp.setup.cmdline(":", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = "path" }
+	}, {
+		{ name = "cmdline" }
+	})
 })
 
 require("luasnip.loaders.from_vscode").lazy_load({
@@ -27,12 +45,10 @@ require("luasnip.loaders.from_vscode").lazy_load({
 	exclude = {},
 })
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = cmplsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local function config(cfg)
-	return vim.tbl_deep_extend("force", {
-		capabilities = cmplsp.update_capabilities(capabilities),
-	}, cfg or {})
+	return vim.tbl_deep_extend("force", { capabilities = capabilities }, cfg or {})
 end
 
 lsp.clangd.setup(config({
