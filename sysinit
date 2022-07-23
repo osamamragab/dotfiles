@@ -101,7 +101,7 @@ xi "email tools" \
 xi "chatting applications" \
 	irssi \
 	- weechat weechat-python \
-	-- tuir toot Signal-Desktop telegram-desktop
+	-- tuir toot slack-term Signal-Desktop telegram-desktop
 
 xi "web browsers" \
 	firefox w3m tor \
