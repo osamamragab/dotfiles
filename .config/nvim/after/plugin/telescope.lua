@@ -2,6 +2,7 @@ local telescope = require("telescope")
 local actions = require("telescope.actions")
 local sorters = require("telescope.sorters")
 local previewers = require("telescope.previewers")
+local nnoremap = require("x.keymap").nnoremap
 
 telescope.setup({
 	defaults = {
@@ -33,3 +34,8 @@ telescope.setup({
 
 telescope.load_extension("fzy_native")
 telescope.load_extension("git_worktree")
+
+nnoremap("<leader>ff", "<cmd>Telescope find_files<cr>")
+nnoremap("<leader>fg", "<cmd>Telescope live_grep<cr>")
+nnoremap("<leader>fb", "<cmd>Telescope buffers<cr>")
+nnoremap("<leader>fh", "<cmd>Telescope help_tags<cr>")

@@ -1,3 +1,4 @@
-require("x.lsp")
-require("x.telescope")
-require("x.treesitter")
+require("x.set")
+require("x.map")
+require("x.auto")
+require("x.packer")
