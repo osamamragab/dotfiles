@@ -46,7 +46,7 @@ doas xbps-install -Sy xbps
 doas xbps-install -Syu
 
 xi "x" \
-	xorg xorg-server xinit libX11-devel libXft-devel libXinerama libXinerama-devel libXrandr libXrandr-devel
+	xorg xorg-server xinit libX11-devel libXft-devel libXinerama libXinerama-devel libXrandr libXrandr-devel mesa-dri mesa-vaapi
 
 xi "filesystems support" \
 	fuse fuse-exfat mtpfs simple-mtpfs
@@ -113,7 +113,7 @@ xi "torrent tools" \
 	- btfs
 
 xi "programming stuff" \
-	clang lld tcc go rustup zig python3 lua nodejs R perl ruby c gdb valgrind strace ltrace clang-analyzer rust-analyzer gopls pnpm yarn binutils upx delve jq jo xxd ired
+	clang lld tcc go rustup zig python3 lua nodejs R perl ruby c gdb valgrind strace ltrace clang-analyzer rust-analyzer gopls pnpm binutils upx delve jq jo xxd ired
 	rustup-init
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
 [ "$level" -gt 0 ] && xi _ clib elixir sbcl clojure leiningen gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
