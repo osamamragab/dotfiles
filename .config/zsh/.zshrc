@@ -12,8 +12,8 @@ __promptcmd() {
 }
 PS1="%B\$(__promptcmd)%F{reset}%b "
 
-HISTSIZE=10000000
-SAVEHIST=10000000
+HISTSIZE=10000
+SAVEHIST=10000
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 
 MAILCHECK=0
