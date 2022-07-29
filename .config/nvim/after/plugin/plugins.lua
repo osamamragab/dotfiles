@@ -10,14 +10,13 @@ vim.g.rust_recommended_style = 0
 
 vim.g.black_quiet = 1
 
--- vim.g.lightline = {
--- 	colorscheme = "wombat",
--- 	component_function = {
--- 		gitbranch = "FugitiveHead",
--- 		filename = "expand('%')",
+-- require("lualine").setup({
+-- 	options = {
+-- 		component_separators = "",
+-- 		section_separators = "",
 -- 	},
--- 	active = {
--- 		left = {{"mode", "paste"}, {"gitbranch", "filename", "modified", "readonly"}},
--- 		right = {{"lineinfo"}, {"percent"}, {"filetype", "fileencoding", "fileformat"}},
+-- 	sections = {
+-- 		lualine_b = {{"branch", icon = ""}, "diff", "diagnostics"},
+-- 		lualine_c = {{"filename", path = 1}},
 -- 	},
--- }
+-- })

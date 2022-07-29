@@ -1,4 +1,5 @@
 local lsp = require("lspconfig")
+local util = require("lspconfig/util")
 local cmp = require("cmp")
 local cmplsp = require("cmp_nvim_lsp")
 local luasnip = require("luasnip")
@@ -78,7 +79,9 @@ lsp.rust_analyzer.setup(config())
 lsp.zls.setup(config())
 
 lsp.gopls.setup(config({
-	cmd = {"gopls"},
+	cmd = {"gopls", "serve"},
+	filetypes = {"go", "gomod"},
+	root_dir = util.root_pattern("go.work", "go.mod", ".git"),
 	settings = {
 		gopls = {
 			analyses = {
