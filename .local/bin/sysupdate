@@ -41,16 +41,10 @@ updatepkgs() {
 	ifinst bun && bun upgrade
 	ifinst deno && deno upgrade
 	ifinst pnpm && pnpm update -g
-	ifinst yarn && yarn global upgrade
 	# ifinst gem && gem update
 	# ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
 	# ifinst flatpak && flatpak update -y
 	# ifinst flutter && flutter upgrade
-	[ "$EDITOR" ] && ifinst "$EDITOR" &&
-		case "$EDITOR" in
-			vim) vim +PlugUpgrade +PlugUpdate +qa ;;
-			nvim) nvim +PlugUpgrade +PlugUpdate +TSUpdateSync +qa ;;
-		esac
 }
 
 clean() {
