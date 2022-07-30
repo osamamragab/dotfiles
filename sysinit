@@ -75,7 +75,7 @@ xi "audio tools" \
 	alsa-utils alsa-plugins-pulseaudio pulseaudio pulseaudio-utils pamixer pulsemixer apulse
 
 xi "multimedia tools" \
-	ffmpeg ImageMagick mpv nsxiv \
+	ImageMagick ffmpeg sox mpv nsxiv \
 	-- playerctl mpv-mpris mpDris2
 
 xi "music players" \
