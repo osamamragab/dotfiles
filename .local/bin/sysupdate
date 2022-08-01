@@ -2,7 +2,7 @@
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 LOCALPROGRAMS="dwm st dmenu dwmblocks surf tabbed slock sent"
-LOCALREPOS="git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:jarun/nnn.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
+LOCALREPOS="git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
 doas() { $sudocmd "$@"; }
@@ -68,7 +68,12 @@ updatelocal() {
 	for r in $LOCALREPOS; do
 		gitupdate "$r" origin/master origin/master
 		case "$(reponame "$r")" in
-			nnn) [ -s Makefile ] && makeinstall O_NERD=1 ;;
+			nnn)
+				[ -s Makefile ] && makeinstall O_NERD=1
+				;;
+			bicon)
+				./autogen.sh && ./configure && make && make install
+				;;
 			z)
 				doas cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1 &&
 					doas chmod 644 /usr/local/share/man/man1/z.1
@@ -88,7 +93,9 @@ updatelocal() {
 					mix compile &&
 					mix elixir_ls.release -o bin
 				;;
-			*) [ -s Makefile ] && makeinstall ;;
+			*)
+				[ -s Makefile ] && makeinstall
+				;;
 		esac
 	done
 }
