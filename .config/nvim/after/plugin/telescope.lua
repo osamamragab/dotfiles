@@ -33,7 +33,7 @@ telescope.setup({
 })
 
 telescope.load_extension("fzy_native")
-telescope.load_extension("git_worktree")
+-- telescope.load_extension("git_worktree")
 
 nnoremap("<leader>ff", "<cmd>Telescope find_files<cr>")
 nnoremap("<leader>fg", "<cmd>Telescope live_grep<cr>")

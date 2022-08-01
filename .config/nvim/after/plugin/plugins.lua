@@ -20,3 +20,6 @@ vim.g.black_quiet = 1
 -- 		lualine_c = {{"filename", path = 1}},
 -- 	},
 -- })
+
+require("nvim-autopairs").setup({})
+require("symbols-outline").setup({})
