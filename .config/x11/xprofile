@@ -1,6 +1,5 @@
 #!/bin/sh
 
-xrandr --dpi 96 --output VGA1 --auto --primary --output DP1 --auto --left-of VGA1 & xrandrpid=$!
 xset r rate 300 50 &
 xset -q | grep "Caps Lock:\s*on" && xdotool key Caps_Lock &
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
@@ -14,5 +13,4 @@ for p in dwmblocks dunst xcompmgr xbanish clipmenud mpd mpDris2; do
 	pidof -s "$p" || setsid -f "$p"
 done >/dev/null 2>&1
 
-[ -n "$xrandrpid" ] && wait "$xrandrpid"
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
