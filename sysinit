@@ -133,10 +133,6 @@ fi
 
 xi "cheat sheet tools" \
 	cheat tealdeer
-if [ "$level" -gt 0 ] && ! command -v cht.sh >/dev/null 2>&1; then
-	doas curl -o /usr/local/bin/cht.sh https://cht.sh/:cht.sh
-	doas chmod +x /usr/local/bin/cht.sh
-fi
 
 xi "docker" \
 	docker docker-compose docker-credential-pass
