@@ -22,5 +22,6 @@ vim.g.black_quiet = 1
 -- 	},
 -- })
 
+require('gitsigns').setup({})
 require("nvim-autopairs").setup({})
 require("symbols-outline").setup({})

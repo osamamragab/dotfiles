@@ -1,7 +1,7 @@
 vim.opt.lazyredraw = true
 vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.mouse = "a"
-vim.opt.updatetime = 50 -- 300
+-- vim.opt.updatetime = 50 -- 300
 vim.opt.belloff = "all"
 
 vim.opt.backup = false
