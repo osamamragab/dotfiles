@@ -12,18 +12,12 @@ open() {
 	fi
 }
 
+menucmd=""
+[ -t 0 ] && command -v fzy >/dev/null 2>&1 && menucmd="fzy -l 10" || menucmd="dmenu -i -F -l 10 -p notes:"
+
 if [ $# -eq 0 ]; then
-	if [ -t 0 ]; then
-		sel="$(find "$NOTESDIR" -type f -printf "%P\n" | fzf --print-query)"
-		case $? in
-			0) [ "$(echo "$sel" | head -1)" != "" ] && sel="$(echo "$sel" | tail -1)" || sel="" ;;
-			1) ;;
-			*) exit $? ;;
-		esac
-	else
-		sel="$(find "$NOTESDIR" -type f -printf "%P\n" | dmenu -i -F -l 10 -p "notes:")" || exit $?
-	fi
-	[ "$sel" != "${sel#^}" ] && sel="${sel#^}"
+	sel="$(find "$NOTESDIR" -type f -printf "%P\n" | $menucmd)" || exit $?
+	[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
 	open "$NOTESDIR/${sel:-todo.md}"
 	exit 0
 fi
