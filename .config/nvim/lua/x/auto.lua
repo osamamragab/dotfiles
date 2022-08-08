@@ -28,10 +28,10 @@ autocmd({"FileType"}, {
 	command = "setlocal expandtab",
 })
 
-autocmd({"BufWritePre"}, {
-	group = autofmt,
-  pattern = "*",
-	command = "%s/\\s\\+$//e",
+autocmd({"BufWritePost"}, {
+	group = filetype,
+	pattern = {"xdefaults", "Xdefaults", "xresources", "Xresources"},
+	command = "!xrdb %",
 })
 
 autocmd({"BufEnter", "BufWinEnter", "TabEnter"}, {
@@ -44,18 +44,6 @@ autocmd({"BufEnter", "BufWinEnter", "TabEnter"}, {
 
 autocmd({"BufWritePre"}, {
 	group = autofmt,
-	pattern = "*.go",
-	command = "GoFmt",
-})
-
-autocmd({"BufWritePre"}, {
-	group = autofmt,
-	pattern = "*.py",
-	command = "Black",
-})
-
-autocmd({"BufWritePost"}, {
-	group = autofmt,
-	pattern = {"xdefaults", "Xdefaults", "xresources", "Xresources"},
-	command = "!xrdb %",
+  pattern = "*",
+	command = "FormatWrite",
 })

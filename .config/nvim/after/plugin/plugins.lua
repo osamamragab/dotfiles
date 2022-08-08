@@ -22,6 +22,29 @@ vim.g.black_quiet = 1
 -- 	},
 -- })
 
-require('gitsigns').setup({})
+require("gitsigns").setup({})
 require("nvim-autopairs").setup({})
 require("symbols-outline").setup({})
+
+require("formatter").setup({
+	logging = true,
+	log_level = vim.log.levels.WARN,
+	filetype = {
+		rust = {
+			require("formatter.filetypes.rust").rustfmt,
+		},
+		go = {
+			require("formatter.filetypes.go").gofmt,
+			require("formatter.filetypes.go").goimports,
+		},
+		python = {
+			require("formatter.filetypes.python").black,
+		},
+		lua = {
+			require("formatter.filetypes.lua").stylua,
+		},
+		["*"] = {
+			require("formatter.filetypes.any").remove_trailing_whitespace,
+		},
+	},
+})
