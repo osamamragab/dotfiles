@@ -2,7 +2,7 @@
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 LOCALPROGRAMS="dwm st dmenu dwmblocks surf tabbed slock sent"
-LOCALREPOS="git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
+LOCALREPOS="git@github.com:osamai/p.git git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
 doas() { $sudocmd "$@"; }
@@ -12,19 +12,21 @@ ifinst() { command -v "$1" >/dev/null 2>&1; }
 reponame() { basename "$1" | sed "s/\.git$//"; }
 
 gitupdate() {
-	[ $# -eq 3 ] || (echo "$(basename "$0"): gitupdate: requires 3 arguments but got $#" >&2; return 1)
+	[ $# -eq 0 ] && (echo "$(basename "$0"): gitupdate: at least one argument is required" >&2; return 1)
 	url="$1"
 	dir="$PROGRAMSDIR/$(reponame "$url")"
-	# sre="$(echo "$2" | cut -d "/" -f 1)"
-	sbr="$(echo "$2" | cut -d "/" -f 2)"
-	ure="$(echo "$3" | cut -d "/" -f 1)"
-	ubr="$(echo "$3" | cut -d "/" -f 2)"
 	echo "updating $dir..."
 	[ -d "$dir" ] || git clone "$url" "$dir"
 	cd "$dir" || return 1
-	git checkout "$sbr"
-	git fetch "$ure" "$ubr"
-	git merge "$ure/$ubr"
+	lbr="$(git remote show origin | sed -n '/HEAD branch:/s/.* //p')"
+	case $# in
+		1) ups="upstream" ubr="$lbr" ;;
+		2) ups="$2" ubr="$lbr" ;;
+		3) ups="$2" ubr="$3" ;;
+	esac
+	git checkout "$lbr"
+	git fetch "$ups" "$ubr"
+	git merge "$ups/$ubr"
 	[ -s .gitmodules ] && git submodule update --init --recursive
 }
 
@@ -55,18 +57,18 @@ clean() {
 updatelocal() {
 	for p in $LOCALPROGRAMS; do
 		ubr="master"
-		ups="git://git.suckless.org/$p"
+		ure="git://git.suckless.org/$p"
 		case "$p" in
 			surf) ubr="surf-webkit2" ;;
-			dwmblocks) ups="git@github.com:torrinfail/dwmblocks.git" ;;
+			dwmblocks) ure="git@github.com:torrinfail/dwmblocks.git" ;;
 		esac
-		git remote add upstream "$ups" >/dev/null 2>&1
-		gitupdate "git@gitlab.com:osamai/$p.git" "origin/main" "upstream/$ubr"
+		git remote add upstream "$ure" >/dev/null 2>&1
+		gitupdate "git@gitlab.com:osamai/$p.git" upstream "$ubr"
 		[ -s Makefile ] && makeinstall
 	done
 
 	for r in $LOCALREPOS; do
-		gitupdate "$r" origin/master origin/master
+		gitupdate "$r" origin
 		case "$(reponame "$r")" in
 			nnn)
 				[ -s Makefile ] && makeinstall O_NERD=1
@@ -102,7 +104,7 @@ updatelocal() {
 
 for arg in "${@:-all}"; do
 	case "$arg" in
-		pkgs)  updatepkgs ;;
+		pkgs) updatepkgs ;;
 		local) updatelocal ;;
 		clean) clean ;;
 		all)
