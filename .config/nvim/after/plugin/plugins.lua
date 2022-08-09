@@ -6,26 +6,10 @@ vim.g.netrw_fastbrowse = 0
 
 vim.g.signify_sign_change = "~"
 
-vim.g.rustfmt_autosave = 1
-vim.g.rust_recommended_style = 0
-
-vim.g.black_quiet = 1
-
--- require("lualine").setup({
--- 	options = {
--- 		component_separators = "",
--- 		section_separators = "",
--- 	},
--- 	sections = {
--- 		lualine_b = {{"branch", icon = ""}, "diff", "diagnostics"},
--- 		lualine_c = {{"filename", path = 1}},
--- 	},
--- })
-
+require("Comment").setup({})
 require("gitsigns").setup({})
 require("nvim-autopairs").setup({})
 require("symbols-outline").setup({})
-
 require("formatter").setup({
 	logging = true,
 	log_level = vim.log.levels.WARN,
