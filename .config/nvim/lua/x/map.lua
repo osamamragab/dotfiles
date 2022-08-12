@@ -9,9 +9,9 @@ vnoremap("J", ":m '>+1<cr>gv=gv")
 vnoremap("K", ":m '<-2<cr>gv=gv")
 
 nnoremap("Y", "yg$")
-nnoremap("<leader>y", "\"+y")
-vnoremap("<leader>y", "\"+y")
-nmap("<leader>Y", "\"+Y")
+nnoremap("<leader>y", '"+y')
+vnoremap("<leader>y", '"+y')
+nmap("<leader>Y", '"+Y')
 
 nnoremap("n", "nzzzv")
 nnoremap("N", "Nzzzv")
@@ -19,10 +19,10 @@ nnoremap("J", "mzJ`z")
 nnoremap("<C-d>", "<C-d>zz")
 nnoremap("<C-u>", "<C-u>zz")
 
-xnoremap("<leader>p", "\"_dP")
+xnoremap("<leader>p", '"_dP')
 
-nnoremap("<leader>d", "\"_d")
-vnoremap("<leader>d", "\"_d")
+nnoremap("<leader>d", '"_d')
+vnoremap("<leader>d", '"_d')
 
 inoremap("<C-c>", "<esc>")
 
