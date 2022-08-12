@@ -5,17 +5,16 @@ output="%(title)s.%(ext)s"
 urls=""
 
 while [ $# -gt 0 ]; do
-  case "$1" in
-	-a) format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio" ;;
-	-v) format="bestvideo[ext=mp4]/bestvideo" ;;
-	-pl) output="%(playlist_title)s/%(title)s.%(ext)s" ;;
-	-pls) output="%(playlist_title)s/%(playlist_index)s- %(title)s.%(ext)s" ;;
-	-o) [ $# -gt 1 ] && shift && output="$1" ;;
-	-*)	[ $# -eq 1 ] && [ -z "$urls" ] && urls="-- $1" ;;
-	*) [ "$urls" ] && urls="$urls $1" || urls="$1" ;;
+	case "$1" in
+		-a) format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio" ;;
+		-v) format="bestvideo[ext=mp4]/bestvideo" ;;
+		-pl) output="%(playlist_title)s/%(title)s.%(ext)s" ;;
+		-pls) output="%(playlist_title)s/%(playlist_index)s- %(title)s.%(ext)s" ;;
+		-o) [ $# -gt 1 ] && shift && output="$1" ;;
+		*) [ "$urls" ] && urls="$urls $1" || urls="$1" ;;
 	esac
 	shift
 done
 
 # shellcheck disable=SC2086
-exec youtube-dl -ic --add-metadata -f "$format" -o "$output" $urls
+exec youtube-dl -ic --add-metadata -f "$format" -o "$output" -- $urls
