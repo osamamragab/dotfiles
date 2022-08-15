@@ -22,7 +22,6 @@ alias gst="git status -sb"
 alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
-gdfd() { git diff "$@" | delta; }
 
 alias xi="xbps-install -S"
 alias xr="xbps-remove -R"
@@ -35,7 +34,7 @@ alias info="info --vi-keys"
 alias ffmpeg="ffmpeg -hide_banner"
 alias ddgr="ddgr -x -n 5 --unsafe --noua"
 
-command -v nvim >/dev/null 2>&1 && alias vi="nvim" vim="nvim" vimdiff="nvim -d"
+command -v nvim >/dev/null 2>&1 && alias vi="nvim --noplugin"
 command -v trash >/dev/null 2>&1 && alias rm="trash"
 
 sudocmd="sudo"
