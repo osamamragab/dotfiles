@@ -1,6 +1,25 @@
 [init]
 	defaultBranch = main
 
+[core]
+	editor = nvim
+	pager = delta
+
+[user]
+	name = osama
+	email = iosamaify@gmail.com
+	username = osamai
+
+[push]
+	default = simple
+	autoSetupRemote = true
+
+[pull]
+	rebase = true
+
+[rebase]
+	autoStash = true
+
 [color]
 	branch = auto
 	diff = auto
@@ -11,11 +30,6 @@
 [color "branch"]
 	current = green
 	remote = yellow
-
-[user]
-	name = osama
-	email = iosamaify@gmail.com
-	username = osamai
 
 [alias]
 	co = checkout
@@ -42,9 +56,8 @@
 	process = git-lfs filter-process
 	required = true
 
-[push]
-	default = simple
-	autoSetupRemote = true
-
-[pull]
-	ff = only
+[delta]
+	line-numbers = true
+	syntax-theme = Nord
+	side-by-side = false
+	file-modified-label = modified:
