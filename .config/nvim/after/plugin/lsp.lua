@@ -84,7 +84,7 @@ local function config(cfg)
 end
 
 lsp.clangd.setup(config({
-	cmd = { "clangd", "--background-index", "--clang-tidy" },
+	cmd = { "clangd", "--background-index", "--clang-tidy", "--suggest-missing-includes", "--header-insertion=iwyu" },
 	root_dir = function()
 		return vim.loop.cwd()
 	end,

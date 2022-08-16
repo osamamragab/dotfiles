@@ -19,8 +19,6 @@ vim.g.gruvbox_sign_column = "dark0_hard"
 vim.g.gruvbox_invert_selection = 0
 vim.g.gruvbox_bold = 0
 
-vim.cmd("colorscheme " .. vim.g.colors_name)
-
 local hl = function(name, opts)
 	vim.api.nvim_set_hl(0, name, opts)
 end
