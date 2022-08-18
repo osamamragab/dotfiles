@@ -4,6 +4,8 @@ NOTESDIR="${NOTESDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/notes}"
 [ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || (echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1)
 cd "$NOTESDIR" || (echo "$(basename "$0"): can't cd to $NOTESDIR" >&2; exit 1)
 
+lines=10
+
 open() {
 	if [ -t 0 ]; then
 		$EDITOR "$1"
@@ -12,20 +14,27 @@ open() {
 	fi
 }
 
-menucmd=""
-[ -t 0 ] && command -v fzy >/dev/null 2>&1 && menucmd="fzy -l 10" || menucmd="dmenu -i -F -l 10 -p notes:"
+case "$1" in
+	-s)
+		shift; [ $# -eq 0 ] && exit 1
+		grep -Hnr "$@"
+		exit 0
+		;;
+	-l)
+		shift
+		case "$1" in
+			""|[!3-9]) echo "$(basename "$0"): lines must at least be 3" >&2; exit 1 ;;
+		esac
+		lines=$1
+		shift
+		;;
+esac
 
 if [ $# -eq 0 ]; then
+	[ -t 0 ] && command -v fzy >/dev/null 2>&1 && menucmd="fzy -l $lines" || menucmd="dmenu -i -F -l $lines -p notes:"
 	sel="$(find "$NOTESDIR" -type f -printf "%P\n" | $menucmd)" || exit $?
 	[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
 	open "$NOTESDIR/${sel:-todo.md}"
-	exit 0
-fi
-
-if [ "$1" = "-s" ]; then
-	shift
-	[ $# -eq 0 ] && exit 1
-	grep -Hnr "$@"
 	exit 0
 fi
 
