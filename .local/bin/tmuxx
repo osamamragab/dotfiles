@@ -10,7 +10,7 @@ getdirs() {
 projsel() {
 	dirs="$(getdirs "$CODEDIR/projects" 1)\n$(getdirs "$CODEDIR/org" 2)"
 	if [ "$USETERM" -eq 1 ]; then
-		sel="$(echo "$dirs" | fzf)"
+		sel="$(echo "$dirs" | fzy)"
 	else
 		sel="$(echo "$dirs" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")"
 	fi
