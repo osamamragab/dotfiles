@@ -3,11 +3,9 @@ local lsputil = require("lspconfig.util")
 local cmp = require("cmp")
 local cmplsp = require("cmp_nvim_lsp")
 local luasnip = require("luasnip")
-local null_ls = require("null-ls")
 local keymap = require("x.keymap")
 local nnoremap = keymap.nnoremap
 local inoremap = keymap.inoremap
-local augroupfmt = vim.api.nvim_create_augroup("LspFormatting", {})
 
 cmp.setup({
 	snippet = {
@@ -44,8 +42,7 @@ local capabilities = cmplsp.update_capabilities(vim.lsp.protocol.make_client_cap
 local function config(cfg)
 	return vim.tbl_deep_extend("force", {
 		capabilities = capabilities,
-		on_attach = function(client)
-			client.resolved_capabilities.document_formatting = false
+		on_attach = function()
 			nnoremap("gd", function()
 				vim.lsp.buf.definition()
 			end)
@@ -78,6 +75,9 @@ local function config(cfg)
 			end)
 			inoremap("<C-h>", function()
 				vim.lsp.buf.signature_help()
+			end)
+			nnoremap("<leader>gf", function()
+				vim.lsp.buf.formatting()
 			end)
 		end,
 	}, cfg or {})
@@ -112,19 +112,13 @@ lsp.pyright.setup(config())
 
 lsp.tsserver.setup(config())
 
-lsp.denols.setup(config())
-
-lsp.emmet_ls.setup(config({
-	filetypes = { "html", "css", "svelte", "vue", "jsx", "tsx" },
-}))
+-- lsp.denols.setup(config())
 
 lsp.svelte.setup(config())
 
 lsp.vuels.setup(config())
 
 lsp.cssls.setup(config())
-
-lsp.yamlls.setup(config())
 
 local sumneko_lua_path = (vim.env.PROGRAMSDIR or vim.env.HOME .. "/programs") .. "/lua-language-server"
 lsp.sumneko_lua.setup(config({
@@ -163,30 +157,3 @@ lsp.elixirls.setup(config({
 		},
 	},
 }))
-
-null_ls.setup({
-	sources = {
-		null_ls.builtins.formatting.trim_whitespace,
-		null_ls.builtins.formatting.clang_format,
-		null_ls.builtins.formatting.rustfmt,
-		null_ls.builtins.formatting.gofmt,
-		null_ls.builtins.formatting.goimports,
-		null_ls.builtins.formatting.black,
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.prettier,
-		null_ls.builtins.completion.spell,
-		null_ls.builtins.code_actions.shellcheck,
-	},
-	on_attach = function(client, bufnr)
-		if client.resolved_capabilities.document_formatting then
-			vim.api.nvim_clear_autocmds({ group = augroupfmt, buffer = bufnr })
-			vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-				group = augroupfmt,
-				buffer = bufnr,
-				callback = function()
-					vim.lsp.buf.formatting_sync(nil, 5000)
-				end,
-			})
-		end
-	end,
-})
