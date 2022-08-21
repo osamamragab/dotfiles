@@ -3,8 +3,6 @@ vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.mouse = "a"
 -- vim.opt.updatetime = 50 -- 300
 vim.opt.belloff = "all"
-vim.opt.exrc = true
-vim.opt.secure = true
 
 vim.opt.hidden = true
 vim.opt.backup = false
