@@ -58,62 +58,52 @@ xi "build tools" \
 	gcc git make pkg-config
 
 xi "general tools" \
-	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw tmux nnn slop maim dunst util-linux xdg-utils xtools time entr vsv mlocate fzy fzf ripgrep fd cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz zip unzip signify tlp tlp-rdw delta tig exiftool redshift newsboat srm trash-cli spt bat buku lftp xoris dragon \
+	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw nnn slop maim dunst util-linux xdg-utils xtools time entr vsv mlocate fzy fzf ripgrep fd cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdo xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz zip unzip signify tlp tlp-rdw delta tig exiftool redshift newsboat srm trash-cli spt bat buku lftp xoris dragon rlwrap \
 	- lshw hwinfo rsync inotify-tools earlyoom sc-im android-tools scrcpy translate-shell xautolock miniserve youtube-viewer aria2 openntpd bluez lprng firejail qemu fribidi arandr tree glow catimg mdp screenkey git-extras git-lfs fbida zbar qrencode \
 	-- flatpak flatpak-builder glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
 
 xi "manual pages" \
 	man-pages man-pages-posix
 
-xi "text editor" \
-	vim neovim
-
-xi "zsh" \
-	zsh zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search
+xi "text editor & shell" \
+	vim neovim tmux zsh \
+	- zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search \
+	-- tmate ttyd
 
 xi "audio tools" \
 	alsa-utils alsa-plugins-pulseaudio pulseaudio pulseaudio-utils pamixer pulsemixer apulse
 
 xi "multimedia tools" \
-	ImageMagick ffmpeg sox mpv nsxiv \
-	-- playerctl mpv-mpris mpDris2
+	ImageMagick ffmpeg mpv nsxiv zathura zathura-pdf-mupdf mupdf \
+	- zathura-ps zathura-djvu gimp \
+	-- playerctl mpv-mpris mpDris2 wkhtmltopdf openshot audacity lmms obs
 
 xi "music players" \
 	mpd mpc ncmpcpp
 
-xi "pdf tools" \
-	zathura zathura-pdf-mupdf mupdf \
-	- zathura-ps zathura-djvu \
-	-- wkhtmltopdf
-
-xi "video/photo/audio editors" \
-	- gimp \
-	-- openshot inkscape krita darktable audacity lmms obs
-
 xi "system monitoring tools" \
-	lm_sensors htop iftop powertop mon \
-	- bmon atop iotop \
-	-- gotop speedometer vnstat sysstat procs nmon wavemon dstat latencytop sysprof fio
+	perf strace ltrace lm_sensors htop iftop iotop mon bmon \
+	- vnstat wavemon fio
 
 xi "email tools" \
 	neomutt msmtp isync notmuch
 
 xi "chatting applications" \
 	irssi \
-	- weechat weechat-python \
-	-- tuir toot slack-term Signal-Desktop telegram-desktop
+	- Signal-Desktop telegram-desktop \
+	-- tuir slack-term
 
 xi "web browsers" \
-	firefox w3m tor \
-	- lynx amfora sacc surfraw ddgr \
-	-- vimb lagrange torbrowser-launcher
+	firefox lynx w3m tor \
+	- amfora sacc surfraw \
+	-- vimb lagrange torbrowser-launcher ddgr
 
 xi "torrent tools" \
 	transmission rtorrent \
 	- btfs
 
 xi "programming stuff" \
-	clang lld tcc go rustup zig python3 lua nodejs R perl ruby c gdb valgrind strace ltrace clang-analyzer rust-analyzer gopls pnpm binutils upx delve jq jo xxd ired
+	clang lld tcc go rustup zig python3 lua nodejs R perl ruby c gdb valgrind clang-analyzer rust-analyzer gopls pnpm binutils upx delve jq jo xxd ired
 	rustup-init
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
 [ "$level" -gt 0 ] && xi _ clib elixir sbcl openjdk sbt clojure leiningen gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
@@ -123,7 +113,7 @@ if [ "$level" -gt 1 ]; then
 	pip install mycli litecli
 fi
 cargo install cargo-edit cargo-update cargo-watch cargo-make rusty-tags stylua
-pnpm add -g typescript eslint prettier typescript-language-server pyright
+pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server pyright
 [ "$level" -gt 0 ] && pnpm add -g sass pug @vue/cli vls svelte-language-server vscode-langservers-extracted yaml-language-server emmet-ls
 [ "$level" -gt 1 ] && pnpm add -g svgo ts-node nodemon http-server serve livereload
 if ! command -v deno >/dev/null 2>&1; then
@@ -138,16 +128,18 @@ xi "docker" \
 	docker docker-compose docker-credential-pass
 
 xi "arduino" \
-	- arduino arduino-cli
+	- arduino-cli \
+	-- arduino
 
 xi "markup/latex tools" \
-	pandoc groff mdocml texlive \
+	pandoc groff mdocml \
+	- texlive \
 	-- texlive-full
 
-xi "networking tools" \
-	nmap netcat lsof traceroute mtr wireshark wireshark-qt termshark inetutils iputils net-tools bind-utils socat websocat iperf3 arp-scan tcpreplay netsniff-ng aircrack-ng ettercap bettercap macchanger sqlmap wrk hey wuzz \
-	- hashcat hashcat-utils sslscan testssl.sh radamsa nemesis \
-	-- geoip geoip-data proxychains-ng thc-hydra kismet john urh
+xi "networking/testing tools" \
+	nmap netcat lsof traceroute mtr wireshark termshark inetutils iputils net-tools iperf3 arp-scan tcpreplay ettercap bettercap macchanger sqlmap wrk hey \
+	- wireshark-qt netsniff-ng aircrack-ng proxychains-ng socat websocat \
+	-- wuzz thc-hydra hashcat hashcat-utils radamsa nemesis urh sslscan kismet john
 cargo install xh
 pip install mitmproxy
 
@@ -168,15 +160,16 @@ xi "sent dependencies" \
 [ "$PYENV_ROOT" ] && [ ! -d "$PYENV_ROOT" ] && [ -d "$PROGRAMSDIR/pyenv" ] &&
 	ln -s "$PROGRAMSDIR/pyenv" "$PYENV_ROOT"
 
-if [ ! -f "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim" ]; then
-	echo "installing vim plug..."
-	curl --create-dirs -fLo "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/autoload/plug.vim" https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+PACKERDIR="${PACKERDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim}"
+if [ ! -f "$PACKERDIR" ]; then
+	echo "installing packer.nvim..."
+	git clone --depth 1 "https://github.com/wbthomason/packer.nvim" "$PACKERDIR"
 fi
 
-if [ -f /usr/lib/mpv-mpris/mpris.so ] && [ ! -f "$HOME/.config/mpv/scripts/mpris.so" ]; then
+if [ -f "/usr/lib/mpv-mpris/mpris.so" ] && [ ! -f "$HOME/.config/mpv/scripts/mpris.so" ]; then
 	echo "linking mpv-mpris plugin..."
 	[ -d "$HOME/.config/mpv/scripts" ] || mkdir -p "$HOME/.config/mpv/scripts"
-	doas ln -s /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts/mpris.so"
+	doas ln -s "/usr/lib/mpv-mpris/mpris.so" "$HOME/.config/mpv/scripts/mpris.so"
 fi
 
 echo "changing default shell to zsh..."
