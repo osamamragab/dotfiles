@@ -7,14 +7,6 @@ panic() {
 	exit 1
 }
 
-jrview() {
-	if command -v glow >/dev/null 2>&1; then
-		glow -p "$1"
-	else
-		pandoc -t html "$1" | lynx -stdin
-	fi
-}
-
 if [ $# -eq 0 ]; then
 	fn="$JOURNALDIR/$(date "+%Y-%m-%d").md"
 	[ -s "$fn" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" > "$fn"
@@ -25,9 +17,8 @@ fi
 case "$(echo "$1" | sed "s/^-\+//" )" in
 	e | edit) cmd="$EDITOR" ;;
 	r | read) cmd="$EDITOR -R" ;;
-	v | view) cmd="jrview" ;;
 	h | help)
-		printf "usage:\n  %s <edit | read | view>\n" "$(basename "$0")"
+		printf "usage:\n  %s <edit | read>\n" "$(basename "$0")"
 		exit 0
 		;;
 	*) panic "unknown command \"$1\"" ;;
@@ -39,4 +30,4 @@ sel="${2:-$(find "$JOURNALDIR" -maxdepth 1 -type f -printf "%P\n" | sed "s/.md$/
 [ "$sel" = "today" ] && $cmd "$JOURNALDIR/$(date "+%Y-%m-%d").md" && exit 0
 [ -f "$JOURNALDIR/$sel.md" ] || panic "file not found"
 
-$cmd "$JOURNALDIR/$sel.md"
+exec $cmd "$JOURNALDIR/$sel.md"
