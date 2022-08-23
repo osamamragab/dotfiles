@@ -19,6 +19,12 @@ autocmd("FileType", {
 	command = "setlocal expandtab",
 })
 
+autocmd("BufWritePre", {
+	group = filetype,
+	pattern = "*",
+	command = "%s/\\s\\+$//e",
+})
+
 autocmd("BufWritePost", {
 	group = filetype,
 	pattern = { "xdefaults", "Xdefaults", "xresources", "Xresources" },
