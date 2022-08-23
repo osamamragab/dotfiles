@@ -6,9 +6,8 @@ stty stop undef
 
 __promptcmd() {
 	pr="%F{$([ $? -eq 0 ] && echo "green" || echo "red")}>"
-	br="$(git symbolic-ref HEAD --short 2>/dev/null)"
 	wd="%F{cyan}%c"
-	[ "$br" ] && echo "$wd %F{blue}($br) $pr" || echo "$wd $pr"
+	[ -d .git ] && echo "$wd %F{blue}($(git symbolic-ref HEAD --short 2>/dev/null)) $pr" || echo "$wd $pr"
 }
 PS1="%B\$(__promptcmd)%F{reset}%b "
 
