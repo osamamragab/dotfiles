@@ -18,6 +18,7 @@ alias ll="ls -lA"
 alias grep="grep --color=auto"
 alias gr="grep --exclude-dir={.git,node_modules} -Hnr"
 
+alias g="git"
 alias gst="git status -sb"
 alias gph="git push"
 alias gpl="git pull"
