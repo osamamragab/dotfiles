@@ -1,6 +1,9 @@
 *.font: monospace:size=10
 *.alpha: 0.8
 
+dwm.statusmon: 1
+dwm.smartgaps: 1
+
 st.font: IBM Plex Mono:pixelsize=17.7:antialias=true:autohint=true:weight=demibold
 st.alpha: 0.92
 st.alphaOffset: 0.3
