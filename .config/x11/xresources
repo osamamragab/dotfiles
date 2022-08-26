@@ -4,15 +4,16 @@
 dwm.statusmon: 1
 dwm.smartgaps: 1
 
-st.font: IBM Plex Mono:pixelsize=17.7:antialias=true:autohint=true:weight=demibold
-st.alpha: 0.92
-st.alphaOffset: 0.3
-st.tabspaces: 2
+St.font: IBM Plex Mono:pixelsize=17.7:antialias=true:autohint=true:weight=demibold
+St.alpha: 0.92
+St.alphaOffset: 0.3
+St.tabspaces: 2
 
 *.background: #1c1c1c
 *.foreground: #d8dee9
+*.cursorColor: #d8dee9
 
-*.color0: #1c1c1c
+*.color0: #3b4252
 *.color1: #bf616a
 *.color2: #a3be8c
 *.color3: #ebcb8b
