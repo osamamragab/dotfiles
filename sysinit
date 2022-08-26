@@ -106,7 +106,7 @@ xi "programming stuff" \
 	clang lld tcc go rustup zig python3 lua nodejs R perl ruby c gdb valgrind clang-analyzer rust-analyzer gopls pnpm binutils upx delve jq jo xxd ired
 	rustup-init
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
-[ "$level" -gt 0 ] && xi _ clib elixir sbcl openjdk sbt clojure leiningen gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
+[ "$level" -gt 0 ] && xi _ clib elixir sbcl openjdk sbt clojure leiningen julia kotlin-bin gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
 if [ "$level" -gt 1 ]; then
 	xi _ clisp erlang ctags grpc protobuf terraform tflint tokei misspell pgcli dive bvi hyperfine svgcleaner
 	go install -v google.golang.org/protobuf/cmd/protoc-gen-go@latest github.com/fullstorydev/grpcurl@latest github.com/timakin/bodyclose@latest
