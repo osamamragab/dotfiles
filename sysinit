@@ -75,8 +75,8 @@ xi "audio tools" \
 
 xi "multimedia tools" \
 	ImageMagick ffmpeg mpv nsxiv zathura zathura-pdf-mupdf mupdf \
-	- zathura-ps zathura-djvu gimp \
-	-- playerctl mpv-mpris mpDris2 wkhtmltopdf openshot audacity lmms obs
+	- zathura-ps zathura-djvu playerctl mpv-mpris mpDris2 \
+	-- gimp openshot audacity
 
 xi "music players" \
 	mpd mpc ncmpcpp
