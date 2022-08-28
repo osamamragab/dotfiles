@@ -77,10 +77,8 @@ fi
 unset plugdir
 
 bindkey -s "^o" 'xdg-open "$(fzf-tmux)" >/dev/null\n'
-bindkey -s "^s" '$EDITOR "$(fzf-tmux)"\n'
 bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
-#bindkey -s "^[t" '[ -d .git ] && grep TODO -Hnr *\n'
 
 NNN_FIFO="/tmp/nnn-$(shuf -i 100-999 -n 1).fifo"
 onexit() {
