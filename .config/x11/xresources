@@ -10,9 +10,10 @@ St.alphaOffset: 0.3
 St.tabspaces: 2
 
 *.background: #1c1c1c
+*.backgroundSel: #434c5e
 *.foreground: #d8dee9
+*.foregroundSel: #eeeeee
 *.cursorColor: #d8dee9
-*.selectionColor: #434c5e
 
 *.color0: #3b4252
 *.color1: #bf616a
