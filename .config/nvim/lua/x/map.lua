@@ -33,6 +33,6 @@ nnoremap("<C-j>", "<cmd>cprev<cr>zz")
 nnoremap("<leader>k", "<cmd>lnext<cr>zz")
 nnoremap("<leader>j", "<cmd>lprev<cr>zz")
 
-nnoremap("<leader>bv", ":Ex<cr>")
+nnoremap("<leader>b", ":Ex<cr>")
 
 nnoremap("<leader>s", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>")
