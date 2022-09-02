@@ -65,8 +65,8 @@ xi "general tools" \
 xi "manual pages" \
 	man-pages man-pages-posix
 
-xi "text editor & shell" \
-	vim neovim tmux zsh \
+xi "shell & text editor" \
+	zsh vim neovim tmux \
 	- zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search \
 	-- tmate ttyd
 
