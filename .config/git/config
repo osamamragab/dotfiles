@@ -43,12 +43,14 @@
 	dt = difftool
 	cl = clone
 	cld = clone --depth 1
+	clb = clone --bare
 	unstage = reset HEAD --
 	undo = reset --soft HEAD^
 	logg = log --oneline --graph --decorate
 	lastcm = log -1 HEAD
 	tree = ls-tree --full-tree -r HEAD
 	ls = ls-files
+	wt = worktree
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
