@@ -124,8 +124,8 @@ fi
 xi "cheat sheet tools" \
 	cheat tealdeer
 
-xi "docker" \
-	docker docker-compose docker-credential-pass
+xi "nix & docker" \
+	nix docker docker-compose docker-credential-pass
 
 xi "arduino" \
 	- arduino-cli \
