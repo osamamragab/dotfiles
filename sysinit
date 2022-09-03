@@ -89,9 +89,9 @@ xi "email tools" \
 	neomutt msmtp isync notmuch
 
 xi "chatting applications" \
-	irssi \
-	- Signal-Desktop telegram-desktop \
-	-- tuir slack-term
+	weechat \
+	- weechat-lua weechat-python \
+	-- tuir slack-term Signal-Desktop telegram-desktop
 
 xi "web browsers" \
 	firefox lynx w3m tor \
