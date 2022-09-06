@@ -13,4 +13,4 @@ sel="$(echo "$apps" | cut -d " " -f 2- | dmenu -i -p "flatpak run:")" || exit 1
 id="$(echo "$apps" | awk "/$sel/{print \$1}")"
 [ -z "$id" ] && exit 1
 
-${SHELL:-"/bin/sh"} -c "flatpak run $id" &
+exec flatpak run "$id"
