@@ -91,12 +91,12 @@ xi "email tools" \
 xi "chatting applications" \
 	weechat \
 	- weechat-lua weechat-python \
-	-- tuir slack-term Signal-Desktop telegram-desktop
+	-- tuir
 
 xi "web browsers" \
-	firefox lynx w3m tor \
-	- amfora sacc surfraw \
-	-- vimb lagrange torbrowser-launcher ddgr
+	lynx w3m tor \
+	- amfora sacc \
+	-- vimb lagrange ddgr
 
 xi "torrent tools" \
 	transmission rtorrent \
