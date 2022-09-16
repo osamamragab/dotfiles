@@ -23,6 +23,7 @@ return require("packer").startup(function()
 	use("lewis6991/gitsigns.nvim")
 	use("simrat39/symbols-outline.nvim")
 	use("gpanders/editorconfig.nvim")
+	use("akinsho/flutter-tools.nvim")
 	use("junegunn/goyo.vim")
 	use("arcticicestudio/nord-vim")
 

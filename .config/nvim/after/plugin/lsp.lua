@@ -157,3 +157,7 @@ lsp.elixirls.setup(config({
 		},
 	},
 }))
+
+require("flutter-tools").setup({
+	lsp = config(),
+});
