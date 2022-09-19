@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ ! -d /sys/class/power_supply ] || [ -z "$(ls -A /sys/class/power_supply)" ]; then
+	echo "!"
+	exit 1
+fi
+
+for bat in /sys/class/power_supply/BAT?*; do
+	[ "$(cat "$bat/status")" = "Charging" ] && printf "⚡ "
+	echo "$(cat "$bat/capacity")%"
+done
