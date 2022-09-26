@@ -57,12 +57,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 export LESS="-R"
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
-export LESS_TERMCAP_mb="$(printf "%b" "\e[01;31m")"
-export LESS_TERMCAP_md="$(printf "%b" "\e[01;31m")"
-export LESS_TERMCAP_me="$(printf "%b" "\e[0m")"
-export LESS_TERMCAP_se="$(printf "%b" "\e[0m")"
-export LESS_TERMCAP_so="$(printf "%b" "\e[01;44;33m")"
-export LESS_TERMCAP_ue="$(printf "%b" "\e[0m")"
-export LESS_TERMCAP_us="$(printf "%b" "\e[01;32m")"
+export MANPAGER="less -R --use-color -Dd+b -Duc"
 
 [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
