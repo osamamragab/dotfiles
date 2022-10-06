@@ -155,7 +155,7 @@ xi "surf dependencies" \
 xi "sent dependencies" \
 	farbfeld
 
-[ -x "$cdir/.local/bin/sysupdate" ] && "$cdir/.local/bin/sysupdate" -local
+[ -x "$cdir/.local/bin/sysupdate" ] && "$cdir/.local/bin/sysupdate" local
 
 [ "$PYENV_ROOT" ] && [ ! -d "$PYENV_ROOT" ] && [ -d "$PROGRAMSDIR/pyenv" ] &&
 	ln -s "$PROGRAMSDIR/pyenv" "$PYENV_ROOT"
