@@ -149,11 +149,8 @@ xi "fonts" \
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 [ -d "$PROGRAMSDIR" ] || mkdir -p "$PROGRAMSDIR"
 
-xi "surf dependencies" \
-	webkit2gtk-devel gcr-devel gst-libav gst-plugins-good1
-
-xi "sent dependencies" \
-	farbfeld
+xi "local apps' dependencies" \
+	webkit2gtk-devel gcr-devel gst-libav gst-plugins-good1 farbfeld readline-devel editline-devel
 
 [ -x "$cdir/.local/bin/sysupdate" ] && "$cdir/.local/bin/sysupdate" local
 
