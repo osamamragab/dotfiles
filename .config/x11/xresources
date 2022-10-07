@@ -1,7 +1,7 @@
 *.font: monospace:size=10
 *.alpha: 0.8
 
-dwm.statusmon: 1
+dwm.statusmon: 0
 dwm.smartgaps: 1
 
 St.font: monospace:pixelsize=18:antialias=true:autohint=true:weight=bold
