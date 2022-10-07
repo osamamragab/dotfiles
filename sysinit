@@ -82,7 +82,7 @@ xi "music players" \
 	mpd mpc ncmpcpp
 
 xi "system monitoring tools" \
-	socklog socklog-void perf strace ltrace lm_sensors htop iftop iotop powertop mon bmon \
+	socklog socklog-void perf strace ltrace lm_sensors htop iftop iotop powertop cpufrequtils mon bmon \
 	- vnstat wavemon fio
 
 xi "email tools" \
