@@ -74,7 +74,7 @@ updatelocal() {
 				[ -s Makefile ] && makeinstall O_NERD=1
 				;;
 			bicon)
-				./autogen.sh && ./configure && make && make install
+				./autogen.sh && ./configure && make && doas make install
 				;;
 			z)
 				doas cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1 &&
