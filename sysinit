@@ -58,8 +58,8 @@ xi "build tools" \
 	gcc git make pkg-config autoconf automake libtool
 
 xi "general tools" \
-	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw nnn slop maim dunst util-linux xdg-utils xtools time bc entr snooze vsv mlocate fzy fzf ripgrep fd cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdo xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz zip unzip signify tlp tlp-rdw delta highlight tig exiftool redshift newsboat srm trash-cli spt bat buku lftp xoris dragon rlwrap \
-	- lshw hwinfo rsync inotify-tools earlyoom sc-im android-tools translate-shell xautolock youtube-viewer openntpd bluez lprng firejail qemu arandr tree catimg mdp screenkey git-extras git-lfs fbida zbar qrencode \
+	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw nnn slop maim dunst util-linux xdg-utils xtools xss-lock xautolock time bc entr snooze vsv mlocate fzy fzf ripgrep fd cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdo xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz zip unzip signify tlp tlp-rdw delta highlight tig exiftool redshift newsboat srm trash-cli spt bat buku lftp xoris dragon rlwrap \
+	- lshw hwinfo rsync inotify-tools earlyoom sc-im android-tools translate-shell youtube-viewer openntpd bluez lprng firejail qemu arandr tree catimg mdp screenkey git-extras git-lfs fbida zbar qrencode \
 	-- scrcpy syncthing flatpak flatpak-builder glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
 
 xi "manual pages" \

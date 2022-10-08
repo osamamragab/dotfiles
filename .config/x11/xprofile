@@ -5,6 +5,7 @@ xset -q | grep "Caps Lock:\s*on" && xdotool key Caps_Lock &
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
 # [ -f "$HOME/.local/share/bg" ] && command -v wal >/dev/null 2>&1 && wal -i "$HOME/.local/share/bg" >/dev/null 2>&1 &
 [ -f "$HOME/.local/share/bg" ] && xwallpaper --zoom "$HOME/.local/share/bg" >/dev/null 2>&1 &
+xss-lock slock &
 xautolock -secure -time 10 -corners +00- -locker slock &
 ! pidof -s pulseaudio >/dev/null 2>&1 && setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1 &
 
