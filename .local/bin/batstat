@@ -6,6 +6,18 @@ if [ ! -d /sys/class/power_supply ] || [ -z "$(ls -A /sys/class/power_supply)" ]
 fi
 
 for bat in /sys/class/power_supply/BAT?*; do
-	[ "$(cat "$bat/status")" = "Charging" ] && printf "⚡ "
-	echo "$(cat "$bat/capacity")%"
+	cap="$(cat "$bat/capacity" 2>&1)"
+	case "$(cat "$bat/status" 2>&1)" in
+		"Full") icon="🟢" ;;
+		"Charging") icon="⚡" ;;
+		"Discharging")
+			if [ "$cap" -eq 15 ]; then
+				icon="❗"
+				notify-send -u critical -a "$(basename "$0")" "battery is too low" "please charge this device"
+			fi
+			;;
+		"Not charging") icon="🛑" ;;
+		"Unknown") status="♻️" ;;
+	esac
+	[ "$icon" ] && echo "$cap% $icon" || echo "$cap%"
 done
