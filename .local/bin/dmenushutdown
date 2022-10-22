@@ -1,11 +1,12 @@
 #!/bin/sh
 
-sel="${1:-$(printf "lock\nexit\nreboot\nshutdown" | dmenu -i)}"
+sel="${1:-$(printf "lock\nexit\nsleep\nreboot\nshutdown" | dmenu -i)}"
 [ -z "$sel" ] && exit 1
 
 case "$sel" in
 	lock) slock -l ;;
 	exit) pkill -x dwm ;;
+	sleep) doas zzz ;;
 	reboot) doas reboot ;;
 	shutdown) doas poweroff ;;
 	*)
