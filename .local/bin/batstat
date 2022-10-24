@@ -16,7 +16,7 @@ for bat in /sys/class/power_supply/BAT?*; do
 				notify-send -u critical -a "$(basename "$0")" "battery is too low" "please charge this device"
 			;;
 		"Not charging") icon="🛑" ;;
-		"Unknown") status="♻️" ;;
+		"Unknown") icon="♻️" ;;
 	esac
 	[ "$icon" ] && echo "$cap% $icon" || echo "$cap%"
 done
