@@ -1,0 +1,21 @@
+#!/bin/sh
+
+case "$1" in
+	""|lock)
+		while ! slock; do
+			sleep 0.5
+		done
+		;;
+	dim)
+		trap "exit 0" TERM INT
+		# shellcheck disable=SC2064
+		trap "xbacklight -steps 1 -set $(xbacklight -get); kill \$!" EXIT
+		xbacklight -time 200 -steps 20 -set "${2:-0}"
+		sleep 2147483647 &
+		wait
+		;;
+	*)
+		echo "$(basename "$0"): unknown command $1" >&2
+		exit 1
+		;;
+esac
