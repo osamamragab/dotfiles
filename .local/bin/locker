@@ -2,6 +2,8 @@
 
 case "$1" in
 	""|lock)
+		trap "pidof -s xcompmgr || setsid -f xcompmgr" EXIT
+		pkill xcompmgr >/dev/null 2>&1
 		while ! slock; do
 			sleep 0.5
 		done
