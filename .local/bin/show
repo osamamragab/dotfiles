@@ -1,7 +1,7 @@
 #!/bin/sh
 
 for x in "$@"; do
-	if [ -r "$x" ]; then
+	if [ -f "$x" ]; then
 		cat "$x"
 	elif [ -d "$x" ]; then
 		ls -p --color=auto "$x"
