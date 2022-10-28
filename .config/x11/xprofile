@@ -9,9 +9,11 @@ xset s 180 120 &
 xss-lock -n "locker dim 10" locker &
 ! pidof -s pulseaudio >/dev/null 2>&1 && setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1 &
 
-for p in dwmblocks dunst xcompmgr xbanish clipmenud mpd mpDris2; do
+for p in dwmblocks dunst xbanish clipmenud mpd; do
 	command -v "$p" || continue
 	pidof -s "$p" || setsid -f "$p"
 done >/dev/null 2>&1
 
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
+
+(sleep 1 && xcompmgr) &
