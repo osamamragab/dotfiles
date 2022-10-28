@@ -37,11 +37,9 @@ require("luasnip.loaders.from_vscode").lazy_load({
 	exclude = {},
 })
 
-local capabilities = cmplsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local function config(cfg)
 	return vim.tbl_deep_extend("force", {
-		capabilities = capabilities,
 		on_attach = function()
 			nnoremap("gd", function()
 				vim.lsp.buf.definition()
