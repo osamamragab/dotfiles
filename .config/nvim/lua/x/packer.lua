@@ -1,4 +1,4 @@
-return require("packer").startup(function()
+return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
 	use("neovim/nvim-lspconfig")
 	use("glepnir/lspsaga.nvim")
@@ -26,6 +26,10 @@ return require("packer").startup(function()
 	use("akinsho/flutter-tools.nvim")
 	use("junegunn/goyo.vim")
 	use("arcticicestudio/nord-vim")
+	use({
+		"nvim-lualine/lualine.nvim",
+		requires = { "kyazdani42/nvim-web-devicons", opt = true }
+	})
 
 	-- use("tpope/vim-fugitive")
 	-- use("rust-lang/rust.vim")
