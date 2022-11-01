@@ -51,6 +51,7 @@ export NNN_PLUG="x:!chmod +x \$nnn*;p:-preview-tabbed"
 export NNN_FIFO="/tmp/nnn.fifo"
 export NNN_ORDER="t:$HOME/dls"
 export FZF_DEFAULT_COMMAND="rg --files --hidden -L -g '!.git'"
+export GTK_THEME=Adwaita:dark
 export QT_QPA_PLATFORMTHEME="gtk2"
 export _JAVA_AWT_WM_NONREPARENTING=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
