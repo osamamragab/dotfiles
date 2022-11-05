@@ -4,7 +4,7 @@ sel="${1:-$(printf "lock\nexit\nsleep\nreboot\nshutdown" | dmenu -i)}"
 [ -z "$sel" ] && exit 1
 
 case "$sel" in
-	lock) slock -l ;;
+	lock) locker ;;
 	exit) pkill -x dwm ;;
 	sleep) doas zzz ;;
 	reboot) doas reboot ;;
