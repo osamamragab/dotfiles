@@ -4,4 +4,4 @@ cdir="$(dirname "$(readlink -f "$0")")"
 cp -srfv "$cdir/.config" "$cdir/.local" "$HOME"
 ln -sfv "${XDG_CONFIG_HOME:-$HOME/.config}/shell/profile" "$HOME/.zprofile"
 ln -sfv "${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf" "$HOME/.tmux.conf"
-"$(command -v doas || command -v sudo)" ln -sfv "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xorg.conf" /etc/X11/xorg.conf
+"$(command -v doas || command -v sudo)" cp -srfv "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xorg.conf.d" /etc/X11/
