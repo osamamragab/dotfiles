@@ -7,11 +7,10 @@ xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
 [ -f "$HOME/.local/share/bg" ] && xwallpaper --zoom "$HOME/.local/share/bg" >/dev/null 2>&1 &
 xset s 180 120 &
 xss-lock -n "locker dim 10" locker &
-! pidof -s pulseaudio >/dev/null 2>&1 && setsid -f pulseaudio --start --exit-idle-time=-1 >/dev/null 2>&1 &
 
-for p in dwmblocks dunst xbanish clipmenud mpd; do
+for p in pipewire dwmblocks dunst mpd xbanish clipmenud; do
 	command -v "$p" || continue
-	pidof -s "$p" || setsid -f "$p"
+	pidof -s "$p" || setsid -f "$p" &
 done >/dev/null 2>&1
 
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
