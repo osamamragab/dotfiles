@@ -2,9 +2,12 @@
 
 case "$1" in
 	""|lock)
+		pidof -s slock >/dev/null 2>&1 && exit 0
 		trap "pidof -s xcompmgr || setsid -f xcompmgr" EXIT
 		pkill xcompmgr >/dev/null 2>&1
-		while ! slock; do
+		playerctl -i mpd pause >/dev/null 2>&1
+		[ $# -gt 0 ] && shift
+		while ! slock "$@"; do
 			sleep 0.5
 		done
 		;;
@@ -15,6 +18,23 @@ case "$1" in
 		xbacklight -time 200 -steps 20 -set "${2:-0}"
 		sleep 2147483647 &
 		wait
+		;;
+	sleep)
+		[ "$(mpc status %state% 2>/dev/null)" = "playing" ] || zzz
+		;;
+	enable)
+		xset +dpms
+		xset s on
+		;;
+	disable)
+		xset -dpms
+		xset s off
+		;;
+	stayup)
+		trap "xset +dpms; xset s on" EXIT
+		xset -dpms
+		xset s off
+		pause
 		;;
 	*)
 		echo "$(basename "$0"): unknown command $1" >&2
