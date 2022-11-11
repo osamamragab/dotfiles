@@ -18,7 +18,7 @@ gitupdate() {
 	echo "updating $dir..."
 	[ -d "$dir" ] || git clone "$url" "$dir"
 	cd "$dir" || return 1
-	lbr="$(git remote show origin | sed -n '/HEAD branch:/s/.* //p')"
+	lbr="$(git remote show origin | sed -n "/HEAD branch:/s/.* //p")"
 	case $# in
 		1) ups="upstream" ubr="$lbr" ;;
 		2) ups="$2" ubr="$lbr" ;;
@@ -43,7 +43,8 @@ updatepkgs() {
 	ifinst bun && bun upgrade
 	ifinst deno && deno upgrade
 	ifinst pnpm && pnpm update -g
-	# ifinst gem && gem update
+	ifinst gem && gem update
+	ifinst nvim && nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
 	# ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
 	# ifinst flatpak && flatpak update -y
 	# ifinst flutter && flutter upgrade
