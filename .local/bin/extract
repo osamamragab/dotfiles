@@ -5,22 +5,22 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-while [ $# -gt 0 ]; do
-	[ -r "$1" ] || echo "$1: file does not exists or not readable" >&2
-	case "$1" in
-		*.tar.bz2|*.tbz2) tar -xvjf "$1" ;;
-		*.tar.gz|*.tgz) tar -xvzf "$1" ;;
-		*.tar.xz) tar -Jxvf "$1" ;;
-		*.tar) tar -xvf "$1" ;;
-		*.bz2) bunzip2 "$1" ;;
-		*.gz) gunzip "$1" ;;
-		*.xz) unxz "$1" ;;
-		*.lzma) unlzma "$1" ;;
-		*.zip) unzip -d "$(echo "$1" | sed 's/\(.*\)\.zip/\1/')" "$1" ;;
-		*.rar) unrar x -ad "$1" ;;
-		*.Z) uncompress "$1" ;;
-		*.7z) 7z x "$1" ;;
-		*) echo "$1: unknown archive type" >&2 ;;
+for ar in "$@"; do
+	[ -r "$ar" ] || echo "$ar: file does not exists or not readable" >&2
+	case "$ar" in
+		*.tar.bz2|*.tbz2) tar -xvjf "$ar" ;;
+		*.tar.gz|*.tgz) tar -xvzf "$ar" ;;
+		*.tar.xz) tar -Jxvf "$ar" ;;
+		*.tar) tar -xvf "$ar" ;;
+		*.bz2) bunzip2 "$ar" ;;
+		*.gz) gunzip "$ar" ;;
+		*.xz) unxz "$ar" ;;
+		*.lzma) unlzma "$ar" ;;
+		*.zst) unzstd "$ar" ;;
+		*.zip) unzip -d "$(echo "$ar" | sed 's/\(.*\)\.zip/\1/')" "$ar" ;;
+		*.rar) unrar x -ad "$ar" ;;
+		*.Z) uncompress "$ar" ;;
+		*.7z) 7z x "$ar" ;;
+		*) echo "$ar: unknown archive type" >&2 ;;
 	esac
-	shift
 done
