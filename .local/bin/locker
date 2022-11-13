@@ -20,7 +20,7 @@ case "$1" in
 		wait
 		;;
 	sleep)
-		[ "$(mpc status %state% 2>/dev/null)" = "playing" ] || zzz
+		[ "$2" != "force" ] && [ "$(mpc status %state% 2>/dev/null)" = "playing" ] || loginctl suspend
 		;;
 	enable)
 		xset +dpms
