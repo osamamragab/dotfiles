@@ -103,7 +103,7 @@ xi "torrent tools" \
 	- btfs
 
 xi "programming stuff" \
-	clang lld tcc go rustup zig python3 lua nodejs R perl ruby c gdb valgrind clang-analyzer rust-analyzer gopls python3-pip python3-pipx python3-pipenv pnpm binutils upx delve jq jo xxd ired
+	clang lld tcc go rustup zig python3 lua nodejs R perl ruby c gdb valgrind clang-analyzer rust-analyzer gopls python3-pip python3-pipx python3-pipenv luarocks pnpm binutils upx delve jq jo xxd ired
 	rustup-init
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
 [ "$level" -gt 0 ] && xi _ clib elixir sbcl openjdk sbt clojure leiningen julia kotlin-bin gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
@@ -139,7 +139,7 @@ xi "markup/latex tools" \
 xi "networking/testing tools" \
 	nmap netcat lsof traceroute mtr wireshark termshark inetutils iputils net-tools bind-utils iperf3 arp-scan tcpreplay ettercap bettercap macchanger sqlmap wrk hey \
 	- wireshark-qt netsniff-ng aircrack-ng proxychains-ng socat websocat \
-	-- wuzz thc-hydra hashcat hashcat-utils radamsa nemesis urh sslscan
+	-- thc-hydra hashcat hashcat-utils radamsa nemesis urh sslscan
 cargo install xh
 pip install mitmproxy
 
