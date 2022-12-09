@@ -26,8 +26,10 @@ gitupdate() {
 	esac
 	git checkout "$lbr"
 	git fetch "$ups" "$ubr"
-	git merge "$ups/$ubr"
+	mm="$(git merge "$ups/$ubr")"
+	echo "$mm"
 	[ -s .gitmodules ] && git submodule update --init --recursive
+	[ "$mm" = "Already up to date." ] && return 1
 }
 
 makeinstall() {
@@ -64,12 +66,12 @@ updatelocal() {
 			dwmblocks) ure="git@github.com:torrinfail/dwmblocks.git" ;;
 		esac
 		git remote add upstream "$ure" >/dev/null 2>&1
-		gitupdate "git@gitlab.com:osamai/$p.git" upstream "$ubr"
+		gitupdate "git@gitlab.com:osamai/$p.git" upstream "$ubr" || continue
 		[ -s Makefile ] && makeinstall
 	done
 
 	for r in $LOCALREPOS; do
-		gitupdate "$r" origin
+		gitupdate "$r" origin || continue
 		case "$(reponame "$r")" in
 			nnn)
 				[ -s Makefile ] && makeinstall O_NERD=1
