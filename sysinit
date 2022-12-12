@@ -71,7 +71,7 @@ xi "shell & text editor" \
 	-- tmate ttyd
 
 xi "audio tools" \
-	alsa-utils pipewire pamixer pulsemixer apulse
+	alsa-utils alsa-plugins-pulseaudio pulseaudio pulseaudio-utils pamixer pulsemixer apulse
 
 xi "multimedia tools" \
 	ImageMagick ffmpeg mpv nsxiv zathura zathura-pdf-mupdf mupdf \
