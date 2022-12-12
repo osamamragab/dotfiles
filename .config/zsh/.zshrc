@@ -95,4 +95,5 @@ if [ -d "$ZSHPLUGINSDIR" ]; then
 	fi
 fi
 
-[ -f "${PROGRAMSDIR:-$HOME/programs}/z/z.sh" ] && . "${PROGRAMSDIR:-$HOME/programs}/z/z.sh"
+[ -s "${PROGRAMSDIR:-$HOME/programs}/z/z.sh" ] && . "${PROGRAMSDIR:-$HOME/programs}/z/z.sh"
+[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && . "$SDKMAN_DIR/bin/sdkman-init.sh"

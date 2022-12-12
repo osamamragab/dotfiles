@@ -116,10 +116,9 @@ cargo install cargo-edit cargo-update cargo-watch cargo-make rusty-tags stylua
 pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server pyright
 [ "$level" -gt 0 ] && pnpm add -g sass pug @vue/cli vls svelte-language-server vscode-langservers-extracted yaml-language-server emmet-ls
 [ "$level" -gt 1 ] && pnpm add -g svgo ts-node nodemon http-server serve livereload
-if ! command -v deno >/dev/null 2>&1; then
-	curl -fsSL https://deno.land/x/install/install.sh | \
-		DENO_INSTALL="${DENO_INSTALL_ROOT%/bin}" sh
-fi
+! command -v sdk >/dev/null 2>&1 && curl -fsSL https://get.sdkman.io | bash
+! command -v bun >/dev/null 2>&1 && curl -fsSL https://bun.sh/install | bash
+! command -v deno >/dev/null 2>&1 && curl -fsSL https://deno.land/x/install/install.sh | sh
 
 xi "cheat sheet tools" \
 	cheat tealdeer
