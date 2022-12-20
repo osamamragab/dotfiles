@@ -1,6 +1,5 @@
 #!/bin/sh
 
-while [ $# -gt 0 ]; do
-	setsid -f xdg-open "$1" >/dev/null 2>&1 &
-	shift
+for p in "$@"; do
+	setsid -f xdg-open "$p" >/dev/null 2>&1 &
 done

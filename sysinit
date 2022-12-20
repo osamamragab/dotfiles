@@ -23,17 +23,16 @@ xi() {
 	name="$1"
 	pkgs=""
 	shift
-	while [ $# -gt 0 ]; do
-		case "$1" in
+	for pkg in "$@"; do
+		case "$pkg" in
 			-*)
-				c="$(echo "$1" | tr -cd "-" | wc -c)"
-				[ "$c" -eq "${#1}" ] && [ "$level" -lt "${#1}" ] && break
+				c="$(echo "$pkg" | tr -cd "-" | wc -c)"
+				[ "$c" -eq "${#pkg}" ] && [ "$level" -lt "${#pkg}" ] && break
 				;;
 			*)
-				pkgs="$pkgs $1"
+				pkgs="$pkgs $pkg"
 				;;
 		esac
-		shift
 	done
 	[ -z "$pkgs" ] && return
 	[ "$name" != "_" ] && echo "installing $name..."

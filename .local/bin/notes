@@ -38,20 +38,19 @@ if [ $# -eq 0 ]; then
 	exit 0
 fi
 
-while [ $# -gt 0 ]; do
-	case "$1" in
-		*.txt | *.md) open "$NOTESDIR/$1" ;;
+for f in "$@"; do
+	case "$f" in
+		*.txt | *.md) open "$NOTESDIR/$f" ;;
 		*)
-			if [ -d "$NOTESDIR/$1" ]; then
-				NOTESDIR="$NOTESDIR/$1" "$0"
-			elif [ -f "$NOTESDIR/$1.md" ]; then
-				open "$NOTESDIR/$1.md"
-			elif [ -f "$NOTESDIR/$1.txt" ]; then
-				open "$NOTESDIR/$1.txt"
+			if [ -d "$NOTESDIR/$f" ]; then
+				NOTESDIR="$NOTESDIR/$f" "$0"
+			elif [ -f "$NOTESDIR/$f.md" ]; then
+				open "$NOTESDIR/$f.md"
+			elif [ -f "$NOTESDIR/$f.txt" ]; then
+				open "$NOTESDIR/$f.txt"
 			else
-				open "$NOTESDIR/$1"
+				open "$NOTESDIR/$f"
 			fi
 			;;
 	esac
-	shift
 done
