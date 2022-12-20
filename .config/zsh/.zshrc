@@ -69,6 +69,7 @@ bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M visual '^[[P' vi-delete
 
 bindkey -s "^o" 'xdg-open "$(fzf-tmux)" >/dev/null\n'
+bindkey -s "^s" '"$(fzf-tmux)"\n'
 bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
