@@ -9,11 +9,16 @@ for bat in /sys/class/power_supply/BAT?*; do
 	cap="$(cat "$bat/capacity" 2>&1)"
 	case "$(cat "$bat/status" 2>&1)" in
 		"Full") icon="🟢" ;;
-		"Charging") icon="⚡" ;;
+		"Charging")
+			icon="⚡"
+			[ -f /tmp/batstat-low_warning ] && rm -f /tmp/batstat-low_warning
+			;;
 		"Discharging")
 			[ "$cap" -le 15 ] && icon="❗"
-			[ "$cap" -eq 15 ] && [ "$(dunstctl count displayed 2>/dev/null)" -eq 0 ] &&
-				notify-send -u critical -a "$(basename "$0")" "battery is too low" "please charge this device"
+			[ "$cap" -eq 15 ] &&
+				[ ! -f /tmp/batstat-low_warning ] &&
+				notify-send -u critical -a "$(basename "$0")" "battery is too low" "please charge this device" &&
+				touch /tmp/batstat-low_warning
 			;;
 		"Not charging") icon="🛑" ;;
 		"Unknown") icon="♻️" ;;
