@@ -2,9 +2,9 @@
 
 [ "$(dunstctl count displayed)" -eq 1 ] || exit 0
 
-case "$2" in
+case "$1" in
 	spt) f="ring" ;;
-	*)   f="notification" ;;
+	batstat) case "$2" in *low*) f="low_battery" ;; esac ;;
 esac
 
-aplay -q "$HOME/.local/share/$f.wav" >/dev/null 2>&1
+aplay -q "$HOME/.local/share/${f:-notification}.wav" >/dev/null 2>&1
