@@ -67,7 +67,7 @@ xi "manual pages" \
 xi "shell & text editor" \
 	zsh vim neovim tmux \
 	- zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search \
-	-- tmate ttyd
+	-- tmate mosh ttyd
 
 xi "audio tools" \
 	alsa-utils alsa-plugins-pulseaudio pulseaudio pulseaudio-utils pamixer pulsemixer apulse
