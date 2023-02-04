@@ -57,8 +57,8 @@ xi "build tools" \
 	gcc git make pkg-config autoconf automake libtool
 
 xi "general tools" \
-	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw slop maim dunst util-linux xdg-utils xtools xbacklight xss-lock elogind polkit rtkit time bc entr snooze vsv mlocate fzy fzf ripgrep fd cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdo xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz bzip2 zstd gzip zip unzip unar atool signify tlp tlp-rdw thermald delta highlight tig exiftool redshift newsboat srm trash-cli spt bat buku lftp xoris dragon rlwrap ntp bluez lprng \
-	- lshw hwinfo rsync inotify-tools earlyoom sc-im android-tools translate-shell youtube-viewer firejail qemu arandr tree catimg mdp screenkey git-extras git-lfs fbida zbar qrencode \
+	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw slop maim dunst util-linux xdg-utils xtools xbacklight xss-lock elogind polkit rtkit time bc entr snooze vsv mlocate fzy fzf ripgrep fd cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdo xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz bzip2 zstd gzip zip unzip unar atool signify tlp tlp-rdw thermald delta highlight tig exiftool redshift newsboat calcurse srm trash-cli spt bat buku lftp xoris dragon rlwrap ntp bluez lprng lshw hwinfo sc-im firejail translate-shell inotify-tools earlyoom zbar qrencode \
+	- rsync android-tools youtube-viewer qemu arandr tree catimg mdp screenkey git-extras git-lfs fbida \
 	-- scrcpy syncthing flatpak flatpak-builder tea glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
 
 xi "manual pages" \
@@ -81,7 +81,7 @@ xi "music players" \
 	mpd mpc ncmpcpp
 
 xi "system monitoring tools" \
-	socklog socklog-void perf strace ltrace lm_sensors htop iftop iotop powertop cpufrequtils mon bmon \
+	socklog socklog-void perf strace ltrace lm_sensors htop iftop iotop ctop powertop cpufrequtils mon bmon bandwhich speedtest-cli \
 	- vnstat wavemon fio
 
 xi "email tools" \
@@ -93,7 +93,7 @@ xi "chatting applications" \
 	-- tuir
 
 xi "web browsers" \
-	lynx w3m tor \
+	lynx w3m browsh tor \
 	- amfora sacc \
 	-- vimb lagrange ddgr
 
@@ -112,7 +112,7 @@ if [ "$level" -gt 1 ]; then
 	pip install mycli litecli
 fi
 cargo install cargo-edit cargo-update cargo-watch cargo-make rusty-tags stylua
-pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server pyright
+pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server pyright surge
 [ "$level" -gt 0 ] && pnpm add -g sass pug @vue/cli vls svelte-language-server vscode-langservers-extracted yaml-language-server emmet-ls
 [ "$level" -gt 1 ] && pnpm add -g svgo ts-node nodemon http-server serve livereload
 ! command -v sdk >/dev/null 2>&1 && curl -fsSL https://get.sdkman.io | bash
@@ -135,7 +135,7 @@ xi "markup/latex tools" \
 	-- texlive-full
 
 xi "networking/testing tools" \
-	nmap netcat lsof traceroute mtr wireshark termshark inetutils iputils net-tools bind-utils iperf3 arp-scan tcpreplay ettercap bettercap macchanger sqlmap wrk hey \
+	nmap netcat lsof traceroute mtr wireshark termshark inetutils iputils net-tools bind-utils iperf3 arp-scan tcpreplay ettercap bettercap macchanger sqlmap wrk hey gping \
 	- wireshark-qt netsniff-ng aircrack-ng proxychains-ng socat websocat \
 	-- thc-hydra hashcat hashcat-utils radamsa nemesis urh sslscan
 cargo install xh
