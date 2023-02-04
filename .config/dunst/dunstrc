@@ -6,28 +6,27 @@
 	offset = 0x19
 	padding = 2
 	transparency = 25
-	frame_width = 3
+	background = "#1c1e1f"
+	foreground = "#ffffff"
 	frame_color = "#282828"
+	frame_width = 2
 	font = Monospace 12
 	format = "<b>%a</b>\n%s: %b"
 	mouse_left_click = do_action, close_current
 	mouse_right_click = close_current
 	mouse_middle_click = close_all
+	idle_threshold = 60
 
 [urgency_low]
-	background = "#1c1e1f"
-	foreground = "#ffffff"
-	timeout = 5
+	timeout = 3
 
 [urgency_normal]
-	background = "#1c1e1f"
-	foreground = "#ffffff"
-	timeout = 10
+	timeout = 5
 
 [urgency_critical]
 	background = "#cc2421"
 	foreground = "#ffffff"
-	timeout = 0
+	timeout = 10
 
 [play_sound]
 	summary = "*"
