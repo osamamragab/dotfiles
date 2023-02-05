@@ -11,25 +11,16 @@ ifinst() { command -v "$1" >/dev/null 2>&1; }
 
 reponame() { basename "$1" | sed "s/\.git$//"; }
 
+# params: repo_url, remote_name, remote_branch, [remote_url]
 gitupdate() {
-	[ $# -eq 0 ] && (echo "$(basename "$0"): gitupdate: at least one argument is required" >&2; return 1)
-	url="$1"
-	dir="$PROGRAMSDIR/$(reponame "$url")"
+	dir="$PROGRAMSDIR/$(reponame "$1")"
 	echo "updating $dir..."
-	[ -d "$dir" ] || git clone "$url" "$dir"
+	[ -d "$dir" ] || git clone "$1" "$dir"
 	cd "$dir" || return 1
-	lbr="$(git remote show origin | sed -n "/HEAD branch:/s/.* //p")"
-	case $# in
-		1) ups="upstream" ubr="$lbr" ;;
-		2) ups="$2" ubr="$lbr" ;;
-		3) ups="$2" ubr="$3" ;;
-	esac
-	git checkout "$lbr"
-	git fetch "$ups" "$ubr"
-	mm="$(git merge "$ups/$ubr")"
-	echo "$mm"
+	[ "$4" ] && git remote add "$2" "$4" >/dev/null 2>&1
+	git fetch "$2" "$3"
+	git merge "$2/$3"
 	[ -s .gitmodules ] && git submodule update --init --recursive
-	[ "$mm" = "Already up to date." ] && return 1
 }
 
 makeinstall() {
@@ -66,13 +57,12 @@ updatelocal() {
 			surf) ubr="surf-webkit2" ;;
 			dwmblocks) ure="git@github.com:torrinfail/dwmblocks.git" ;;
 		esac
-		git remote add upstream "$ure" >/dev/null 2>&1
-		gitupdate "git@gitlab.com:osamai/$p.git" upstream "$ubr" || continue
+		gitupdate "git@gitlab.com:osamai/$p.git" upstream "$ubr" "$ure" || continue
 		[ -s Makefile ] && makeinstall
 	done
 
 	for r in $LOCALREPOS; do
-		gitupdate "$r" origin || continue
+		gitupdate "$r" origin "$(git remote show origin | sed -n "/HEAD branch:/s/.* //p")" || continue
 		case "$(reponame "$r")" in
 			nnn)
 				[ -s Makefile ] && makeinstall O_NERD=1
