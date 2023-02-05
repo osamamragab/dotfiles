@@ -28,6 +28,16 @@ case "$1" in
 		lines=$1
 		shift
 		;;
+	-b)
+		command -v buku >/dev/null 2>&1 || (echo "$(basename "$0"): buku is not installed" >&2; exit 1)
+		for name in "$NOTESDIR"/*; do
+			urls="$(grep -P -o '(?:https?://|ftp://|news://|mailto:|file://|\bwww\.)[a-zA-Z0-9\-\@;\/?:&=%\$_.+!*\x27,~#]*(\([a-zA-Z0-9\-\@;\/?:&=%\$_.+!*\x27,~#]*\)|[a-zA-Z0-9\-\@;\/?:&=%\$_+*~])+' "$name")"
+			for url in $urls; do
+				buku -a "$url" "$(basename "$0"),$(basename "$name" | cut -d. -f1)" || echo "$(basename "$0"): failed to add ($url) to buku" >&2
+			done
+		done
+		exit $?
+		;;
 esac
 
 if [ $# -eq 0 ]; then
