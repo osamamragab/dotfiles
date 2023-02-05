@@ -87,7 +87,7 @@ updatelocal() {
 			pyenv)
 				./src/configure &&
 					make -C src &&
-					doas ln -sf "$(realpath ./bin/pyenv)" /usr/local/bin
+					doas ln -sf "$(readlink -f ./bin/pyenv)" /usr/local/bin
 				;;
 			lua-language-server)
 				cd 3rd/luamake &&
