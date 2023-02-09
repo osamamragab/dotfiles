@@ -19,7 +19,7 @@ url="${1:-$(xclip -o | dmenu -p "url:")}" || exit 1
 sel="$(echo "$DLDIRS" | tr ":" "\n" | dmenu -i -F -fn monospace-12 -l 5 -p "dir:")" || exit 1
 
 path="$HOME/${sel##\~/}"
-[ -d "$path" ] || mkdir -p "$path" || (echo "$(basename "$0"): can't create dir $path" >&2; exit 1)
+[ -d "$path" ] || mkdir -p "$path" || { echo "$(basename "$0"): can't create dir $path" >&2; exit 1; }
 
 case "${sel##\~/}" in
 	dls | docs | pics) wget -q --content-disposition -O "$path/$(basename "$url" | cut -d "?" -f 1)" "$url" ;;

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 NOTESDIR="${NOTESDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/notes}"
-[ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || (echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1)
-cd "$NOTESDIR" || (echo "$(basename "$0"): can't cd to $NOTESDIR" >&2; exit 1)
+[ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || { echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1; }
+cd "$NOTESDIR" || { echo "$(basename "$0"): can't cd to $NOTESDIR" >&2; exit 1; }
 
 lines=10
 
@@ -29,7 +29,7 @@ case "$1" in
 		shift
 		;;
 	-b)
-		command -v buku >/dev/null 2>&1 || (echo "$(basename "$0"): buku is not installed" >&2; exit 1)
+		command -v buku >/dev/null 2>&1 || { echo "$(basename "$0"): buku is not installed" >&2; exit 1; }
 		for name in "$NOTESDIR"/*; do
 			urls="$(grep -P -o '(?:https?://|ftp://|news://|mailto:|file://|\bwww\.)[a-zA-Z0-9\-\@;\/?:&=%\$_.+!*\x27,~#]*(\([a-zA-Z0-9\-\@;\/?:&=%\$_.+!*\x27,~#]*\)|[a-zA-Z0-9\-\@;\/?:&=%\$_+*~])+' "$name")"
 			for url in $urls; do
