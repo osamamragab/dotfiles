@@ -1,13 +1,13 @@
 #!/bin/sh
 
-if [ ! -d /sys/class/power_supply ] || [ -z "$(ls -A /sys/class/power_supply)" ]; then
-	echo "!"
+if [ -z "$(ls -A /sys/class/power_supply/BAT?* 2>/dev/null)" ]; then
+	echo "—"
 	exit 1
 fi
 
 for bat in /sys/class/power_supply/BAT?*; do
-	cap="$(cat "$bat/capacity" 2>&1)"
-	stat="$(cat "$bat/status" 2>&1)"
+	cap="$(cat "$bat/capacity")"
+	stat="$(cat "$bat/status")"
 
 	case "$stat" in
 		Full|Charging)
@@ -30,4 +30,4 @@ for bat in /sys/class/power_supply/BAT?*; do
 	esac
 
 	[ "$icon" ] && echo "$cap% $icon" || echo "$cap%"
-done
+done 2>/dev/null
