@@ -5,10 +5,11 @@ sel="${1:-$(printf "lock\nexit\nsleep\nreboot\nshutdown" | dmenu -i)}"
 
 case "$sel" in
 	lock) locker ;;
-	exit) pkill -x dwm ;;
 	sleep) doas zzz ;;
 	reboot) doas reboot ;;
 	shutdown) doas poweroff ;;
+	exit) kill -TERM dwm ;;
+	refresh) kill -HUP dwm ;;
 	*)
 		echo "$(basename "$0"): invalid input $sel" >&2
 		exit 1
