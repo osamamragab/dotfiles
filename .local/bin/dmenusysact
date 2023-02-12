@@ -1,17 +1,18 @@
 #!/bin/sh
 
-sel="${1:-$(printf "lock\nexit\nsleep\nreboot\nshutdown" | dmenu -i)}"
+sel="${1:-$(printf "lock\nexit\nrefresh\nhibernate\nsleep\nreboot\npoweroff" | dmenu -i)}"
 [ -z "$sel" ] && exit 1
 
 case "$sel" in
 	lock) locker ;;
-	sleep) doas zzz ;;
-	reboot) doas reboot ;;
-	shutdown) doas poweroff ;;
-	exit) kill -TERM dwm ;;
-	refresh) kill -HUP dwm ;;
+	exit) kill -TERM "$(pidof dwm)" ;;
+	refresh) kill -HUP "$(pidof dwm)" ;;
+	hibernate) locker loginctl hibernate -i ;;
+	sleep) locker loginctl suspend -i ;;
+	reboot) loginctl reboot -i ;;
+	poweroff) loginctl poweroff -i ;;
 	*)
-		echo "$(basename "$0"): invalid input $sel" >&2
+		notify-send -u critical -a "$(basename "$0")"  "invalid command" "$sel"
 		exit 1
 		;;
 esac
