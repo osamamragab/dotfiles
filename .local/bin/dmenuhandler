@@ -3,11 +3,17 @@
 input="${1:-$(printf "" | dmenu -p "input:")}" || exit 1
 [ -z "$input" ] && input="$(xclip -o)"
 
-case "$(printf "copy\ndl\nbrowser\nsurf\nlynx\nmpv" | dmenu -i -p "action:")" in
+case "$(printf "copy\ndl\nbrowser\nsurf\nlynx\nmpv\nsearch duckduckgo\nsearch google\nsearch youtube\nsearch reddit\nsearch stackoverflow\nsearch wikipedia" | dmenu -i -p "action:")" in
 	copy) printf "%s" "$input" | xclip -sel clip ;;
 	dl) dmenudl "$input" ;;
 	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
 	surf) setsid -f surf "$input" >/dev/null 2>&1 ;;
 	lynx) setsid -f "$TERMINAL" -e lynx "$input" >/dev/null 2>&1 ;;
 	mpv) setsid -f mpv --really-quiet "$input" >/dev/null 2>&1 ;;
+	"search duckduckgo") xdg-open "https://duckduckgo.com/?q=$input" ;;
+	"search google") xdg-open "https://www.google.com/search?q=$input" ;;
+	"search youtube") xdg-open "https://www.youtube.com/results?search_query=$input" ;;
+	"search reddit") xdg-open "https://www.reddit.com/search/?q=$input&include_over_18=1" ;;
+	"search stackoverflow") xdg-open "https://stackoverflow.com/search?q=$input" ;;
+	"search wikipedia") xdg-open "https://www.wikipedia.org/w/index.php?search=$input" ;;
 esac
