@@ -118,9 +118,7 @@ lsp.vuels.setup(config())
 
 lsp.cssls.setup(config())
 
-local sumneko_lua_path = (vim.env.PROGRAMSDIR or vim.env.HOME .. "/programs") .. "/lua-language-server"
-lsp.sumneko_lua.setup(config({
-	cmd = { sumneko_lua_path .. "/bin/Linux/lua-language-server", "-E", sumneko_lua_path .. "/main.lua" },
+lsp.lua_ls.setup(config({
 	settings = {
 		Lua = {
 			runtime = {
@@ -145,7 +143,7 @@ lsp.sumneko_lua.setup(config({
 	},
 }))
 
-local elixirls_path = (vim.env.PROGRAMSDIR or vim.env.HOME .. "/programs") .. "/elixir-ls"
+local elixirls_path = (vim.env.PROGRAMSDIR or (vim.env.HOME .. "/programs")) .. "/elixir-ls"
 lsp.elixirls.setup(config({
 	cmd = { elixirls_path .. "/bin/language_server.sh" },
 	settings = {
