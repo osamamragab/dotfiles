@@ -3,13 +3,14 @@
 input="${1:-$(printf "" | dmenu -p "input:")}" || exit 1
 [ -z "$input" ] && input="$(xclip -o)"
 
-case "$(printf "copy\ndl\nbrowser\nsurf\nlynx\nmpv\nsearch duckduckgo\nsearch google\nsearch youtube\nsearch reddit\nsearch stackoverflow\nsearch wikipedia" | dmenu -i -p "action:")" in
+case "$(printf "copy\ndl\nbrowser\nsurf\nlynx\nmpv\nbookmark\nsearch duckduckgo\nsearch google\nsearch youtube\nsearch reddit\nsearch stackoverflow\nsearch wikipedia" | dmenu -i -p "action:")" in
 	copy) printf "%s" "$input" | xclip -sel clip ;;
 	dl) dmenudl "$input" ;;
 	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
 	surf) setsid -f surf "$input" >/dev/null 2>&1 ;;
 	lynx) setsid -f "$TERMINAL" -e lynx "$input" >/dev/null 2>&1 ;;
 	mpv) setsid -f mpv --really-quiet "$input" >/dev/null 2>&1 ;;
+	bookmark) buku -a "$input" || notify-send -u critical -a "$(basename "$0")" "bookmark" "adding '$input' failed" ;;
 	"search duckduckgo") xdg-open "https://duckduckgo.com/?q=$input" ;;
 	"search google") xdg-open "https://www.google.com/search?q=$input" ;;
 	"search youtube") xdg-open "https://www.youtube.com/results?search_query=$input" ;;
