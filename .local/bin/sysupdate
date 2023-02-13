@@ -2,7 +2,7 @@
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 LOCALPROGRAMS="dwm st dmenu dwmblocks surf tabbed slock sent"
-LOCALREPOS="git@github.com:osamai/p.git git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:sumneko/lua-language-server.git git@github.com:elixir-lsp/elixir-ls.git"
+LOCALREPOS="git@github.com:osamai/p.git git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:elixir-lsp/elixir-ls.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
 doas() { $sudocmd "$@"; }
@@ -78,12 +78,6 @@ updatelocal() {
 				./src/configure &&
 					make -C src &&
 					doas ln -sf "$(readlink -f ./bin/pyenv)" /usr/local/bin
-				;;
-			lua-language-server)
-				cd 3rd/luamake &&
-					./compile/build.sh &&
-					cd ../.. &&
-					./3rd/luamake/luamake rebuild
 				;;
 			elixir-ls)
 				mix deps.get &&
