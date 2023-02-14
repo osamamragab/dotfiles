@@ -66,6 +66,13 @@ updatelocal() {
 		case "$(reponame "$r")" in
 			nnn)
 				[ -s Makefile ] && makeinstall O_NERD=1
+				if [ -d "$PROGRAMS/nnn/plugins" ]; then
+					plugdir="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
+					mkdir -p "$plugdir"
+					for p in togglex nuke openall fzcd fzopen preview-tabbed gpge rsynccp upload; do
+						cp -f "$PROGRAMSDIR/nnn/plugins/$p" "$plugdir/$p"
+					done
+				fi
 				;;
 			bicon)
 				./autogen.sh && ./configure && make && doas make install
