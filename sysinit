@@ -113,6 +113,7 @@ if [ "$level" -gt 1 ]; then
 fi
 cargo install cargo-edit cargo-update cargo-watch cargo-make rusty-tags stylua
 pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server pyright lua-language-server surge
+pip install nox
 [ "$level" -gt 0 ] && pnpm add -g sass pug @vue/cli vls svelte-language-server vscode-langservers-extracted yaml-language-server emmet-ls
 [ "$level" -gt 1 ] && pnpm add -g svgo ts-node nodemon http-server serve livereload
 ! command -v sdk >/dev/null 2>&1 && curl -fsSL https://get.sdkman.io | bash
