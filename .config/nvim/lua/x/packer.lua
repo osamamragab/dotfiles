@@ -30,6 +30,7 @@ return require("packer").startup(function(use)
 	use("luisiacc/gruvbox-baby")
 	use("sainnhe/sonokai")
 	use("joshdick/onedark.vim")
+	use({ "rose-pine/neovim", as = "rose-pine" })
 	use({
 		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons", opt = true }

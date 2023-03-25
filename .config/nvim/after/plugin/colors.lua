@@ -32,6 +32,12 @@ vim.g.sonokai_diagnostic_text_highlight = true
 vim.g.onedark_termcolors = 256
 vim.g.onedark_terminal_italics = true
 
+require("rose-pine").setup({
+	variant = "moon",
+	disable_italics = true,
+	disable_background = true,
+})
+
 vim.cmd.colorscheme(vim.g.colors_name or "habamax")
 
 for _, name in ipairs({"Normal", "NormalFloat", "SignColumn"}) do
