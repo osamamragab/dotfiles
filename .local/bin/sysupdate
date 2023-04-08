@@ -37,11 +37,11 @@ updatepkgs() {
 	ifinst deno && deno upgrade
 	ifinst pnpm && pnpm update -g
 	ifinst gem && gem update
-	ifinst sdk && sdk selfupdate
+	ifinst sdk && sdk selfupdate && sdk update
 	ifinst nvim && nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
+	ifinst flutter && flutter upgrade
+	ifinst flatpak && flatpak update -y
 	# ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
-	# ifinst flatpak && flatpak update -y
-	# ifinst flutter && flutter upgrade
 }
 
 clean() {
