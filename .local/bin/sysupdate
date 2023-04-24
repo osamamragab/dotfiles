@@ -18,9 +18,11 @@ gitupdate() {
 	[ -d "$dir" ] || git clone "$1" "$dir"
 	cd "$dir" || return 1
 	[ "$4" ] && git remote add "$2" "$4" >/dev/null 2>&1
-	git fetch "$2" "$3"
-	git merge "$2/$3"
+	ubr="${3:-$(git remote show origin | sed -n "/HEAD branch:/s/.* //p")}"
+	git fetch "$2" "$ubr"
+	git merge "$2/$ubr"
 	[ -s .gitmodules ] && git submodule update --init --recursive
+	return 0
 }
 
 makeinstall() {
@@ -62,7 +64,7 @@ updatelocal() {
 	done
 
 	for r in $LOCALREPOS; do
-		gitupdate "$r" origin "$(git remote show origin | sed -n "/HEAD branch:/s/.* //p")" || continue
+		gitupdate "$r" origin || continue
 		case "$(reponame "$r")" in
 			nnn)
 				[ -s Makefile ] && makeinstall O_NERD=1
