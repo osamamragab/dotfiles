@@ -4,11 +4,11 @@ CODEDIR="${CODEDIR:-$HOME/code}"
 [ -t 0 ] && USETERM=1 || USETERM=0
 
 getdirs() {
-	find "$1" -mindepth "${2:-1}" -maxdepth "${2:-1}" -type d | sed "s@$1/@@g"
+	find "$1" -mindepth "${2:-1}" -maxdepth "${2:-1}" -type d -printf "%T@ %P\n"
 }
 
 projsel() {
-	dirs="$(getdirs "$CODEDIR/projects" 1)\n$(getdirs "$CODEDIR/org" 2)"
+	dirs="$(echo "$(getdirs "$CODEDIR/projects" 1)\n$(getdirs "$CODEDIR/org" 2)" | sort -nr | cut -d " " -f 2-)"
 	if [ "$USETERM" -eq 1 ]; then
 		sel="$(echo "$dirs" | fzy)"
 	else
