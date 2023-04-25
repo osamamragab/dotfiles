@@ -42,7 +42,7 @@ esac
 
 if [ $# -eq 0 ]; then
 	[ -t 0 ] && command -v fzy >/dev/null 2>&1 && menucmd="fzy -l $lines" || menucmd="dmenu -i -F -l $lines -p notes:"
-	sel="$(find "$NOTESDIR" -type f -printf "%P\n" | $menucmd)" || exit $?
+	sel="$(find "$NOTESDIR" -type f -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | $menucmd)" || exit $?
 	[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
 	open "$NOTESDIR/${sel:-todo.md}"
 	exit 0
