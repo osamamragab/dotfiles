@@ -74,7 +74,7 @@ xi "audio tools" \
 	alsa-utils alsa-plugins-pulseaudio pulseaudio pulseaudio-utils pamixer pulsemixer apulse
 
 xi "multimedia tools" \
-	ImageMagick ffmpeg mpv nsxiv zathura zathura-pdf-mupdf mupdf mupdf-tools poppler \
+	ImageMagick ffmpeg mpv nsxiv zathura zathura-pdf-mupdf mupdf mupdf-tools poppler libwebp-tools \
 	- zathura-ps zathura-djvu playerctl mpv-mpris \
 	-- gimp openshot audacity
 
