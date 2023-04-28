@@ -12,5 +12,6 @@ map R rotate
 map K zoom in
 map J zoom out
 map i recolor
-map p snap_to_page
-map P print
+map p print
+map g goto top
+map ; snap_to_page
