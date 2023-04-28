@@ -58,7 +58,7 @@ xi "build tools" \
 	- meson ninja
 
 xi "general tools" \
-	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw slop maim dunst util-linux xdg-utils xtools acpilight xss-lock elogind polkit rtkit time bc entr snooze vsv mlocate fzy fzf ripgrep fd cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdo xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz bzip2 zstd gzip zip unzip unar atool signify tlp tlp-rdw thermald delta highlight tig exiftool redshift newsboat calcurse srm trash-cli spt bat buku lftp xoris dragon rlwrap ntp bluez lprng lshw hwinfo sc-im firejail translate-shell inotify-tools earlyoom zbar qrencode mediainfo rsync \
+	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw slop maim dunst util-linux xdg-utils xtools acpilight xss-lock elogind polkit rtkit time bc parallel entr snooze vsv mlocate fzy fzf ripgrep fd cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdo xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar xz bzip2 zstd gzip zip unzip unar atool signify tlp tlp-rdw thermald delta highlight tig exiftool redshift newsboat calcurse srm trash-cli spt bat buku lftp xoris dragon rlwrap ntp bluez lprng lshw hwinfo sc-im firejail translate-shell inotify-tools earlyoom zbar qrencode mediainfo rsync \
 	- android-tools youtube-viewer qemu arandr tree catimg mdp screenkey git-extras git-lfs fbida \
 	-- scrcpy syncthing flatpak flatpak-builder tea glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
 
@@ -139,7 +139,7 @@ xi "markup/latex tools" \
 xi "networking/testing tools" \
 	nmap netcat lsof traceroute mtr wireshark termshark inetutils iputils net-tools bind-utils iperf3 arp-scan tcpreplay ettercap bettercap macchanger sqlmap wrk hey gping \
 	- wireshark-qt netsniff-ng aircrack-ng proxychains-ng socat websocat \
-	-- thc-hydra hashcat hashcat-utils radamsa nemesis urh sslscan
+	-- thc-hydra hashcat hashcat-utils radamsa nemesis airspy urh sslscan
 cargo install xh
 pip install mitmproxy
 
