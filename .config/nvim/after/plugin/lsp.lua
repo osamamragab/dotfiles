@@ -155,5 +155,14 @@ lsp.elixirls.setup(config({
 }))
 
 require("flutter-tools").setup({
-	lsp = config(),
+	lsp = config({ color = { enabled = true }}),
+	decorations = {
+		statusline = {
+			device = true,
+			app_version = true,
+		},
+	},
+	widget_guides = {
+		enabled = true,
+	},
 });
