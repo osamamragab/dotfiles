@@ -4,7 +4,7 @@
 dwm.statusmon: 0
 dwm.smartgaps: 1
 
-St.font: monospace:pixelsize=18:antialias=true:autohint=true:weight=bold
+St.font: Fira Code:pixelsize=18:antialias=true:autohint=true:weight=bold
 St.alpha: 0.92
 St.alphaOffset: 0.3
 St.tabspaces: 2
