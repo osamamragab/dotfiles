@@ -31,10 +31,7 @@ return require("packer").startup(function(use)
 	use("sainnhe/sonokai")
 	use("joshdick/onedark.vim")
 	use({ "rose-pine/neovim", as = "rose-pine" })
-	use({
-		"nvim-lualine/lualine.nvim",
-		requires = { "kyazdani42/nvim-web-devicons", opt = true }
-	})
+	use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true }})
 
 	-- use("tpope/vim-fugitive")
 	-- use("rust-lang/rust.vim")
