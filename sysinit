@@ -144,7 +144,7 @@ cargo install xh
 pip install mitmproxy
 
 xi "fonts" \
-	font-ibm-plex-otf font-inconsolata-otf amiri-font fonts-croscore-ttf nerd-fonts-otf noto-fonts-ttf noto-fonts-ttf-extra noto-fonts-emoji
+	font-ibm-plex-otf font-inconsolata-otf amiri-font fonts-croscore-ttf nerd-fonts-otf noto-fonts-ttf noto-fonts-ttf-extra noto-fonts-emoji font-fira-otf font-firacode
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 [ -d "$PROGRAMSDIR" ] || mkdir -p "$PROGRAMSDIR"
