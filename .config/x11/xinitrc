@@ -9,4 +9,7 @@ fi
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile"
 
-exec ssh-agent dwm
+command -v gpg-agent >/dev/null 2>&1 && gpg-agent --daemon
+command -v ssh-agent >/dev/null 2>&1 && eval "$(ssh-agent)"
+
+exec dwm
