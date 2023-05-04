@@ -1,4 +1,4 @@
 import readline
 from os import getenv
 
-readline.write_history_file = lambda: (getenv("XDG_CACHE_HOME") or getenv("HOME", "~")+"/.cache")+"/.python_history"
+readline.write_history_file = lambda _: (getenv("XDG_CACHE_HOME") or getenv("HOME", "~")+"/.cache")+"/.python_history"
