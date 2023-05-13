@@ -34,6 +34,7 @@ return require("packer").startup(function(use)
 	use({ "nvim-lualine/lualine.nvim", requires = { "kyazdani42/nvim-web-devicons", opt = true }})
 
 	-- use("tpope/vim-fugitive")
+	-- use("ziglang/zig.vim")
 	-- use("rust-lang/rust.vim")
 	-- use("darrikonn/vim-gofmt", { run = ":GoUpdateBinaries" })
 	-- use("psf/black", { tag = "stable" })
