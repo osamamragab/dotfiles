@@ -98,3 +98,4 @@ fi
 
 [ -s "${PROGRAMSDIR:-$HOME/programs}/z/z.sh" ] && . "${PROGRAMSDIR:-$HOME/programs}/z/z.sh"
 [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ] && . "$SDKMAN_DIR/bin/sdkman-init.sh"
+[ -s "${XDG_DATA_HOME:-$HOME/.local/share}/bun/_bun" ] && . "/home/osama/.local/share/bun/_bun"
