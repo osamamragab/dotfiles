@@ -2,7 +2,7 @@
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 LOCALPROGRAMS="dwm st dmenu dwmblocks surf tabbed slock sent"
-LOCALREPOS="git@github.com:osamai/p.git git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:elixir-lsp/elixir-ls.git"
+LOCALREPOS="git@gitlab.com:osamaragab/p.git git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:elixir-lsp/elixir-ls.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
 doas() { $sudocmd "$@"; }
@@ -59,7 +59,7 @@ updatelocal() {
 			surf) ubr="surf-webkit2" ;;
 			dwmblocks) ure="git@github.com:torrinfail/dwmblocks.git" ;;
 		esac
-		gitupdate "git@gitlab.com:osamai/$p.git" upstream "$ubr" "$ure" || continue
+		gitupdate "git@gitlab.com:osamaragab/$p.git" upstream "$ubr" "$ure" || continue
 		[ -s Makefile ] && makeinstall
 	done
 
