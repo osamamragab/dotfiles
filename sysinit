@@ -93,7 +93,7 @@ xi "chatting applications" \
 	-- tuir
 
 xi "web browsers" \
-	lynx w3m browsh tor \
+	lynx w3m browsh tor firefox \
 	- amfora sacc \
 	-- vimb lagrange ddgr
 
