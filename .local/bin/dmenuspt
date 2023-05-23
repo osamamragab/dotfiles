@@ -4,7 +4,9 @@ run() {
 	spt -n "notify-send" >/dev/null 2>&1 &
 }
 
-case "${1:-$(printf "toggle\nstart\nstop\nshow" | dmenu -i -p "$(basename "$0")")}" in
+cmd="${1:-$(printf "toggle\nstart\nstop\nshow" | dmenu -i -p "$(basename "$0")")}" || exit ?
+
+case "$cmd" in
 	start) pidof -s spt >/dev/null 2>&1 || run ;;
 	stop) pkill -x spt ;;
 	show) pkill -x -SIGUSR1 spt ;;
@@ -12,5 +14,5 @@ case "${1:-$(printf "toggle\nstart\nstop\nshow" | dmenu -i -p "$(basename "$0")"
 		# shellcheck disable=SC2015
 		pidof -s spt >/dev/null 2>&1 && pkill -x -SIGUSR2 spt && pkill -x -SIGUSR1 spt || run
 		;;
-	*) notify-send -a "$(basename "$0")" "error" "invalid command $1"; exit 1 ;;
+	*) notify-send -a "$(basename "$0")" "error" "invalid command $cmd"; exit 1 ;;
 esac
