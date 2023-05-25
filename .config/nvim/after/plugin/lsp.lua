@@ -1,43 +1,21 @@
-local lsp = require("lsp-zero")
-
-lsp.preset("recommended")
-
-lsp.ensure_installed({
-	"clangd",
-	"zls",
-	"rust_analyzer",
-	"gopls",
-	"pyright",
-	"tsserver",
-	"lua_ls",
+local lsp = require("lsp-zero").preset({
+	float_border = "rounded",
+	call_servers = "local",
+	configure_diagnostics = true,
+	setup_servers_on_start = true,
+	set_lsp_keymaps = false,
+	manage_nvim_cmp = false,
 })
 
-lsp.nvim_workspace()
-
-local cmp = require("cmp")
-local cmp_select = { behavior = cmp.SelectBehavior.Select }
-
-lsp.setup_nvim_cmp({
-	mapping = lsp.defaults.cmp_mappings({
-		["<C-k>"] = cmp.mapping.select_prev_item(cmp_select),
-		["<C-j>"] = cmp.mapping.select_next_item(cmp_select),
-		["<C-f>"] = cmp.mapping.scroll_docs(-4),
-		["<C-d>"] = cmp.mapping.scroll_docs(4),
-		["<C-h>"] = cmp.mapping.abort(),
-		["<C-l>"] = cmp.mapping.confirm({ select = true }),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<Tab>"] = nil,
-		["<S-Tab"] = nil,
-	}),
-})
-
-lsp.set_preferences({
-	suggest_lsp_servers = false,
-	sign_icons = {
-		error = "E",
-		warn = "W",
-		hint = "H",
-		info = "I",
+require("mason-lspconfig").setup({
+	ensure_installed = {
+		"clangd",
+		"zls",
+		"rust_analyzer",
+		"gopls",
+		"pyright",
+		"tsserver",
+		"lua_ls",
 	},
 })
 
@@ -57,7 +35,38 @@ lsp.on_attach(function(_, bufnr)
 	vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, opts)
 end)
 
+lsp.configure("lua_ls", lsp.nvim_lua_ls())
+
 lsp.setup()
+
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+require("luasnip.loaders.from_vscode").lazy_load()
+
+cmp.setup({
+	snippet = {
+		expand = function(args) luasnip.lsp_expand(args.body) end,
+	},
+	mapping = cmp.mapping.preset.insert({
+		["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+		["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+		["<C-f>"] = cmp.mapping.scroll_docs(-4),
+		["<C-d>"] = cmp.mapping.scroll_docs(4),
+		["<C-h>"] = cmp.mapping.abort(),
+		["<C-l>"] = cmp.mapping.confirm({ select = true }),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<Tab>"] = nil,
+		["<S-Tab"] = nil,
+	}),
+	sources = cmp.config.sources({
+		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
+	}, {
+		{ name = "buffer", keyword_length = 5 },
+		{ name = "path" },
+	})
+})
 
 vim.diagnostic.config({
 	virtual_text = true,
