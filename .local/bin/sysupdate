@@ -2,7 +2,7 @@
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 LOCALPROGRAMS="dwm st dmenu dwmblocks surf tabbed slock sent"
-LOCALREPOS="git@gitlab.com:osamaragab/p.git git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git git@github.com:elixir-lsp/elixir-ls.git"
+LOCALREPOS="git@gitlab.com:osamaragab/p.git git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
 doas() { $sudocmd "$@"; }
@@ -87,11 +87,6 @@ updatelocal() {
 				./src/configure &&
 					make -C src &&
 					doas ln -sf "$(readlink -f ./bin/pyenv)" /usr/local/bin
-				;;
-			elixir-ls)
-				mix deps.get &&
-					mix compile &&
-					mix elixir_ls.release -o bin
 				;;
 			*)
 				[ -s Makefile ] && makeinstall
