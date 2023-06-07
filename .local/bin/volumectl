@@ -1,16 +1,37 @@
 #!/bin/sh
 
-val="${2:-5}"
+step="${2:-5}"
 
 case "$1" in
-	up) args="-i $((val - ($(pamixer --get-volume) % val)))" ;;
-	down)
-		d="$(($(pamixer --get-volume) % val))"
-		[ "$d" -eq 0 ] && d="$val"
-		args="-d $d"
+	set)
+		cmd="--set-volume"
+		val="$step"
 		;;
-	toggle) args="-t" ;;
+	inc)
+		cmd="-i"
+		val="$((step - ($(pamixer --get-volume) % step)))" ;;
+	dec)
+		cmd="-d"
+		val="$(($(pamixer --get-volume) % step))"
+		[ "$val" -eq 0 ] && val="$step"
+		;;
+	toggle) cmd="-t" ;;
 	*) exit 1 ;;
 esac
 
-pamixer --allow-boost $args && pkill -x -RTMIN+7 dwmblocks
+pamixer --allow-boost "$cmd" "$val" && pkill -x -RTMIN+7 dwmblocks
+
+vol="$(pamixer --get-volume-human)"
+[ "$vol" = "muted" ] && vol="0" || vol="${vol%%%}"
+
+if [ "$vol" -ge 75 ]; then
+	icon="audio-volume-high"
+elif [ "$vol" -ge 35 ]; then
+	icon="audio-volume-medium"
+elif [ "$vol" -gt 0 ]; then
+	icon="audio-volume-low"
+else
+	icon="audio-volume-muted"
+fi
+
+notify-send -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$vol" Volume
