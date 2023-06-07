@@ -1,10 +1,15 @@
 #!/bin/sh
 
-[ "$(dunstctl count displayed)" -eq 1 ] || exit 0
+([ "$5" = "LOW" ] || [ "$(dunstctl count displayed)" -ne 1 ]) && exit 0
 
 case "$1" in
 	spt) f="ring" ;;
-	batstat) case "$2" in *low*) f="low_battery" ;; esac ;;
+	batstat)
+		case "$2" in
+			*low*) f="low_battery" ;;
+		esac
+		;;
 esac
 
 aplay -q "$HOME/.local/share/${f:-notification}.wav" >/dev/null 2>&1
+
