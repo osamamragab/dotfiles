@@ -142,8 +142,8 @@ xi "networking/testing tools" \
 cargo install xh
 pip install mitmproxy
 
-xi "fonts" \
-	font-ibm-plex-otf amiri-font noto-fonts-ttf noto-fonts-ttf-extra noto-fonts-emoji
+xi "fonts & icons" \
+	font-ibm-plex-otf amiri-font noto-fonts-ttf noto-fonts-ttf-extra noto-fonts-emoji adwaita-icon-theme adwaita-plus
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 [ -d "$PROGRAMSDIR" ] || mkdir -p "$PROGRAMSDIR"
