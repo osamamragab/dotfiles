@@ -1,0 +1,20 @@
+#!/bin/sh
+
+case "$1" in
+	set) brillo -S "${2:-70}" ;;
+	inc) brillo -A "${2:-10}" ;;
+	dec) brillo -U "${2:-10}" ;;
+	*) exit 1 ;;
+esac
+
+bri="$(brillo -G)"
+bri="${bri%.??}"
+if [ "$bri" -ge 80 ]; then
+	icon="display-brightness-high"
+elif [ "$bri" -ge 40 ]; then
+	icon="display-brightness-medium"
+else
+	icon="display-brightness-low"
+fi
+
+notify-send -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$bri" Brightness
