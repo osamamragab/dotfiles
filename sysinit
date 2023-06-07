@@ -102,18 +102,17 @@ xi "torrent tools" \
 	- btfs
 
 xi "programming stuff" \
-	llvm clang lld tcc go rustup zig python3 lua nodejs R perl ruby ruby-devel c gdb valgrind clang-analyzer rust-analyzer gopls python3-pip python3-pipx python3-pipenv luarocks pnpm binutils upx delve jq jo xxd bvi ired dive hyperfine
+	llvm clang lld tcc go rustup zig python3 lua nodejs R perl ruby ruby-devel c gdb valgrind clang-analyzer rust-analyzer gopls python3-pip python3-pipx python3-pipenv pyright luarocks lua-language-server pnpm binutils upx delve jq jo xxd bvi ired dive hyperfine tokei
 rustup-init -y
+cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make rusty-tags irust bacon rtx-cli evcxr_jupyter stylua wiki-tui
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
-[ "$level" -gt 0 ] && xi _ clib ctags elixir erlang sbcl clisp openjdk sbt clojure leiningen julia kotlin-bin apl j gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab
-if [ "$level" -gt 1 ]; then
-	xi _ grpc protobuf terraform tflint tokei misspell pgcli litecli svgcleaner
+pip install nox
+pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server surge
+if [ "$level" -gt 0 ]; then
+	xi _ clib ctags elixir erlang sbcl clisp openjdk sbt clojure leiningen julia kotlin-bin apl j gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra shellcheck shfmt pylint black python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab grpc protobuf terraform tflint misspell pgcli litecli svgcleaner
 	go install -v google.golang.org/protobuf/cmd/protoc-gen-go@latest github.com/fullstorydev/grpcurl@latest github.com/timakin/bodyclose@latest
 	pip install mycli
 fi
-cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make rusty-tags irust bacon rtx-cli evcxr_jupyter stylua wiki-tui
-pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server pyright lua-language-server surge
-pip install nox
 [ "$level" -gt 0 ] && pnpm add -g sass pug @vue/cli vls svelte-language-server vscode-langservers-extracted yaml-language-server emmet-ls
 [ "$level" -gt 1 ] && pnpm add -g svgo ts-node nodemon http-server serve livereload
 ! command -v sdk >/dev/null 2>&1 && curl -fsSL https://get.sdkman.io | bash
@@ -123,8 +122,11 @@ pip install nox
 xi "cheat sheet tools" \
 	cheat tealdeer
 
-xi "nix & docker" \
-	nix docker docker-compose docker-credential-pass
+xi "docker" \
+	docker docker-compose docker-credential-pass
+
+xi "nix" \
+	nix
 
 xi "arduino" \
 	- arduino-cli \
