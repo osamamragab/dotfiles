@@ -102,7 +102,7 @@ xi "torrent tools" \
 	- btfs
 
 xi "programming stuff" \
-	base-devel llvm clang lld tcc go rustup zig python3 lua nodejs R perl ruby ruby-devel c gdb valgrind clang-analyzer rust-analyzer gopls python3-pip python3-pipx python3-pipenv pyright luarocks lua-language-server pnpm binutils upx delve jq jo xxd bvi ired dive hyperfine tokei
+	base-devel llvm clang lld tcc nasm go rustup zig python3 lua nodejs R perl ruby ruby-devel c gdb valgrind clang-analyzer rust-analyzer gopls python3-pip python3-pipx python3-pipenv pyright luarocks lua-language-server pnpm binutils upx delve jq jo xxd bvi ired dive hyperfine tokei
 rustup-init -y
 cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make rusty-tags irust bacon rtx-cli evcxr_jupyter stylua wiki-tui
 go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
