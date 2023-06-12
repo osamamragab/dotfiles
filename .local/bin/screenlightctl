@@ -1,20 +1,27 @@
 #!/bin/sh
 
+min=20
+max=80
+step=20
+
+bri="$(brillo -G)"
+bri="${bri%.??}"
+
 case "$1" in
-	set) brillo -S "${2:-70}" ;;
-	inc) brillo -A "${2:-10}" ;;
-	dec) brillo -U "${2:-10}" ;;
+	set) brillo -S "${2:-$max}" ;;
+	inc) [ "$bri" -lt "$max" ] && brillo -A "${2:-$step}" ;;
+	dec) [ "$bri" -gt "$min" ] && brillo -U "${2:-$step}" ;;
 	*) exit 1 ;;
 esac
 
 bri="$(brillo -G)"
 bri="${bri%.??}"
-if [ "$bri" -ge 80 ]; then
+
+icon="display-brightness-medium"
+if [ "$bri" -ge $max ]; then
 	icon="display-brightness-high"
-elif [ "$bri" -ge 40 ]; then
-	icon="display-brightness-medium"
-else
+elif [ "$bri" -le $min ]; then
 	icon="display-brightness-low"
 fi
 
-notify-send -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$bri" Brightness
+notify-send -r 9991 -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$bri" "brightness" "$bri%"
