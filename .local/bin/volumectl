@@ -23,15 +23,13 @@ pamixer --allow-boost "$cmd" "$val" && pkill -x -RTMIN+7 dwmblocks
 
 vol="$(pamixer --get-volume-human)"
 [ "$vol" = "muted" ] && vol="0" || vol="${vol%%%}"
-
-if [ "$vol" -ge 75 ]; then
+icon="audio-volume-muted"
+if [ "$vol" -ge 80 ]; then
 	icon="audio-volume-high"
-elif [ "$vol" -ge 35 ]; then
+elif [ "$vol" -ge 40 ]; then
 	icon="audio-volume-medium"
 elif [ "$vol" -gt 0 ]; then
 	icon="audio-volume-low"
-else
-	icon="audio-volume-muted"
 fi
 
-notify-send -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$vol" Volume
+notify-send -r 9990 -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$vol" "volume" "$vol%"
