@@ -4,8 +4,6 @@ NOTESDIR="${NOTESDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/notes}"
 [ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || { echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1; }
 cd "$NOTESDIR" || { echo "$(basename "$0"): can't cd to $NOTESDIR" >&2; exit 1; }
 
-lines=10
-
 open() {
 	if [ -t 0 ]; then
 		$EDITOR "$1"
@@ -16,51 +14,36 @@ open() {
 
 case "$1" in
 	-s)
-		shift; [ $# -eq 0 ] && exit 1
-		grep -Hnr "$@"
-		exit 0
-		;;
-	-l)
 		shift
-		case "$1" in
-			""|[!3-9]) echo "$(basename "$0"): lines must at least be 3" >&2; exit 1 ;;
-		esac
-		lines=$1
-		shift
+		[ $# -eq 0 ] && { echo "$(basename "$0"): empty search term" >&2; exit 1; }
+		exec grep -Hnr --color=auto "$@"
 		;;
-	-b)
-		command -v buku >/dev/null 2>&1 || { echo "$(basename "$0"): buku is not installed" >&2; exit 1; }
-		for name in "$NOTESDIR"/*; do
-			urls="$(grep -P -o '(?:https?://|ftp://|news://|mailto:|file://|\bwww\.)[a-zA-Z0-9\-\@;\/?:&=%\$_.+!*\x27,~#]*(\([a-zA-Z0-9\-\@;\/?:&=%\$_.+!*\x27,~#]*\)|[a-zA-Z0-9\-\@;\/?:&=%\$_+*~])+' "$name")"
-			for url in $urls; do
-				buku --nostdin --threads 10 -a "$url" "$(basename "$0"),$(basename "$name" | cut -d. -f1)" || echo "$(basename "$0"): failed to add ($url) to buku" >&2
-			done
+	"" | -l)
+		[ -t 0 ] && command -v fzy >/dev/null 2>&1 && menucmd="fzy -l ${2:-10}" || menucmd="dmenu -i -F -l ${2:-10} -p notes:"
+		sel="$(find "$NOTESDIR" -type f -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | $menucmd)" || exit $?
+		[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
+		open "$NOTESDIR/${sel:-todo.md}"
+		;;
+	-*)
+		echo "$(basename "$0"): unknown option '$1'" >&2;
+		exit 1
+		;;
+	*)
+		for f in "$@"; do
+			case "$f" in
+				*.md | *.txt) open "$NOTESDIR/$f" ;;
+				*)
+					if [ -d "$NOTESDIR/$f" ]; then
+						NOTESDIR="$NOTESDIR/$f" "$0"
+					elif [ -f "$NOTESDIR/$f.md" ]; then
+						open "$NOTESDIR/$f.md"
+					elif [ -f "$NOTESDIR/$f.txt" ]; then
+						open "$NOTESDIR/$f.txt"
+					else
+						open "$NOTESDIR/$f"
+					fi
+					;;
+			esac
 		done
-		exit $?
 		;;
 esac
-
-if [ $# -eq 0 ]; then
-	[ -t 0 ] && command -v fzy >/dev/null 2>&1 && menucmd="fzy -l $lines" || menucmd="dmenu -i -F -l $lines -p notes:"
-	sel="$(find "$NOTESDIR" -type f -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | $menucmd)" || exit $?
-	[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
-	open "$NOTESDIR/${sel:-todo.md}"
-	exit 0
-fi
-
-for f in "$@"; do
-	case "$f" in
-		*.txt | *.md) open "$NOTESDIR/$f" ;;
-		*)
-			if [ -d "$NOTESDIR/$f" ]; then
-				NOTESDIR="$NOTESDIR/$f" "$0"
-			elif [ -f "$NOTESDIR/$f.md" ]; then
-				open "$NOTESDIR/$f.md"
-			elif [ -f "$NOTESDIR/$f.txt" ]; then
-				open "$NOTESDIR/$f.txt"
-			else
-				open "$NOTESDIR/$f"
-			fi
-			;;
-	esac
-done
