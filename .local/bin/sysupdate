@@ -26,10 +26,9 @@ gitupdate() {
 }
 
 makeinstall() {
-	if grep -q "^install:" Makefile; then
-		echo "$@" | xargs "$sudocmd" make install || return 1
-		grep -q "^clean:" Makefile && make clean
-	fi
+	grep -q "^install:" Makefile || return 1
+	echo "$@" | xargs "$sudocmd" make install || return 1
+	grep -q "^clean:" Makefile && make clean
 }
 
 updatepkgs() {
