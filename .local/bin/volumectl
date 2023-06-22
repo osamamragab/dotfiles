@@ -1,35 +1,32 @@
 #!/bin/sh
 
-step="${2:-5}"
+getvol() {
+	vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
+	[ "$vol" != "${vol%\[MUTED\]}" ] && echo "muted" && return 1
+	vol="${vol#Volume: }"
+	IFS="."; set -- $vol
+	printf "%s" "${@#0}"
+}
 
 case "$1" in
-	set)
-		cmd="--set-volume"
-		val="$step"
-		;;
-	inc)
-		cmd="-i"
-		val="$((step - ($(pamixer --get-volume) % step)))" ;;
-	dec)
-		cmd="-d"
-		val="$(($(pamixer --get-volume) % step))"
-		[ "$val" -eq 0 ] && val="$step"
-		;;
-	toggle) cmd="-t" ;;
+	set) wpctl set-volume @DEFAULT_AUDIO_SINK@ "${2:-60}%" ;;
+	get) getvol && echo "%"; exit 0 ;;
+	inc) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ ;;
+	dec) wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- ;;
+	toggle) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
 	*) exit 1 ;;
 esac
 
-pamixer --allow-boost "$cmd" "$val" && pkill -x -RTMIN+7 dwmblocks
-
-vol="$(pamixer --get-volume-human)"
-[ "$vol" = "muted" ] && vol="0" || vol="${vol%%%}"
+vol="$(getvol)"
+[ "$vol" = "muted" ] && vol=0
 icon="audio-volume-muted"
-if [ "$vol" -ge 80 ]; then
+if [ "$vol" -ge 70 ]; then
 	icon="audio-volume-high"
-elif [ "$vol" -ge 40 ]; then
+elif [ "$vol" -ge 30 ]; then
 	icon="audio-volume-medium"
-elif [ "$vol" -gt 0 ]; then
+elif [ "$vol" -ge 1 ]; then
 	icon="audio-volume-low"
 fi
 
+pkill -x -RTMIN+7 dwmblocks
 notify-send -r 9990 -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$vol" "volume" "$vol%"
