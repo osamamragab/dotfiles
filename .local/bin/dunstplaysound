@@ -12,4 +12,3 @@ case "$1" in
 esac
 
 aplay -q "$HOME/.local/share/${f:-notification}.wav" >/dev/null 2>&1
-
