@@ -71,7 +71,7 @@ xi "shell & text editor" \
 	-- tmate mosh ttyd
 
 xi "audio tools" \
-	alsa-utils alsa-plugins-pipewire pipewire wireplumber libspa-bluetooth
+	alsa-utils alsa-pipewire pipewire wireplumber wireplumber-elogind libspa-bluetooth
 
 xi "multimedia tools" \
 	ImageMagick ffmpeg mpv nsxiv zathura zathura-pdf-mupdf mupdf mupdf-tools poppler pdfgrep libwebp-tools \
@@ -109,7 +109,7 @@ go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest git
 pip install nox
 pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server surge
 if [ "$level" -gt 0 ]; then
-	xi _ clib ctags elixir erlang sbcl clisp openjdk sbt clojure leiningen julia kotlin-bin apl j gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra  python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab grpc protobuf terraform tflint misspell pgcli litecli svgcleaner
+	xi _ clib ctags elixir erlang sbcl clisp openjdk sbt clojure leiningen julia kotlin-bin apl j gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab grpc protobuf terraform tflint misspell pgcli litecli svgcleaner
 	go install -v google.golang.org/protobuf/cmd/protoc-gen-go@latest github.com/fullstorydev/grpcurl@latest github.com/timakin/bodyclose@latest
 	pip install mycli
 fi
