@@ -82,7 +82,7 @@ xi "music players" \
 	mpd mpc ncmpcpp
 
 xi "system monitoring tools" \
-	socklog socklog-void perf strace ltrace lm_sensors htop iftop iotop ctop powertop nvtop cpufrequtils mon bmon bandwhich speedtest-cli vnstat wavemon fio tmon
+	socklog socklog-void perf strace ltrace lm_sensors htop iftop iotop powertop nvtop cpufrequtils mon fio tmon wavemon bandwhich vnstat speedtest-cli
 
 xi "email tools" \
 	neomutt msmtp isync notmuch
