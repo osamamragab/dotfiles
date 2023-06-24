@@ -74,7 +74,7 @@ xi "audio tools" \
 	alsa-utils alsa-pipewire pipewire wireplumber wireplumber-elogind libspa-bluetooth
 
 xi "multimedia tools" \
-	ImageMagick ffmpeg mpv nsxiv zathura zathura-pdf-mupdf mupdf mupdf-tools poppler pdfgrep libwebp-tools \
+	ImageMagick ffmpeg sox mpv nsxiv zathura zathura-pdf-mupdf mupdf mupdf-tools poppler pdfgrep libwebp-tools \
 	- zathura-ps zathura-djvu playerctl mpv-mpris mpDris2 \
 	-- gimp openshot audacity
 
