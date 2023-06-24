@@ -71,7 +71,7 @@ xi "shell & text editor" \
 	-- tmate mosh ttyd
 
 xi "audio tools" \
-	alsa-utils alsa-pipewire pipewire wireplumber wireplumber-elogind libspa-bluetooth
+	alsa-utils alsa-pipewire pipewire wireplumber wireplumber-elogind libspa-bluetooth libspa-ffmpeg
 
 xi "multimedia tools" \
 	ImageMagick ffmpeg sox mpv nsxiv zathura zathura-pdf-mupdf mupdf mupdf-tools poppler pdfgrep libwebp-tools \
