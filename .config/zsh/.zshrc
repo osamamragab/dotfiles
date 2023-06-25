@@ -5,9 +5,9 @@ setopt histignorespace
 stty stop undef
 
 __promptcmd() {
-	pr="%F{$([ $? -eq 0 ] && echo "green" || echo "red")}>"
-	br="$(git symbolic-ref HEAD --short 2>/dev/null)"
-	wd="%F{cyan}%c"
+	local pr="%F{$([ $? -eq 0 ] && echo "green" || echo "red")}>"
+	local br="$(git symbolic-ref HEAD --short 2>/dev/null)"
+	local wd="%F{cyan}%c"
 	[ "$br" ] && echo "$wd %F{blue}($br) $pr" || echo "$wd $pr"
 }
 PS1="%B\$(__promptcmd)%F{reset}%b "
