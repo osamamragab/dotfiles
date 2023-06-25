@@ -2,7 +2,7 @@
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 LOCALPROGRAMS="dwm st dmenu dwmblocks surf tabbed slock sent"
-LOCALREPOS="git@gitlab.com:osamaragab/p.git git@github.com:jarun/nnn.git git@github.com:behdad/bicon.git git@github.com:LukeSmithxyz/mutt-wizard.git git@github.com:krpors/hx.git git@github.com:rupa/z.git git@github.com:pyenv/pyenv.git"
+LOCALREPOS="https://gitlab.com/osamaragab/p.git https://github.com/jarun/nnn.git https://github.com/behdad/bicon.git https://github.com/LukeSmithxyz/mutt-wizard.git https://github.com/krpors/hx.git https://github.com/rupa/z.git https://github.com/pyenv/pyenv.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
 doas() { $sudocmd "$@"; }
@@ -56,9 +56,9 @@ updatelocal() {
 		ure="git://git.suckless.org/$p"
 		case "$p" in
 			surf) ubr="surf-webkit2" ;;
-			dwmblocks) ure="git@github.com:torrinfail/dwmblocks.git" ;;
+			dwmblocks) ure="https://github.com/torrinfail/dwmblocks.git" ;;
 		esac
-		gitupdate "git@gitlab.com:osamaragab/$p.git" upstream "$ubr" "$ure" || continue
+		gitupdate "https://gitlab.com/osamaragab/$p.git" upstream "$ubr" "$ure" || continue
 		[ -s Makefile ] && makeinstall
 	done
 
