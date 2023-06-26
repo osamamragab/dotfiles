@@ -2,19 +2,15 @@
 
 alias e="${EDITOR:-vi}"
 alias q="exit"
-alias x+="chmod +x"
-alias mkd="mkdir -pv"
-alias cd..="cd .."
 
+alias mkd="mkdir -pv"
 alias cp="cp -iv"
 alias ln="ln -iv"
 alias mv="mv -iv"
 alias rm="rm -Iv"
-
 alias ls="ls -hF --color=auto --group-directories-first"
 alias la="ls -A"
 alias ll="ls -lA"
-
 alias grep="grep --color=auto"
 alias gr="grep --exclude-dir={.git,node_modules} -Hnr"
 
@@ -24,23 +20,26 @@ alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
 
-alias xi="xbps-install -S"
-alias xr="xbps-remove -R"
-alias xq="xbps-query -R"
+alias pm="pacman"
+alias pacman="pacman --color=auto"
+alias yay="yay --color=auto"
+alias ip="ip -color=auto"
+alias diff="diff --color=auto"
+alias ccat="highlight -O ansi"
 
 alias bc="bc -ql"
 alias nnn="nnn -Rr"
-alias ccat="highlight -O ansi"
 alias info="info --vi-keys"
+alias rsync="rsync -vrPlu"
 alias ffmpeg="ffmpeg -hide_banner"
 alias ddgr="ddgr -x -n 5 --unsafe --noua"
 
-command -v nvim >/dev/null 2>&1 && alias vi="nvim --noplugin"
+[ -x "$(command -v nvim 2>/dev/null)" ] && alias vim="nvim" vi="nvim --noplugin" vimdiff="nvim -d"
 command -v trash >/dev/null 2>&1 && alias rm="trash"
 
 sudocmd="sudo"
 command -v doas >/dev/null 2>&1 && sudocmd="doas"
-for cmd in su xbps-install xbps-remove xbps-pkgdb sv vsv mount umount updatedb reboot poweroff shutdown; do
+for cmd in su mount umount updatedb reboot poweroff shutdown sv rsm pacman; do
 	alias $cmd="$sudocmd $cmd"
 done
 unset sudocmd cmd
