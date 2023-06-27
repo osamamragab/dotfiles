@@ -50,7 +50,7 @@ if ! command -v doas >/dev/null 2>&1; then
 fi
 
 echo "installing general tools"
-pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xwallpaper acpilight curl wget rsync gnupg openssh mosh pass keychain signify keepassxc bc slop maim dunst xcompmgr slock xss-lock time parallel entr snooze mlocate fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail earlyoom earlyoom-runit zbar qrencode mediainfo atool tree bat git-delta tig clipmenu translate-shell screenkey mdp z duf
+pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xsel xwallpaper acpilight curl wget rsync gnupg openssh mosh pass keychain signify keepassxc bc slop maim dunst xcompmgr slock xss-lock time parallel entr snooze mlocate fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail earlyoom earlyoom-runit zbar qrencode mediainfo atool tree bat git-delta tig clipmenu translate-shell screenkey mdp z duf
 yayinst xbanish urlview pam-gnupg spt buku-git dragon-drop sc-im safeeyes bicon-git wiki-tui
 
 echo "installing manual pages"
