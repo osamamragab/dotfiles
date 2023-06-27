@@ -9,11 +9,8 @@ xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
 # [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/bg" ] && command -v wal >/dev/null 2>&1 && wal -i "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 &
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/bg" ] && xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 &
 
-for p in dwmblocks xbanish pipewire mpd dunst clipmenud; do
-	command -v "$p" || continue
-	pidof -s "$p" || setsid -f "$p" &
+for p in dwmblocks xbanish xcompmgr pipewire mpd dunst clipmenud; do
+	pidof -xs "$p" || "$p" &
 done >/dev/null 2>&1
 
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
-
-(sleep 1 && xcompmgr) &
