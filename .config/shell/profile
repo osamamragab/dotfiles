@@ -47,7 +47,8 @@ export SQLITE_HISTORY="$XDG_CACHE_HOME/.sqlite_history"
 
 command -v luarocks >/dev/null 2>&1 && PATH="$(luarocks path --lr-bin | cut -d ":" -f 1):$PATH"
 command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --path)"
-export PATH="$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$PYENV_ROOT/bin:$COURSIER_DIR/bin:$DOTNET_ROOT:$BUN_INSTALL/bin:$DENO_INSTALL/bin:$PNPM_HOME:$(echo "$GEM_PATH" | sed "s@:@/bin:@g")/bin:$PATH"
+PATH="$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$PYENV_ROOT/bin:$COURSIER_DIR/bin:$DOTNET_ROOT:$BUN_INSTALL/bin:$DENO_INSTALL/bin:$PNPM_HOME:$(echo "$GEM_PATH" | sed "s@:@/bin:@g")/bin:$PATH"
+export PATH
 
 export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
 export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
