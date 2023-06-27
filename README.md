@@ -4,7 +4,7 @@
 
 intended to be used with:
 
-- [Void Linux](https://voidlinux.org) (operating system)
+- [Artix Linux](https://artixlinux.org) (operating system)
 - [dwm](https://dwm.suckless.org) (window manager) \[[my build](https://gitlab.com/osamaragab/dwm)\]
 - [dwmblocks](https://github.com/torrinfail/dwmblocks) (status bar) \[[my build](https://gitlab.com/osamaragab/dwmblocks)\]
 - [st](https://st.suckless.org) (terminal) \[[my build](https://gitlab.com/osamaragab/st)\]

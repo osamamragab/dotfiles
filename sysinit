@@ -1,171 +1,116 @@
 #!/bin/sh
 # vim: wrap
-# shellcheck disable=SC2164
 
-cdir="$(dirname "$(readlink -f "$0")")"
-if [ -x "$cdir/setup.sh" ]; then
+HERE="$(dirname "$(readlink -f "$0")")"
+if [ -x "$HERE/setup.sh" ]; then
 	echo "running dotfiles setup script..."
-	"$cdir/setup.sh"
+	"$HERE/setup.sh"
 fi
 
-[ -s "$cdir/.config/shell/profile" ] &&
-	DISPLAY="${DISPLAY:-:0}" . "$cdir/.config/shell/profile"
-
-if ! command -v doas >/dev/null 2>&1; then
-	echo "installing doas..."
-	sudo xbps-install -Sy opendoas
-	echo "permit nopass keepenv :wheel" | sudo tee /etc/doas.conf >/dev/null
-fi
-
-level="${1:-0}"
-
-xi() {
-	name="$1"
-	pkgs=""
-	shift
-	for pkg in "$@"; do
-		case "$pkg" in
-			-*)
-				c="$(echo "$pkg" | tr -cd "-" | wc -c)"
-				[ "$c" -eq "${#pkg}" ] && [ "$level" -lt "${#pkg}" ] && break
-				;;
-			*)
-				pkgs="$pkgs $pkg"
-				;;
-		esac
-	done
-	[ -z "$pkgs" ] && return
-	[ "$name" != "_" ] && echo "installing $name..."
-	# shellcheck disable=SC2086
-	doas xbps-install -Sy $pkgs
-}
-
-echo "updating system..."
-doas xbps-install -Sy xbps
-doas xbps-install -Syu
-
-xi "x" \
-	xorg xorg-server xinit libX11-devel libXft-devel libXinerama libXinerama-devel libXrandr libXrandr-devel mesa-dri mesa-vaapi
-
-xi "filesystems support" \
-	fuse fuse-exfat mtpfs simple-mtpfs ifuse
-
-xi "network manager" \
-	NetworkManager ufw
-
-xi "build tools" \
-	gcc git make pkg-config autoconf automake libtool \
-	- meson ninja
-
-xi "general tools" \
-	curl wget gnupg gnupg2 openssh pass passmenu keychain keepassxc rbw slop maim dunst util-linux xdg-utils xtools brillo xss-lock elogind time bc parallel entr snooze vsv mlocate fzy fzf ripgrep fd dust cronie libnotify xcompmgr xbanish urlview darkhttpd youtube-dl yt-dlp pam-gnupg wmctrl xdo xdotool xclip yank clipmenu xwallpaper pmount autofs tar bsdtar bsdunzip xz bzip2 zstd gzip zip unzip unar atool signify tlp tlp-rdw thermald bsddiff patch delta highlight tig gitui exiftool redshift newsboat calcurse srm trash-cli spt bat buku lftp xoris dragon rlwrap ntp bluez lprng lshw hwinfo sc-im firejail translate-shell inotify-tools earlyoom zbar qrencode mediainfo rsync \
-	- android-tools youtube-viewer qemu arandr tree catimg mdp screenkey git-extras git-lfs fbida \
-	-- scrcpy syncthing flatpak flatpak-builder tea glab github-cli pcmanfm xarchiver ffmpegthumbnailer gnome-epub-thumbnailer
-
-xi "manual pages" \
-	man-pages man-pages-posix texinfo cheat tealdeer
-
-xi "shell & text editor" \
-	zsh vim neovim mtm tmux \
-	- zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search \
-	-- tmate mosh ttyd
-
-xi "audio tools" \
-	alsa-utils alsa-pipewire pipewire wireplumber wireplumber-elogind libspa-bluetooth libspa-ffmpeg
-
-xi "multimedia tools" \
-	ImageMagick ffmpeg sox mpv nsxiv zathura zathura-pdf-mupdf mupdf mupdf-tools poppler pdfgrep libwebp-tools \
-	- zathura-ps zathura-djvu playerctl mpv-mpris mpDris2 \
-	-- gimp openshot audacity
-
-xi "music players" \
-	mpd mpc ncmpcpp
-
-xi "system monitoring tools" \
-	socklog socklog-void perf strace ltrace lm_sensors htop iftop iotop powertop nvtop cpufrequtils mon fio tmon wavemon bandwhich vnstat speedtest-cli
-
-xi "email tools" \
-	neomutt msmtp isync notmuch
-
-xi "chatting applications" \
-	weechat \
-	- weechat-lua weechat-python \
-	-- tuir
-
-xi "web browsers" \
-	lynx w3m tor \
-	- amfora sacc \
-	-- vimb lagrange ddgr
-
-xi "torrent tools" \
-	transmission rtorrent \
-	- btfs
-
-xi "programming stuff" \
-	base-devel llvm clang lld tcc nasm go rustup zig python3 lua nodejs R perl ruby ruby-devel c gdb valgrind clang-analyzer rust-analyzer gopls python3-pip python3-pipx python3-pipenv pyright luarocks lua-language-server pnpm binutils upx delve jq jo xxd bvi ired dive hyperfine tokei cppcheck shellcheck shfmt pylint black
-rustup-init -y
-cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make rusty-tags irust bacon rtx-cli evcxr_jupyter stylua wiki-tui
-go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest
-pip install nox
-pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server surge
-if [ "$level" -gt 0 ]; then
-	xi _ clib ctags elixir erlang sbcl clisp openjdk sbt clojure leiningen julia kotlin-bin apl j gef radare2 postgresql13 mariadb sqlite redis usql flex bison byacc clang-tools-extra python3-ipython python3-numpy python3-matplotlib python3-scipy python3-jupyter jupyterlab grpc protobuf terraform tflint misspell pgcli litecli svgcleaner
-	go install -v google.golang.org/protobuf/cmd/protoc-gen-go@latest github.com/fullstorydev/grpcurl@latest github.com/timakin/bodyclose@latest
-	pip install mycli
-fi
-[ "$level" -gt 0 ] && pnpm add -g sass pug @vue/cli vls svelte-language-server vscode-langservers-extracted yaml-language-server emmet-ls
-[ "$level" -gt 1 ] && pnpm add -g svgo ts-node nodemon http-server serve livereload
-! command -v sdk >/dev/null 2>&1 && curl -fsSL https://get.sdkman.io | bash
-! command -v bun >/dev/null 2>&1 && curl -fsSL https://bun.sh/install | bash
-! command -v deno >/dev/null 2>&1 && curl -fsSL https://deno.land/x/install/install.sh | sh
-
-xi "docker" \
-	docker docker-compose docker-credential-pass
-
-xi "nix" \
-	nix
-
-xi "arduino" \
-	- arduino-cli \
-	-- arduino
-
-xi "markup/latex tools" \
-	pandoc groff mdocml lowdown \
-	- texlive \
-	-- texlive-full
-
-xi "networking/testing tools" \
-	nmap netcat lsof traceroute mtr wireshark termshark inetutils iputils net-tools bind-utils iperf3 arp-scan tcpreplay ettercap bettercap macchanger sqlmap wrk hey gping \
-	- wireshark-qt netsniff-ng aircrack-ng proxychains-ng socat websocat \
-	-- thc-hydra hashcat hashcat-utils radamsa nemesis airspy urh sslscan
-cargo install xh
-pip install mitmproxy
-
-xi "fonts & icons" \
-	font-ibm-plex-otf amiri-font noto-fonts-ttf noto-fonts-ttf-extra noto-fonts-emoji adwaita-icon-theme adwaita-plus
+[ -s "$HERE/.config/shell/profile" ] &&
+	DISPLAY="${DISPLAY:-:0}" . "$HERE/.config/shell/profile"
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 [ -d "$PROGRAMSDIR" ] || mkdir -p "$PROGRAMSDIR"
 
-xi "local apps' dependencies" \
-	webkit2gtk-devel gcr-devel gst-libav gst-plugins-good1 farbfeld readline-devel editline-devel fribidi-devel
+echo "updating pacman & repos"
+sudo pacman -Sy --needed --noconfirm pacman
+sudo pacman -Syu --noconfirm
 
-[ -x "$cdir/.local/bin/sysupdate" ] && "$cdir/.local/bin/sysupdate" local
+if ! command -v doas >/dev/null 2>&1; then
+	echo "installing doas"
+	sudo pacman -S --needed --noconfirm opendoas
+	echo "permit nopass keepenv :wheel" | sudo tee /etc/doas.conf >/dev/null
+fi
 
-[ "$PYENV_ROOT" ] && [ ! -d "$PYENV_ROOT" ] && [ -d "$PROGRAMSDIR/pyenv" ] &&
-	ln -s "$PROGRAMSDIR/pyenv" "$PYENV_ROOT"
+alias pacinst="doas pacman -S --needed --noconfirm"
+alias yayinst="yay -S --needed --noconfirm --color=auto"
+
+echo "installing base & build tools"
+pacinst base base-devel autofs git
+
+echo "installing drivers"
+pacinst libva-mesa-driver mesa-vdpau vulkan-intel vulkan-radeon intel-ucode
+
+echo "installing xorg & elogind"
+pacinst xorg elogind elogind-runit
+
+echo "installing network, bluetooth & firewall manager"
+pacinst networkmanager networkmanager-runit bluez bluez-runit ufw ufw-runit
+
+echo "installing pipewire"
+pacinst pipewire pipewire-audio pipewire-pulse wireplumber
+
+if ! command -v doas >/dev/null 2>&1; then
+	echo "installing yay"
+	cd "$PROGRAMSDIR" || exit 1
+	git clone "https://aur.archlinux.org/yay.git" &&
+		cd yay && makepkg -si || exit 1
+	yay --sudo doas --sudoflags -- --save
+fi
+
+echo "installing general tools"
+pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xwallpaper acpilight curl wget rsync gnupg openssh mosh pass keychain signify keepassxc bc slop maim dunst xcompmgr xss-lock time parallel entr snooze mlocate fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail earlyoom earlyoom-runit zbar qrencode mediainfo tree bat git-delta tig clipmenu translate-shell screenkey mdp
+yayinst xbanish urlview pam-gnupg spt buku-git dragon-drop sc-im safeeyes
+
+echo "installing manual pages"
+pacinst man-pages texinfo tealdeer
+yayinst cheat
+
+echo "installing text editor & zsh"
+pacinst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search-git
+
+echo "installing multimedia tools"
+pacinst ffmpeg imagemagic gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp
+
+echo "installing music players"
+pacinst mpd mpc ncmpcpp
+
+echo "installing email tools"
+pacinst neomutt msmtp isync notmuch
+
+echo "installing programming stuff"
+pacinst clang clang lld tcc nasm yasm go rustup zig python python-pip r lua luarocks perl deno nodejs pnpm ruby gdb valgrind binutils upx dive jq jo cppcheck shellcheck elixir erlang clisp jdk-openjdk clojure leiningen julia kotlin sbt gef postgresql sqlite redis ipython python-numpy python-matplotlib python-scipy jupyterlab jupyter-notebook grpc protobuf python-pipx python-pipenv python-nox python-black python-pylint terraform radare2 tokei hyperfine bacon stylua
+yayinst bunjs-bin clib usql tflint-bin
+rustup default stable
+cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make irust rtx-cli evcxr_jupyter wiki-tui
+go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest google.golang.org/protobuf/cmd/protoc-gen-go@latest github.com/fullstorydev/grpcurl@latest github.com/timakin/bodyclose@latest mvdan.cc/sh/v3/cmd/shfmt@latest
+pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server surge svgo sass pug @vue/cli
+
+echo "installing system monitoring tools"
+pacinst socklog perf strace lm_sensors htop powertop nvtop iotop fio iftop wavemon bandwhich speedtest-cli vnstat vnstat-runit
+
+echo "installing internet stuff"
+pacinst brave-bin tor lynx w3m amfora weechat
+yayinst tuir-git sacc
+
+echo "installing torrent tools"
+pacinst rtorrent transmission-cli transmission-runit btfs
+
+echo "installing networking tools"
+pacinst nmap openbsd-netcat lsof inetutils iputils net-tools traceroute mtr wireshark-cli socat websocat mitmproxy termshark iperf3 arp-scan tcpreplay bettercap macchanger sqlmap gping netsniff-ng aircrack-ng proxychains-ng sslscan urh xh
+yayinst wrk nemesis
+
+echo "installing docker"
+pacinst docker docker-compose
+
+echo "installing nix"
+pacinst nix
+
+echo "installing arduino"
+pacinst arduino arduino-cli
+
+echo "installing markup & latex tools"
+pacinst pandoc-bin lowdown texlive
+
+echo "installing fonts, themes & icons"
+pacinst gnu-free-fonts ttf-liberation ttf-dejavu noto-fonts noto-fonts-emoji adwaita-icon-theme
+yayinst otf-ibm-plex ttf-amiri adwaita-dark adwaita-plus-git
 
 PACKERDIR="${PACKERDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim}"
 if [ ! -f "$PACKERDIR" ]; then
-	echo "installing packer.nvim..."
+	echo "installing packer.nvim"
 	git clone --depth 1 "https://github.com/wbthomason/packer.nvim" "$PACKERDIR"
 fi
 
-if [ -f "/usr/lib/mpv-mpris/mpris.so" ] && [ ! -f "$HOME/.config/mpv/scripts/mpris.so" ]; then
-	echo "linking mpv-mpris plugin..."
-	[ -d "$HOME/.config/mpv/scripts" ] || mkdir -p "$HOME/.config/mpv/scripts"
-	doas ln -s "/usr/lib/mpv-mpris/mpris.so" "$HOME/.config/mpv/scripts/mpris.so"
-fi
-
-echo "changing default shell to zsh..."
-chsh -s "$(which zsh)"
+[ -x "$HERE/.local/bin/sysupdate" ] && "$HERE/.local/bin/sysupdate" local

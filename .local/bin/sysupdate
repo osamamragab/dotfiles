@@ -32,7 +32,7 @@ makeinstall() {
 }
 
 updatepkgs() {
-	doas xbps-install -Syu
+	doas pacman -Syu --noconfirm
 	ifinst rustup && rustup update
 	ifinst bun && bun upgrade
 	ifinst deno && deno upgrade
@@ -45,11 +45,6 @@ updatepkgs() {
 	# ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
 }
 
-clean() {
-	doas xbps-remove -Ooy
-	doas vkpurge rm all
-}
-
 updatelocal() {
 	for p in $LOCALPROGRAMS; do
 		ubr="master"
@@ -58,7 +53,7 @@ updatelocal() {
 			surf) ubr="surf-webkit2" ;;
 			dwmblocks) ure="https://github.com/torrinfail/dwmblocks.git" ;;
 		esac
-		gitupdate "https://gitlab.com/osamaragab/$p.git" upstream "$ubr" "$ure" || continue
+		gitupdate "git@gitlab.com:osamaragab/$p.git" upstream "$ubr" "$ure" || continue
 		[ -s Makefile ] && makeinstall
 	done
 
@@ -92,6 +87,10 @@ updatelocal() {
 				;;
 		esac
 	done
+}
+
+clean() {
+	doas pacman -Scvv --noconfirm
 }
 
 for arg in "${@:-all}"; do
