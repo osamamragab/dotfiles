@@ -54,8 +54,7 @@ pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xwallpaper acpilight curl
 yayinst xbanish urlview pam-gnupg spt buku-git dragon-drop sc-im safeeyes bicon-git wiki-tui
 
 echo "installing manual pages"
-pacinst man-db man-pages texinfo tealdeer
-yayinst cheat
+pacinst man-db man-pages texinfo tealdeer navi
 
 echo "installing text editor & zsh"
 pacinst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
