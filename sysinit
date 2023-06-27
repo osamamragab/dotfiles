@@ -75,7 +75,9 @@ pacinst clang clang lld tcc nasm yasm go rustup zig python python-pip r lua luar
 yayinst bunjs-bin clib usql tflint-bin flutter android-studio rtx evcxr_jupyter gosec grpcurl
 rustup default stable
 cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make irust
-go install -v github.com/google/pprof@latest google.golang.org/protobuf/cmd/protoc-gen-go@latest github.com/timakin/bodyclose@latest
+go install -v github.com/google/pprof@latest
+go install -v google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install -v github.com/timakin/bodyclose@latest
 pnpm add -g typescript eslint prettier typescript-language-server surge svgo sass pug @vue/cli
 
 echo "installing system monitoring tools"
