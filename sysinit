@@ -58,7 +58,8 @@ pacinst man-db man-pages texinfo tealdeer
 yayinst cheat
 
 echo "installing text editor & zsh"
-pacinst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search
+pacinst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
+yayinst zsh-fast-syntax-highlighting
 
 echo "installing multimedia tools"
 pacinst ffmpeg imagemagick gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp poppler

@@ -81,8 +81,8 @@ trap onexit EXIT
 
 ZSHPLUGINSDIR="${ZSHPLUGINSDIR:-/usr/share/zsh/plugins}"
 if [ -d "$ZSHPLUGINSDIR" ]; then
-	[ -f "$ZSHPLUGINSDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ] &&
-		. "$ZSHPLUGINSDIR/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
+	[ -f "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
+		. "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 	if [ -f "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]; then
 		ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 		. "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
