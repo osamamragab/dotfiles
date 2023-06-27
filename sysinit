@@ -79,7 +79,8 @@ go install -v github.com/google/pprof@latest google.golang.org/protobuf/cmd/prot
 pnpm add -g typescript eslint prettier typescript-language-server surge svgo sass pug @vue/cli
 
 echo "installing system monitoring tools"
-pacinst socklog perf strace lm_sensors htop powertop nvtop iotop fio iftop wavemon bandwhich speedtest-cli vnstat vnstat-runit
+pacinst socklog perf strace lm_sensors powertop nvtop iotop fio iftop wavemon bandwhich speedtest-cli vnstat vnstat-runit
+yayinst htop-vim
 
 echo "installing internet stuff"
 pacinst brave-bin tor lynx w3m amfora weechat
