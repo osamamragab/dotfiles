@@ -1,22 +1,18 @@
 #!/bin/sh
 
-min=20
-max=80
-step=20
+min=10
+max=100
+step=10
 
-bri="$(brillo -G)"
-bri="${bri%.??}"
-
+bri="$(xbacklight -get)"
 case "$1" in
-	set) brillo -S "${2:-$max}" ;;
-	inc) [ "$bri" -lt "$max" ] && brillo -A "${2:-$step}" ;;
-	dec) [ "$bri" -gt "$min" ] && brillo -U "${2:-$step}" ;;
+	set) xbacklight -set "${2:-$max}" ;;
+	inc) [ "$bri" -lt "$max" ] && xbacklight -inc "${2:-$step}" ;;
+	dec) [ "$bri" -gt "$min" ] && xbacklight -dec "${2:-$step}" ;;
 	*) exit 1 ;;
 esac
 
-bri="$(brillo -G)"
-bri="${bri%.??}"
-
+bri="$(xbacklight -get)"
 icon="display-brightness-medium"
 if [ "$bri" -ge $max ]; then
 	icon="display-brightness-high"
