@@ -1,15 +1,12 @@
 #!/bin/sh
 
-xset r rate 300 50 &
 xset -b &
-xset -q | grep "Caps Lock:\s*on" && xdotool key Caps_Lock &
 xset s 180 120 &
 xss-lock -n "locker dim" locker &
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
-# [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/bg" ] && command -v wal >/dev/null 2>&1 && wal -i "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 &
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/bg" ] && xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 &
 
-for p in dwmblocks xbanish xcompmgr pipewire mpd dunst clipmenud; do
+for p in dwmblocks xbanish xcompmgr pipewire mpd dunst clipmenud remapd; do
 	pidof -xs "$p" || "$p" &
 done >/dev/null 2>&1
 
