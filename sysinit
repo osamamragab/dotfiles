@@ -2,9 +2,9 @@
 # vim: wrap
 
 HERE="$(dirname "$(readlink -f "$0")")"
-if [ -x "$HERE/setup.sh" ]; then
+if [ -x "$HERE/setup" ]; then
 	echo "running dotfiles setup script..."
-	"$HERE/setup.sh"
+	"$HERE/setup"
 fi
 
 [ -s "$HERE/.config/shell/profile" ] &&
@@ -39,7 +39,7 @@ echo "installing network, bluetooth & firewall manager"
 pacinst networkmanager networkmanager-runit bluez bluez-runit ufw ufw-runit
 
 echo "installing pipewire"
-pacinst pipewire pipewire-audio pipewire-pulse wireplumber
+pacinst pipewire pipewire-audio pipewire-pulse wireplumber pulsemixer
 
 if ! command -v doas >/dev/null 2>&1; then
 	echo "installing yay"
@@ -50,32 +50,33 @@ if ! command -v doas >/dev/null 2>&1; then
 fi
 
 echo "installing general tools"
-pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xwallpaper acpilight curl wget rsync gnupg openssh mosh pass keychain signify keepassxc bc slop maim dunst xcompmgr xss-lock time parallel entr snooze mlocate fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail earlyoom earlyoom-runit zbar qrencode mediainfo tree bat git-delta tig clipmenu translate-shell screenkey mdp
-yayinst xbanish urlview pam-gnupg spt buku-git dragon-drop sc-im safeeyes
+pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xwallpaper acpilight curl wget rsync gnupg openssh mosh pass keychain signify keepassxc bc slop maim dunst xcompmgr slock xss-lock time parallel entr snooze mlocate fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail earlyoom earlyoom-runit zbar qrencode mediainfo atool tree bat git-delta tig clipmenu translate-shell screenkey mdp z duf
+yayinst xbanish urlview pam-gnupg spt buku-git dragon-drop sc-im safeeyes bicon-git wiki-tui
 
 echo "installing manual pages"
-pacinst man-pages texinfo tealdeer
+pacinst man-db man-pages texinfo tealdeer
 yayinst cheat
 
 echo "installing text editor & zsh"
-pacinst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search-git
+pacinst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search
 
 echo "installing multimedia tools"
-pacinst ffmpeg imagemagic gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp
+pacinst ffmpeg imagemagick gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp poppler
 
 echo "installing music players"
 pacinst mpd mpc ncmpcpp
 
 echo "installing email tools"
 pacinst neomutt msmtp isync notmuch
+yayinst mutt-wizard-git abook
 
 echo "installing programming stuff"
-pacinst clang clang lld tcc nasm yasm go rustup zig python python-pip r lua luarocks perl deno nodejs pnpm ruby gdb valgrind binutils upx dive jq jo cppcheck shellcheck elixir erlang clisp jdk-openjdk clojure leiningen julia kotlin sbt gef postgresql sqlite redis ipython python-numpy python-matplotlib python-scipy jupyterlab jupyter-notebook grpc protobuf python-pipx python-pipenv python-nox python-black python-pylint terraform radare2 tokei hyperfine bacon stylua
-yayinst bunjs-bin clib usql tflint-bin
+pacinst clang clang lld tcc nasm yasm go rustup zig python python-pip r lua luarocks perl deno nodejs pnpm ruby gdb valgrind binutils upx dive jq jo cppcheck shellcheck shfmt elixir erlang clisp jdk-openjdk clojure leiningen julia kotlin sbt gef postgresql sqlite redis ipython python-numpy python-matplotlib python-scipy jupyterlab jupyter-notebook grpc grpc-cli protobuf python-pipx python-pipenv python-nox python-black python-pylint terraform radare2 tokei hyperfine bacon stylua android-tools staticcheck delve
+yayinst bunjs-bin clib usql tflint-bin flutter android-studio rtx evcxr_jupyter gosec grpcurl
 rustup default stable
-cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make irust rtx-cli evcxr_jupyter wiki-tui
-go install -v golang.org/x/tools/gopls@latest github.com/google/pprof@latest github.com/securego/gosec@latest honnef.co/go/tools/cmd/staticcheck@latest google.golang.org/protobuf/cmd/protoc-gen-go@latest github.com/fullstorydev/grpcurl@latest github.com/timakin/bodyclose@latest mvdan.cc/sh/v3/cmd/shfmt@latest
-pnpm add -g typescript eslint prettier @fsouza/prettierd typescript-language-server surge svgo sass pug @vue/cli
+cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make irust
+go install -v github.com/google/pprof@latest google.golang.org/protobuf/cmd/protoc-gen-go@latest github.com/timakin/bodyclose@latest
+pnpm add -g typescript eslint prettier typescript-language-server surge svgo sass pug @vue/cli
 
 echo "installing system monitoring tools"
 pacinst socklog perf strace lm_sensors htop powertop nvtop iotop fio iftop wavemon bandwhich speedtest-cli vnstat vnstat-runit
@@ -101,7 +102,7 @@ echo "installing arduino"
 pacinst arduino arduino-cli
 
 echo "installing markup & latex tools"
-pacinst pandoc-bin lowdown texlive
+pacinst pandoc-bin lowdown texlive-basic
 
 echo "installing fonts, themes & icons"
 pacinst gnu-free-fonts ttf-liberation ttf-dejavu noto-fonts noto-fonts-emoji adwaita-icon-theme
