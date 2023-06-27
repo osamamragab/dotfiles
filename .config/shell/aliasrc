@@ -31,8 +31,7 @@ alias rsync="rsync -vrPlu"
 alias ffmpeg="ffmpeg -hide_banner"
 alias ddgr="ddgr -x -n 5 --unsafe --noua"
 
-[ -x "$(command -v nvim 2>/dev/null)" ] && alias vim="nvim" vi="nvim --noplugin" vimdiff="nvim -d"
-command -v trash >/dev/null 2>&1 && alias rm="trash"
+command -v nvim >/dev/null 2>&1 && alias vim="nvim" vi="nvim --noplugin" vimdiff="nvim -d"
 
 sudocmd="sudo"
 command -v doas >/dev/null 2>&1 && sudocmd="doas"
