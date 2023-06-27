@@ -86,7 +86,7 @@ yayinst htop-vim
 
 echo "installing internet stuff"
 pacinst brave-bin tor lynx w3m amfora weechat
-yayinst tuir-git sacc
+yayinst tuir sacc
 
 echo "installing torrent tools"
 pacinst rtorrent transmission-cli transmission-runit btfs
