@@ -6,7 +6,7 @@ xss-lock -n "locker dim" locker &
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/bg" ] && xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 &
 
-for p in dwmblocks xbanish xcompmgr pipewire mpd dunst clipmenud remapd; do
+for p in picom xbanish pipewire mpd dunst clipmenud remapd dwmblocks; do
 	pidof -xs "$p" || "$p" &
 done >/dev/null 2>&1
 
