@@ -1,17 +1,16 @@
 #!/bin/sh
 
 HERE="$(dirname "$(readlink -f "$0")")"
-cd  "$HERE" || exit 1
 sudocmd="$(command -v doas || command -v sudo)"
 
 if [ "$1" = "clean" ]; then
-	find .config .local -type f -printf "removed '$HOME/%p'\n" -exec rm -f "$HOME/{}" \;
+	find "$HERE/.config" "$HERE/.local" -type f -printf "removed '$HOME/%p'\n" -exec rm -f "$HOME/{}" \;
 	find "$HOME" -maxdepth 1 -xtype l -printf "removed '%p'\n" -exec rm -f {} \;
-	$sudocmd find /etc/X11/xorg.conf.d -xtype l -printf "removed '%p'\n" -exec rm -f {} \;
+	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -printf "removed '%p'\n" -exec rm -f {} \;
 	exit 0
 fi
 
 cp -srfv "$HERE/.config" "$HERE/.local" "$HOME"
 ln -sfv "${XDG_CONFIG_HOME:-$HOME/.config}/shell/profile" "$HOME/.zprofile"
 ln -sfv "${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf" "$HOME/.tmux.conf"
-$sudocmd cp -srfv "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xorg.conf.d" /etc/X11/
+"$sudocmd" cp -srfv "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xorg.conf.d" /etc/X11/
