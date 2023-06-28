@@ -2,6 +2,7 @@
 
 getvol() {
 	vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
+	[ -z "$vol" ] && return 1
 	[ "$vol" != "${vol%\[MUTED\]}" ] && echo "muted" && return 1
 	vol="${vol#Volume: }"
 	IFS="."; set -- ${vol#0}
@@ -17,8 +18,7 @@ case "$1" in
 	*) exit 1 ;;
 esac
 
-vol="$(getvol)"
-[ "$vol" = "muted" ] && vol=0
+vol="$(getvol)" || vol=0
 icon="audio-volume-muted"
 if [ "$vol" -ge 70 ]; then
 	icon="audio-volume-high"
