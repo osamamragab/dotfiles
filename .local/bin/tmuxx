@@ -1,59 +1,34 @@
 #!/bin/sh
 
 CODEDIR="${CODEDIR:-$HOME/code}"
-[ -t 0 ] && USETERM=1 || USETERM=0
+[ -t 0 ] && term=1 || term=0
 
-getdirs() {
-	find "$1" -mindepth "${2:-1}" -maxdepth "${2:-1}" -type d -printf "%T@ %P\n"
-}
+getdirs() { find "$1" -mindepth "${2:-1}" -maxdepth "${2:-1}" -type d -printf "%T@ %P\n"; }
 
 projsel() {
-	dirs="$(echo "$(getdirs "$CODEDIR/projects" 1)\n$(getdirs "$CODEDIR/org" 2)" | sort -nr | cut -d " " -f 2-)"
-	if [ "$USETERM" -eq 1 ]; then
-		sel="$(echo "$dirs" | fzy)"
-	else
-		sel="$(echo "$dirs" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")"
-	fi
-	[ -z "$sel" ] && return 1
+	dirs="$(printf "%s\n%s" "$(getdirs "$CODEDIR/projects" 1)" "$(getdirs "$CODEDIR/org" 2)" | sort -nr | cut -d " " -f 2-)"
+	[ "$term" -eq 1 ] &&
+		{ sel="$(echo "$dirs" | fzy)" || return 1; } ||
+		{ sel="$(echo "$dirs" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")" || return 1; }
 	[ -d "$CODEDIR/projects/$sel" ] && echo "$CODEDIR/projects/$sel" && return 0
 	[ -d "$CODEDIR/org/$sel" ] && echo "$CODEDIR/org/$sel" && return 0
 }
 
 case "$1" in
-	"") sel="$(projsel)" ;;
-	_)
-		USETERM=1
-		sel="$(projsel)"
-		;;
-	-)
-		USETERM=0
-		sel="$(projsel)"
-		;;
-	.)
-		if [ "$USETERM" -eq 1 ]; then
-			sel="$(pwd)"
-		else
-			sel="$(projsel)"
-		fi
-		;;
+	"") dir="$(projsel)" || exit $? ;;
+	_) term=1 dir="$(projsel)" || exit $? ;;
+	-) term=0 dir="$(projsel)" || exit $? ;;
+	.) [ "$term" -eq 1 ] && dir="$(pwd)" || dir="$(projsel)" || exit $?;;
 esac
 
-[ -z "$sel" ] && exit 1
+name="$(basename "$dir")"
+tmux switchc -t "$name" 2>/dev/null && exit 0 || shift
 
-name="$(basename "$sel")"
-tmux switchc -t "$name" 2>/dev/null && exit 0
+[ $# -gt 1 ] && tmux new -d -c "$dir" -s "$name" -n "$1" && shift
+for win in "$@"; do
+	tmux neww -d -t "$name" -c "$dir" -n "$win"
+done
 
-if [ $# -gt 1 ]; then
-	tmux new -d -c "$sel" -s "$name" -n "$2"
-	shift
-	while [ $# -gt 1 ]; do
-		tmux neww -d -t "$name" -c "$sel" -n "$2"
-		shift
-	done
-fi
-
-if [ "$USETERM" -eq 1 ]; then
-	tmux new -A -c "$sel" -s "$name"
-else
-	setsid -f "$TERMINAL" -t "$name" -e "$SHELL" -i -c "tmux new -A -c '$sel' -s '$name'"
-fi
+[ "$term" -eq 1 ] &&
+	tmux new -A -c "$dir" -s "$name" ||
+	setsid -f "$TERMINAL" -t "$name" -e "$SHELL" -i -c "tmux new -A -c '$dir' -s '$name'"
