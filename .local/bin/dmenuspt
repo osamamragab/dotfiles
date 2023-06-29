@@ -4,7 +4,7 @@ run() {
 	spt -n "notify-send" >/dev/null 2>&1 &
 }
 
-cmd="${1:-$(printf "toggle\nstart\nstop\nshow" | dmenu -i -p "$(basename "$0")")}" || exit ?
+cmd="${1:-$(printf "toggle\nstart\nstop\nshow" | dmenu -i -p "$(basename "$0")")}" || exit $?
 
 case "$cmd" in
 	start) pidof -s spt >/dev/null 2>&1 || run ;;
