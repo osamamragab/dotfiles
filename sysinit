@@ -50,11 +50,11 @@ if ! command -v doas >/dev/null 2>&1; then
 fi
 
 echo "installing general tools"
-pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xsel xwallpaper acpilight curl wget rsync gnupg openssh mosh pass keychain signify keepassxc bc slop maim dunst picom slock xss-lock time parallel entr snooze mlocate fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail earlyoom earlyoom-runit zbar qrencode mediainfo atool tree bat git-delta tig clipmenu translate-shell screenkey mdp z duf
+pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xsel xwallpaper acpilight curl wget rsync gnupg openssh mosh pass keychain signify keepassxc bc slop maim dunst picom slock xss-lock time parallel entr snooze mlocate fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail zbar qrencode mediainfo atool tree bat git-delta tig clipmenu translate-shell screenkey mdp z duf
 yayinst xbanish urlview pam-gnupg spt buku-git dragon-drop sc-im safeeyes bicon-git wiki-tui
 
 echo "installing manual pages"
-pacinst man-db man-pages texinfo tealdeer navi
+pacinst man-db man-pages texinfo tealdeer
 
 echo "installing text editor & zsh"
 pacinst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
@@ -71,7 +71,7 @@ pacinst neomutt msmtp isync notmuch
 yayinst mutt-wizard-git abook
 
 echo "installing programming stuff"
-pacinst clang clang lld tcc nasm yasm go rustup zig python python-pip r lua luarocks perl deno nodejs pnpm ruby gdb valgrind binutils upx dive jq jo cppcheck shellcheck shfmt elixir erlang clisp jdk-openjdk clojure leiningen julia kotlin sbt gef postgresql sqlite redis ipython python-numpy python-matplotlib python-scipy jupyterlab jupyter-notebook grpc grpc-cli protobuf python-pipx python-pipenv python-nox python-black python-pylint terraform radare2 tokei hyperfine bacon stylua android-tools staticcheck delve
+pacinst clang clang lld tcc nasm yasm go rustup zig python python-pip python-pipx python-pipenv python-nox python-black python-pylint r lua luarocks perl deno nodejs pnpm ruby gdb valgrind binutils upx dive jq jo cppcheck shellcheck shfmt elixir erlang clisp jdk-openjdk clojure leiningen julia kotlin sbt gef postgresql sqlite redis ipython python-numpy python-matplotlib python-scipy jupyterlab jupyter-notebook grpc grpc-cli protobuf terraform radare2 tokei hyperfine bacon stylua android-tools staticcheck delve
 yayinst bunjs-bin clib usql tflint-bin flutter android-studio rtx evcxr_jupyter gosec grpcurl
 rustup default stable
 cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make irust
@@ -86,7 +86,6 @@ yayinst htop-vim
 
 echo "installing internet stuff"
 pacinst brave-bin tor lynx w3m amfora weechat
-yayinst tuir sacc
 
 echo "installing torrent tools"
 pacinst rtorrent transmission-cli transmission-runit btfs
