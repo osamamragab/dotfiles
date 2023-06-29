@@ -9,8 +9,8 @@ case "$1" in
 		done
 		;;
 	dim)
-		# shellcheck disable=SC2064
 		trap "exit 0" TERM INT
+		# shellcheck disable=SC2064
 		trap "xbacklight -steps 1 -set $(xbacklight -get); kill %%" EXIT
 		xbacklight -time 200 -steps 20 -set "${2:-10}"
 		sleep 2147483647 &
