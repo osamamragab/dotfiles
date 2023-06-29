@@ -1,20 +1,15 @@
 #!/bin/sh
 
-format="22/best[ext=mp4]/best"
-output="%(title)s.%(ext)s"
-urls=""
-
-while [ $# -gt 0 ]; do
-	case "$1" in
+for arg in "$@"; do
+	case "$arg" in
 		-a) format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio" ;;
 		-v) format="bestvideo[ext=mp4]/bestvideo" ;;
 		-pl) output="%(playlist_title)s/%(title)s.%(ext)s" ;;
 		-pls) output="%(playlist_title)s/%(playlist_index)s- %(title)s.%(ext)s" ;;
-		-o) [ $# -gt 1 ] && shift && output="$1" ;;
-		*) [ "$urls" ] && urls="$urls $1" || urls="$1" ;;
+		-*) echo "$(basename "$0"): unknown option \"$arg\"" >&2; exit 1 ;;
+		*) continue ;;
 	esac
 	shift
 done
 
-# shellcheck disable=SC2086
-exec youtube-dl -ic --add-metadata -f "$format" -o "$output" -- $urls
+exec youtube-dl -ic --add-metadata -f "${format:-22/best[ext=mp4]/best}" -o "${output:-%(title)s.%(ext)s}" -- "$@"
