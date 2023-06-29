@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-LOCALPROGRAMS="dwm st dmenu dwmblocks sent"
+LOCALPROGRAMS="dwm st dmenu dwmblocks slock sent"
 LOCALREPOS="https://gitlab.com/osamaragab/p.git https://github.com/jarun/nnn.git https://github.com/rupa/z.git"
 
 sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
