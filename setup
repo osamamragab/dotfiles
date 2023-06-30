@@ -4,8 +4,9 @@ HERE="$(dirname "$(readlink -f "$0")")"
 sudocmd="$(command -v doas || command -v sudo)"
 
 if [ "$1" = "clean" ]; then
-	find "$HERE/.config" "$HERE/.local" -type f -printf "removed '$HOME/%p'\n" -exec rm -f "$HOME/{}" \;
-	find "$HOME" -maxdepth 1 -xtype l -printf "removed '%p'\n" -exec rm -f {} \;
+	cd "$HERE" || exit 1
+	find .config .local -type f -printf "removed '$HOME/%p'\n" -exec rm -f "$HOME/{}" \;
+	find "$HOME" -maxdepth 1 -xtype l -printf "removed '%p'\n" -exec rm -f "{}" \;
 	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -printf "removed '%p'\n" -exec rm -f {} \;
 	exit 0
 fi
