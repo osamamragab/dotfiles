@@ -71,7 +71,7 @@ pacinst neomutt msmtp isync notmuch
 yayinst mutt-wizard-git abook
 
 echo "installing programming stuff"
-pacinst clang clang lld tcc nasm yasm go rustup zig python pyenv python-pip python-pipx python-pipenv python-nox python-black python-pylint r lua luarocks perl deno nodejs pnpm ruby gdb valgrind binutils upx dive jq jo cppcheck shellcheck shfmt elixir erlang clisp jdk-openjdk clojure leiningen julia kotlin sbt gef postgresql sqlite redis ipython python-numpy python-matplotlib python-scipy jupyterlab jupyter-notebook grpc grpc-cli protobuf terraform radare2 tokei hyperfine bacon stylua android-tools staticcheck delve
+pacinst clang clang lld tcc nasm yasm go rustup zig python pyenv python-pip python-pipx python-pipenv python-nox python-black python-pylint r lua luarocks perl deno nodejs pnpm ruby gdb valgrind binutils upx dive jq jo cppcheck shellcheck shfmt elixir erlang clisp jdk-openjdk clojure leiningen julia kotlin sbt gef postgresql sqlite redis ipython python-numpy python-matplotlib python-scipy jupyterlab jupyter-notebook grpc grpc-cli protobuf terraform radare2 tokei hyperfine bacon stylua android-tools staticcheck delve mono dotnet-sdk aspnet-runtime
 yayinst bunjs-bin clib usql tflint-bin flutter android-studio rtx evcxr_jupyter gosec grpcurl
 rustup default stable
 cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make irust
