@@ -1,94 +1,60 @@
 #!/bin/sh
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-LOCALPROGRAMS="dwm st dmenu dwmblocks slock sent"
-LOCALREPOS="https://gitlab.com/osamaragab/p.git https://github.com/jarun/nnn.git https://github.com/rupa/z.git"
+LOCAL_PROGRAMS="dwm st dmenu dwmblocks slock sent p"
+GIT_PROVIDER="gitlab.com"
+GIT_USERNAME="osamaragab"
 
-sudocmd="$(command -v doas 2>/dev/null || echo sudo)"
-doas() { $sudocmd "$@"; }
+sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 
-ifinst() { command -v "$1" >/dev/null 2>&1; }
-
-reponame() { basename "$1" | sed "s/\.git$//"; }
-
-# params: repo_url, remote_name, remote_branch, [remote_url]
-gitupdate() {
-	dir="$PROGRAMSDIR/$(reponame "$1")"
-	echo "updating $dir..."
-	[ -d "$dir" ] || git clone "$1" "$dir"
-	cd "$dir" || return 1
-	[ "$4" ] && git remote add "$2" "$4" >/dev/null 2>&1
-	ubr="${3:-$(git remote show origin | sed -n "/HEAD branch:/s/.* //p")}"
-	git fetch "$2" "$ubr"
-	git merge "$2/$ubr"
-	[ -s .gitmodules ] && git submodule update --init --recursive
-	return 0
-}
-
-makeinstall() {
-	grep -q "^install:" Makefile || return 1
-	echo "$@" | xargs "$sudocmd" make install || return 1
-	grep -q "^clean:" Makefile && make clean
-}
+ifinst() { command -v "$@" >/dev/null 2>&1; }
 
 updatepkgs() {
-	doas pacman -Syu --noconfirm
+	"$sudocmd" pacman -Syu --noconfirm
+	yay -Syua --noconfirm
 	ifinst rustup && rustup update
-	ifinst bun && bun upgrade
-	ifinst deno && deno upgrade
 	ifinst pnpm && pnpm update -g
 	ifinst gem && gem update
-	ifinst sdk && sdk selfupdate && sdk update
 	ifinst nvim && nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
-	ifinst flutter && flutter upgrade
-	ifinst flatpak && flatpak update -y
-	# ifinst pip && python3 -m pip install -U pip && pip list -o --format=freeze | grep -v "^\-e" | cut -d "=" -f 1  | xargs -n1 pip install -U
 }
 
 updatelocal() {
-	for p in $LOCALPROGRAMS; do
-		ubr="master"
+	for p in $LOCAL_PROGRAMS; do
 		case "$p" in
-			dwmblocks) ure="https://github.com/torrinfail/dwmblocks.git" ;;
-			*) ure="git://git.suckless.org/$p" ;;
-		esac
-		gitupdate "git@gitlab.com:osamaragab/$p.git" upstream "$ubr" "$ure" || continue
-		[ -s Makefile ] && makeinstall
-	done
-
-	for r in $LOCALREPOS; do
-		gitupdate "$r" origin || continue
-		case "$(reponame "$r")" in
-			nnn)
-				[ -s Makefile ] && makeinstall O_NERD=1
-				if [ -d "$PROGRAMS/nnn/plugins" ]; then
-					plugdir="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/plugins"
-					mkdir -p "$plugdir"
-					for p in togglex nuke openall fzcd fzopen preview-tabbed gpge rsynccp upload; do
-						cp -f "$PROGRAMSDIR/nnn/plugins/$p" "$plugdir/$p"
-					done
-				fi
+			dwm|st|dmenu|slock|sent)
+				upstream_url="git://git.suckless.org/$p"
+				upstream_branch="master"
 				;;
-			bicon)
-				./autogen.sh && ./configure && make && doas make install
-				;;
-			z)
-				doas cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1 &&
-					doas chmod 644 /usr/local/share/man/man1/z.1
-				;;
-			*)
-				[ -s Makefile ] && makeinstall
+			dwmblocks)
+				upstream_url="https://github.com/torrinfail/dwmblocks.git"
+				upstream_branch="master"
 				;;
 		esac
+		url="git@$GIT_PROVIDER:$GIT_USERNAME/$p.git"
+		dir="$PROGRAMSDIR/$p"
+		printf "\e[0;32m[updating]\e[0m %s (\e[0;34m%s\e[0m)\n" "$p" "$dir"
+		[ -d "$dir" ] || git clone "$url" "$dir"
+		cd "$dir" && git pull || return 1
+		if [ "$upstream_url" ]; then
+			git remote add upstream "$upstream_url"
+			git fetch upstream "$upstream_branch"
+			git merge "upstream/$upstream_branch"
+		fi
+		[ -s .gitmodules ] && git submodule update --init --recursive
+		if [ -s Makefile ] && grep -q "^install:" Makefile; then
+			"$sudocmd" make install || return 1
+			grep -q "^clean:" Makefile && make clean
+		fi
 	done
 }
 
 clean() {
-	doas pacman -Scvv --noconfirm
+	"$sudocmd" pacman -Scvv --noconfirm
+	yay -Scvva --noconfirm
 }
 
-for arg in "${@:-all}"; do
-	case "$arg" in
+for cmd in "${@:-all}"; do
+	case "$cmd" in
 		pkgs) updatepkgs ;;
 		local) updatelocal ;;
 		clean) clean ;;
@@ -97,5 +63,6 @@ for arg in "${@:-all}"; do
 			updatelocal
 			clean
 			;;
+		*) echo "$(basename "$0"): unknown command \"$cmd\"" >&2; exit 1 ;;
 	esac
 done
