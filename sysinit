@@ -78,7 +78,6 @@ cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make irust
 go install -v github.com/google/pprof@latest
 go install -v google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install -v github.com/timakin/bodyclose@latest
-pnpm add -g typescript eslint prettier typescript-language-server surge svgo sass pug @vue/cli
 
 echo "installing system monitoring tools"
 pacinst socklog perf strace lm_sensors powertop nvtop iotop fio iftop wavemon bandwhich speedtest-cli vnstat vnstat-runit
