@@ -68,16 +68,10 @@ bindkey -M vicmd '^e' edit-command-line
 bindkey -M vicmd '^[[P' vi-delete-char
 bindkey -M visual '^[[P' vi-delete
 
-bindkey -s "^o" 'xdg-open "$(fzf-tmux)" >/dev/null\n'
+bindkey -s "^o" '^uxdg-open "$(fzf-tmux)" >/dev/null\n'
 bindkey -s "^s" '"$(fzf-tmux)"\n'
-bindkey -s "^f" 'cd "$(dirname "$(fzf-tmux)")"\n'
-bindkey -s "^t" '[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
-
-NNN_FIFO="$(mktemp /tmp/nnn-XXXXXX.fifo)"
-onexit() {
-	[ -p "$NNN_FIFO" ] && rm -f "$NNN_FIFO"
-}
-trap onexit EXIT
+bindkey -s "^f" '^ucd "$(dirname "$(fzf-tmux)")"\n'
+bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
 ZSHPLUGINSDIR="${ZSHPLUGINSDIR:-/usr/share/zsh/plugins}"
 if [ -d "$ZSHPLUGINSDIR" ]; then
@@ -96,5 +90,4 @@ if [ -d "$ZSHPLUGINSDIR" ]; then
 	fi
 fi
 
-[ -s "/usr/share/z/z.sh" ] && . "/usr/share/z/z.sh"
-[ -s "${XDG_DATA_HOME:-$HOME/.local/share}/bun/_bun" ] && . "/home/osama/.local/share/bun/_bun"
+[ -f "/usr/share/z/z.sh" ] && . "/usr/share/z/z.sh"
