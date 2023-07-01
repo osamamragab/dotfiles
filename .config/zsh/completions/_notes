@@ -1,3 +1,7 @@
 #compdef notes
 
-_files -W "${NOTESDIR:-$HOME/.local/share/notes}"
+_notes() {
+	_files -W "${NOTESDIR:-$HOME/.local/share/notes}"
+}
+
+compdef _notes notes
