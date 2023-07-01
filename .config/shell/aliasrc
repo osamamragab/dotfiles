@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck disable=SC2139
 
 alias e="${EDITOR:-vi}"
 alias q="exit"
@@ -29,7 +30,9 @@ alias info="info --vi-keys"
 alias ccat="highlight -O ansi"
 alias rsync="rsync -vrPlu"
 alias ffmpeg="ffmpeg -hide_banner"
-alias ddgr="ddgr -x -n 5 --unsafe --noua"
+
+[ -f "$XINITRC" ] && alias startx="startx $XINITRC"
+[ -f "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC"
 
 command -v nvim >/dev/null 2>&1 && alias vim="nvim" vimdiff="nvim -d" vi="nvim --noplugin"
 
