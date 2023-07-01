@@ -1,33 +1,20 @@
 #!/bin/sh
 
 JOURNALDIR="${JOURNALDIR:-$HOME/.local/share/journal}"
+[ -d "$JOURNALDIR" ] || mkdir -p "$JOURNALDIR" || exit 1
 
-panic() {
-	echo "$(basename "$0"): $1" >&2
-	exit 1
-}
-
-if [ $# -eq 0 ]; then
-	fn="$JOURNALDIR/$(date "+%Y-%m-%d").md"
-	[ -s "$fn" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" > "$fn"
-	$EDITOR "$fn" +$
-	exit 0
-fi
-
-case "$(echo "$1" | sed "s/^-\+//" )" in
-	e | edit) cmd="$EDITOR" ;;
-	r | read) cmd="$EDITOR -R" ;;
-	h | help)
-		printf "usage:\n  %s <edit | read>\n" "$(basename "$0")"
-		exit 0
+case "$1" in
+	""|new)
+		f="$JOURNALDIR/$(date "+%Y-%m-%d").md"
+		[ -s "$f" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" > "$f"
+		exec "$EDITOR" +$ "$f"
 		;;
-	*) panic "unknown command \"$1\"" ;;
+	edit) cmd="$EDITOR" ;;
+	read) cmd="$EDITOR -R" ;;
+	*) echo "$(basename "$0"): unknown command \"$1\"" >&2; exit 1 ;;
 esac
 
-sel="${2:-$(find "$JOURNALDIR" -maxdepth 1 -type f -printf "%P\n" | sed "s/.md$//" | sort -r | dmenu -i -F -fn monospace-12 -l 10 -p "select date:")}"
-[ -z "$sel" ] && exit 0
-
-[ "$sel" = "today" ] && $cmd "$JOURNALDIR/$(date "+%Y-%m-%d").md" && exit 0
-[ -f "$JOURNALDIR/$sel.md" ] || panic "file not found"
+sel="${2:-$(find "$JOURNALDIR" -maxdepth 1 -type f -printf "%P\n" | sed 's/.md$//' | sort -r | fzy -l 10)}" || exit 1
+[ -f "$JOURNALDIR/$sel.md" ] || { echo "$(basename "$0"): file not found" >&2; exit 1; }
 
 exec $cmd "$JOURNALDIR/$sel.md"
