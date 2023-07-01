@@ -7,7 +7,7 @@ if [ -x "$HERE/setup" ]; then
 	"$HERE/setup"
 fi
 
-[ -s "$HERE/.config/shell/profile" ] &&
+[ -f "$HERE/.config/shell/profile" ] &&
 	DISPLAY="${DISPLAY:-:0}" . "$HERE/.config/shell/profile"
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
@@ -26,11 +26,11 @@ fi
 alias pacinst="doas pacman -S --needed --noconfirm"
 alias yayinst="yay -S --needed --noconfirm --color=auto"
 
-echo "installing base & build tools"
-pacinst base base-devel autofs git
+echo "installing base"
+pacinst base base-devel
 
 echo "installing drivers"
-pacinst libva-mesa-driver mesa-vdpau vulkan-intel vulkan-radeon intel-ucode
+pacinst mesa mesa-utils mesa-vdpau libva-mesa-driver xf86-video-amdgpu vulkan-intel amdvlk intel-ucode
 
 echo "installing xorg & elogind"
 pacinst xorg elogind elogind-runit
@@ -50,8 +50,8 @@ if ! command -v doas >/dev/null 2>&1; then
 fi
 
 echo "installing general tools"
-pacinst pacman-contrib rsm xdg-utils xdotool xdo xclip xsel xwallpaper acpilight curl wget rsync gnupg openssh mosh pass keychain signify keepassxc bc slop maim dunst picom xss-lock time parallel entr snooze mlocate fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail zbar qrencode mediainfo atool tree bat git-delta tig clipmenu translate-shell screenkey mdp z duf
-yayinst xbanish urlview pam-gnupg spt nnn-nerd buku-git dragon-drop sc-im safeeyes bicon-git wiki-tui
+pacinst pacman-contrib xdg-utils xdotool xdo xclip xsel xwallpaper acpilight curl wget git rsync gnupg openssh mosh pass keychain signify autofs keepassxc bc slop maim dunst picom xss-lock time parallel entr snooze mlocate nnn fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz unrar bzip2 zstd gzip zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail zbar qrencode mediainfo atool tree bat git-delta tig rsm clipmenu translate-shell screenkey z duf
+yayinst xbanish urlview pam-gnupg buku-git dragon-drop sc-im bicon-git wiki-tui
 
 echo "installing manual pages"
 pacinst man-db man-pages texinfo tealdeer
@@ -71,13 +71,8 @@ pacinst neomutt msmtp isync notmuch
 yayinst mutt-wizard-git abook
 
 echo "installing programming stuff"
-pacinst clang clang lld tcc nasm yasm go rustup zig python pyenv python-pip python-pipx python-pipenv python-nox python-black python-pylint r lua luarocks perl deno nodejs pnpm ruby gdb valgrind binutils upx dive jq jo cppcheck shellcheck shfmt elixir erlang clisp jdk-openjdk clojure leiningen julia kotlin sbt gef postgresql sqlite redis ipython python-numpy python-matplotlib python-scipy jupyterlab jupyter-notebook grpc grpc-cli protobuf terraform radare2 tokei hyperfine bacon stylua android-tools staticcheck delve mono dotnet-sdk aspnet-runtime
-yayinst bunjs-bin clib usql tflint-bin flutter android-studio rtx evcxr_jupyter gosec grpcurl
-rustup default stable
-cargo install cargo-update cargo-info cargo-edit cargo-watch cargo-make irust
-go install -v github.com/google/pprof@latest
-go install -v google.golang.org/protobuf/cmd/protoc-gen-go@latest
-go install -v github.com/timakin/bodyclose@latest
+pacinst clang clang lld tcc nasm go rustup zig python pyenv python-pip python-pipx python-pipenv python-nox python-black python-pylint lua luarocks gdb gef valgrind radare2 delve binutils upx jq cppcheck shellcheck staticcheck tokei hyperfine nix docker docker-compose dive
+rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing system monitoring tools"
 pacinst socklog perf strace lm_sensors powertop nvtop iotop fio iftop wavemon bandwhich speedtest-cli vnstat vnstat-runit
@@ -93,15 +88,6 @@ echo "installing networking tools"
 pacinst nmap openbsd-netcat lsof inetutils iputils net-tools traceroute mtr wireshark-cli socat websocat mitmproxy termshark iperf3 arp-scan tcpreplay bettercap macchanger sqlmap gping netsniff-ng aircrack-ng proxychains-ng sslscan urh xh
 yayinst wrk nemesis
 
-echo "installing docker"
-pacinst docker docker-compose
-
-echo "installing nix"
-pacinst nix
-
-echo "installing arduino"
-pacinst arduino arduino-cli
-
 echo "installing markup & latex tools"
 pacinst pandoc-bin lowdown texlive-basic
 
@@ -110,7 +96,7 @@ pacinst gnu-free-fonts ttf-liberation ttf-dejavu noto-fonts noto-fonts-emoji adw
 yayinst otf-ibm-plex ttf-amiri adwaita-dark adwaita-plus-git
 
 PACKERDIR="${PACKERDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim}"
-if [ ! -f "$PACKERDIR" ]; then
+if [ ! -d "$PACKERDIR" ]; then
 	echo "installing packer.nvim"
 	git clone --depth 1 "https://github.com/wbthomason/packer.nvim" "$PACKERDIR"
 fi
