@@ -1,7 +1,7 @@
 #!/bin/sh
 
 HERE="$(dirname "$(readlink -f "$0")")"
-sudocmd="$(command -v doas || command -v sudo)"
+sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 
 if [ "$1" = "clean" ]; then
 	cd "$HERE" || exit 1
@@ -13,5 +13,4 @@ fi
 
 cp -srfv "$HERE/.config" "$HERE/.local" "$HOME"
 ln -sfv "${XDG_CONFIG_HOME:-$HOME/.config}/shell/profile" "$HOME/.zprofile"
-ln -sfv "${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf" "$HOME/.tmux.conf"
 "$sudocmd" cp -srfv "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xorg.conf.d" /etc/X11/
