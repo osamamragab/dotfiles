@@ -17,6 +17,7 @@ SAVEHIST=1000000
 HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
+alias doas="doas "
 
 fpath=("${XDG_CONFIG_HOME:-$HOME/.config}/zsh/completions" $fpath)
 autoload -U compinit
