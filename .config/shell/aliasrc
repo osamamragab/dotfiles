@@ -30,6 +30,7 @@ alias info="info --vi-keys"
 alias ccat="highlight -O ansi"
 alias rsync="rsync -vrPlu"
 alias ffmpeg="ffmpeg -hide_banner"
+alias urls="grep -ioE '(https?|gopher|gemini|file|ftp)://[a-zA-Z0-9./?=_-]*'"
 
 [ -f "$XINITRC" ] && alias startx="startx $XINITRC"
 [ -f "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC"
