@@ -79,7 +79,7 @@ pacinst socklog perf strace lm_sensors powertop nvtop iotop fio iftop wavemon ba
 yayinst htop-vim
 
 echo "installing internet stuff"
-pacinst brave-bin tor lynx w3m amfora weechat
+pacinst librewolf tor lynx w3m amfora weechat
 
 echo "installing torrent tools"
 pacinst rtorrent transmission-cli transmission-runit
