@@ -80,6 +80,7 @@ yayinst htop-vim
 
 echo "installing internet stuff"
 pacinst librewolf tor lynx w3m amfora weechat
+yayinst arkenfox-user.js
 
 echo "installing torrent tools"
 pacinst rtorrent transmission-cli transmission-runit
