@@ -3,22 +3,36 @@
 HERE="$(dirname "$(readlink -f "$0")")"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
+browserdir="$HOME/.librewolf"
 
-if [ "$1" = "clean" ]; then
+getbrowserprofile() { sed -n "/Default=.*/s/.*=//p" "$browserdir/profiles.ini"; }
+
+setupdotfiles() {
+	cp -srfv "$HERE/.config" "$HERE/.local" "$HOME"
+	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
+	"$sudocmd" cp -srfv "$XDG_CONFIG_HOME/x11/xorg.conf.d" /etc/X11/
+}
+
+setuplibrewolf() {
+	profile="$(getbrowserprofile)"
+	ln -sfv "$XDG_CONFIG_HOME/librewolf/librewolf.overrides.cfg" "$browserdir/"
+	[ -f /usr/lib/arkenfox-user.js/user.js ] &&
+		ln -sfv /usr/lib/arkenfox-user.js/user.js "$browserdir/$profile/user.js"
+}
+
+clean() {
 	cd "$HERE" || exit 1
-	find .config .local -type f -printf "removed '$HOME/%p'\n" -exec rm -f "$HOME/{}" \;
-	find "$HOME" -maxdepth 1 -xtype l -printf "removed '%p'\n" -exec rm -f "{}" \;
-	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -printf "removed '%p'\n" -exec rm -f {} \;
-	exit 0
-fi
+	find .config .local -type f -exec rm -fv "$HOME/{}" \;
+	find "$HOME" -maxdepth 1 -xtype l -exec rm -fv "{}" \;
+	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -exec rm -fv {} \;
+	profile="$(getbrowserprofile)"
+	[ -L "$browserdir/librewolf.overrides.cfg" ] && rm -fv "$browserdir/librewolf.overrides.cfg"
+	[ -L "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
+}
 
-cp -srfv "$HERE/.config" "$HERE/.local" "$HOME"
-ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-"$sudocmd" cp -srfv "$XDG_CONFIG_HOME/x11/xorg.conf.d" /etc/X11/
-
-brodir="$HOME/.librewolf"
-profile="$(sed -n "/Default=.*.default-release/ s/.*=//p" "$brodir/profiles.ini")"
-[ -f /usr/lib/arkenfox-user.js/user.js ] &&
-	ln -sfv /usr/lib/arkenfox-user.js/user.js "$brodir/$profile/user.js"
-[ -f "$XDG_CONFIG_HOME/librewolf/librewolf.overrides.cfg" ] &&
-	ln -sfv "$XDG_CONFIG_HOME/librewolf/librewolf.overrides.cfg" "$brodir/"
+case "$1" in
+	""|all) setupdotfiles && setuplibrewolf ;;
+	dotfiles) setupdotfiles ;;
+	librewolf) setuplibrewolf ;;
+	clean) clean ;;
+esac
