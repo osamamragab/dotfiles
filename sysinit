@@ -3,8 +3,8 @@
 
 HERE="$(dirname "$(readlink -f "$0")")"
 if [ -x "$HERE/setup" ]; then
-	echo "running dotfiles setup script..."
-	"$HERE/setup"
+	echo "running setup dotfiles script..."
+	"$HERE/setup" dotfiles
 fi
 
 [ -f "$HERE/.config/shell/profile" ] &&
@@ -41,7 +41,7 @@ pacinst networkmanager networkmanager-runit bluez bluez-runit ufw ufw-runit
 echo "installing pipewire"
 pacinst pipewire pipewire-audio pipewire-pulse wireplumber pulsemixer
 
-if ! command -v doas >/dev/null 2>&1; then
+if ! command -v yay >/dev/null 2>&1; then
 	echo "installing yay"
 	cd "$PROGRAMSDIR" || exit 1
 	git clone "https://aur.archlinux.org/yay.git" &&
@@ -81,6 +81,13 @@ yayinst htop-vim
 echo "installing internet stuff"
 pacinst librewolf tor lynx w3m amfora weechat
 yayinst arkenfox-user.js
+if [ -x "$HERE/setup" ]; then
+	echo "running setup librewolf script..."
+	librewolf --headless >/dev/null 2>&1
+	sleep 1
+	"$HERE/setup" librewolf
+	pkill librewolf
+fi
 
 echo "installing torrent tools"
 pacinst rtorrent transmission-cli transmission-runit
@@ -96,10 +103,10 @@ echo "installing fonts, themes & icons"
 pacinst libertinus-font ttf-dejavu ttf-ibm-plex noto-fonts noto-fonts-emoji adwaita-icon-theme
 yayinst ttf-amiri adwaita-dark adwaita-plus-git
 
-PACKERDIR="${PACKERDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim}"
-if [ ! -d "$PACKERDIR" ]; then
+packerdir="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim"
+if [ ! -d "$packerdir" ]; then
 	echo "installing packer.nvim"
-	git clone --depth 1 "https://github.com/wbthomason/packer.nvim" "$PACKERDIR"
+	git clone --depth 1 "https://github.com/wbthomason/packer.nvim" "$packerdir"
 fi
 
 [ -x "$HERE/.local/bin/sysupdate" ] && "$HERE/.local/bin/sysupdate" local
