@@ -35,4 +35,8 @@ case "$1" in
 	dotfiles) setupdotfiles ;;
 	librewolf) setuplibrewolf ;;
 	clean) clean ;;
+	*)
+		echo "$(basename "$0"): unknown command \"$1\"" >&2
+		exit 1
+		;;
 esac
