@@ -12,7 +12,7 @@ setupdotfiles() {
 }
 
 setuplibrewolf() {
-	profile="$(sed -n "/Default=.*/s/.*=//p" "$browserdir/profiles.ini")"
+	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
 	ln -sfv "$XDG_CONFIG_HOME/librewolf/librewolf.overrides.cfg" "$browserdir/"
 	[ -f /usr/lib/arkenfox-user.js/user.js ] &&
 		ln -sfv /usr/lib/arkenfox-user.js/user.js "$browserdir/$profile/user.js"
@@ -29,7 +29,7 @@ clean() {
 	find .config .local -type f -exec rm -fv "$HOME/{}" \;
 	find "$HOME" -maxdepth 1 -xtype l -exec rm -fv "{}" \;
 	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -exec rm -fv {} \;
-	profile="$(sed -n "/Default=.*/s/.*=//p" "$browserdir/profiles.ini")"
+	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
 	[ -L "$browserdir/librewolf.overrides.cfg" ] && rm -fv "$browserdir/librewolf.overrides.cfg"
 	[ -L "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
 	[ -d "$browserdir/$profile/chrome" ] && rm -rfv "$browserdir/$profile/chrome"
