@@ -5,8 +5,6 @@ XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 browserdir="$HOME/.librewolf"
 
-getbrowserprofile() { sed -n "/Default=.*/s/.*=//p" "$browserdir/profiles.ini"; }
-
 setupdotfiles() {
 	cp -srfv "$HERE/.config" "$HERE/.local" "$HOME"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
@@ -14,10 +12,16 @@ setupdotfiles() {
 }
 
 setuplibrewolf() {
-	profile="$(getbrowserprofile)"
+	profile="$(sed -n "/Default=.*/s/.*=//p" "$browserdir/profiles.ini")"
 	ln -sfv "$XDG_CONFIG_HOME/librewolf/librewolf.overrides.cfg" "$browserdir/"
 	[ -f /usr/lib/arkenfox-user.js/user.js ] &&
 		ln -sfv /usr/lib/arkenfox-user.js/user.js "$browserdir/$profile/user.js"
+	chromedir="$browserdir/$profile/chrome"
+	[ -d "$chromedir" ] || mkdir -p "$chromedir"
+	git clone https://github.com/EliverLara/firefox-nordic-theme.git "$chromedir/firefox-nordic-theme"
+	[ -s "$chromedir/userChrome.css" ] &&
+		sed -in '1s:^:@import "firefox-nordic-theme/userChrome.css";\n:' "$chromedir/userChrome.css" ||
+		echo '@import "firefox-nordic-theme/userChrome.css";' > "$chromedir/userChrome.css"
 }
 
 clean() {
@@ -25,9 +29,10 @@ clean() {
 	find .config .local -type f -exec rm -fv "$HOME/{}" \;
 	find "$HOME" -maxdepth 1 -xtype l -exec rm -fv "{}" \;
 	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -exec rm -fv {} \;
-	profile="$(getbrowserprofile)"
+	profile="$(sed -n "/Default=.*/s/.*=//p" "$browserdir/profiles.ini")"
 	[ -L "$browserdir/librewolf.overrides.cfg" ] && rm -fv "$browserdir/librewolf.overrides.cfg"
 	[ -L "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
+	[ -d "$browserdir/$profile/chrome" ] && rm -rfv "$browserdir/$profile/chrome"
 }
 
 case "$1" in
