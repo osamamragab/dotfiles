@@ -1,5 +1,6 @@
-gtk-theme-name="Adwaita"
-gtk-icon-theme-name="Adwaita"
+include "/usr/share/themes/Nordic-darker/gtk-2.0/gtkrc"
+gtk-theme-name="Nordic-darker"
+gtk-icon-theme-name="Adwaita++-Dark"
 gtk-cursor-theme-name="Adwaita"
 gtk-cursor-theme-size=0
 gtk-font-name="Sans 10"

@@ -101,7 +101,7 @@ pacinst pandoc-bin lowdown texlive-basic
 
 echo "installing fonts, themes & icons"
 pacinst libertinus-font ttf-dejavu ttf-ibm-plex noto-fonts noto-fonts-emoji adwaita-icon-theme
-yayinst ttf-amiri adwaita-dark adwaita-plus-git
+yayinst ttf-amiri adwaita-plus-git nordic-darker-theme
 
 packerdir="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim"
 if [ ! -d "$packerdir" ]; then
