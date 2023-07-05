@@ -1,23 +1,5 @@
 #!/bin/sh
 
-notify() {
-	summ="exec"
-	body="$1"
-	if [ $# -gt 1 ]; then
-		summ="$1"
-		body="$2"
-	fi
-	notify-send -a "nsxiv" "$summ" "$body"
-}
-
-finfo() {
-	if ! command -v mediainfo >/dev/null 2>&1; then
-		notify "error" "mediainfo is not installed"
-		exit 1
-	fi
-	mediainfo "$1" | awk -F: 'NF==2 {gsub(/^[ \t]+|[ \t]+$/, "", $1); gsub(/^[ \t]+|[ \t]+$/, "", $2); printf "%s: %s\n", $1, $2}'
-}
-
 while read -r f; do
 	case "$1" in
 		w) xwallpaper --zoom "$f" & ;;
@@ -25,11 +7,11 @@ while read -r f; do
 		r) convert -rotate 90 "$f" "$f" ;;
 		R) convert -rotate -90 "$f" "$f" ;;
 		f) convert -flop "$f" "$f" ;;
-		i) notify "file info" "$(finfo "$f")" & ;;
-		d) [ "$(printf "no\nyes" | dmenu -i -p "delete $f?")" = "yes" ] && rm "$f" && notify "$f deleted" & ;;
-		D) rm "$f" && notify "$f deleted" & ;;
-		y) printf "%s" "$f" | tr -d "\n" | xclip -sel clip && notify "$f copied to clipboard" & ;;
-		Y) rf="$(readlink -f "$f")"; printf "%s" "$rf" | tr -d "\n" | xclip -sel clip && notify "$rf copied to clipboard" & ;;
+		i) notify-send "file info" "$(mediainfo "$f" | sed "s/[ ]\+:/:/g;s/: /: <b>/;s/$/<\/b>/" | grep "<b>")" & ;;
+		d) [ "$(printf "no\nyes" | dmenu -i -p "delete $f?")" = "yes" ] && rm "$f" && notify-send "$f deleted" & ;;
+		D) rm "$f" && notify-send "$f deleted" & ;;
+		y) printf "%s" "$f" | tr -d "\n" | xclip -sel clip && notify-send "$f copied to clipboard" & ;;
+		Y) rf="$(readlink -f "$f")"; printf "%s" "$rf" | tr -d "\n" | xclip -sel clip && notify-send "$rf copied to clipboard" & ;;
 		g) dragon -x "$f" ;;
 	esac
 done
