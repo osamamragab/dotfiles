@@ -28,7 +28,7 @@ clean() {
 	cd "$HERE" || exit 1
 	find .config .local -type f -exec rm -fv "$HOME/{}" \;
 	find "$HOME" -maxdepth 1 -xtype l -exec rm -fv "{}" \;
-	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -exec rm -fv {} \;
+	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -exec rm -fv "{}" \;
 	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
 	[ -L "$browserdir/librewolf.overrides.cfg" ] && rm -fv "$browserdir/librewolf.overrides.cfg"
 	[ -L "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
