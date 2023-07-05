@@ -12,4 +12,4 @@ for arg in "$@"; do
 	shift
 done
 
-exec youtube-dl -ic --add-metadata -f "${format:-22/best[ext=mp4]/best}" -o "${output:-%(title)s.%(ext)s}" -- "$@"
+exec yt-dlp -ic --add-metadata -f "${format:-22/best[ext=mp4]/best}" -o "${output:-%(title)s.%(ext)s}" -- "$@"

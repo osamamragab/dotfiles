@@ -50,7 +50,7 @@ if ! command -v yay >/dev/null 2>&1; then
 fi
 
 echo "installing general tools"
-pacinst pacman-contrib xdg-utils xdotool xclip xwallpaper acpilight curl wget rsync gnupg openssh pass autofs keepassxc bc slop maim dunst picom xss-lock time parallel entr snooze mlocate nnn fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit youtube-dl yt-dlp tar xz gzip bzip2 zstd zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail zbar qrencode mediainfo atool tree bat git-delta tig rsm clipmenu translate-shell screenkey z duf realtime-privileges
+pacinst pacman-contrib xdg-utils xdotool xclip xwallpaper acpilight curl wget rsync gnupg openssh pass autofs keepassxc bc slop maim dunst picom xss-lock time parallel entr snooze mlocate nnn fzy fzf ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit yt-dlp tar xz gzip bzip2 zstd zip unzip tlp tlp-rdw tlp-runit thermald thermald-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail zbar qrencode mediainfo atool tree bat git-delta tig rsm clipmenu translate-shell screenkey z duf realtime-privileges
 yayinst xbanish urlview pam-gnupg buku-git dragon-drop sc-im bicon-git wiki-tui
 
 echo "installing manual pages"
