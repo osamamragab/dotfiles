@@ -12,7 +12,7 @@ PS1='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
 
 HISTSIZE=1000000
 SAVEHIST=1000000
-HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/history"
+HISTFILE="${XDG_CACHE_HOME:-$HOME/.cache}/history"
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 alias doas="doas "
