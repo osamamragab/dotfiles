@@ -4,13 +4,11 @@ setopt prompt_subst
 setopt histignorespace
 stty stop undef
 
-__promptcmd() {
-	local pr="%F{$([ $? -eq 0 ] && echo "green" || echo "red")}>"
-	local br="$(git symbolic-ref HEAD --short 2>/dev/null)"
-	local wd="%F{cyan}%c"
-	[ "$br" ] && echo "$wd %F{blue}($br) $pr" || echo "$wd $pr"
-}
-PS1="%B\$(__promptcmd)%F{reset}%b "
+autoload -U vcs_info
+zstyle ":vcs_info:*" enable git svn
+zstyle ":vcs_info:*" formats "(%b) "
+precmd() { vcs_info; }
+PS1='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
 
 HISTSIZE=1000000
 SAVEHIST=1000000
@@ -52,9 +50,7 @@ zle-line-init() {
 }
 zle -N zle-line-init
 echo -ne "\e[5 q"
-preexec() {
-	echo -ne "\e[5 q"
-}
+preexec() { echo -ne "\e[5 q"; }
 
 bindkey "^[[P" delete-char
 bindkey "^[[1;5D" backward-word
@@ -74,20 +70,18 @@ bindkey -s "^f" '^ucd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
 ZSHPLUGINSDIR="${ZSHPLUGINSDIR:-/usr/share/zsh/plugins}"
-if [ -d "$ZSHPLUGINSDIR" ]; then
-	[ -f "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
-		. "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-	if [ -f "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]; then
-		ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-		. "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
-	fi
-	if [ -f "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
-		. "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-search.zsh"
-		bindkey -a "k" history-substring-search-up
-		bindkey -a "j" history-substring-search-down
-		bindkey "^[[A" history-substring-search-up
-		bindkey "^[[B" history-substring-search-down
-	fi
+[ -f "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
+	. "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+if [ -f "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]; then
+	ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+	. "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+fi
+if [ -f "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
+	. "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-search.zsh"
+	bindkey -a "k" history-substring-search-up
+	bindkey -a "j" history-substring-search-down
+	bindkey "^[[A" history-substring-search-up
+	bindkey "^[[B" history-substring-search-down
 fi
 
 [ -f "/usr/share/z/z.sh" ] && . "/usr/share/z/z.sh"
