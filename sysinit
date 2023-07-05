@@ -93,7 +93,7 @@ echo "installing torrent tools"
 pacinst rtorrent transmission-cli transmission-runit
 
 echo "installing networking tools"
-pacinst nmap openbsd-netcat lsof inetutils iputils net-tools traceroute mtr wireshark-cli socat websocat mitmproxy termshark iperf3 arp-scan tcpreplay bettercap macchanger sqlmap gping netsniff-ng aircrack-ng proxychains-ng sslscan urh xh
+pacinst nmap openbsd-netcat lsof inetutils iputils net-tools ldns traceroute mtr wireshark-cli socat websocat mitmproxy termshark iperf3 arp-scan tcpreplay bettercap macchanger sqlmap gping netsniff-ng aircrack-ng proxychains-ng sslscan urh xh
 yayinst wrk nemesis
 
 echo "installing markup & latex tools"
