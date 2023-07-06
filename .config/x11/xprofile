@@ -2,7 +2,7 @@
 
 xset -b &
 xset s 180 120 &
-xss-lock -n "locker dim" locker &
+xss-lock -n "screenlightctl dim" locker &
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/bg" ] && xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 &
 
