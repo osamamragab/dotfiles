@@ -45,7 +45,7 @@ if ! command -v yay >/dev/null 2>&1; then
 	echo "installing yay"
 	cd "$PROGRAMSDIR" || exit 1
 	git clone "https://aur.archlinux.org/yay.git" &&
-		cd yay && makepkg -si || exit 1
+		cd yay && makepkg -si --noconfirm || exit 1
 	yay --sudo doas --sudoflags -- --save
 fi
 
