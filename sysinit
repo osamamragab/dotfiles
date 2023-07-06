@@ -83,7 +83,7 @@ pacinst librewolf tor lynx w3m amfora weechat
 yayinst arkenfox-user.js
 if [ -x "$HERE/setup" ]; then
 	echo "running setup librewolf script..."
-	librewolf --headless >/dev/null 2>&1
+	librewolf --headless >/dev/null 2>&1 &
 	sleep 1
 	"$HERE/setup" librewolf
 	pkill librewolf
