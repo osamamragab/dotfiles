@@ -1,33 +1,28 @@
 #!/bin/sh
 
-if [ -z "$(ls -A /sys/class/power_supply/BAT?* 2>/dev/null)" ]; then
-	echo "—"
-	exit 1
-fi
-
 for bat in /sys/class/power_supply/BAT?*; do
-	cap="$(cat "$bat/capacity")"
-	stat="$(cat "$bat/status")"
-
-	case "$stat" in
-		Full|Charging)
-			[ -f /tmp/batstat-low_warning ] && rm -f /tmp/batstat-low_warning
+	[ -n "${cap+x}" ] && printf " "
+	cap="$(cat "$bat/capacity" 2>&1)"
+	case "$(cat "$bat/status" 2>&1)" in
+		Full)
+			icon="🟢"
+			[ "x$(cat /tmp/batstat 2>/dev/null)" != "xfull" ] &&
+				dunstify -r 9992 -i battery-full-charged -a "$(basename "$0")" "batter is fully charged" "i am full" &&
+				echo "full" >/tmp/batstat
 			;;
-		*)
-			[ "$cap" -le 15 ] &&
-				[ ! -f /tmp/batstat-low_warning ] &&
-				notify-send -u critical -a "$(basename "$0")" "battery is too low" "please charge this device" &&
-				touch /tmp/batstat-low_warning
+		Charging)
+			icon="⚡"
+			[ -s /tmp/batstat ] && dunstify -C 9992 && echo charging >/tmp/batstat
 			;;
-	esac
-
-	case "$stat" in
-		Full) icon="🟢" ;;
-		Charging) icon="⚡" ;;
-		Discharging) [ "$cap" -le 15 ] && icon="❗" ;;
+		Discharging)
+			[ "$cap" -le 10 ] &&
+				icon="❗" &&
+				[ "x$(cat /tmp/batstat 2>/dev/null)" != "xlow" ] &&
+				dunstify -r 9992 -u critical -i battery-level-10 -a "$(basename "$0")" "battery is too low" "i am about to die" &&
+				echo "low" >/tmp/batstat
+			;;
 		"Not charging") icon="🛑" ;;
 		Unknown) icon="♻️" ;;
 	esac
-
-	[ "$icon" ] && echo "$cap% $icon" || echo "$cap%"
-done 2>/dev/null
+	printf "%d%%%s" "$cap" "$icon"
+done && echo
