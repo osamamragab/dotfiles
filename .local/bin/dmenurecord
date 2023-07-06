@@ -1,95 +1,85 @@
 #!/bin/sh
 
-recfile="/tmp/recordinginfo"
-outdir="$HOME/vids/recordings"
-datefmt="+%Y%m%d-%H%M%S"
-
-checkwebcam() {
-	if [ ! -b /dev/video0 ]; then
-		notify-send -a "$(basename "$0")" "Error" "webcam is not connected (/dev/video0)"
-		exit 1
-	fi
-}
+getdim() { xrandr | sed -n "s/\s*\([0-9]\+x[0-9]\+\).*\*.*/\1/p"; }
 
 stoprecording() {
-	recpid="$(head -n 1 "$recfile")"
-	kill -15 "$recpid"
-	rm -f "$recfile"
+	kill -15 "$(cat /tmp/recordingpid)"
+	rm -f /tmp/recordingpid /tmp/recordinginfo
 	pkill -x -RTMIN+9 dwmblocks
-	sleep 3
-	kill -9 "$recpid" 2>/dev/null
 }
 
-if [ -s "$recfile" ]; then
+if [ -f /tmp/recordingpid ]; then
 	res="$(printf "no\\nyes" | dmenu -i -p "stop current recording?")"
 	[ "$res" = "yes" ] && stoprecording
 	exit 0
 fi
 
-sel="$1"
-[ -z "$sel" ] && sel="$(printf "screencast\\nvideo\\nvideo (select)\\naudio\\nwebcam\\nwebcam (hi-def)" | dmenu -i -F -l 6 -p "record:")"
+sel="${1:-$(printf "screencast\\nvideo\\nvideo-select\\naudio\\nwebcam\\nwebcam-hidef" | dmenu -i -F -l 6 -p "record:")}" || exit 1
+dir="$(xdg-user-dir VIDEOS)"
+now="$(date "+%Y%m%d-%H%M%S")"
 
 case "$sel" in
 	screencast)
 		ffmpeg -y \
 			-f x11grab \
-			-framerate 60 \
-			-s "$(xdpyinfo | awk '/dimensions/{print $2}')" \
+			-framerate 30 \
+			-s "$(getdim)" \
 			-i "$DISPLAY" \
-			-f alsa -i default \
-			-r 30 \
-			-c:v h264 -crf 0 -preset ultrafast -c:a aac \
-			"$outdir/screencast-$(date "$datefmt").mp4" &
+			-r 24 \
+			-use_wallclock_as_timestamps 1 \
+			-f alsa -thread_queue_size 1024 -i default \
+			-c:v h264 \
+			-crf 0 -preset ultrafast -c:a aac \
+			"$dir/screencast-$now.mp4" &
 		;;
 	video)
 		ffmpeg \
 			-f x11grab \
-			-s "$(xdpyinfo | awk '/dimensions/{print $2}')" \
+			-framerate 30 \
+			-s "$(getdim)" \
 			-i "$DISPLAY" \
 			-c:v libx264 -qp 0 -r 30 \
-			"$outdir/video-$(date "$datefmt").mkv" &
+			"$dir/video-$now.mkv" &
 		;;
 	audio)
 		ffmpeg \
 			-f alsa -i default \
 			-c:a flac \
-			"$outdir/audio-$(date "$datefmt").flac" &
+			"$dir/audio-$now.flac" &
 		;;
-	"video (select)")
+	video-select)
 		slop -f "%x %y %w %h" > /tmp/slop
 		read -r X Y W H < /tmp/slop
-		rm /tmp/slop
+		rm -f /tmp/slop
 		ffmpeg \
 			-f x11grab \
-			-framerate 60 \
+			-framerate 30 \
 			-video_size "$W"x"$H" \
 			-i :0.0+"$X,$Y" \
 			-c:v libx264 -qp 0 -r 30 \
-			"$outdir/videoselected-$(date "$datefmt").mkv" &
+			"$dir/video-$now.mkv" &
 		;;
 	webcam)
-		checkwebcam
 		ffmpeg \
 			-f v4l2 \
 			-i /dev/video0 \
 			-video_size 640x480 \
-			"$outdir/webcam-$(date "$datefmt").mkv" &
+			"$dir/webcam-$now.mkv" &
 		;;
-	"webcam (hi-def)")
-		checkwebcam
+	webcam-hidef)
 		ffmpeg \
 			-f v4l2 \
 			-i /dev/video0 \
 			-video_size 1920x1080 \
-			"$outdir/webcam-$(date "$datefmt").mkv" &
+			"$dir/webcam-$now.mkv" &
 		;;
 	stop)
-		[ -s "$recfile" ] || exit 1
-		stoprecording
-		exit 0
+		[ -f /tmp/recordingpid ] || exit 1
+		stoprecording; exit $?
 		;;
 	*) exit 1 ;;
 esac
 
-printf "%d\n%s" $! "$sel" > "$recfile"
+echo $! >/tmp/recordingpid
+echo "[REC: $sel]" >/tmp/recordinginfo
 pkill -x -RTMIN+9 dwmblocks
