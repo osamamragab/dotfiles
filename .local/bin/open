@@ -1,5 +1,0 @@
-#!/bin/sh
-
-for p in "$@"; do
-	setsid -f xdg-open "$p" >/dev/null 2>&1 &
-done
