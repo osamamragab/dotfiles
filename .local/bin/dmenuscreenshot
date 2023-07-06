@@ -2,11 +2,11 @@
 
 f="$(xdg-user-dir PICTURES)/screenshot-$(date "+%Y%m%d-%H%M%S").png"
 
-case "$(printf "select\\ncurrent window\\nfull screen\\nselect (copy)\\ncurrent window (copy)\\nfull screen (copy)" | dmenu -i -F -l 6 -p "screenshot:")" in
-	"select") maim -q -u -s "$f" ;;
-	"current window") maim -q -u -d 0.2 -i "$(xdotool getactivewindow)" "$f" ;;
-	"full screen") maim -q -u -d 0.2 "$f" ;;
-	"select (copy)") maim -q -u -s | xclip -sel clip -t image/png ;;
-	"current window (copy)") maim -q -u -d 0.2 -i "$(xdotool getactivewindow)" | xclip -sel clip -t image/png ;;
-	"full screen (copy)") maim -q -u -d 0.2 | xclip -sel clip -t image/png ;;
+case "${1:-$(printf "select\\ncurrent-window\\nfull-screen\\nselect-copy\\ncurrent-window-copy\\nfull-screen-copy" | dmenu -i -F -l 6 -p "screenshot:")}" in
+	select) maim -q -u -s "$f" ;;
+	current-window) maim -q -u -d 0.2 -i "$(xdotool getactivewindow)" "$f" ;;
+	full-screen) maim -q -u -d 0.2 "$f" ;;
+	select-copy) maim -q -u -s | xclip -sel clip -t image/png ;;
+	current-window-copy) maim -q -u -d 0.2 -i "$(xdotool getactivewindow)" | xclip -sel clip -t image/png ;;
+	full-screen-copy) maim -q -u -d 0.2 | xclip -sel clip -t image/png ;;
 esac
