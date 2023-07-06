@@ -10,4 +10,12 @@ for p in picom xbanish pipewire mpd dunst clipmenud remapd dwmblocks; do
 	pidof -xs "$p" || "$p" &
 done >/dev/null 2>&1
 
+if command -v gnome-keyring >/dev/null 2>&1 && [ -x /lib/gcr-ssh-agent ]; then
+	[ -d "$XDG_RUNTIME_DIR/gcr" ] || mkdir -p "$XDG_RUNTIME_DIR/gcr"
+	/lib/gcr-ssh-agent "$XDG_RUNTIME_DIR/gcr" &
+	export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
+else
+	eval "$(ssh-agent)"
+fi
+
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
