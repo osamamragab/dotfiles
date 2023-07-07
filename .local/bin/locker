@@ -2,31 +2,12 @@
 
 case "$1" in
 	""|lock)
-		pidof -s slock >/dev/null 2>&1 && exit 0
-		[ $# -gt 0 ] && [ "$1" = "lock" ] && shift
-		while ! slock "$@"; do
-			sleep 0.5
-		done
+		pidof -qsx slock && exit 0
+		[ "$1" = "lock" ] && shift
+		while ! slock "$@"; do sleep 0.5; done
 		;;
-	sleep)
-		slock loginctl suspend -i
-		;;
-	enable)
-		xset +dpms
-		xset s on
-		;;
-	disable)
-		xset -dpms
-		xset s off
-		;;
-	stayup)
-		trap "xset +dpms; xset s on" EXIT
-		xset -dpms
-		xset s off
-		pause
-		;;
-	*)
-		echo "$(basename "$0"): unknown command $1" >&2
-		exit 1
-		;;
+	sleep) slock loginctl suspend -i ;;
+	enable) xset +dpms; xset s on ;;
+	disable) xset -dpms; xset s off ;;
+	*) echo "$(basename "$0"): unknown command \"$1\"" >&2; exit 1 ;;
 esac
