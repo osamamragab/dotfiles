@@ -61,4 +61,4 @@ export LESS="-R"
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export MANPAGER="less -R --use-color -Dd+b -Duc"
 
-[ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -s Xorg >/dev/null 2>&1 && exec startx "$XINITRC"
+[ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -qsx Xorg && exec startx "$XINITRC"

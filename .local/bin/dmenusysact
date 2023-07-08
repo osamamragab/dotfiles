@@ -5,8 +5,8 @@ sel="${1:-$(printf "lock\nexit\nrefresh\nhibernate\nsleep\nreboot\npoweroff" | d
 
 case "$sel" in
 	lock) locker ;;
-	exit) kill -TERM "$(pidof dwm)" ;;
-	refresh) kill -HUP "$(pidof dwm)" ;;
+	exit) kill -TERM "$(pidof -sx dwm)" ;;
+	refresh) kill -HUP "$(pidof -sx dwm)" ;;
 	hibernate) locker loginctl hibernate -i ;;
 	sleep) locker loginctl suspend -i ;;
 	reboot) loginctl reboot -i ;;
