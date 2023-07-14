@@ -35,8 +35,8 @@ pacinst mesa mesa-utils mesa-vdpau libva-mesa-driver xf86-video-amdgpu vulkan-in
 echo "installing xorg & elogind"
 pacinst xorg elogind elogind-runit
 
-echo "installing network, bluetooth & firewall manager"
-pacinst networkmanager networkmanager-runit bluez bluez-runit ufw ufw-runit
+echo "installing network, firewall & bluetooth"
+pacinst networkmanager networkmanager-runit ufw ufw-runit bluez bluez-runit bluez-utils bluez-tools
 
 echo "installing pipewire"
 pacinst pipewire pipewire-audio pipewire-pulse wireplumber pulsemixer
