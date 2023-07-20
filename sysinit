@@ -71,7 +71,7 @@ pacinst neomutt msmtp isync notmuch
 yayinst mutt-wizard-git abook
 
 echo "installing programming stuff"
-pacinst clang clang lld tcc nasm zig rustup go python pyenv python-pip python-pipx python-pipenv lua luarocks gdb gef valgrind radare2 delve binutils upx jq cppcheck staticcheck shellcheck tokei hyperfine nix docker docker-compose dive
+pacinst llvm clang lld tcc nasm zig rustup go python pyenv python-pip python-pipx python-pipenv lua luarocks gdb gef valgrind radare2 delve binutils upx jq cppcheck staticcheck shellcheck tokei hyperfine nix docker docker-compose dive
 rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing system monitoring tools"
