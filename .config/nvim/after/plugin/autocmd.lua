@@ -22,7 +22,11 @@ autocmd("FileType", {
 autocmd("BufWritePre", {
 	group = filetype,
 	pattern = "*",
-	command = "%s/\\s\\+$//e",
+	callback = function(_)
+		local cur = vim.fn.getpos(".")
+		vim.cmd("%s/\\s\\+$//e")
+		vim.fn.setpos(".", cur)
+	end,
 })
 
 autocmd("BufWritePost", {
