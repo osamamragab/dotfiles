@@ -1,6 +1,3 @@
-dwm.statusmon: 0
-dwm.smartgaps: 1
-
 St.font: IBM Plex Mono:pixelsize=18:antialias=true:autohint=true:weight=bold
 
 *.font: monospace:size=10
