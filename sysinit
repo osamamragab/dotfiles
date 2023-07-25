@@ -63,6 +63,10 @@ yayinst zsh-fast-syntax-highlighting
 echo "installing multimedia tools"
 pacinst ffmpeg imagemagick gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp poppler
 
+echo "installing filesystems support"
+pacinst fuse3 exfat-utils mtpfs
+yayinst simple-mtpfs
+
 echo "installing music players"
 pacinst mpd mpc ncmpcpp
 
