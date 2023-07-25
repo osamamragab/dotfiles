@@ -3,6 +3,8 @@ set sandbox none
 set statusbar-h-padding 0
 set statusbar-v-padding 0
 set page-padding 1
+set statusbar-home-tilde true
+set window-title-basename true
 
 map u scroll half-up
 map d scroll half-down
@@ -15,3 +17,33 @@ map i recolor
 map p print
 map g goto top
 map ; snap_to_page
+
+set recolor
+set default-bg              "#242933"
+set default-fg              "#d8dee9"
+set statusbar-bg            "#242933"
+set statusbar-fg            "#d8dee9"
+set inputbar-bg             "#242933"
+set inputbar-fg             "#a3be8c"
+set completion-bg           "#242933"
+set completion-fg           "#d8dee9"
+set completion-group-bg     "#242933"
+set completion-group-fg     "#d8dee9"
+set completion-highlight-bg "#434c5e"
+set completion-highlight-fg "#d8dee9"
+set notification-bg         "#3b4252"
+set notification-fg         "#eceff4"
+set notification-error-bg   "#bf616a"
+set notification-error-fg   "#eceff4"
+set notification-warning-bg "#ebcb8b"
+set notification-warning-fg "#2e3440"
+set highlight-color         "#5e81ac"
+set highlight-active-color  "#88c0d0"
+set index-bg                "#242933"
+set index-fg                "#d8dee9"
+set index-active-bg         "#434c5e"
+set index-active-fg         "#d8dee9"
+set recolor-darkcolor       "#d8dee9"
+set recolor-lightcolor      "#242933"
+set render-loading-bg       "#242933"
+set render-loading-fg       "#d8dee9"
