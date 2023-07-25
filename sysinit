@@ -96,8 +96,8 @@ echo "installing networking tools"
 pacinst nmap openbsd-netcat lsof inetutils iputils net-tools ldns traceroute mtr wireshark-cli socat websocat mitmproxy termshark iperf3 arp-scan tcpreplay bettercap macchanger sqlmap gping netsniff-ng aircrack-ng proxychains-ng sslscan urh xh
 yayinst wrk nemesis
 
-echo "installing markup & latex tools"
-pacinst pandoc-bin lowdown texlive-basic
+echo "installing markup & latex"
+pacinst pandoc-bin lowdown texlive-core
 
 echo "installing fonts, themes & icons"
 pacinst libertinus-font ttf-dejavu ttf-ibm-plex noto-fonts noto-fonts-emoji adwaita-icon-theme
