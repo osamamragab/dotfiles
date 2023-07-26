@@ -36,22 +36,6 @@ bindkey -M menuselect "j" vi-down-line-or-history
 bindkey -M menuselect "^[[Z" reverse-menu-complete
 bindkey -v "^?" backward-delete-char
 
-# vi cursor shapes
-zle-keymap-select() {
-	case $KEYMAP in
-		vicmd) echo -ne "\e[1 q" ;;
-		viins|main) echo -ne "\e[5 q" ;;
-	esac
-}
-zle -N zle-keymap-select
-zle-line-init() {
-	zle -K viins
-	echo -ne "\e[5 q"
-}
-zle -N zle-line-init
-echo -ne "\e[5 q"
-preexec() { echo -ne "\e[5 q"; }
-
 bindkey "^[[P" delete-char
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
