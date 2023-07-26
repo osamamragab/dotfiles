@@ -5,7 +5,7 @@ input="${1:-$(printf "" | dmenu -p "input:")}" || exit 1
 
 case "$(printf "copy\ndl\nbrowser\nsurf\nlynx\nmpv\nbookmark\nsearch duckduckgo\nsearch google\nsearch youtube\nsearch reddit\nsearch stackoverflow\nsearch wikipedia" | dmenu -i -p "action:")" in
 	copy) printf "%s" "$input" | xclip -sel clip ;;
-	dl) dmenudl "$input" ;;
+	dl) dmenu_dl "$input" ;;
 	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
 	surf) setsid -f surf "$input" >/dev/null 2>&1 ;;
 	lynx) setsid -f "$TERMINAL" -e lynx "$input" >/dev/null 2>&1 ;;

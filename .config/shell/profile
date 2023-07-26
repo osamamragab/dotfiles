@@ -46,8 +46,8 @@ export JOURNALDIR="$XDG_DATA_HOME/journal"
 
 export PATH="$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$PATH"
 
-export SUDO_ASKPASS="$HOME/.local/bin/dmenuaskpass"
-export SSH_ASKPASS="$HOME/.local/bin/dmenuaskpass"
+export SUDO_ASKPASS="$HOME/.local/bin/dmenu_askpass"
+export SSH_ASKPASS="$HOME/.local/bin/dmenu_askpass"
 
 export NNN_OPTS="xrcER"
 export NNN_PLUG="x:!chmod +x \$nnn*"
