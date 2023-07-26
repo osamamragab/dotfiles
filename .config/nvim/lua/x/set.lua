@@ -1,4 +1,5 @@
 vim.opt.mouse = ""
+vim.opt.guicursor = ""
 vim.opt.clipboard = "unnamed,unnamedplus"
 
 vim.opt.hidden = true
