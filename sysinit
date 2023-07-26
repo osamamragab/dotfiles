@@ -36,7 +36,7 @@ echo "installing xorg & elogind"
 pacinst xorg-server xorg-xinit xorg-xsetroot xorg-xev elogind elogind-runit
 
 echo "installing network, firewall & bluetooth"
-pacinst networkmanager networkmanager-runit ufw ufw-runit bluez bluez-runit bluez-utils bluez-tools
+pacinst iwd iwd-runit ufw ufw-runit bluez bluez-runit bluez-utils bluez-tools
 
 echo "installing pipewire"
 pacinst pipewire pipewire-audio pipewire-pulse wireplumber pulsemixer
