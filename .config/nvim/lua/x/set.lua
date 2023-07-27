@@ -1,6 +1,7 @@
 vim.opt.mouse = ""
 vim.opt.guicursor = ""
 vim.opt.clipboard = "unnamed,unnamedplus"
+vim.opt.shortmess:append({ I = true })
 
 vim.opt.hidden = true
 vim.opt.backup = false
