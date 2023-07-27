@@ -2,6 +2,9 @@ setopt autocd
 setopt interactive_comments
 setopt prompt_subst
 setopt histignorespace
+setopt hist_reduce_blanks
+setopt hist_verify
+setopt hist_ignore_all_dups
 stty stop undef
 
 autoload -U vcs_info
@@ -10,8 +13,8 @@ zstyle ":vcs_info:*" formats "(%b) "
 precmd() { vcs_info; }
 PS1='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
 
-HISTSIZE=1000000
-SAVEHIST=1000000
+HISTSIZE=999999999
+SAVEHIST=$HISTSIZE
 HISTFILE="${HISTFILE:-${XDG_STATE_HOME:-$HOME/.local/state}/history}"
 
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
