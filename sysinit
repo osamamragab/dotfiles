@@ -56,8 +56,8 @@ yayinst xbanish urlview buku-git dragon-drop sc-im bicon-git wiki-tui
 echo "installing manual pages"
 pacinst man-db man-pages texinfo tealdeer
 
-echo "installing text editor & zsh"
-pacinst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
+echo "installing text editor & shell"
+pacinst vim neovim tmux dash zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
 yayinst zsh-fast-syntax-highlighting
 
 echo "installing multimedia tools"
