@@ -32,7 +32,7 @@ updatelocal() {
 		esac
 		url="git@$GIT_PROVIDER:$GIT_USERNAME/$p.git"
 		dir="$PROGRAMSDIR/$p"
-		printf "\e[0;32m[updating]\e[0m %s (\e[0;34m%s\e[0m)\n" "$p" "$dir"
+		echo "[32m[updating][0m $p ([34m$dir[0m)"
 		[ -d "$dir" ] || git clone "$url" "$dir"
 		cd "$dir" && git pull || return 1
 		if [ "$upstream_url" ]; then
