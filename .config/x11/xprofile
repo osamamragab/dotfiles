@@ -7,8 +7,8 @@ xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" & xrdbpid=$!
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/bg" ] &&
 	xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 &
 
-for p in picom xbanish pipewire mpd dunst clipmenud remapd dwmblocks; do
-	pidof -qsx "$p" || "$p" &
+for p in picom pipewire mpd dunst clipmenud remapd dwmblocks "xbanish -i all"; do
+	pidof -qsx "${p%% *}" || $p &
 done >/dev/null 2>&1
 
 [ -n "$xrdbpid" ] && wait "$xrdbpid"
