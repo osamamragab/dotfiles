@@ -1,4 +1,5 @@
 St.font: IBM Plex Mono:pixelsize=18:antialias=true:autohint=true:weight=bold
+St.backgroundSel: #4c566a
 
 *.font: monospace:size=10
 *.alpha: 0.92
@@ -6,10 +7,10 @@ St.font: IBM Plex Mono:pixelsize=18:antialias=true:autohint=true:weight=bold
 
 *.foreground: #d8dee9
 *.background: #242933
-*.borderColor: #242933
+*.borderColor: #4c566a
 *.foregroundSel: #eceff4
-*.backgroundSel: #4c566a
-*.borderColorSel: #4c566a
+*.backgroundSel: #5e81ac
+*.borderColorSel: #5e81ac
 *.cursorColor: #d8dee9
 
 *.color0: #3b4252
