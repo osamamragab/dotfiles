@@ -10,7 +10,10 @@ stty stop undef
 autoload -U vcs_info
 zstyle ":vcs_info:*" enable git svn
 zstyle ":vcs_info:*" formats "(%b) "
-precmd() { vcs_info; }
+precmd() {
+	vcs_info
+	echo -ne "\e[1 q"
+}
 PS1='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
 
 HISTSIZE=999999999
@@ -27,29 +30,25 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 
-# vi mode
 bindkey -v
 KEYTIMEOUT=1
 
-# vi keys in completion menu
 bindkey -M menuselect "h" vi-backward-char
 bindkey -M menuselect "k" vi-up-line-or-history
 bindkey -M menuselect "l" vi-forward-char
 bindkey -M menuselect "j" vi-down-line-or-history
 bindkey -M menuselect "^[[Z" reverse-menu-complete
 bindkey -v "^?" backward-delete-char
-
 bindkey "^[[P" delete-char
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
 
-# edit line in vi
 autoload edit-command-line
 zle -N edit-command-line
 bindkey "^e" edit-command-line
-bindkey -M vicmd '^e' edit-command-line
-bindkey -M vicmd '^[[P' vi-delete-char
-bindkey -M visual '^[[P' vi-delete
+bindkey -M vicmd "^e" edit-command-line
+bindkey -M vicmd "^[[P" vi-delete-char
+bindkey -M visual "^[[P" vi-delete
 
 bindkey -s "^o" '^uxdg-open "$(fzf-tmux)" >/dev/null\n'
 bindkey -s "^s" '"$(fzf-tmux)"\n'
