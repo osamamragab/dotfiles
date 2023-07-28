@@ -1,35 +1,35 @@
 #!/bin/sh
-# shellcheck disable=SC2015
 
-CODEDIR="${CODEDIR:-$HOME/code}"
-[ -t 0 ] && term=1 || term=0
+PROJECTSDIR="${PROJECTSDIR:-$HOME/projects}"
 
-getdirs() { find "$1" -mindepth "${2:-1}" -maxdepth "${2:-1}" -type d -printf "%T@ %P\n"; }
-
-projsel() {
-	dirs="$(printf "%s\n%s" "$(getdirs "$CODEDIR/projects" 1)" "$(getdirs "$CODEDIR/org" 2)" | sort -nr | cut -d " " -f 2-)"
-	[ "$term" -eq 1 ] &&
-		{ sel="$(echo "$dirs" | fzy)" || return 1; } ||
-		{ sel="$(echo "$dirs" | dmenu -i -F -fn monospace-12 -l 10 -p "project:")" || return 1; }
-	[ -d "$CODEDIR/projects/$sel" ] && echo "$CODEDIR/projects/$sel" && return 0
-	[ -d "$CODEDIR/org/$sel" ] && echo "$CODEDIR/org/$sel" && return 0
+prosel() {
+	find "$PROJECTSDIR" -mindepth 2 -maxdepth 2 -type d -printf "%T@ %P\n" |
+		sort -nr |
+		cut -d " " -f 2- |
+		fzy
 }
 
 case "$1" in
-	"") dir="$(projsel)" || exit $? ;;
-	_) term=1 dir="$(projsel)" || exit $? ;;
-	-) term=0 dir="$(projsel)" || exit $? ;;
-	.) [ "$term" -eq 1 ] && dir="$(pwd)" || dir="$(projsel)" || exit $?;;
+	.)
+		dir="$(pwd)"
+		shift
+		;;
+	-|"")
+		dir="$PROJECTSDIR/$(prosel)" || exit $?
+		[ $# -gt 0 ] && shift
+		;;
+	*)
+		dir="$(readlink -f "$1")"
+		shift
+		;;
 esac
 
+[ -d "$dir" ] || { echo "$(basename "$0"): '$dir' is not a diretory" >&2; exit 1; }
 name="$(basename "$dir")"
-tmux switchc -t "$name" 2>/dev/null && exit 0 || shift
 
 [ $# -gt 1 ] && tmux new -d -c "$dir" -s "$name" -n "$1" && shift
 for win in "$@"; do
 	tmux neww -d -t "$name" -c "$dir" -n "$win"
 done
 
-[ "$term" -eq 1 ] &&
-	tmux new -A -c "$dir" -s "$name" ||
-	setsid -f "$TERMINAL" -t "$name" -e "$SHELL" -i -c "tmux new -A -c '$dir' -s '$name'"
+exec tmux new -A -c "$dir" -s "$name"
