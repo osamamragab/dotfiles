@@ -5,10 +5,10 @@
 	height = 350
 	offset = 0x19
 	padding = 2
-	transparency = 25
-	background = "#1c1e1f"
-	foreground = "#ffffff"
-	frame_color = "#282828"
+	transparency = 10
+	background = "#242933"
+	foreground = "#d8dee9"
+	frame_color = "#5e81ac"
 	frame_width = 2
 	font = Monospace 12
 	format = "<b>%a</b>\n%s: %b"
@@ -25,8 +25,8 @@
 	timeout = 5
 
 [urgency_critical]
-	background = "#cc2421"
-	foreground = "#ffffff"
+	background = "#bf616a"
+	frame_color = "#bf616a"
 	timeout = 10
 
 [play_sound]
