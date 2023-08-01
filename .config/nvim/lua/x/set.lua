@@ -1,13 +1,10 @@
 vim.opt.mouse = ""
 vim.opt.guicursor = ""
 vim.opt.clipboard = "unnamed,unnamedplus"
+vim.opt.updatetime = 50
+vim.opt.termguicolors = true
+vim.opt.isfname:append("@-@")
 vim.opt.shortmess:append({ I = true })
-
-vim.opt.hidden = true
-vim.opt.backup = false
-vim.opt.swapfile = false
-vim.opt.undolevels = 1000
-vim.opt.undofile = true
 
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -27,10 +24,12 @@ vim.opt.smartindent = true
 
 vim.opt.wrap = false
 
+vim.opt.backup = false
+vim.opt.swapfile = false
+vim.opt.undofile = true
+
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
-
-vim.opt.termguicolors = true
 
 vim.g.netrw_banner = false
 vim.g.netrw_browse_split = false
