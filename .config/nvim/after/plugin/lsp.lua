@@ -1,25 +1,13 @@
-local lsp = require("lsp-zero").preset({
-	float_border = "rounded",
-	call_servers = "local",
-	configure_diagnostics = true,
-	setup_servers_on_start = true,
-	set_lsp_keymaps = false,
-	manage_nvim_cmp = false,
-})
+local lsp = require("lspconfig")
+local config = lsp.util.default_config
 
-require("mason-lspconfig").setup({
-	ensure_installed = {
-		"clangd",
-		"zls",
-		"rust_analyzer",
-		"gopls",
-		"pyright",
-		"tsserver",
-		"lua_ls",
-	},
-})
+config.capabilities = vim.tbl_deep_extend(
+	"force",
+	config.capabilities,
+	require("cmp_nvim_lsp").default_capabilities()
+)
 
-lsp.on_attach(function(_, bufnr)
+config.on_attach = function(_, bufnr)
 	local opts = { buffer = bufnr, remap = false }
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
@@ -33,21 +21,57 @@ lsp.on_attach(function(_, bufnr)
 	vim.keymap.set("n", "<leader>grn", vim.lsp.buf.rename, opts)
 	vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
 	vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, opts)
-end)
+end
 
-lsp.configure("lua_ls", lsp.nvim_lua_ls())
+vim.diagnostic.config({ virtual_text = true })
 
-lsp.setup()
+local function server_setup(name)
+	local opts = {}
+	if name == "lua_ls" then
+		local path = vim.split(package.path, ";")
+		table.insert(path, "lua/?.lua")
+		table.insert(path, "lua/?/init.lua")
+		opts = vim.tbl_deep_extend("force", opts, {
+			settings = {
+				Lua = {
+					telemetry = { enable = false },
+					runtime = {
+						version = "LuaJIT",
+						path = path,
+					},
+					diagnostics = {
+						globals = { "vim" },
+					},
+					workspace = {
+						checkThirdParty = false,
+						library = {
+							vim.fn.expand("$VIMRUNTIME/lua"),
+							vim.fn.stdpath("config") .. "/lua",
+						},
+					},
+				},
+			},
+		})
+	end
+	lsp[name].setup(opts)
+end
+
+require("mason").setup({})
+require("mason-lspconfig").setup({
+	ensure_installed = {
+		"clangd",
+		"zls",
+		"rust_analyzer",
+		"gopls",
+		"pyright",
+		"tsserver",
+		"lua_ls",
+	},
+	handlers = { server_setup },
+})
 
 local cmp = require("cmp")
-local luasnip = require("luasnip")
-
-require("luasnip.loaders.from_vscode").lazy_load()
-
 cmp.setup({
-	snippet = {
-		expand = function(args) luasnip.lsp_expand(args.body) end,
-	},
 	mapping = cmp.mapping.preset.insert({
 		["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
 		["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
@@ -61,13 +85,17 @@ cmp.setup({
 	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
+		{ name = "nvim_lua" },
 		{ name = "luasnip" },
 	}, {
 		{ name = "buffer", keyword_length = 5 },
 		{ name = "path" },
-	})
+	}),
+	snippet = {
+		expand = function(args)
+			require("luasnip").lsp_expand(args.body)
+		end,
+	},
 })
 
-vim.diagnostic.config({
-	virtual_text = true,
-})
+require("luasnip.loaders.from_vscode").lazy_load()
