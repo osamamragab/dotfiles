@@ -3,6 +3,7 @@
 xset -b &
 xset s 180 120 &
 xss-lock -n "screenlightctl dim" locker &
+xbacklight -set 80 &
 
 for p in picom pipewire mpd dunst clipmenud remapd dwmblocks "xbanish -i all"; do
 	pidof -qsx "${p%% *}" || $p &
