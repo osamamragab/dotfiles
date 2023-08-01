@@ -51,8 +51,8 @@ bindkey -M vicmd "^[[P" vi-delete-char
 bindkey -M visual "^[[P" vi-delete
 
 bindkey -s "^o" '^uxdg-open "$(fzf-tmux)" >/dev/null\n'
-bindkey -s "^s" '"$(fzf-tmux)"\n'
-bindkey -s "^f" '^ucd "$(dirname "$(fzf-tmux)")"\n'
+bindkey -s "^f" '^ue "$(fzf-tmux)"\n'
+bindkey -s "^g" '^ucd "$(fzf-tmux)"\n'
 bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
 ZSHPLUGINSDIR="${ZSHPLUGINSDIR:-/usr/share/zsh/plugins}"
