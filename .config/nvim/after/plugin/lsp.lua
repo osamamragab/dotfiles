@@ -7,21 +7,23 @@ config.capabilities = vim.tbl_deep_extend(
 	require("cmp_nvim_lsp").default_capabilities()
 )
 
-config.on_attach = function(_, bufnr)
-	local opts = { buffer = bufnr, remap = false }
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-	vim.keymap.set("n", "<leader>gws", vim.lsp.buf.workspace_symbol, opts)
-	vim.keymap.set("n", "<leader>gd", vim.diagnostic.open_float, opts)
-	vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
-	vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
-	vim.keymap.set("n", "<leader>gca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "<leader>grr", vim.lsp.buf.references, opts)
-	vim.keymap.set("n", "<leader>grn", vim.lsp.buf.rename, opts)
-	vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
-	vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, opts)
-end
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(ev)
+		local opts = { buffer = ev.buf, remap = false }
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+		vim.keymap.set("n", "<leader>gws", vim.lsp.buf.workspace_symbol, opts)
+		vim.keymap.set("n", "<leader>gd", vim.diagnostic.open_float, opts)
+		vim.keymap.set("n", "[d", vim.diagnostic.goto_next, opts)
+		vim.keymap.set("n", "]d", vim.diagnostic.goto_prev, opts)
+		vim.keymap.set("n", "<leader>gc", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("n", "<leader>grr", vim.lsp.buf.references, opts)
+		vim.keymap.set("n", "<leader>grn", vim.lsp.buf.rename, opts)
+		vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+		vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, opts)
+  end
+})
 
 vim.diagnostic.config({ virtual_text = true })
 
