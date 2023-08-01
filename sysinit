@@ -77,6 +77,7 @@ yayinst mutt-wizard-git abook
 echo "installing programming stuff"
 pacinst llvm clang lld tcc nasm zig rustup go python pyenv python-pip python-pipx python-pipenv lua luarocks nodejs npm pnpm gdb gef valgrind radare2 delve binutils upx jq cppcheck staticcheck shellcheck tokei hyperfine nix docker docker-compose dive
 rustup default stable && cargo install cargo-update cargo-info
+yayinst pyenv-virtualenv
 
 echo "installing system monitoring tools"
 pacinst socklog perf strace lm_sensors powertop nvtop iotop fio iftop wavemon bandwhich speedtest-cli vnstat vnstat-runit
