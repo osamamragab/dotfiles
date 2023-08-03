@@ -1,6 +1,5 @@
 vim.opt.mouse = ""
 vim.opt.guicursor = ""
-vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.updatetime = 50
 vim.opt.termguicolors = true
 vim.opt.isfname:append("@-@")
