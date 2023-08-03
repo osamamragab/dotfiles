@@ -22,7 +22,7 @@ return require("packer").startup(function(use)
 		"nvim-telescope/telescope.nvim",
 		requires = {
 			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-telescope/telescope-fzy-native.nvim" },
+			{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 		},
 	})
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
