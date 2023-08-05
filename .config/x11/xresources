@@ -1,5 +1,4 @@
 St.font: IBM Plex Mono:pixelsize=18:antialias=true:autohint=true:weight=bold
-St.backgroundSel: #4c566a
 
 *.font: monospace:size=10
 *.alpha: 0.92

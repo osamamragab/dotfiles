@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-LOCAL_PROGRAMS="dwm st dmenu dwmblocks slock sent p"
+LOCAL_PROGRAMS="dwm st dmenu dwmblocks slock sent"
 GIT_PROVIDER="gitlab.com"
 GIT_USERNAME="osamaragab"
 

@@ -7,16 +7,16 @@ autocmd({ "BufNewFile", "BufRead" }, {
 	command = "setlocal ft=c",
 })
 
-autocmd({ "BufNewFile", "BufRead" }, {
-	group = filetype,
-	pattern = "*.dockerfile",
-	command = "setlocal ft=dockerfile",
-})
-
 autocmd("FileType", {
 	group = filetype,
 	pattern = { "python", "ruby", "yaml", "markdown" },
 	command = "setlocal expandtab",
+})
+
+autocmd("BufWritePost", {
+	group = filetype,
+	pattern = { "xdefaults", "Xdefaults", "xresources", "Xresources" },
+	command = "!xrdb %",
 })
 
 autocmd("BufWritePre", {
@@ -27,10 +27,4 @@ autocmd("BufWritePre", {
 		vim.cmd("%s/\\s\\+$//e")
 		vim.fn.setpos(".", cur)
 	end,
-})
-
-autocmd("BufWritePost", {
-	group = filetype,
-	pattern = { "xdefaults", "Xdefaults", "xresources", "Xresources" },
-	command = "!xrdb %",
 })
