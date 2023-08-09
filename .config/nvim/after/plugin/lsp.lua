@@ -12,16 +12,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local opts = { buffer = ev.buf, remap = false }
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-		vim.keymap.set("n", "<leader>aws", vim.lsp.buf.workspace_symbol, opts)
-		vim.keymap.set("n", "<leader>ar", vim.lsp.buf.references, opts)
+		vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+		vim.keymap.set("n", "<leader>ws", vim.lsp.buf.workspace_symbol, opts)
 		vim.keymap.set("n", "<leader>af", vim.diagnostic.open_float, opts)
 		vim.keymap.set("n", "<leader>ak", vim.diagnostic.goto_next, opts)
 		vim.keymap.set("n", "<leader>aj", vim.diagnostic.goto_prev, opts)
-		vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, opts)
-		vim.keymap.set("n", "<leader>vr", vim.lsp.buf.rename, opts)
-		vim.keymap.set("n", "<leader>vf", vim.lsp.buf.format, opts)
-		vim.keymap.set("i", "<C-h>", vim.lsp.buf.signature_help, opts)
+		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+		vim.keymap.set("n", "<leader>bf", vim.lsp.buf.format, opts)
 	end
 })
 

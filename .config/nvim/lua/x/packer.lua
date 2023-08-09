@@ -25,9 +25,14 @@ return require("packer").startup(function(use)
 			{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 		},
 	})
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-	use("nvim-treesitter/nvim-treesitter-context")
-	-- use("nvim-treesitter/playground")
+	use({
+		"nvim-treesitter/nvim-treesitter",
+		run = ":TSUpdate",
+		requires = {
+			{ "nvim-treesitter/nvim-treesitter-context" },
+			-- { "nvim-treesitter/playground" },
+		},
+	})
 	use("gpanders/editorconfig.nvim")
 	use("mbbill/undotree")
 	use("tpope/vim-fugitive")
