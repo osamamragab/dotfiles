@@ -1,3 +1,4 @@
+vim.opt.exrc = true
 vim.opt.mouse = ""
 vim.opt.guicursor = ""
 vim.opt.updatetime = 50
