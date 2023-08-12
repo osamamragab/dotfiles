@@ -1,8 +1,5 @@
 #!/bin/sh
 
-echo 2048 > /sys/class/rtc/rtc0/max_user_freq
-echo 2048 > /proc/sys/dev/hpet/max-user-freq
-
 xset -b &
 xset s 180 120 &
 xss-lock -n "screenlightctl dim" locker &
@@ -15,5 +12,8 @@ done >/dev/null 2>&1
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources"
 xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 ||
 	xsetroot -solid "$(xrdb -get background)"
+
+echo 2048 | doas tee /sys/class/rtc/rtc0/max_user_freq >/dev/null 2>&1
+echo 2048 | doas tee /proc/sys/dev/hpet/max-user-freq >/dev/null 2>&1
 
 exec ssh-agent dwm

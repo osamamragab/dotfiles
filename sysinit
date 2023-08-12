@@ -23,6 +23,14 @@ if ! command -v doas >/dev/null 2>&1; then
 	echo "permit nopass keepenv :wheel" | sudo tee /etc/doas.conf >/dev/null
 fi
 
+if ! command -v yay >/dev/null 2>&1; then
+	echo "installing yay"
+	cd "$PROGRAMSDIR" || exit 1
+	git clone "https://aur.archlinux.org/yay.git" &&
+		cd yay && makepkg -si --noconfirm || exit 1
+	yay --sudo doas --sudoflags -- --save
+fi
+
 alias pacinst="doas pacman -S --needed --noconfirm"
 alias yayinst="yay -S --needed --noconfirm --color=auto"
 
@@ -40,14 +48,6 @@ pacinst iwd iwd-runit dhcpcd dhcpcd-runit ufw ufw-runit bluez bluez-runit bluez-
 
 echo "installing pipewire"
 pacinst pipewire pipewire-audio pipewire-pulse wireplumber pulsemixer
-
-if ! command -v yay >/dev/null 2>&1; then
-	echo "installing yay"
-	cd "$PROGRAMSDIR" || exit 1
-	git clone "https://aur.archlinux.org/yay.git" &&
-		cd yay && makepkg -si --noconfirm || exit 1
-	yay --sudo doas --sudoflags -- --save
-fi
 
 echo "installing general tools"
 pacinst pacman-contrib xdg-utils xdotool xclip xwallpaper acpilight curl wget rsync gnupg openssh openssh-runit sshfs pass pass-otp autofs sysfsutils bc slop maim dunst picom xss-lock time entr snooze mlocate nnn fzy fzf fd ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit yt-dlp tar xz gzip bzip2 zstd zip unzip tlp tlp-runit thermald thermald-runit earlyoom earlyoom-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail fribidi zbar qrencode mediainfo atool tree bat git-delta tig rsm clipmenu translate-shell screenkey z duf realtime-privileges wmname gnome-epub-thumbnailer
