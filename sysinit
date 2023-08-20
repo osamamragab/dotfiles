@@ -50,7 +50,7 @@ echo "installing pipewire"
 pacinst pipewire pipewire-audio pipewire-pulse wireplumber pulsemixer
 
 echo "installing general tools"
-pacinst pacman-contrib xdg-utils xdotool xclip xwallpaper acpilight curl wget rsync gnupg openssh openssh-runit sshfs pass pass-otp autofs sysfsutils bc slop maim dunst picom xss-lock time entr snooze mlocate nnn fzy fzf fd ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit yt-dlp tar xz gzip bzip2 zstd zip unzip tlp tlp-runit thermald thermald-runit earlyoom earlyoom-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail fribidi zbar qrencode mediainfo atool tree bat git-delta tig rsm clipmenu translate-shell screenkey z duf realtime-privileges wmname gnome-epub-thumbnailer
+pacinst pacman-contrib xdg-utils xdotool xclip xwallpaper acpilight curl wget rsync gnupg openssh openssh-runit sshfs pass pass-otp autofs sysfsutils bc slop maim dunst picom xss-lock time entr snooze mlocate nnn fzy fzf fd ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit yt-dlp tar xz gzip bzip2 zstd zip unzip tlp tlp-runit thermald thermald-runit earlyoom earlyoom-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail fribidi zbar qrencode mediainfo atool tree bat git-delta tig rsm clipmenu translate-shell screenkey z duf realtime-privileges gnome-epub-thumbnailer
 yayinst xbanish urlview buku-git dragon-drop sc-im bicon-git wiki-tui
 
 echo "installing manual pages"
@@ -58,7 +58,7 @@ pacinst man-db man-pages texinfo tealdeer
 
 echo "installing text editor & shell"
 pacinst vim neovim tmux dash zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
-yayinst dashbinsh zsh-fast-syntax-highlighting
+yayinst zsh-fast-syntax-highlighting
 
 echo "installing multimedia tools"
 pacinst ffmpeg imagemagick gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp poppler
@@ -115,3 +115,7 @@ if [ ! -d "$packerdir" ]; then
 fi
 
 [ -x "$HERE/.local/bin/sysupdate" ] && "$HERE/.local/bin/sysupdate" local
+
+echo "changing shell"
+chsh -s "$(which zsh)"
+ln -sfT dash /usr/bin/sh
