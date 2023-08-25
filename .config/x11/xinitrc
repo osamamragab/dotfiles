@@ -2,7 +2,7 @@
 
 xset -b &
 xset s 180 120 &
-xss-lock -n "screenlightctl dim" locker &
+xautolock -secure -time 5 -locker locker -notify 120 -notifier "screenlightctl dim" &
 xbacklight -set 80 &
 
 for p in picom pipewire mpd dunst clipmenud remapd dwmblocks "xbanish -i all"; do
@@ -12,8 +12,5 @@ done >/dev/null 2>&1
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources"
 xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 ||
 	xsetroot -solid "$(xrdb -get background)"
-
-#echo 2048 | doas tee /sys/class/rtc/rtc0/max_user_freq >/dev/null 2>&1
-#echo 2048 | doas tee /proc/sys/dev/hpet/max-user-freq >/dev/null 2>&1
 
 exec ssh-agent dwm

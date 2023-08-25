@@ -40,7 +40,7 @@ xi pipewire wireplumber pulsemixer
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-xi xtools xdg-utils xdotool xclip xwallpaper acpilight xbanish curl wget git patch rsync gnupg gnupg2 openssh pass pass-otp openssl-devel bc nq pv slop maim dunst picom xss-lock time entr mlocate nnn fzy fzf fd ripgrep dust ntp scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp thermald earlyoom buku urlview dragon highlight redshift newsboat calcurse sc-im wiki-tui srm lftp hwinfo firejail fribidi zbar qrencode mediainfo tree bat delta tig vsv clipmenu translate-shell screenkey duf gnome-epub-thumbnailer
+xi xtools xdg-utils xdotool xclip xwallpaper acpilight xbanish xautolock curl wget git patch rsync gnupg gnupg2 openssh pass pass-otp openssl-devel bc nq pv slop maim dunst picom time entr mlocate nnn fzy fzf fd ripgrep dust ntp scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp thermald earlyoom buku urlview dragon highlight redshift newsboat calcurse sc-im wiki-tui srm lftp hwinfo firejail fribidi zbar qrencode mediainfo tree bat delta tig vsv clipmenu translate-shell screenkey duf gnome-epub-thumbnailer
 
 echo "installing manual pages"
 xi man-pages man-pages-posix texinfo tealdeer
