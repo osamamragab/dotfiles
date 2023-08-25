@@ -30,10 +30,10 @@ echo "installing xorg & dependencies"
 xi xorg-server xorg-input-drivers xauth xinit libX11-devel libXinerama-devel libXft-devel xsetroot xev
 
 echo "installing drivers"
-xi mesa mesa-utils mesa-vdpau mesa-vaapi xf86-video-amdgpu
+xi mesa mesa-vdpau mesa-vaapi xf86-video-amdgpu
 
 echo "installing network tools"
-xi wpa_supplicant dhcpcd ufw bluez bluez-alsa macchanger
+xi dhcpcd wpa_supplicant ufw bluez bluez-alsa macchanger
 
 echo "installing pipewire"
 xi pipewire wireplumber pulsemixer
@@ -74,16 +74,16 @@ if [ -x "$HERE/setup" ]; then
 fi
 
 echo "installing torrent tools"
-xi rtorrent transmission-cli
+xi rtorrent transmission
 
 echo "installing networking tools"
-xi openbsd-netcat lsof bind-utils wireshark-cli termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis
+xi openbsd-netcat lsof bind-utils wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis
 
 echo "installing markup & latex tools"
 xi pandoc lowdown texlive-basic
 
 echo "installing fonts, themes, icons & sounds"
-xi dejavu-fonts ibm-plex-ttf amiri-font noto-fonts-emoji arc-theme adwaita-icon-theme adwaita-plus sound-theme-freedesktop
+xi dejavu-fonts-ttf font-ibm-plex-ttf amiri-font noto-fonts-emoji arc-theme adwaita-icon-theme adwaita-plus sound-theme-freedesktop
 
 echo "installing programming tools"
 xi gcc llvm clang lld tcc nasm zig rustup go python3 python3-pip python3-pipx python3-pipenv lua luarocks nodejs pnpm gdb gef valgrind radare2 delve binutils upx jq cppcheck shellcheck tokei hyperfine nix docker docker-compose dive
