@@ -21,6 +21,10 @@ alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
 
+alias xi="xbps-install -S"
+alias xr="xbps-remove -R"
+alias xq="xbps-query -R"
+
 alias ip="ip -color=auto"
 alias bc="bc -ql"
 alias nnn="nnn -Rr"
