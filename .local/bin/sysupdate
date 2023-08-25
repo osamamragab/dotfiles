@@ -1,28 +1,23 @@
 #!/bin/sh
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-LOCAL_PROGRAMS="dwm st dmenu dwmblocks slock sent"
+LOCAL_PROGRAMS="dwm st dmenu slock sent dwmblocks"
+REMOTE_REPOS="https://github.com/behdad/bicon https://github.com/rupa/z https://github.com/zdharma-continuum/fast-syntax-highlighting https://github.com/LukeSmithxyz/mutt-wizard"
 GIT_PROVIDER="gitlab.com"
 GIT_USERNAME="osamaragab"
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 
-ifinst() { command -v "$@" >/dev/null 2>&1; }
-
 updatepkgs() {
-	"$sudocmd" pacman -Syu --noconfirm
-	yay -Syua --noconfirm
-	ifinst rustup && rustup update
-	ifinst pnpm && pnpm update -g
-	ifinst gem && gem update
-	ifinst nvim && nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
+	"$sudocmd" xbps-install -Syu
+	command -v rustup >/dev/null 2>&1 && rustup update
 }
 
 updatelocal() {
-	for p in $LOCAL_PROGRAMS; do
-		case "$p" in
+	for name in $LOCAL_PROGRAMS; do
+		case "$name" in
 			dwm|st|dmenu|slock|sent)
-				upstream_url="git://git.suckless.org/$p"
+				upstream_url="git://git.suckless.org/$name"
 				upstream_branch="master"
 				;;
 			dwmblocks)
@@ -30,9 +25,9 @@ updatelocal() {
 				upstream_branch="master"
 				;;
 		esac
-		url="git@$GIT_PROVIDER:$GIT_USERNAME/$p.git"
-		dir="$PROGRAMSDIR/$p"
-		echo "[32m[updating][0m $p ([34m$dir[0m)"
+		url="git@$GIT_PROVIDER:$GIT_USERNAME/$name.git"
+		dir="$PROGRAMSDIR/$name"
+		echo "[32m[updating][0m $name ([34m$dir[0m)"
 		[ -d "$dir" ] || git clone "$url" "$dir"
 		cd "$dir" && git pull || return 1
 		if [ "$upstream_url" ]; then
@@ -40,17 +35,34 @@ updatelocal() {
 			git fetch upstream "$upstream_branch"
 			git merge "upstream/$upstream_branch"
 		fi
-		[ -s .gitmodules ] && git submodule update --init --recursive
-		if [ -s Makefile ] && grep -q "^install:" Makefile; then
-			"$sudocmd" make install || return 1
-			grep -q "^clean:" Makefile && make clean
-		fi
+	"$sudocmd" make install clean
+	done
+	for repo in $REMOTE_REPOS; do
+		name="$(basename "$repo")"
+		git clone "$repo.git" "$PROGRAMSDIR/$name"
+		cd "$PROGRAMSDIR/$name"
+		git pull
+		case "$name" in
+			bicon)
+				./autogen.sh &&
+					./configure &&
+					make &&
+					doas make install
+				;;
+			z)
+				doas cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1 &&
+					doas chmod 644 /usr/local/share/man/man1/z.1
+				;;
+			mutt-wizard)
+				doas make install
+				;;
+		esac
 	done
 }
 
 clean() {
-	"$sudocmd" pacman -Scvv --noconfirm
-	yay -Scvva --noconfirm
+	"$sudocmd" xbps-remove -Ooy
+	"$sudocmd" vkpurge rm all
 }
 
 for cmd in "${@:-all}"; do

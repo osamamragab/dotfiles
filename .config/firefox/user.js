@@ -1,0 +1,11 @@
+user_pref("keyword.enabled", true);
+user_pref("browser.startup.page", 3);
+user_pref("browser.startup.couldRestoreSession.count", 3);
+user_pref("privacy.sanitize.sanitizeOnShutdown", false);
+user_pref("privacy.resistFingerprinting.letterboxing", false);
+user_pref("network.http.referer.XOriginPolicy", 0);
+user_pref("dom.security.https_only_mode", false);
+user_pref("extensions.pocket.enabled", false);
+user_pref("identity.fxaccounts.enabled", true);
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+user_pref("browser.tabs.drawInTitlebar", true);

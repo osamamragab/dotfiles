@@ -2,8 +2,9 @@
 
 HERE="$(dirname "$(readlink -f "$0")")"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
-browserdir="$HOME/.librewolf"
+browserdir="$HOME/.mozilla/firefox"
 
 setupdotfiles() {
 	cp -srfv "$HERE/.config" "$HERE/.local" "$HOME"
@@ -11,17 +12,10 @@ setupdotfiles() {
 	"$sudocmd" cp -srfv "$XDG_CONFIG_HOME/x11/xorg.conf.d" /etc/X11/
 }
 
-setuplibrewolf() {
+setupfirefox() {
 	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
-	ln -sfv "$XDG_CONFIG_HOME/librewolf/librewolf.overrides.cfg" "$browserdir/"
-	[ -f /usr/lib/arkenfox-user.js/user.js ] &&
-		ln -sfv /usr/lib/arkenfox-user.js/user.js "$browserdir/$profile/user.js"
-	chromedir="$browserdir/$profile/chrome"
-	[ -d "$chromedir" ] || mkdir -p "$chromedir"
-	git clone https://github.com/EliverLara/firefox-nordic-theme.git "$chromedir/firefox-nordic-theme"
-	[ -s "$chromedir/userChrome.css" ] &&
-		sed -in '1s:^:@import "firefox-nordic-theme/userChrome.css";\n:' "$chromedir/userChrome.css" ||
-		echo '@import "firefox-nordic-theme/userChrome.css";' > "$chromedir/userChrome.css"
+	[ -d "$PROGRAMSDIR/arkenfox-user.js" ] || git clone https://github.com/arkenfox/user.js "$PROGRAMSDIR/arkenfox-user.js"
+	cat "$PROGRAMSDIR/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
 }
 
 clean() {
@@ -30,15 +24,13 @@ clean() {
 	find "$HOME" -maxdepth 1 -xtype l -exec rm -fv "{}" \;
 	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -exec rm -fv "{}" \;
 	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
-	[ -L "$browserdir/librewolf.overrides.cfg" ] && rm -fv "$browserdir/librewolf.overrides.cfg"
-	[ -L "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
-	[ -d "$browserdir/$profile/chrome" ] && rm -rfv "$browserdir/$profile/chrome"
+	[ -s "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
 }
 
 case "$1" in
-	""|all) setupdotfiles && setuplibrewolf ;;
+	""|all) setupdotfiles && setupfirefox ;;
 	dotfiles) setupdotfiles ;;
-	librewolf) setuplibrewolf ;;
+	firefox) setupfirefox ;;
 	clean) clean ;;
 	*)
 		echo "$(basename "$0"): unknown command \"$1\"" >&2

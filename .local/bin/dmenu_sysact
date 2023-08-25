@@ -7,10 +7,10 @@ case "$sel" in
 	lock) locker ;;
 	exit) kill -TERM "$(pidof -sx dwm)" ;;
 	refresh) kill -HUP "$(pidof -sx dwm)" ;;
-	suspend) doas loginctl suspend -i ;;
-	hibernate) doas loginctl hibernate -i ;;
-	reboot) doas loginctl reboot -i ;;
-	poweroff) doas loginctl poweroff -i ;;
+	suspend) doas zzz -z ;;
+	hibernate) doas zzz -Z ;;
+	reboot) doas reboot ;;
+	poweroff) doas poweroff ;;
 	*)
 		notify-send -u critical -a "$(basename "$0")"  "invalid command" "$sel"
 		exit 1

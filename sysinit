@@ -2,6 +2,8 @@
 # vim: wrap
 
 HERE="$(dirname "$(readlink -f "$0")")"
+PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
+
 if [ -x "$HERE/setup" ]; then
 	echo "running setup dotfiles script..."
 	"$HERE/setup" dotfiles
@@ -10,103 +12,84 @@ fi
 [ -f "$HERE/.config/shell/profile" ] &&
 	DISPLAY="${DISPLAY:-:0}" . "$HERE/.config/shell/profile"
 
-PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 [ -d "$PROGRAMSDIR" ] || mkdir -p "$PROGRAMSDIR"
 
-echo "updating pacman & repos"
-sudo pacman -Sy --needed --noconfirm pacman
-sudo pacman -Syu --noconfirm
+echo "updating packages"
+sudo xbps-install -Syu xbps
+sudo xbps-install -Syu
 
 if ! command -v doas >/dev/null 2>&1; then
 	echo "installing doas"
-	sudo pacman -S --needed --noconfirm opendoas
+	sudo xbps-install -Sy opendoas
 	echo "permit nopass keepenv :wheel" | sudo tee /etc/doas.conf >/dev/null
 fi
 
-if ! command -v yay >/dev/null 2>&1; then
-	echo "installing yay"
-	cd "$PROGRAMSDIR" || exit 1
-	git clone "https://aur.archlinux.org/yay.git" &&
-		cd yay && makepkg -si --noconfirm || exit 1
-	yay --sudo doas --sudoflags -- --save
-fi
+alias xi="doas xbps-install -Sy"
 
-alias pacinst="doas pacman -S --needed --noconfirm"
-alias yayinst="yay -S --needed --noconfirm --color=auto"
-
-echo "installing base & build tools"
-pacinst base base-devel git
+echo "installing xorg & dependencies"
+xi xorg-server xorg-input-drivers xauth xinit libX11-devel libXinerama-devel libXft-devel xsetroot xev
 
 echo "installing drivers"
-pacinst mesa mesa-utils mesa-vdpau libva-mesa-driver xf86-video-amdgpu vulkan-intel amdvlk intel-ucode
-
-echo "installing xorg & elogind"
-pacinst xorg-server xorg-xinit xorg-xsetroot xorg-xev elogind elogind-runit
+xi mesa mesa-utils mesa-vdpau mesa-vaapi xf86-video-amdgpu
 
 echo "installing network tools"
-pacinst iwd iwd-runit dhcpcd dhcpcd-runit ufw ufw-runit bluez bluez-runit bluez-utils
+xi wpa_supplicant dhcpcd ufw bluez bluez-alsa macchanger
 
 echo "installing pipewire"
-pacinst pipewire pipewire-audio pipewire-pulse wireplumber pulsemixer
+xi pipewire wireplumber pulsemixer dbus
 
 echo "installing general tools"
-pacinst pacman-contrib xdg-utils xdotool xclip xwallpaper acpilight curl wget rsync gnupg openssh openssh-runit sshfs pass pass-otp autofs sysfsutils bc slop maim dunst picom xss-lock time entr snooze mlocate nnn fzy fzf fd ripgrep dust ntp ntp-runit cronie cronie-runit libnotify darkhttpd darkhttpd-runit yt-dlp tar xz gzip bzip2 zstd zip unzip tlp tlp-runit thermald thermald-runit earlyoom earlyoom-runit highlight redshift newsboat calcurse srm lftp hwinfo firejail fribidi zbar qrencode mediainfo atool tree bat git-delta tig rsm clipmenu translate-shell screenkey z duf realtime-privileges gnome-epub-thumbnailer
-yayinst xbanish urlview buku-git dragon-drop sc-im bicon-git wiki-tui
+xi xtools xdg-utils xdotool xclip xwallpaper acpilight xbanish curl wget git rsync gnupg gnupg2 openssh pass pass-otp openssl-devel bc nq pv slop maim dunst picom xss-lock time entr mlocate nnn fzy fzf fd ripgrep dust ntp scron libnotify darkhttpd yt-dlp tar xz gzip bzip2 zstd zip unzip tlp thermald earlyoom buku urlview dragon highlight redshift newsboat calcurse sc-im wiki-tui srm lftp hwinfo firejail fribidi zbar qrencode mediainfo tree bat delta tig vsv clipmenu translate-shell screenkey duf gnome-epub-thumbnailer
 
 echo "installing manual pages"
-pacinst man-db man-pages texinfo tealdeer
+xi man-pages man-pages-posix texinfo tealdeer
 
 echo "installing text editor & shell"
-pacinst vim neovim tmux dash zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
-yayinst zsh-fast-syntax-highlighting
+xi vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
 
 echo "installing multimedia tools"
-pacinst ffmpeg imagemagick gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp poppler
+xi ffmpeg ImageMagick gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp
 
 echo "installing filesystems support"
-pacinst fuse3 exfat-utils mtpfs
-yayinst simple-mtpfs
+xi fuse3 autofs exfat-utils fuse-sshfs mtpfs simple-mtpfs
 
 echo "installing music players"
-pacinst mpd mpc ncmpcpp
+xi mpd mpc ncmpcpp
 
 echo "installing email tools"
-pacinst neomutt msmtp isync notmuch
-yayinst mutt-wizard-git abook
-
-echo "installing programming stuff"
-pacinst llvm clang lld tcc nasm zig rustup go python pyenv python-pip python-pipx python-pipenv lua luarocks nodejs npm pnpm gdb gef valgrind radare2 delve binutils upx jq cppcheck staticcheck shellcheck tokei hyperfine nix docker docker-compose dive
-rustup default stable && cargo install cargo-update cargo-info
-yayinst pyenv-virtualenv
+xi neomutt isync msmtp notmuch abook gettext
 
 echo "installing system monitoring tools"
-pacinst socklog perf strace lm_sensors powertop nvtop iotop fio iftop wavemon bandwhich speedtest-cli vnstat vnstat-runit
-yayinst htop-vim
+xi strace lm_sensors socklog-void htop nvtop iotop iftop
 
 echo "installing internet stuff"
-pacinst librewolf tor lynx w3m amfora weechat
-yayinst arkenfox-user.js
+xi firefox tor lynx w3m amfora weechat
 if [ -x "$HERE/setup" ]; then
-	echo "running setup librewolf script..."
-	librewolf --headless >/dev/null 2>&1 &
+	echo "running setup firefox script..."
+	firefox --headless >/dev/null 2>&1 &
 	sleep 1
-	"$HERE/setup" librewolf
-	pkill librewolf
+	"$HERE/setup" firefox
+	pkill firefox
 fi
 
 echo "installing torrent tools"
-pacinst rtorrent transmission-cli transmission-runit
+xi rtorrent transmission-cli
 
 echo "installing networking tools"
-pacinst nmap openbsd-netcat lsof inetutils iputils net-tools ldns traceroute mtr wireshark-cli socat websocat mitmproxy termshark iperf3 arp-scan tcpreplay bettercap macchanger sqlmap gping netsniff-ng aircrack-ng proxychains-ng sslscan urh xh
-yayinst wrk nemesis
+xi openbsd-netcat lsof bind-utils wireshark-cli termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis
 
 echo "installing markup & latex tools"
-pacinst pandoc-bin lowdown texlive-basic
+xi pandoc lowdown texlive-basic
 
-echo "installing fonts, themes & icons"
-pacinst libertinus-font ttf-dejavu ttf-ibm-plex noto-fonts noto-fonts-emoji adwaita-icon-theme
-yayinst ttf-amiri adwaita-plus-git nordic-darker-theme
+echo "installing fonts, themes, icons & sounds"
+xi dejavu-fonts ibm-plex-ttf amiri-font noto-fonts-emoji arc-theme adwaita-icon-theme adwaita-plus sound-theme-freedesktop
+
+echo "installing programming tools"
+xi gcc llvm clang lld tcc nasm zig rustup go python3 python3-pip python3-pipx python3-pipenv lua luarocks nodejs pnpm gdb gef valgrind radare2 delve binutils upx jq cppcheck shellcheck tokei hyperfine nix docker docker-compose dive
+rustup-init -y --no-modify-path &&
+	rustup default stable &&
+	cargo install cargo-update cargo-info
+go install honnef.co/go/tools/cmd/staticcheck@latest
 
 packerdir="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim"
 if [ ! -d "$packerdir" ]; then
@@ -118,4 +101,3 @@ fi
 
 echo "changing shell"
 chsh -s "$(which zsh)"
-ln -sfT dash /usr/bin/sh

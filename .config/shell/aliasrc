@@ -21,7 +21,6 @@ alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
 
-alias pm="pacman"
 alias ip="ip -color=auto"
 alias bc="bc -ql"
 alias nnn="nnn -Rr"
@@ -39,7 +38,7 @@ alias sxiv="nsxiv"
 command -v nvim >/dev/null 2>&1 && alias vim="nvim" vimdiff="nvim -d" vi="nvim --noplugin"
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
-for cmd in su mount umount updatedb reboot poweroff shutdown sv rsm pacman; do
+for cmd in su mount umount updatedb reboot poweroff shutdown sv vsv xbps-install xbps-remove; do
 	alias $cmd="$sudocmd $cmd"
 done
 unset sudocmd cmd

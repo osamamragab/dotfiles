@@ -14,7 +14,7 @@ precmd() {
 	vcs_info
 	echo -ne "\e[1 q"
 }
-PS1='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
+PROMPT='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
 
 HISTSIZE=999999999
 SAVEHIST=$HISTSIZE
@@ -55,9 +55,11 @@ bindkey -s "^f" '^ue "$(fzf-tmux)"\n'
 bindkey -s "^g" '^ucd "$(dirname "$(fzf-tmux)")"\n'
 bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
+PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 ZSHPLUGINSDIR="${ZSHPLUGINSDIR:-/usr/share/zsh/plugins}"
-[ -f "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
-	. "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+
+[ -f "$PROGRAMSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
+	. "$PROGRAMSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 if [ -f "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]; then
 	ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 	. "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
@@ -70,4 +72,4 @@ if [ -f "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-searc
 	bindkey "^[[B" history-substring-search-down
 fi
 
-[ -f "/usr/share/z/z.sh" ] && . "/usr/share/z/z.sh"
+[ -f "$PROGRAMSDIR/z/z.sh" ] && . "$PROGRAMSDIR/z/z.sh"
