@@ -1,14 +1,14 @@
 #!/bin/sh
 
 xset -b &
-xset s 180 120 &
-xautolock -secure -time 5 -locker locker -notify 120 -notifier "screenlightctl dim" &
-xbacklight -set 80 &
+xset s 120 180 &
+xss-lock -n "screenlightctl dim" locker &
 
 for p in picom pipewire mpd dunst clipmenud remapd dwmblocks "xbanish -i all"; do
 	pidof -qsx "${p%% *}" || $p &
 done >/dev/null 2>&1
 
+xbacklight -set 80
 xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources"
 xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 ||
 	xsetroot -solid "$(xrdb -get background)"
