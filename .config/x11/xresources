@@ -1,17 +1,6 @@
-St.font: IBM Plex Mono:pixelsize=18:antialias=true:autohint=true:weight=bold
-
 *.font: monospace:size=10
-*.alpha: 0.92
-*.alphaOffset: 0.3
-
 *.foreground: #d8dee9
 *.background: #242933
-*.borderColor: #4c566a
-*.foregroundSel: #eceff4
-*.backgroundSel: #5e81ac
-*.borderColorSel: #5e81ac
-*.cursorColor: #d8dee9
-
 *.color0: #3b4252
 *.color1: #bf616a
 *.color2: #a3be8c
