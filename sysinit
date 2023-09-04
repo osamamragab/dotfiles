@@ -29,8 +29,8 @@ alias xi="doas xbps-install -Sy"
 echo "installing xorg & dependencies"
 xi xorg-server xorg-input-drivers xauth xinit libX11-devel libXinerama-devel libXft-devel xset xsetroot xev
 
-echo "installing drivers"
-xi mesa mesa-vdpau mesa-vaapi xf86-video-amdgpu
+echo "installing drivers & firmware"
+xi mesa mesa-dri mesa-vdpau mesa-vaapi xf86-video-amdgpu linux-firmware intel-video-accel
 
 echo "installing network tools"
 xi dhcpcd wpa_supplicant ufw bluez bluez-alsa macchanger
