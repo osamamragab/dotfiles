@@ -9,3 +9,4 @@ user_pref("extensions.pocket.enabled", false);
 user_pref("identity.fxaccounts.enabled", true);
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 user_pref("browser.tabs.drawInTitlebar", true);
+user_pref("accessibility.typeaheadfind.enablesound", false);
