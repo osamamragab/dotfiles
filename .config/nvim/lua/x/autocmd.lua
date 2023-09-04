@@ -19,6 +19,12 @@ autocmd("BufWritePost", {
 	command = "!xrdb %",
 })
 
+autocmd("BufWritePost", {
+	group = filetype,
+	pattern = "sxhkdrc",
+	command = "!pkill -SIGUSR1 sxhkd"
+})
+
 autocmd("BufWritePre", {
 	group = filetype,
 	pattern = "*",
