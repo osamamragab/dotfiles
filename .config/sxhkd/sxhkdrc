@@ -1,0 +1,70 @@
+super + q
+	dmenu_sysact
+
+super + shift + q
+	dmenu_sysact lock
+
+alt + shift + b
+	$BROWSER
+
+alt + shift + @{f,m,e}
+	$TERMINAL -e bicon.bin {nnn -Rrn,ncmpcpp,neomutt}
+
+alt + shift + i
+	dmenu_handler
+
+alt + shift + o
+	clipmenu
+
+alt + shift + p
+	passmenu
+
+alt + shift + {period,comma,space,slash}
+	mpc -q {next,prev,toggle,seek 0}
+
+alt + shift + backslash
+	dunstctl close-all
+
+alt + F1
+	dmenu_projects
+
+alt + F2
+	dmenu_mount
+
+alt + shift + F2
+	dmenu_umount
+
+alt + F3
+	redshift -P -O 4500 -g 0.95
+
+alt + F4
+	redshift -x
+
+alt + F7
+	$TERMINAL -n floatterm -e pulsemixer \
+	pkill -x -RTMIN+7 dwmblocks
+
+alt + F11
+	$TERMINAL -n floatterm -e wpa_cli \
+	pkill -x -RTMIN+5 dwmblocks
+
+Print
+	dmenu_screenshot
+
+alt + Print
+	dmenu_record
+
+alt + ctrl + Print
+	dmenu_record stop
+
+alt + shift + {equal,minus,BackSpace}
+	volumectl {inc,dec,toggle}
+
+XF86Audio{RaiseVolume,LowerVolume,Mute}
+	volumectl {inc,dec,toggle}
+
+XF86AudioMicMute
+	amixer -q set Capture toggle
+
+XF86MonBrightness{Up,Down}
+	screenlightctl {inc,dec}
