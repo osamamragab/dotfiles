@@ -39,9 +39,10 @@ updatelocal() {
 	done
 	for repo in $REMOTE_REPOS; do
 		name="$(basename "$repo")"
-		git clone "$repo.git" "$PROGRAMSDIR/$name"
-		cd "$PROGRAMSDIR/$name"
-		git pull
+		dir="$PROGRAMSDIR/$name"
+		echo "[32m[updating][0m $name ([34m$dir[0m)"
+		[ -d "$dir" ] || git clone "$repo.git" "$dir"
+		cd "$dir" && git pull || return 1
 		case "$name" in
 			bicon)
 				./autogen.sh &&
