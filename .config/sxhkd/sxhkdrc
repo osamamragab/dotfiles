@@ -41,12 +41,10 @@ alt + F4
 	redshift -x
 
 alt + F7
-	$TERMINAL -n floatterm -e pulsemixer \
-	pkill -x -RTMIN+7 dwmblocks
+	$TERMINAL -n floatterm -e pulsemixer; pkill -x -RTMIN+7 dwmblocks
 
 alt + F11
-	$TERMINAL -n floatterm -e wpa_cli \
-	pkill -x -RTMIN+5 dwmblocks
+	$TERMINAL -n floatterm -e wpa_cli; pkill -x -RTMIN+5 dwmblocks
 
 Print
 	dmenu_screenshot
