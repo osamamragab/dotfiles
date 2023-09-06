@@ -22,7 +22,7 @@ autocmd("BufWritePost", {
 autocmd("BufWritePost", {
 	group = filetype,
 	pattern = "sxhkdrc",
-	command = "!pkill -SIGUSR1 sxhkd"
+	command = "!pkill -SIGUSR1 sxhkd",
 })
 
 autocmd("BufWritePre", {
