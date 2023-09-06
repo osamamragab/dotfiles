@@ -1,0 +1,5 @@
+return {
+	{
+		"gpanders/editorconfig.nvim",
+	},
+}

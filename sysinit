@@ -92,12 +92,6 @@ rustup-init -y --no-modify-path &&
 	cargo install cargo-update cargo-info
 go install honnef.co/go/tools/cmd/staticcheck@latest
 
-packerdir="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer/start/packer.nvim"
-if [ ! -d "$packerdir" ]; then
-	echo "installing packer.nvim"
-	git clone --depth 1 "https://github.com/wbthomason/packer.nvim" "$packerdir"
-fi
-
 [ -x "$HERE/.local/bin/sysupdate" ] && "$HERE/.local/bin/sysupdate" local
 
 echo "changing shell"
