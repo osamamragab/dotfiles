@@ -31,6 +31,6 @@
 
 [play_sound]
 	summary = "*"
-	script = ~/.local/bin/dunstplaysound
+	script = ~/.local/bin/dunst_playsound
 
 # vim: ft=cfg
