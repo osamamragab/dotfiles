@@ -1,20 +1,8 @@
-#!/usr/bin/env python3
+#!/bin/sh
 
-import pathlib
-import json
-import lz4.block
+browserdir="$HOME/.mozilla/firefox"
+profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
 
-files = (
-    pathlib.Path.home()
-    .joinpath(".mozilla/firefox")
-    .glob("*default*/sessionstore-backups/recovery.js*")
-)
-for f in files:
-    b = f.read_bytes()
-    if b[:8] == b"mozLz40\0":
-        b = lz4.block.decompress(b[8:])
-    j = json.loads(b)
-    for w in j["windows"]:
-        for t in w["tabs"]:
-            e = t["entries"][t["index"] - 1]
-            print(f"{e['title']} ({e['url']})")
+for file in "$browserdir/$profile/sessionstore-backups/recovery.jsonlz4"; do
+	lz4jsoncat "$file" | jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
+done
