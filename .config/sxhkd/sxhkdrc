@@ -26,7 +26,7 @@ alt + shift + backslash
 	dunstctl close-all
 
 alt + F1
-	dmenu_dir "$HOME/src" 2
+	dmenu_dirterm "$HOME/src" 2
 
 alt + F2
 	dmenu_mount
