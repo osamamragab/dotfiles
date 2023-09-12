@@ -9,12 +9,12 @@ stoprecording() {
 }
 
 if [ -f /tmp/recordingpid ]; then
-	res="$(printf "no\\nyes" | dmenu -i -p "stop current recording?")"
+	res="$(printf "no\\nyes" | dmenu -i -r -p "stop current recording?")" || exit 1
 	[ "$res" = "yes" ] && stoprecording
 	exit 0
 fi
 
-sel="${1:-$(printf "screencast\\nvideo\\nvideo-select\\naudio\\nwebcam\\nwebcam-hidef" | dmenu -i -F -l 6 -p "record:")}" || exit 1
+sel="${1:-$(printf "screencast\\nvideo\\nvideo-select\\naudio\\nwebcam\\nwebcam-hidef" | dmenu -i -r -l 6 -p "record:")}" || exit 1
 dir="$(xdg-user-dir VIDEOS)"
 now="$(date "+%Y%m%d-%H%M%S")"
 
@@ -77,7 +77,6 @@ case "$sel" in
 		[ -f /tmp/recordingpid ] || exit 1
 		stoprecording; exit $?
 		;;
-	*) exit 1 ;;
 esac
 
 echo $! >/tmp/recordingpid

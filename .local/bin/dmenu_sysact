@@ -1,8 +1,6 @@
 #!/bin/sh
 
-sel="${1:-$(printf "lock\nexit\nrefresh\nsuspend\nhibernate\nreboot\npoweroff" | dmenu -i)}"
-[ -z "$sel" ] && exit 1
-
+sel="${1:-$(printf "lock\nexit\nrefresh\nsuspend\nhibernate\nreboot\npoweroff" | dmenu -i -r -p "sysact:")}" || exit 1
 case "$sel" in
 	lock) locker ;;
 	exit) kill -TERM "$(pidof -sx dwm)" ;;
@@ -11,8 +9,4 @@ case "$sel" in
 	hibernate) doas zzz -Z ;;
 	reboot) doas reboot ;;
 	poweroff) doas poweroff ;;
-	*)
-		notify-send -u critical -a "$(basename "$0")"  "invalid command" "$sel"
-		exit 1
-		;;
 esac

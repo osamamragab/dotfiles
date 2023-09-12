@@ -26,7 +26,7 @@ case "${sel##\~/}" in
 	vids) dl -q -o "$path/%(title)s.%(ext)s" "$url" ;;
 	music) dl -q -a -o "$path/%(title)s.%(ext)s" "$url" ;;
 	*)
-		type="$(printf "generic\nvideo\naudio" | dmenu -i -F -r -p "type:")" || exit 1
+		type="$(printf "generic\nvideo\naudio" | dmenu -i -r -p "type:")" || exit 1
 		case "$type" in
 			generic) wget -q --content-disposition -O "$path/$(basename "$url" | cut -d "?" -f 1)" "$url" ;;
 			video) dl -q -o "$path/%(title)s.%(ext)s" "$url" ;;
