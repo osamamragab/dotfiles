@@ -7,8 +7,8 @@ super + shift + q
 alt + shift + b
 	$BROWSER
 
-alt + shift + @{f,m,e}
-	$TERMINAL -e bicon.bin {nnn -Rrn,ncmpcpp,neomutt}
+alt + shift + @{f,e,m}
+	$TERMINAL -e bicon.bin {nnn -Rrn,neomutt,ncmpcpp}
 
 alt + shift + i
 	dmenu_handler
@@ -26,7 +26,7 @@ alt + shift + backslash
 	dunstctl close-all
 
 alt + F1
-	dmenu_projects
+	dmenu_dir "$HOME/src" 2
 
 alt + F2
 	dmenu_mount
