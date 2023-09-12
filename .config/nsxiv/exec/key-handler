@@ -8,7 +8,7 @@ while read -r f; do
 		R) convert -rotate -90 "$f" "$f" ;;
 		f) convert -flop "$f" "$f" ;;
 		i) notify-send "file info" "$(mediainfo "$f" | sed "s/[ ]\+:/:/g;s/: /: <b>/;s/$/<\/b>/" | grep "<b>")" & ;;
-		d) [ "$(printf "no\nyes" | dmenu -i -p "delete $f?")" = "yes" ] && rm "$f" && notify-send "$f deleted" & ;;
+		d) [ "$(printf "no\nyes" | dmenu -i -r -p "delete $f?")" = "yes" ] && rm "$f" && notify-send "$f deleted" & ;;
 		D) rm "$f" && notify-send "$f deleted" & ;;
 		y) printf "%s" "$f" | tr -d "\n" | xclip -sel clip && notify-send "$f copied to clipboard" & ;;
 		Y) rf="$(readlink -f "$f")"; printf "%s" "$rf" | tr -d "\n" | xclip -sel clip && notify-send "$rf copied to clipboard" & ;;
