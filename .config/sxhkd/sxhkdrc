@@ -28,12 +28,6 @@ alt + shift + backslash
 alt + F1
 	dmenu_dirterm "$HOME/src" 2
 
-alt + F2
-	dmenu_mount
-
-alt + shift + F2
-	dmenu_umount
-
 alt + F3
 	redshift -P -O 4500 -g 0.95
 
