@@ -1,9 +1,9 @@
 #!/bin/sh
 
-PROJECTSDIR="${PROJECTSDIR:-$HOME/projects}"
+SRCDIR="${SRCDIR:-$HOME/src}"
 
-prosel() {
-	find "$PROJECTSDIR" -mindepth 2 -maxdepth 2 -type d -printf "%T@ %P\n" |
+dirsel() {
+	find "$SRCDIR" -mindepth 2 -maxdepth 2 -type d -printf "%T@ %P\n" |
 		sort -nr |
 		cut -d " " -f 2- |
 		fzy
@@ -15,7 +15,7 @@ case "$1" in
 		shift
 		;;
 	-|"")
-		dir="$PROJECTSDIR/$(prosel)" || exit $?
+		dir="$SRCDIR/$(dirsel)" || exit $?
 		[ $# -gt 0 ] && shift
 		;;
 	*)
