@@ -10,7 +10,6 @@ alias ln="ln -iv"
 alias mv="mv -iv"
 alias rm="rm -Iv"
 alias ls="ls -hF --color=auto --group-directories-first"
-alias la="ls -A"
 alias ll="ls -lA"
 alias grep="grep --color=auto"
 alias gr="grep --exclude-dir={.git,node_modules} -Hnr"
@@ -34,12 +33,9 @@ alias ccat="highlight -O ansi"
 alias rsync="rsync -vrPlu"
 alias ffmpeg="ffmpeg -hide_banner"
 alias urls="grep -aohE '(((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-zA-Z0-9.]*[:;a-zA-Z0-9./+@$&%?$\#=_~-]*)|((magnet:\\?xt=urn:btih:)[a-zA-Z0-9]*)'"
-alias sxiv="nsxiv"
 
 [ -f "$XINITRC" ] && alias startx="startx $XINITRC"
 [ -f "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC"
-
-command -v nvim >/dev/null 2>&1 && alias vim="nvim" vimdiff="nvim -d" vi="nvim --noplugin"
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 for cmd in su mount umount updatedb zzz ZZZ reboot poweroff shutdown sv vsv xbps-install xbps-remove; do
