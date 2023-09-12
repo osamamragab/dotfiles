@@ -19,46 +19,20 @@
 [rebase]
 	autoStash = true
 
-[color]
-	branch = auto
-	diff = auto
-	interactive = auto
-	status = auto
-	ui = true
-
-[color "branch"]
-	current = green
-	remote = yellow
-
 [alias]
 	co = checkout
+	cm = commit -m
 	st = status -sb
 	br = branch
-	ci = commit
-	ca = commit -a
-	cm = commit -m
-	cam = commit -am
-	fo = fetch origin
-	dt = difftool
 	cl = clone
-	cld = clone --depth 1
-	clb = clone --bare
-	unstage = reset HEAD --
-	undo = reset --soft HEAD^
-	logg = log --oneline --graph --decorate
-	lastcm = log -1 HEAD
-	tree = ls-tree --full-tree -r HEAD
-	ls = ls-files
+	dt = difftool
 	wt = worktree
-
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+	ls = ls-files
+	tree = ls-tree --full-tree -r HEAD
+	logg = log --oneline --graph --decorate
 
 [delta]
+	side-by-side = false
 	line-numbers = true
 	syntax-theme = Nord
-	side-by-side = false
 	file-modified-label = modified:
