@@ -15,6 +15,7 @@ precmd() {
 	echo -ne "\e[1 q"
 }
 PROMPT='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
+[ -n "$SSH_TTY" ] && PROMPT="%F{magenta}[%M] $PROMPT"
 
 HISTSIZE=999999999
 SAVEHIST=$HISTSIZE
