@@ -10,8 +10,6 @@ for p in sxhkd pipewire mpd dunst clipmenud dwmblocks "xbanish -i all"; do
 done >/dev/null 2>&1
 
 xbacklight -set 80 &
-xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources"
-xwallpaper --zoom "${XDG_DATA_HOME:-$HOME/.local/share}/bg" >/dev/null 2>&1 ||
-	xsetroot -solid "$(xrdb -get background)"
+(xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" && xsetroot -solid "$(xrdb -get background)") &
 
 exec ssh-agent dwm
