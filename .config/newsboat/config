@@ -1,0 +1,28 @@
+auto-reload yes
+
+bind-key h quit
+bind-key k up
+bind-key j down
+bind-key l open
+bind-key k prev articlelist
+bind-key j next articlelist
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+bind-key g home
+bind-key G end
+bind-key ^D pagedown
+bind-key ^U pageup
+bind-key a toggle-article-read
+bind-key n next-unread
+bind-key N prev-unread
+bind-key u show-urls
+bind-key o open-in-browser
+bind-key z pb-download
+bind-key x pb-delete
+
+color listnormal white default
+color listnormal_unread blue default
+color listfocus white default bold standout
+color listfocus_unread blue default bold standout
+color article white default bold
+color info red black bold
