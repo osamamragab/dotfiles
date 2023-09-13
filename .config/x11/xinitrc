@@ -5,7 +5,7 @@ xset r rate 200 50 &
 xset s 120 180 &
 xss-lock -n "screenlightctl dim" locker &
 
-for p in sxhkd picom pipewire mpd dunst clipmenud dwmblocks "xbanish -i all"; do
+for p in sxhkd pipewire mpd dunst clipmenud dwmblocks "xbanish -i all"; do
 	pidof -qsx "${p%% *}" || $p &
 done >/dev/null 2>&1
 
