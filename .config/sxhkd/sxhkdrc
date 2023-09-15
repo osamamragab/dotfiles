@@ -5,7 +5,7 @@ super + shift + q
 	dmenu_sysact lock
 
 alt + shift + b
-	$BROWSER
+	DRI_PRIME=1 $BROWSER
 
 alt + shift + @{f,e,m}
 	$TERMINAL -e bicon.bin {nnn -Rrn,neomutt,ncmpcpp}
