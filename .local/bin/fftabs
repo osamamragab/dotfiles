@@ -3,6 +3,5 @@
 browserdir="$HOME/.mozilla/firefox"
 profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
 
-for file in "$browserdir/$profile/sessionstore-backups/recovery.jsonlz4"; do
-	lz4jsoncat "$file" | jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
-done
+lz4jsoncat "$browserdir/$profile/sessionstore-backups/recovery.jsonlz4" |
+	jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
