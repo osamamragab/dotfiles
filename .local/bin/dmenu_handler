@@ -1,19 +1,12 @@
 #!/bin/sh
 
 input="${1:-$(xclip -o | dmenu -p "input:")}" || exit 1
-action="$(printf "copy\ndl\nbrowser\nsurf\nlynx\nmpv\nbookmark\nsearch duckduckgo\nsearch google\nsearch youtube\nsearch reddit\nsearch stackoverflow\nsearch wikipedia" | dmenu -i -r -p "action:")" || exit 1
+action="$(printf "copy\ndl\nbrowser\nmpv\nbookmark\ntranslate" | dmenu -i -r -p "action:")" || exit 1
 case "$action" in
 	copy) printf "%s" "$input" | xclip -sel clip ;;
 	dl) dmenu_dl "$input" ;;
-	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
-	surf) setsid -f surf "$input" >/dev/null 2>&1 ;;
-	lynx) setsid -f "$TERMINAL" -e lynx "$input" >/dev/null 2>&1 ;;
 	mpv) setsid -f mpv --really-quiet "$input" >/dev/null 2>&1 ;;
+	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
 	bookmark) buku -a "$input" || notify-send -u critical -a "$(basename "$0")" "bookmark" "adding '$input' failed" ;;
-	"search duckduckgo") xdg-open "https://duckduckgo.com/?q=$input" ;;
-	"search google") xdg-open "https://www.google.com/search?q=$input" ;;
-	"search youtube") xdg-open "https://www.youtube.com/results?search_query=$input" ;;
-	"search reddit") xdg-open "https://www.reddit.com/search/?q=$input&include_over_18=1" ;;
-	"search stackoverflow") xdg-open "https://stackoverflow.com/search?q=$input" ;;
-	"search wikipedia") xdg-open "https://www.wikipedia.org/w/index.php?search=$input" ;;
+	translate) notify-send -a "$(basename "$0")" "$input" "$(trans -no-ansi -no-bidi "$input")" ;;
 esac
