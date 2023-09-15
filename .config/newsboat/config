@@ -1,5 +1,8 @@
 auto-reload yes
 
+save-path "~/dls/feed"
+download-path "~/dls/feed/pod"
+
 bind-key h quit
 bind-key k up
 bind-key j down
@@ -18,6 +21,7 @@ bind-key N prev-unread
 bind-key u show-urls
 bind-key o open-in-browser
 bind-key z pb-download
+bind-key Z pb-toggle-download-all
 bind-key x pb-delete
 
 color listnormal white default
