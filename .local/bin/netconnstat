@@ -1,9 +1,16 @@
 #!/bin/sh
 
-if grep -xq "up" /sys/class/net/w*/operstate 2>/dev/null; then
-	wifiicon="$(awk '/^\s*w/ { print "📶", int($3 * 100 / 70) "% " }' /proc/net/wireless)"
-elif grep -xq "down" /sys/class/net/w*/operstate 2>/dev/null; then
-	grep -xq "0x1003" /sys/class/net/w*/flags && wifiicon="📡 " || wifiicon="❌ "
-fi
+[ "$(cat /sys/class/net/e*/operstate 2>/dev/null)" = "up" ] && eth="E" || eth="E!"
 
-printf "%s%s%s\n" "$wifiicon" "$(sed "s/down/❎/;s/up/🌐/" /sys/class/net/e*/operstate 2>/dev/null)" "$(sed "s/.*/🔒/" /sys/class/net/tun*/operstate 2>/dev/null)"
+case "$(cat /sys/class/net/w*/operstate 2>/dev/null)" in
+	up)
+		wifi=" W $(awk '/^\s*w/{print int($3*100/70)}' /proc/net/wireless)%"
+		;;
+	down)
+		[ "$(cat /sys/class/net/w*/flags 2>/dev/null)" = "0x1003" ] && wifi=" W?" || wifi=" W!"
+		;;
+esac
+
+[ -n "$(cat /sys/class/net/tun*/operstate 2>/dev/null)" ] && tun=" [TUN]"
+
+echo "$eth$wifi$tun"
