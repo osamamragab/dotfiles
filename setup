@@ -7,9 +7,10 @@ sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 browserdir="$HOME/.mozilla/firefox"
 
 setupdotfiles() {
-	cp -srfv "$HERE/.config" "$HERE/.local" "$HOME"
+	cp -srfv -t "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-	"$sudocmd" cp -srfv "$XDG_CONFIG_HOME/x11/xorg.conf.d" /etc/X11/
+	"$sudocmd" cp -srfv -t /etc/X11 "$XDG_CONFIG_HOME/x11/xorg.conf.d"
+	"$sudocmd" cp -srfv -t /etc "$XDG_CONFIG_HOME/acpi" "$XDG_CONFIG_HOME/zzz.d"
 }
 
 setupfirefox() {
@@ -22,7 +23,7 @@ clean() {
 	cd "$HERE" || exit 1
 	find .config .local -type f -exec rm -fv "$HOME/{}" \;
 	find "$HOME" -maxdepth 1 -xtype l -exec rm -fv "{}" \;
-	"$sudocmd" find /etc/X11/xorg.conf.d -xtype l -exec rm -fv "{}" \;
+	"$sudocmd" find /etc/X11/xorg.conf.d /etc/acpi /etc/zzz.d -xtype l -exec rm -fv "{}" \;
 	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
 	[ -s "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
 }

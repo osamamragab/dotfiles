@@ -1,0 +1,9 @@
+#!/bin/sh
+
+export XAUTHORITY="${XAUTHORITY:-/run/user/1000/Xauthority}"
+
+for sock in /tmp/.X11-unix/*; do
+	[ -S "$sock" ] && DISPLAY=":${sock##*/X}" xset s activate
+done
+
+sleep 1
