@@ -11,6 +11,7 @@ setupdotfiles() {
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
 	"$sudocmd" cp -srfv -t /etc/X11 "$XDG_CONFIG_HOME/x11/xorg.conf.d"
 	"$sudocmd" cp -srfv -t /etc "$XDG_CONFIG_HOME/acpi" "$XDG_CONFIG_HOME/zzz.d"
+	"$sudocmd" cp -fv "$XDG_CONFIG_HOME/doas/doas.conf" /etc/doas.conf
 }
 
 setupfirefox() {

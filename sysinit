@@ -21,7 +21,6 @@ sudo xbps-install -Syu
 if ! command -v doas >/dev/null 2>&1; then
 	echo "installing doas"
 	sudo xbps-install -Sy opendoas
-	echo "permit nopass keepenv :wheel" | sudo tee /etc/doas.conf >/dev/null
 fi
 
 alias xi="doas xbps-install -Sy"
