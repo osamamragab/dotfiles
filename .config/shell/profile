@@ -70,11 +70,10 @@ export LESS="-R"
 export LESSOPEN="| /usr/bin/highlight -O ansi %s 2>/dev/null"
 export MANPAGER="less -R --use-color -Dd+b -Duc"
 
-doas loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
+doas -n loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
 
-doas chmod 755 /run/user
-doas mkdir -p "$XDG_RUNTIME_DIR"
-doas chown "$UID:$UID" "$XDG_RUNTIME_DIR"
-doas chmod 700 "$XDG_RUNTIME_DIR"
+doas -n mkdir -p "$XDG_RUNTIME_DIR"
+doas -n chown "$UID:$UID" "$XDG_RUNTIME_DIR"
+doas -n chmod 700 "$XDG_RUNTIME_DIR"
 
 [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && ! pidof -qsx Xorg && exec startx "$XINITRC"
