@@ -22,6 +22,9 @@ alt + shift + p
 alt + shift + {period,comma,space,slash}
 	mpc -q {next,prev,toggle,seek 0}
 
+alt + backslash
+	dunstctl context
+
 alt + shift + backslash
 	dunstctl close-all
 
