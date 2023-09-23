@@ -2,29 +2,31 @@
 
 min=10
 max=100
-step=5
+step=10
 
-bri="$(xbacklight -get)"
 case "$1" in
 	set) xbacklight -set "${2:-$max}" ;;
-	inc) [ "$bri" -lt "$max" ] && xbacklight -inc "${2:-$step}" ;;
-	dec) [ "$bri" -gt "$min" ] && xbacklight -dec "${2:-$step}" ;;
+	inc)
+		[ "$(xbacklight -get 2>/dev/null)" -lt "$max" ] &&
+			xbacklight -inc "${2:-$step}"
+		;;
+	dec)
+		[ "$(xbacklight -get 2>/dev/null)" -gt "$min" ] &&
+			xbacklight -dec "${2:-$step}"
+		;;
 	dim)
 		trap "exit 0" TERM INT
 		# shellcheck disable=SC2064
-		trap "xbacklight -steps 1 -set $bri" EXIT
+		trap "xbacklight -set $(xbacklight -get 2>/dev/null); kill %% 2>/dev/null" EXIT
 		xbacklight -time 200 -steps 20 -set "${2:-$min}"
 		sleep 2147483647 & wait
 		;;
 	*) echo "$(basename "$0"): unknown command \"$1\"" >&2; exit 1 ;;
 esac
 
-bri="$(xbacklight -get)"
+bri="$(xbacklight -get 2>/dev/null)" || exit 1
 icon="display-brightness-medium"
-if [ "$bri" -ge 80 ]; then
-	icon="display-brightness-high"
-elif [ "$bri" -lt 40 ]; then
-	icon="display-brightness-low"
-fi
+[ "$bri" -ge 80 ] && icon="display-brightness-high"
+[ "$bri" -lt 40 ] && icon="display-brightness-low"
 
 notify-send -r 9991 -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$bri" "brightness" "$bri%"
