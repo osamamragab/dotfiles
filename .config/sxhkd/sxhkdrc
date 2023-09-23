@@ -63,3 +63,6 @@ XF86AudioMicMute
 
 XF86MonBrightness{Up,Down}
 	screenlightctl {inc,dec}
+
+Pause
+	xset r rate 200 50
