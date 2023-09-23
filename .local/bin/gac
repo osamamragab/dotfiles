@@ -5,9 +5,9 @@ if [ $# -lt 2 ]; then
 	exit 1
 fi
 
-for msg in "$@"; do :; done
+for msg; do :; done
 
-for f in "$@"; do
+for f; do
 	[ "$f" = "$msg" ] && break
 	[ "$files" ] && files="$files $f" || files="$f"
 done

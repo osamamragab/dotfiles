@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for arg in "$@"; do
+for arg; do
 	case "$arg" in
 		-a) format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio" ;;
 		-v) format="bestvideo[ext=mp4]/bestvideo" ;;

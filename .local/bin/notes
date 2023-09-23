@@ -29,7 +29,7 @@ case "$1" in
 		exit 1
 		;;
 	*)
-		for f in "$@"; do
+		for f; do
 			case "$f" in
 				*.md | *.txt) open "$NOTESDIR/$f" ;;
 				*)

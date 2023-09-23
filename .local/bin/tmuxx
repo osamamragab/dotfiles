@@ -28,7 +28,7 @@ esac
 name="$(basename "$dir")"
 
 [ $# -gt 1 ] && tmux new -d -c "$dir" -s "$name" -n "$1" && shift
-for win in "$@"; do
+for win; do
 	tmux neww -d -t "$name" -c "$dir" -n "$win"
 done
 
