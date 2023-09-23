@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ $# -eq 0 ]; then
+	echo "usage: $(basename "$0") cmd" >&2
+	exit 1
+fi
+
 while :; do
 	[ "$(xssstate -s)" = "disabled" ] && sleep 10 && continue
 	till=$(($(xssstate -t) / 1000))
