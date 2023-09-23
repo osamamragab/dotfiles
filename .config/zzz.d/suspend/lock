@@ -1,9 +1,7 @@
 #!/bin/sh
 
+export PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
 export XAUTHORITY="${XAUTHORITY:-/run/user/1000/Xauthority}"
-
 for sock in /tmp/.X11-unix/*; do
-	[ -S "$sock" ] && DISPLAY=":${sock##*/X}" xset s activate
-done
-
-sleep 1
+	[ -S "$sock" ] && DISPLAY=":${sock##*/X}" slock &
+done && sleep 1
