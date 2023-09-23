@@ -1,0 +1,8 @@
+#!/bin/sh
+
+while :; do
+	[ "$(xssstate -s)" = "disabled" ] && sleep 10 && continue
+	till=$(($(xssstate -t) / 1000))
+	[ $till -gt 0 ] && sleep $till && continue
+	"$@"
+done

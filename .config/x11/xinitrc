@@ -2,8 +2,8 @@
 
 xset -b &
 xset r rate 200 50 &
-xset s 120 180 &
-xss-lock -n "screenlightctl dim" locker &
+xset s 600 &
+xsidle slock &
 
 for p in sxhkd pipewire mpd dunst clipmenud dwmblocks "xbanish -i all"; do
 	pidof -qsx "${p%% *}" || $p &
