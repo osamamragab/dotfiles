@@ -1,3 +1,9 @@
+super + Return
+	$TERMINAL
+
+super + r
+	dmenu_run
+
 super + q
 	dmenu_sysact
 
@@ -7,7 +13,7 @@ super + shift + q
 alt + shift + b
 	DRI_PRIME=1 $BROWSER
 
-alt + shift + @{f,e,m}
+alt + shift + {f,e,m}
 	$TERMINAL -e bicon.bin {nnn -Rrn,neomutt,ncmpcpp}
 
 alt + shift + i
