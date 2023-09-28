@@ -1,56 +1,25 @@
 #!/bin/sh
 
-maxdepth=0
-type=""
-null=0
-exact=0
-dir=""
-name=""
-
-usage() {
-	echo "usage: $(basename "$0") [-m maxdepth] [-t type] [-0] [-I] [-II] [name]" >&2
-	exit 1
-}
-
-addtype() {
-	case "$1" in
-		[bcdpflsD]) [ "$type" ] && type="$type,$1" || type="$1" ;;
-		*) return 1 ;;
-	esac
-}
-
-setmaxdepth() {
-	case "$1" in
-		""|*[!0-9]*) return 1 ;;
-		*) maxdepth="$1" ;;
-	esac
-}
-
-while [ $# -gt 0 ]; do
-	case "$1" in
-		-m) setmaxdepth "$2" || usage; shift ;;
-		-m[1-9]) setmaxdepth "${1#??}" || usage ;;
-		-t) addtype "$2" || usage; shift ;;
-		-f | -d) addtype "${1#?}" || usage ;;
-		-0) null=1 ;;
-		-I) exact=1 ;;
-		-II) exact=2 ;;
+for arg; do
+	case "$arg" in
+		-m[0-9])
+			maxdepth="${arg#-m}"
+			;;
+		-t[bcdpflsD])
+			[ "$type" ] && type="$type,${arg#-t}" || type="${arg#-t}"
+			;;
 		*)
 			[ "$name" ] && dir="$name"
-			name="$1"
+			name="$arg"
 			;;
 	esac
-	shift
 done
 
-args="${dir:-.}"
-[ "$maxdepth" -ne 0 ] && args="$args -maxdepth $maxdepth"
-[ "$type" ] && args="$args -type $type"
-[ "$name" ] && case $exact in
-	0) args="$args -iname '*$name*'" ;;
-	1) args="$args -iname '$name'" ;;
-	2) args="$args -name '$name'" ;;
-esac
-[ $null -eq 1 ] && args="$args -print0"
+set -- "${dir:-.}" \
+	${maxdepth:+-maxdepth $maxdepth} \
+	${type:+-type "$type"} \
+	"(" ! -path "*.git*" -o -name ".gitignore" -o -name ".gitmodules" ")" \
+	${name:+-iname "*$name*"} \
+	-printf "%P\n"
 
-echo "$args" | xargs find
+find "$@"
