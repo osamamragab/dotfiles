@@ -32,6 +32,7 @@
 	logg = log --oneline --graph --decorate
 
 [delta]
+	tabs = 4
 	side-by-side = false
 	line-numbers = true
 	syntax-theme = Nord
