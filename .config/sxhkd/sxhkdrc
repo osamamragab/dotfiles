@@ -4,6 +4,9 @@ super + Return
 super + r
 	dmenu_run
 
+super + s
+	scratchpad
+
 super + q
 	dmenu_sysact
 
