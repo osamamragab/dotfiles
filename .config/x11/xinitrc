@@ -5,11 +5,13 @@ xset r rate 200 50 &
 xset s 600 &
 xsidle slock &
 
+xbacklight -set 80 &
+(xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" && xsetroot -solid "$(xrdb -get background)") &
+
+eval "$(ssh-agent -s)"
+
 for p in sxhkd pipewire mpd dunst clipmenud dwmblocks "xbanish -i all"; do
 	pidof -qsx "${p%% *}" || $p &
 done >/dev/null 2>&1
 
-xbacklight -set 80 &
-(xrdb "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources" && xsetroot -solid "$(xrdb -get background)") &
-
-exec ssh-agent dwm
+exec dwm
