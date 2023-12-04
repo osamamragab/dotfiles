@@ -1,6 +1,6 @@
 #!/bin/sh
 
-JOURNALDIR="${JOURNALDIR:-$HOME/.local/share/journal}"
+JOURNALDIR="${JOURNALDIR:-$(xdg-user-dir DOCUMENTS)/journal}"
 [ -d "$JOURNALDIR" ] || mkdir -p "$JOURNALDIR" || exit 1
 
 case "$1" in

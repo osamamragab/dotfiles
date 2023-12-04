@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NOTESDIR="${NOTESDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/notes}"
+NOTESDIR="${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
 [ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || { echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1; }
 cd "$NOTESDIR" || { echo "$(basename "$0"): can't cd to $NOTESDIR" >&2; exit 1; }
 
