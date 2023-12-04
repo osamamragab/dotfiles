@@ -33,6 +33,7 @@ return {
 					{ name = "nvim_lsp" },
 					{ name = "nvim_lua" },
 					{ name = "luasnip" },
+					{ name = "orgmode" },
 				}, {
 					{ name = "buffer", keyword_length = 5 },
 					{ name = "path" },

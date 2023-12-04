@@ -2,8 +2,9 @@ return {
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			{ "nvim-telescope/telescope-fzy-native.nvim" },
+			{ "nvim-lua/plenary.nvim" },
+			{ "nvim-telescope/telescope-fzy-native.nvim", lazy = true },
+			{ "ThePrimeagen/harpoon", lazy = true },
 		},
 		config = function()
 			local telescope = require("telescope")
