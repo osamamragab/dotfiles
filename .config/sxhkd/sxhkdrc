@@ -75,3 +75,9 @@ XF86MonBrightness{Up,Down}
 
 Pause
 	xset r rate 200 50
+
+#KP_{Up,Down,Left,Right,Home,End,Prior,Next}
+#	xdotool mousemove_relative --sync -- {0 -10,0 10,-10 0,10 0,-10 -10,-10 10,10 -10,10 10}
+
+#{_,shift,ctrl} + KP_Begin
+#	xdotool click {1,2,3}
