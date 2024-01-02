@@ -10,6 +10,7 @@ return {
 		require("orgmode").setup({
 			org_agenda_files = "~/docs/uni/**/*",
 			org_default_notes_file = "~/docs/notes/refile.org",
+			org_todo_keywords = {"TODO", "NEXT", "|", "DONE"},
 		})
 	end,
 }
