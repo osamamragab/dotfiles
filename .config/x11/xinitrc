@@ -10,7 +10,7 @@ xbacklight -set 80 &
 
 eval "$(ssh-agent -s)"
 
-for p in sxhkd pipewire mpd dunst clipmenud dwmblocks "xbanish -i all"; do
+for p in sxhkd pipewire mpd dunst scrond clipmenud dwmblocks "xbanish -i all"; do
 	pidof -qsx "${p%% *}" || $p &
 done >/dev/null 2>&1
 
