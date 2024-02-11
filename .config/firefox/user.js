@@ -10,3 +10,5 @@ user_pref("identity.fxaccounts.enabled", true);
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 user_pref("browser.tabs.drawInTitlebar", true);
 user_pref("accessibility.typeaheadfind.enablesound", false);
+user_pref("webgl.disabled", false);
+user_pref("media.eme.enabled", true);
