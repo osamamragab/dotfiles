@@ -2,15 +2,9 @@
 # vim: wrap
 
 HERE="$(dirname "$(readlink -f "$0")")"
+. "$HERE/.config/shell/env"
+
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-
-if [ -x "$HERE/setup" ]; then
-	echo "running setup dotfiles script..."
-	"$HERE/setup" dotfiles
-fi
-
-[ -f "$HERE/.config/shell/env" ] && . "$HERE/.config/shell/env"
-
 [ -d "$PROGRAMSDIR" ] || mkdir -p "$PROGRAMSDIR"
 
 echo "updating packages"
@@ -20,6 +14,12 @@ sudo xbps-install -Syu
 if ! command -v doas >/dev/null 2>&1; then
 	echo "installing doas"
 	sudo xbps-install -Sy opendoas
+	sudo cp -n "$HERE/.config/doas/doas.conf" /etc/doas.conf
+fi
+
+if [ -x "$HERE/setup" ]; then
+	echo "running setup dotfiles script..."
+	"$HERE/setup" dotfiles
 fi
 
 alias xi="doas xbps-install -Sy"
