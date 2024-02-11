@@ -26,7 +26,7 @@ fi
 alias xi="doas xbps-install -Sy"
 
 echo "installing xorg & dependencies"
-xi xorg-server xorg-input-drivers xauth xinit libX11-devel libXinerama-devel libXft-devel xset xsetroot xev
+xi xorg-server xorg-input-drivers xauth xinit libX11-devel libXinerama-devel libXft-devel libXrandr-devel xset xsetroot xev fribidi-devel openssl-devel
 
 echo "installing drivers & firmware"
 xi mesa mesa-dri mesa-vdpau mesa-vaapi xf86-video-amdgpu xf86-video-intel linux-firmware intel-video-accel
@@ -39,7 +39,7 @@ xi pipewire wireplumber pulsemixer
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-xi xtools xdg-utils xdg-user-dirs sxhkd xdotool xclip xsel xwallpaper acpilight xbanish xssstate wmname curl wget git patch rsync gnupg gnupg2 openssh pass pass-otp passmenu openssl-devel bc nq pv slop maim dunst time entr mlocate nnn fzy ripgrep fd dust ntp scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp thermald earlyoom buku urlview dragon highlight redshift newsboat calcurse sc-im wiki-tui srm lftp hwinfo firejail fribidi zbar qrencode mediainfo bat delta tig vsv clipmenu translate-shell screenkey duf lz4jsoncat gnome-epub-thumbnailer
+xi xtools xdg-utils xdg-user-dirs sxhkd xdotool xclip xsel xwallpaper acpilight xbanish xssstate wmname curl wget git patch rsync gnupg gnupg2 openssh pass pass-otp passmenu bc nq pv slop maim dunst time entr mlocate nnn fzy ripgrep fd dust ntp scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp thermald earlyoom buku urlview dragon highlight redshift newsboat calcurse sc-im wiki-tui srm lftp hwinfo firejail fribidi zbar qrencode mediainfo bat delta tig vsv clipmenu translate-shell screenkey duf lz4jsoncat gnome-epub-thumbnailer
 
 echo "installing manual pages"
 xi man-pages man-pages-posix texinfo tealdeer
