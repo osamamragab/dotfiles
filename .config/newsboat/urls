@@ -1,8 +1,39 @@
-https://hnrss.org/best "tech"
-https://hnrss.org/frontpage "tech"
+https://hnrss.org/best tech
+https://hnrss.org/frontpage tech
+https://lobste.rs/rss tech
 
-https://suckless.org/atom.xml "linux"
-https://voidlinux.org/atom.xml "linux"
-https://archlinux.org/feeds/news/ "linux"
+https://suckless.org/atom.xml linux
+https://voidlinux.org/atom.xml linux
+https://archlinux.org/feeds/news/ linux
+https://www.debian.org/News/news linux
 
-https://lexfridman.com/feed/podcast/ "pod"
+https://www.freebsd.org/news/feed.xml bsd
+https://www.bsdnow.tv/rss bsd
+https://undeadly.org/cgi?action=rss&full=1 bsd
+
+https://www.rfc-editor.org/rfcatom.xml rfc
+
+https://unixsheikh.com/feed.rss blog tech
+http://www.aaronsw.com/2002/feeds/pgessays.rss blog tech
+https://research.swtch.com/feed.atom blog go
+https://readrust.net/all/feed.rss blog rust
+https://fasterthanli.me/index.xml blog rust
+https://without.boats/index.xml blog
+https://readrust.net/all/feed.rss blog rust
+https://drewdevault.com/blog/index.xml blog
+https://jvns.ca/atom.xml blog
+http://ericlippert.com/feed/ blog
+https://waldon.blog/feed blog
+https://charity.wtf/feed/ blog
+https://macwright.com/atom.xml blog
+https://lethain.com/feeds.xml blog
+https://asthasr.github.io/index.xml blog
+https://desmondrivet.com/posts/feed_lifestream.xml blog
+https://jlelse.blog/posts.rss blog
+https://dellacorte.me/feed.xml blog
+https://2ality.com/feeds/posts.atom blog
+https://waitbutwhy.com/feed blog
+https://pomp.substack.com/feed blog
+https://www.htmhell.dev/feed.xml blog
+
+https://lexfridman.com/feed/podcast/ pod
