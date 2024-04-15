@@ -1,3 +1,5 @@
+local format_group = vim.api.nvim_create_augroup("LspFormat", {})
+
 return {
 	"williamboman/mason.nvim",
 	build = ":MasonUpdate",
@@ -8,7 +10,8 @@ return {
 	},
 	config = function()
 		local cmp_lsp = require("cmp_nvim_lsp")
-		local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_lsp.default_capabilities())
+		local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(),
+			cmp_lsp.default_capabilities())
 
 		require("mason").setup({})
 		require("mason-lspconfig").setup({
@@ -24,6 +27,24 @@ return {
 			handlers = {
 				function(name)
 					require("lspconfig")[name].setup({ capabilities = capabilities })
+				end,
+				["gopls"] = function()
+					require("lspconfig").gopls.setup({
+						capabilities = capabilities,
+						settings = {
+							gopls = {
+								completeUnimported = true,
+								usePlaceholders = true,
+								staticcheck = true,
+								gofumpt = true,
+								analyses = {
+									unusedparams = true,
+									unusedvariable = true,
+									unusedwrite = true,
+								},
+							},
+						},
+					})
 				end,
 				["lua_ls"] = function()
 					local path = vim.split(package.path, ";")
@@ -50,11 +71,12 @@ return {
 									},
 								},
 							},
-						}
+						},
 					})
 				end,
 				["arduino_language_server"] = function()
 					require("lspconfig").arduino_language_server.setup({
+						capabilities = capabilities,
 						cmd = {
 							"arduino-language-server",
 							"-cli-config",
@@ -97,6 +119,5 @@ return {
 				prefix = "",
 			},
 		})
-
 	end,
 }
