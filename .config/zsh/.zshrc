@@ -74,3 +74,5 @@ if [ -f "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-searc
 fi
 
 [ -f "$PROGRAMSDIR/z/z.sh" ] && . "$PROGRAMSDIR/z/z.sh"
+
+command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
