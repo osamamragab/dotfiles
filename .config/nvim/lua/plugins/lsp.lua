@@ -1,5 +1,3 @@
-local format_group = vim.api.nvim_create_augroup("LspFormat", {})
-
 return {
 	"williamboman/mason.nvim",
 	build = ":MasonUpdate",

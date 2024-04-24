@@ -1,6 +1,6 @@
 local autocmd = vim.api.nvim_create_autocmd
 local filetype_group = vim.api.nvim_create_augroup("filetype", {})
-local format_group = vim.api.nvim_create_augroup("LspFormat", {})
+local format_group = vim.api.nvim_create_augroup("format", {})
 
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = filetype_group,
@@ -39,7 +39,7 @@ autocmd("BufWritePre", {
 autocmd("BufWritePre", {
 	group = format_group,
 	pattern = "*.go",
-	callback = function()
+	callback = function(_)
 		vim.lsp.buf.format()
 		vim.lsp.buf.code_action({
 			context = {
@@ -51,3 +51,4 @@ autocmd("BufWritePre", {
 		})
 	end,
 })
+
