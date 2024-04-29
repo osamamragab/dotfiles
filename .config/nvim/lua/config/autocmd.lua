@@ -8,6 +8,12 @@ autocmd({ "BufNewFile", "BufRead" }, {
 	command = "setlocal ft=c",
 })
 
+autocmd({ "BufNewFile", "BufRead" }, {
+	group = filetype_group,
+	pattern = { "todo.txt", "done.txt", "*.todo.txt", "*.done.txt" },
+	command = "setlocal ft=todotxt",
+})
+
 autocmd("FileType", {
 	group = filetype_group,
 	pattern = { "python", "ruby", "yaml", "markdown" },
@@ -51,4 +57,3 @@ autocmd("BufWritePre", {
 		})
 	end,
 })
-
