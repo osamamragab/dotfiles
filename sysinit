@@ -75,7 +75,7 @@ echo "installing torrent tools"
 xi rtorrent transmission
 
 echo "installing networking tools"
-xi openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis
+xi nmap openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis
 
 echo "installing markup & latex tools"
 xi pandoc lowdown texlive-basic
