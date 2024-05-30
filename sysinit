@@ -47,7 +47,7 @@ echo "installing text editor & shell"
 xi vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
 
 echo "installing multimedia tools"
-xi ffmpeg ImageMagick exiftool qpdf gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp
+xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp
 
 echo "installing filesystems support"
 xi fuse3 autofs exfat-utils fuse-sshfs mtpfs simple-mtpfs
