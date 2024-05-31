@@ -7,6 +7,9 @@ case "$action" in
 	dl) dmenu_dl "$input" ;;
 	mpv) setsid -f mpv --really-quiet "$input" >/dev/null 2>&1 ;;
 	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
-	bookmark) buku -a "$input" || notify-send -u critical -a "$(basename "$0")" "bookmark" "adding '$input' failed" ;;
+	bookmark)
+		tag="$(buku --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | dmenu -p "tag:")" || exit 1
+		buku --nostdin --np -a "$input" "$tag" || notify-send -u critical -a "$(basename "$0")" "bookmark" "adding '$input' with tag '$tag' failed"
+		;;
 	translate) notify-send -a "$(basename "$0")" "$input" "$(trans -no-ansi -no-bidi "$input")" ;;
 esac
