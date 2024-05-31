@@ -14,12 +14,6 @@ autocmd({ "BufNewFile", "BufRead" }, {
 	command = "setlocal ft=todotxt",
 })
 
-autocmd("FileType", {
-	group = filetype_group,
-	pattern = { "python", "ruby", "yaml", "markdown" },
-	command = "setlocal expandtab",
-})
-
 autocmd("BufWritePost", {
 	group = filetype_group,
 	pattern = { "xdefaults", "Xdefaults", "xresources", "Xresources" },
