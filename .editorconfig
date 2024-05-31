@@ -8,8 +8,5 @@ indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{txt,md,org,py,rb,yml,yaml}]
-indent_style = space
-
 [*.diff]
 trim_trailing_whitespace = false
