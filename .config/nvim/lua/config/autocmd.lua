@@ -1,6 +1,15 @@
 local autocmd = vim.api.nvim_create_autocmd
-local filetype_group = vim.api.nvim_create_augroup("filetype", {})
 local format_group = vim.api.nvim_create_augroup("format", {})
+local filetype_group = vim.api.nvim_create_augroup("filetype", {})
+local statusline_group = vim.api.nvim_create_augroup("statusline", {})
+
+autocmd("BufEnter", {
+	group = statusline_group,
+	pattern = "*",
+	callback = function()
+		vim.opt.statusline = "%f %r%m%=%y %{&fileencoding ? &fileencoding : &encoding} %{&fileformat} | %l:%c %p%%"
+	end,
+})
 
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = filetype_group,
