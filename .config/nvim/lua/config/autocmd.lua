@@ -1,15 +1,7 @@
 local autocmd = vim.api.nvim_create_autocmd
-local format_group = vim.api.nvim_create_augroup("format", {})
-local filetype_group = vim.api.nvim_create_augroup("filetype", {})
-local statusline_group = vim.api.nvim_create_augroup("statusline", {})
-
-autocmd("BufEnter", {
-	group = statusline_group,
-	pattern = "*",
-	callback = function()
-		vim.opt.statusline = "%f %r%m%=%y %{&fileencoding ? &fileencoding : &encoding} %{&fileformat} | %l:%c %p%%"
-	end,
-})
+local augroup = vim.api.nvim_create_augroup
+local format_group = augroup("format", { clear = true })
+local filetype_group = augroup("filetype", { clear = true })
 
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = filetype_group,
@@ -23,19 +15,27 @@ autocmd({ "BufNewFile", "BufRead" }, {
 	command = "setlocal ft=todotxt",
 })
 
-autocmd("BufWritePost", {
+autocmd({ "BufEnter" }, {
+	group = augroup("statusline", { clear = true }),
+	pattern = "*",
+	callback = function(_)
+		vim.opt.statusline = "%f %r%m%=%y %{&fileencoding ? &fileencoding : &encoding} %{&fileformat} | %l:%c %p%%"
+	end,
+})
+
+autocmd({ "BufWritePost" }, {
 	group = filetype_group,
 	pattern = { "xdefaults", "Xdefaults", "xresources", "Xresources" },
 	command = "!xrdb %",
 })
 
-autocmd("BufWritePost", {
+autocmd({ "BufWritePost" }, {
 	group = filetype_group,
 	pattern = "sxhkdrc",
 	command = "!pkill -SIGUSR1 sxhkd",
 })
 
-autocmd("BufWritePre", {
+autocmd({ "BufWritePre" }, {
 	group = format_group,
 	pattern = "*",
 	callback = function(_)
@@ -45,7 +45,18 @@ autocmd("BufWritePre", {
 	end,
 })
 
-autocmd("BufWritePre", {
+autocmd({ "BufWritePre" }, {
+	group = augroup("daddydir", { clear = true }),
+	callback = function(ev)
+		if ev.match:match("^%w%w+:[\\/][\\/]") then
+			return
+		end
+		local file = vim.uv.fs_realpath(ev.match) or ev.match
+		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+	end,
+})
+
+autocmd({ "BufWritePre" }, {
 	group = format_group,
 	pattern = "*.go",
 	callback = function(_)
