@@ -31,14 +31,14 @@ echo "installing drivers & firmware"
 xi mesa mesa-dri mesa-vdpau mesa-vaapi xf86-video-amdgpu xf86-video-intel linux-firmware intel-video-accel
 
 echo "installing network tools"
-xi dhcpcd wpa_supplicant ufw bluez bluez-alsa macchanger
+xi dhcpcd wpa_supplicant ufw bluez bluez-alsa
 
 echo "installing pipewire"
 xi pipewire wireplumber pulsemixer libspa-bluetooth
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-xi xtools xdg-utils xdg-user-dirs sxhkd xdotool xclip xsel xrdb xwallpaper xbanish xprop xssstate acpilight wmname curl wget git patch rsync gnupg gnupg2 openssh pass pass-otp passmenu bc nq pv slop maim dunst time entr mlocate nnn fzy ripgrep fd dust chrony scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp thermald earlyoom buku urlview dragon highlight redshift newsboat calcurse sc-im wiki-tui srm lftp hwinfo firejail fribidi zbar qrencode mediainfo bat delta tig vsv clipmenu translate-shell screenkey duf direnv lz4jsoncat gnome-epub-thumbnailer
+xi xtools xdg-utils xdg-user-dirs sxhkd xdotool xclip xsel xrdb xwallpaper xbanish xprop xssstate acpilight wmname curl wget git patch rsync gnupg gnupg2 openssh pass pass-otp passmenu bc nq pv slop maim dunst time entr mlocate nnn fzy ripgrep fd dust chrony scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp thermald earlyoom buku urlview dragon highlight redshift newsboat calcurse sc-im wiki-tui srm lftp hwinfo firejail fribidi zbar qrencode mediainfo bat delta tig vsv clipmenu translate-shell screenkey duf direnv syncthing lz4jsoncat gnome-epub-thumbnailer
 
 echo "installing manual pages"
 xi man-pages man-pages-posix texinfo tealdeer
@@ -75,7 +75,7 @@ echo "installing torrent tools"
 xi rtorrent transmission
 
 echo "installing networking tools"
-xi nmap openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis
+xi nmap openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis macchanger
 
 echo "installing markup & latex tools"
 xi pandoc lowdown texlive-basic
