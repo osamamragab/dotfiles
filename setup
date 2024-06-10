@@ -6,7 +6,7 @@ PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 browserdir="$HOME/.mozilla/firefox"
 
-setupdotfiles() {
+setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
 	"$sudocmd" cp -srfvt /etc/X11 "$XDG_CONFIG_HOME/x11/xorg.conf.d"
@@ -14,10 +14,27 @@ setupdotfiles() {
 	"$sudocmd" cp -fv "$XDG_CONFIG_HOME/doas/doas.conf" /etc/doas.conf
 }
 
-setupfirefox() {
+setup_firefox() {
 	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
 	[ -d "$PROGRAMSDIR/arkenfox-user.js" ] || git clone https://github.com/arkenfox/user.js "$PROGRAMSDIR/arkenfox-user.js"
 	cat "$PROGRAMSDIR/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
+}
+
+setup_runit() {
+	doas rm -f \
+		/var/service/agetty-tty4 \
+		/var/service/agetty-tty5 \
+		/var/service/agetty-tty6
+	doas ln -s -t /var/service \
+		/etc/sv/chronyd \
+		/etc/sv/tlp \
+		/etc/sv/udevd \
+		/etc/sv/dhcpcd \
+		/etc/sv/wpa_supplicant \
+		/etc/sv/dbus \
+		/etc/sv/bluetoothd \
+		/etc/sv/sshd \
+		/etc/sv/docker
 }
 
 clean() {
@@ -30,9 +47,14 @@ clean() {
 }
 
 case "$1" in
-	""|all) setupdotfiles && setupfirefox ;;
-	dotfiles) setupdotfiles ;;
-	firefox) setupfirefox ;;
+	""|all)
+		setup_dotfiles
+		setup_runit
+		setup_firefox
+		;;
+	dotfiles) setup_dotfiles ;;
+	runit) setup_runit ;;
+	firefox) setup_firefox ;;
 	clean) clean ;;
 	*)
 		echo "$(basename "$0"): unknown command \"$1\"" >&2
