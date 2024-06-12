@@ -13,4 +13,4 @@ user_pref("accessibility.typeaheadfind.enablesound", false);
 user_pref("webgl.disabled", false);
 user_pref("media.eme.enabled", true);
 user_pref("browser.theme.content-theme", 2);
-user_pref("layout.css.prefers-color-scheme.content-override", 2);
+user_pref("layout.css.prefers-color-scheme.content-override", 0);
