@@ -13,6 +13,7 @@ alias ls="ls -hF --color=auto --group-directories-first"
 alias ll="ls -lA"
 alias grep="grep --color=auto"
 alias gr="grep --exclude-dir={.git,node_modules} -Hnr"
+alias open="xdg-open"
 
 alias g="git"
 alias gst="git status -sb"
