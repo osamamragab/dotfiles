@@ -14,7 +14,7 @@ xsetroot -solid "$(xrdb -get background)" &
 
 eval "$(ssh-agent -s)"
 
-for p in sxhkd pipewire mpd dunst scrond clipmenud dwmblocks "xbanish -i all" "syncthing serve --no-browser"; do
+for p in sxhkd picom pipewire mpd dunst scrond clipmenud dwmblocks "xbanish -i all" "syncthing serve --no-browser"; do
 	pidof -qsx "${p%% *}" || $p &
 done >/dev/null 2>&1
 
