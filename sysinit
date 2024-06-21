@@ -63,13 +63,7 @@ xi strace lm_sensors socklog-void htop nvtop iotop iftop
 
 echo "installing internet stuff"
 xi firefox tor lynx w3m amfora weechat
-if [ -x "$HERE/setup" ]; then
-	echo "running setup firefox script..."
-	firefox --headless >/dev/null 2>&1 &
-	sleep 1
-	"$HERE/setup" firefox
-	pkill firefox
-fi
+[ -x "$HERE/setup" ] && "$HERE/setup" firefox
 
 echo "installing torrent tools"
 xi rtorrent transmission
