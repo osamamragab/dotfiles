@@ -7,25 +7,19 @@ sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 browserdir="$HOME/.mozilla/firefox"
 
 setup_dotfiles() {
-	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
-	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
+	cp -svrft "$HOME" "$HERE/.config" "$HERE/.local"
+	ln -svf "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
 	"$sudocmd" cp -srfvt /etc/X11 "$XDG_CONFIG_HOME/x11/xorg.conf.d"
 	"$sudocmd" cp -srfvt /etc "$XDG_CONFIG_HOME/acpi" "$XDG_CONFIG_HOME/zzz.d"
 	"$sudocmd" cp -fv "$XDG_CONFIG_HOME/doas/doas.conf" /etc/doas.conf
 }
 
-setup_firefox() {
-	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
-	[ -d "$PROGRAMSDIR/arkenfox-user.js" ] || git clone https://github.com/arkenfox/user.js "$PROGRAMSDIR/arkenfox-user.js"
-	cat "$PROGRAMSDIR/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
-}
-
 setup_runit() {
-	doas rm -f \
+	doas rm -vf \
 		/var/service/agetty-tty4 \
 		/var/service/agetty-tty5 \
 		/var/service/agetty-tty6
-	doas ln -s -t /var/service \
+	doas ln -svft /var/service \
 		/etc/sv/chronyd \
 		/etc/sv/tlp \
 		/etc/sv/udevd \
@@ -35,6 +29,16 @@ setup_runit() {
 		/etc/sv/bluetoothd \
 		/etc/sv/sshd \
 		/etc/sv/docker
+}
+
+setup_firefox() {
+	[ -d "$browserdir" ] ||
+		{ firefox --headless >/dev/null 2>&1 & ffpid=$!; sleep 1; }
+	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
+	curl -sL https://raw.githubusercontent.com/arkenfox/user.js/master/user.js |
+		cat - "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
+	# shellcheck disable=SC2015
+	[ -n "$ffpid" ] && pkill firefox || true
 }
 
 clean() {
