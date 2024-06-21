@@ -19,6 +19,9 @@ alt + shift + b
 alt + shift + {f,e,m}
 	$TERMINAL -e bicon.bin {nnn -Rrn,neomutt,ncmpcpp}
 
+alt + shift + u
+	dmenu_bookmarks
+
 alt + shift + i
 	dmenu_handler
 
