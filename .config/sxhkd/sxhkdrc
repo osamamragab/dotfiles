@@ -26,10 +26,10 @@ alt + shift + i
 	dmenu_handler
 
 alt + shift + o
-	clipmenu
+	clipmenu -i -r -l 10 -p "clipmenu:"
 
 alt + shift + p
-	passmenu
+	passmenu -i -r -l 10 -p "passmenu:"
 
 alt + shift + {period,comma,space,slash}
 	mpc -q {next,prev,toggle,seek 0}
