@@ -51,7 +51,11 @@ clean() {
 }
 
 case "$1" in
-	""|all)
+	"")
+		setup_dotfiles
+		setup_runit
+		;;
+	all)
 		setup_dotfiles
 		setup_runit
 		setup_firefox
