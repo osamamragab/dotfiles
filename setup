@@ -22,11 +22,13 @@ setup_runit() {
 		/var/service/agetty-tty6
 	doas ln -svft /var/service \
 		/etc/sv/chronyd \
-		/etc/sv/tlp \
+		/etc/sv/socklog-unix \
+		/etc/sv/nanoklogd \
 		/etc/sv/udevd \
 		/etc/sv/dhcpcd \
 		/etc/sv/wpa_supplicant \
 		/etc/sv/dbus \
+		/etc/sv/tlp \
 		/etc/sv/bluetoothd \
 		/etc/sv/sshd \
 		/etc/sv/docker
