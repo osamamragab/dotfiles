@@ -58,13 +58,6 @@ bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 ZSHPLUGINSDIR="${ZSHPLUGINSDIR:-/usr/share/zsh/plugins}"
-
-[ -f "$PROGRAMSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
-	. "$PROGRAMSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-if [ -f "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]; then
-	ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-	. "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
-fi
 if [ -f "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
 	. "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-search.zsh"
 	bindkey -a "k" history-substring-search-up
@@ -72,6 +65,12 @@ if [ -f "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-searc
 	bindkey "^[[A" history-substring-search-up
 	bindkey "^[[B" history-substring-search-down
 fi
+if [ -f "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]; then
+	ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+	. "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+fi
+[ -f "$PROGRAMSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
+	. "$PROGRAMSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 [ -f "$PROGRAMSDIR/z/z.sh" ] && . "$PROGRAMSDIR/z/z.sh"
