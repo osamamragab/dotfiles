@@ -1,3 +1,5 @@
+# vim: ft=conf
+
 def_key "j"
 	scroll_down
 def_key "k"
@@ -69,5 +71,3 @@ def_key "f"
 	seek_forward
 def_key "d"
 	seek_backward
-
-# vim: ft=conf
