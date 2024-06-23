@@ -41,7 +41,7 @@ echo "installing manual pages"
 xi man-pages man-pages-posix texinfo tealdeer
 
 echo "installing text editor & shell"
-xi vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
+xi vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search tree-sitter-devel
 
 echo "installing multimedia tools"
 xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp
