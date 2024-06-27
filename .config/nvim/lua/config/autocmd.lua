@@ -15,6 +15,12 @@ autocmd({ "BufNewFile", "BufRead" }, {
 	command = "setlocal ft=todotxt",
 })
 
+autocmd({ "BufNewFile", "BufRead" }, {
+	group = filetype_group,
+	pattern = { "*.pcss" },
+	command = "setlocal ft=css",
+})
+
 autocmd({ "BufEnter" }, {
 	group = augroup("statusline", { clear = true }),
 	pattern = "*",
