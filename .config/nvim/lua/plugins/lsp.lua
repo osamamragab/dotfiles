@@ -72,17 +72,16 @@ return {
 						})
 					end,
 					["lua_ls"] = function()
-						local path = vim.split(package.path, ";")
-						table.insert(path, "lua/?.lua")
-						table.insert(path, "lua/?/init.lua")
 						require("lspconfig").lua_ls.setup({
 							capabilities = capabilities,
-							settings = {
-								Lua = {
-									telemetry = { enable = false },
+							on_init = function(client)
+								local path = client.workspace_folders[1].name
+								if vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc") then
+									return
+								end
+								client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
 									runtime = {
 										version = "LuaJIT",
-										path = path,
 									},
 									diagnostics = {
 										globals = {
@@ -92,10 +91,17 @@ return {
 									workspace = {
 										checkThirdParty = false,
 										library = {
-											vim.fn.expand("$VIMRUNTIME/lua"),
+											vim.env.VIMRUNTIME,
+											"${3rd}/luv/library",
 										},
 									},
-								},
+									telemetry = {
+										enable = false,
+									},
+								})
+							end,
+							settings = {
+								Lua = {},
 							},
 						})
 					end,
