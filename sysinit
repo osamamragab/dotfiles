@@ -74,7 +74,7 @@ echo "installing markup & latex tools"
 xi pandoc lowdown texlive-basic
 
 echo "installing fonts, themes, icons"
-xi fontconfig dejavu-fonts-ttf font-ibm-plex-ttf amiri-font noto-fonts-emoji arc-theme adwaita-icon-theme adwaita-plus
+xi fontconfig dejavu-fonts-ttf font-ibm-plex-otf amiri-font noto-fonts-emoji arc-theme adwaita-icon-theme adwaita-plus
 doas ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
 doas xbps-reconfigure -f fontconfig
 
