@@ -20,12 +20,8 @@ vim.diagnostic.config({
 	virtual_text = true,
 	update_in_insert = true,
 	float = {
-		focusable = false,
-		style = "minimal",
 		border = "rounded",
-		source = "always",
-		header = "",
-		prefix = "",
+		source = true,
 	},
 })
 
@@ -40,7 +36,7 @@ return {
 		config = function()
 			local cmp_lsp = require("cmp_nvim_lsp")
 			local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(),
-			cmp_lsp.default_capabilities())
+				cmp_lsp.default_capabilities())
 
 			require("mason").setup({})
 			require("mason-lspconfig").setup({
@@ -120,7 +116,13 @@ return {
 	{
 		"j-hui/fidget.nvim",
 		config = function()
-			require("fidget").setup({})
+			require("fidget").setup({
+				notification = {
+					window = {
+						winblend = 0,
+					},
+				},
+			})
 		end,
 	},
 }
