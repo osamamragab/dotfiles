@@ -1,9 +1,10 @@
 require("config.options")
+require("config.globals")
 require("config.keymaps")
 require("config.autocmd")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
 		"clone",
