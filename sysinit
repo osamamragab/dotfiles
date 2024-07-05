@@ -71,7 +71,7 @@ echo "installing networking tools"
 xi nmap openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis macchanger
 
 echo "installing markup & latex tools"
-xi pandoc lowdown typst texlive-basic
+xi pandoc lowdown groff typst texlive-basic
 
 echo "installing fonts, themes, icons"
 xi fontconfig dejavu-fonts-ttf font-ibm-plex-otf amiri-font noto-fonts-emoji arc-theme adwaita-icon-theme adwaita-plus
