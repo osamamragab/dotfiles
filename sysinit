@@ -59,13 +59,13 @@ echo "installing system monitoring tools"
 xi strace lm_sensors socklog-void htop nvtop iotop iftop
 
 echo "installing internet stuff"
-xi firefox tor lynx w3m amfora weechat
+xi firefox lynx w3m amfora weechat
 
 echo "setting up firefox"
 "$HERE/setup" firefox || { echo "setup firefox failed" >&2; exit 1; }
 
-echo "installing torrent tools"
-xi rtorrent transmission
+echo "installing tor and torrent tools"
+xi tor transmission
 
 echo "installing networking tools"
 xi openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis macchanger
