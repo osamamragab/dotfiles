@@ -79,7 +79,7 @@ doas ln -s /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf /etc/fonts/conf.d
 doas xbps-reconfigure -f fontconfig
 
 echo "installing programming tools"
-xi gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rustup go python3 python3-pip python3-pipx python3-pipenv lua luarocks nodejs pnpm xxd gdb gef valgrind radare2 delve binutils upx jq cppcheck shellcheck tokei hyperfine nix docker docker-compose podman podman-compose dive
+xi gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rustup go python3 python3-pip python3-pipx python3-pipenv lua luarocks nodejs pnpm xxd gdb valgrind radare2 delve binutils upx jq cppcheck shellcheck tokei hyperfine nix docker docker-compose podman podman-compose dive
 rustup-init -y --no-modify-path &&
 	rustup default stable &&
 	cargo install cargo-update cargo-info
