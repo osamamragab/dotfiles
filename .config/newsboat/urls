@@ -48,12 +48,17 @@ https://youssefh.substack.com/feed blog tech
 https://gomakethings.com/feed/index.xml blog tech
 https://buttondown.email/cassidoo/rss blog tech
 https://hasen.substack.com/feed blog tech
+https://frontendmasters.com/blog/feed blog tech
+https://golangweekly.com/rss/ tech
+http://ithare.com/rssfeed/ blog tech
+https://www.openmymind.net/atom.xml blog tech
 
 https://www.johndcook.com/blog/feed blog sci
 
 https://nautil.us/feed/ mag sci
 https://babylonbee.com/feed news
 https://www.nirandfar.com/feed blog
+https://www.nature.com/nature.rss mag sci
 
 https://aaronjacklin.substack.com/feed blog news
 https://graymirror.substack.com/feed blog news
@@ -66,3 +71,5 @@ https://adhdftw.com/feed/index.xml blog
 
 https://changelog.com/feed blog pod tech
 https://changelog.com/master/feed pod tech
+
+https://projecteuler.net/rss2_euler.xml ps
