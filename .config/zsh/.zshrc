@@ -74,4 +74,4 @@ fi
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 [ -f "$PROGRAMSDIR/z/z.sh" ] && . "$PROGRAMSDIR/z/z.sh"
-[ -f "$SDKMAN_DIR/bin/sdkman-init.sh" ] && . "$SDKMAN_DIR/bin/sdkman-init.sh" || true
+# [ -f "$SDKMAN_DIR/bin/sdkman-init.sh" ] && . "$SDKMAN_DIR/bin/sdkman-init.sh" || true
