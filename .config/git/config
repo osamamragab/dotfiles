@@ -30,6 +30,7 @@
 	ls = ls-files
 	tree = ls-tree --full-tree -r HEAD
 	logg = log --oneline --graph --decorate
+	undo = reset --soft HEAD^
 
 [delta]
 	tabs = 4
