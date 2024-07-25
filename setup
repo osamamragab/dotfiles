@@ -17,10 +17,12 @@ setup_dotfiles() {
 
 setup_runit() {
 	doas rm -vf \
+		/var/service/acpid \
 		/var/service/agetty-tty4 \
 		/var/service/agetty-tty5 \
 		/var/service/agetty-tty6
 	doas ln -svft /var/service \
+		/etc/sv/elogind \
 		/etc/sv/chronyd \
 		/etc/sv/socklog-unix \
 		/etc/sv/nanoklogd \

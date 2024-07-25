@@ -5,8 +5,8 @@ case "$sel" in
 	lock) locker ;;
 	exit) kill -TERM "$(pidof -sx dwm)" ;;
 	refresh) kill -HUP "$(pidof -sx dwm)" ;;
-	suspend) doas -n zzz -z ;;
-	hibernate) doas -n zzz -Z ;;
-	reboot) doas -n reboot ;;
-	poweroff) doas -n poweroff ;;
+	suspend) locker loginctl suspend -i ;;
+	hibernate) locker loginctl hibernate -i ;;
+	reboot) loginctl reboot -i ;;
+	poweroff) loginctl poweroff -i ;;
 esac
