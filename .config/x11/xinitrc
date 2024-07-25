@@ -12,7 +12,7 @@ xrdb "$XDG_CONFIG_HOME/x11/xresources" & xrdb_pid=$!
 
 eval "$(ssh-agent -s)"
 
-for p in sxhkd picom pipewire mpd dunst scrond clipmenud dwmblocks "xbanish -i all" "syncthing serve --no-browser"; do
+for p in sxhkd picom pipewire dunst scrond clipmenud dwmblocks mpd mpris-proxy "xbanish -i all" "syncthing serve --no-browser"; do
 	pidof -qsx "${p%% *}" || $p &
 done >/dev/null 2>&1
 
