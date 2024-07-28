@@ -3,10 +3,10 @@
 out="$(xdg-user-dir PICTURES)/screenshot-$(date "+%Y%m%d-%H%M%S").png"
 sel="${1:-$(printf "select\\ncurrent-window\\nfull-screen\\nselect-copy\\ncurrent-window-copy\\nfull-screen-copy" | dmenu -i -r -l 6 -p "screenshot:")}" || exit 1
 case "$sel" in
-	select) maim -q -u -s "$out" ;;
-	current-window) maim -q -u -d 0.2 -i "$(xdotool getactivewindow)" "$out" ;;
-	full-screen) maim -q -u -d 0.2 "$out" ;;
-	select-copy) maim -q -u -s | xclip -sel clip -t image/png ;;
-	current-window-copy) maim -q -u -d 0.2 -i "$(xdotool getactivewindow)" | xclip -sel clip -t image/png ;;
-	full-screen-copy) maim -q -u -d 0.2 | xclip -sel clip -t image/png ;;
+	select) scrot -fs "$out" ;;
+	current-window) scrot -w "$(xdotool getactivewindow)" "$out" ;;
+	full-screen) scrot "$out" ;;
+	select-copy) scrot -fs - | xclip -sel clip -t image/png ;;
+	current-window-copy) scrot -w "$(xdotool getactivewindow)" - | xclip -sel clip -t image/png ;;
+	full-screen-copy) scrot - | xclip -sel clip -t image/png ;;
 esac
