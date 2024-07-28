@@ -4,9 +4,9 @@ while read -r f; do
 	case "$1" in
 		w) xwallpaper --zoom "$f" & ;;
 		W) wal -i "$f" >/dev/null 2>&1 & ;;
-		r) convert -rotate 90 "$f" "$f" ;;
-		R) convert -rotate -90 "$f" "$f" ;;
-		f) convert -flop "$f" "$f" ;;
+		r) magick convert -rotate 90 "$f" "$f" ;;
+		R) magick convert -rotate -90 "$f" "$f" ;;
+		f) magick convert -flop "$f" "$f" ;;
 		i) notify-send "file info" "$(mediainfo "$f" | sed "s/[ ]\+:/:/g;s/: /: <b>/;s/$/<\/b>/" | grep "<b>")" & ;;
 		d) [ "$(printf "no\nyes" | dmenu -i -r -p "delete $f?")" = "yes" ] && rm "$f" && notify-send "$f deleted" & ;;
 		D) rm "$f" && notify-send "$f deleted" & ;;
