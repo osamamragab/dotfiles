@@ -1,11 +1,5 @@
 #!/bin/sh
 
 . "$HOME/.config/shell/env"
-
 doas -n loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
-
-doas -n mkdir -p "$XDG_RUNTIME_DIR"
-doas -n chown "$UID:$UID" "$XDG_RUNTIME_DIR"
-doas -n chmod 700 "$XDG_RUNTIME_DIR"
-
 [ "$(tty)" = "/dev/tty1" ] && ! pidof -qsx Xorg && exec startx "$XINITRC"
