@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cmd="$1"
+shift
+for arg; do
+	args="$args $(echo "$arg" | sed 's/ /\\ /g')"
+done
+
+wid="$(xdotool getactivewindow)"
+xdotool windowunmap "$wid"
+$SHELL -i -c "$cmd $args >/dev/null 2>&1; exit"
+xdotool windowmap "$wid"
