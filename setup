@@ -55,12 +55,22 @@ clean() {
 	[ -s "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
 }
 
+prompt() {
+	printf "%s [Y/n]: " "$1"
+	read -r input
+	case "$input" in
+		""|[Yy]*) return 0 ;;
+		*) return 1 ;;
+	esac
+}
+
 case "$1" in
 	"")
-		setup_dotfiles
-		setup_runit
+		prompt "setup dotfiles?" && setup_dotfiles
+		prompt "setup runit?" && setup_runit
+		prompt "setup firefox?" && setup_firefox
 		;;
-	all)
+	-y|all)
 		setup_dotfiles
 		setup_runit
 		setup_firefox
