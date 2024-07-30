@@ -1,19 +1,37 @@
-*.font: monospace:size=10
-*.foreground: #d8dee9
-*.background: #242933
-*.color0: #3b4252
-*.color1: #bf616a
-*.color2: #a3be8c
-*.color3: #ebcb8b
-*.color4: #81a1c1
-*.color5: #b48ead
-*.color6: #88c0d0
-*.color7: #e5e9f0
+! black/grey
+*.color0: #2e3440
 *.color8: #4c566a
+
+! red
+*.color1: #b74e58
 *.color9: #bf616a
+
+! green
+*.color2: #97b67c
 *.color10: #a3be8c
+
+! yellow
+*.color3: #e7c173
 *.color11: #ebcb8b
+
+! blue
+*.color4: #5e81ac
 *.color12: #81a1c1
+
+! magenta
+*.color5: #a97ea1
 *.color13: #b48ead
+
+! cyan
+*.color6: #80b3b2
 *.color14: #8fbcbb
+
+! white
+*.color7: #bbc3d4
 *.color15: #eceff4
+
+! after 255
+*.foreground: #eceff4
+*.background: #2e3440
+*.cursorColor: #bbc3d4
+*.revCursorColor: #c0c8d8
