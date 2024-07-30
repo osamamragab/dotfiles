@@ -7,6 +7,9 @@ return {
 			local colors = require("nordic.colors")
 			require("nordic").setup({
 				transparent_bg = true,
+				telescope = {
+					style = "classic",
+				},
 				override = {
 					StatusLine = {
 						fg = "none",
@@ -14,15 +17,9 @@ return {
 					LineNr = {
 						fg = colors.gray5,
 					},
-					Visual = {
-						bg = colors.blue0,
-					},
 					PmenuSel = {
 						bg = colors.blue0,
 					},
-				},
-				telescope = {
-					style = "classic",
 				},
 			})
 			require("nordic").load()
