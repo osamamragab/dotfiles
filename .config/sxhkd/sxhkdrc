@@ -1,5 +1,3 @@
-# vim: ft=sxhkdrc
-
 super + Return
 	$TERMINAL
 

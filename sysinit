@@ -1,5 +1,4 @@
 #!/bin/sh
-# vim: wrap
 
 HERE="$(dirname "$(readlink -f "$0")")"
 . "$HERE/.config/shell/env"

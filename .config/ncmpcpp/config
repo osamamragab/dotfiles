@@ -1,5 +1,3 @@
-# vim: ft=cfg
-
 ncmpcpp_directory = "~/.config/ncmpcpp"
 lyrics_directory = "~/.local/share/lyrics"
 mpd_host = "127.0.0.1"
