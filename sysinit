@@ -67,7 +67,7 @@ echo "installing tor and torrent tools"
 xi tor transmission
 
 echo "installing networking tools"
-xi openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis macchanger
+xi openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis macchanger proxychains-ng
 
 echo "installing markup & latex tools"
 xi pandoc lowdown groff typst texlive-basic
