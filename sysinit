@@ -49,7 +49,7 @@ echo "installing filesystems support"
 xi fuse3 autofs exfat-utils fuse-sshfs mtpfs simple-mtpfs
 
 echo "installing music players"
-xi mpd mpc ncmpcpp
+xi mpd mpc ncmpcpp cava
 
 echo "installing email tools"
 xi neomutt isync msmtp notmuch abook gettext
