@@ -60,6 +60,7 @@ export SSH_ASKPASS="$HOME/.local/bin/dmenu_askpass"
 
 export LESS="-R"
 export MANPAGER="less -R --use-color -Dd+b -Duc"
+export FZF_DEFAULT_OPTS="--layout=reverse --height=~50%"
 export NIX_REMOTE="daemon"
 export GTK_THEME="Arc-Dark:dark"
 export QT_QPA_PLATFORMTHEME="gtk2"

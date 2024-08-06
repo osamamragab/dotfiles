@@ -19,7 +19,8 @@ case "$1" in
 		exec grep -Hnr --color=auto "$@"
 		;;
 	""|-l)
-		[ -t 0 ] && command -v fzy >/dev/null 2>&1 && menucmd="fzy -l ${2:-10}" || menucmd="dmenu -i -l ${2:-10} -p notes:"
+		lines="${2:-10}"
+		[ -t 0 ] && menucmd="fzf --height=~$((lines+2))" || menucmd="dmenu -i -l $lines -p notes:"
 		sel="$(find "$NOTESDIR" -type f -not -path "$NOTESDIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | $menucmd)" || exit $?
 		[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
 		open "$NOTESDIR/${sel:-todo.md}"

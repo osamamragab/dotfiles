@@ -51,9 +51,9 @@ bindkey -M vicmd "^e" edit-command-line
 bindkey -M vicmd "^[[P" vi-delete-char
 bindkey -M visual "^[[P" vi-delete
 
-bindkey -s "^o" '^uxdg-open "$(ff -tf | fzy -l 20)" >/dev/null\n'
-bindkey -s "^f" '^ue "$(ff -tf | fzy -l 20)"\n'
-bindkey -s "^g" '^ucd "$(ff -td | fzy -l 20)"\n'
+bindkey -s "^o" '^uxdg-open "$(fzf)" >/dev/null\n'
+bindkey -s "^f" '^ue "$(fzf)"\n'
+bindkey -s "^g" '^ucd "$(fzf)"\n'
 bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"

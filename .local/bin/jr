@@ -14,7 +14,7 @@ case "$1" in
 	*) echo "$(basename "$0"): unknown command \"$1\"" >&2; exit 1 ;;
 esac
 
-sel="${2:-$(find "$JOURNALDIR" -maxdepth 1 -type f -printf "%P\n" | sed 's/.md$//' | sort -r | fzy -l 10)}" || exit 1
+sel="${2:-$(find "$JOURNALDIR" -maxdepth 1 -type f -printf "%P\n" | sed 's/.md$//' | sort -r | fzf)}" || exit 1
 [ -f "$JOURNALDIR/$sel.md" ] || { echo "$(basename "$0"): file not found" >&2; exit 1; }
 
 exec $cmd "$JOURNALDIR/$sel.md"

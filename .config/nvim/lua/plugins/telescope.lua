@@ -3,7 +3,7 @@ return {
 		"nvim-telescope/telescope.nvim",
 		dependencies = {
 			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-telescope/telescope-fzy-native.nvim", lazy = true },
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
 			{ "ThePrimeagen/harpoon", lazy = true },
 		},
 		config = function()
@@ -24,7 +24,7 @@ return {
 					},
 				},
 			})
-			telescope.load_extension("fzy_native")
+			telescope.load_extension("fzf")
 			telescope.load_extension("harpoon")
 			vim.keymap.set("n", "<leader>ff", builtin.find_files)
 			vim.keymap.set("n", "<leader>fg", builtin.live_grep)
