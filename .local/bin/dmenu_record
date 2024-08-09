@@ -14,11 +14,11 @@ if [ -f /tmp/recordingpid ]; then
 	exit 0
 fi
 
-sel="${1:-$(printf "screencast\\nvideo\\nvideo-select\\naudio\\nwebcam\\nwebcam-hidef" | dmenu -i -r -l 6 -p "record:")}" || exit 1
 dir="$(xdg-user-dir VIDEOS)"
 now="$(date "+%Y%m%d-%H%M%S")"
+[ -d "$dir" ] || mkdir -p "$dir" || { echo "$(basename "$0"): can't create dir $dir" >&2; exit 1; }
 
-case "$sel" in
+case "${1:-$(printf "screencast\\nvideo\\nvideo-select\\naudio\\nwebcam\\nwebcam-hidef" | dmenu -i -r -l 6 -p "record:")}" in
 	screencast)
 		ffmpeg -y \
 			-f x11grab \
@@ -77,6 +77,7 @@ case "$sel" in
 		[ -f /tmp/recordingpid ] || exit 1
 		stoprecording; exit $?
 		;;
+	*) exit 1 ;;
 esac
 
 echo $! >/tmp/recordingpid
