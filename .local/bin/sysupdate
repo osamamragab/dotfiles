@@ -11,6 +11,7 @@ sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 updatepkgs() {
 	"$sudocmd" xbps-install -Syu
 	command -v rustup >/dev/null 2>&1 && rustup update
+	command -v juliaup >/dev/null 2>&1 && juliaup update
 }
 
 updatelocal() {
