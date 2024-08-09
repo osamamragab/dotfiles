@@ -55,7 +55,7 @@ echo "installing email tools"
 xi neomutt isync msmtp notmuch abook gettext
 
 echo "installing system monitoring tools"
-xi strace lm_sensors socklog-void htop nvtop iotop iftop
+xi strace lm_sensors socklog-void htop nvtop iotop iftop powertop
 
 echo "installing internet stuff"
 xi firefox lynx w3m amfora weechat
