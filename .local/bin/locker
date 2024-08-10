@@ -2,4 +2,4 @@
 
 pidof -qsx slock && exit 0
 (sleep 10 && pidof -qsx slock && xset dpms force suspend) &
-slock "$@"
+while ! slock "$@"; do sleep 0.5; done;
