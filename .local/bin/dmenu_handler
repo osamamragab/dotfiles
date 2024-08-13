@@ -9,7 +9,8 @@ case "$action" in
 	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
 	bookmark)
 		tag="$(buku --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | dmenu -p "tag:")" || exit 1
-		buku --nostdin --np -a "$input" "$tag" || notify-send -u critical -a "$(basename "$0")" "bookmark" "adding '$input' with tag '$tag' failed"
+		buku --nostdin --tacit --np -a "$input" "$tag" >/dev/null 2>&1 ||
+			notify-send -u critical -a "$(basename "$0")" "bookmark" "adding '$input' with tag '$tag' failed"
 		;;
 	translate) notify-send -a "$(basename "$0")" "$input" "$(trans -no-ansi -no-bidi "$input")" ;;
 esac
