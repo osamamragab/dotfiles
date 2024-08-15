@@ -81,6 +81,8 @@ return {
 								end
 								client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
 									runtime = {
+										path = { "?.lua", "?/init.lua" },
+										pathStrict = true,
 										version = "LuaJIT",
 									},
 									diagnostics = {
@@ -90,9 +92,9 @@ return {
 									},
 									workspace = {
 										checkThirdParty = false,
+										ignoreDir = { "/lua" },
 										library = {
 											vim.env.VIMRUNTIME,
-											"${3rd}/luv/library",
 										},
 									},
 									telemetry = {
@@ -115,18 +117,6 @@ return {
 							},
 						})
 					end,
-				},
-			})
-		end,
-	},
-	{
-		"j-hui/fidget.nvim",
-		config = function()
-			require("fidget").setup({
-				notification = {
-					window = {
-						winblend = 0,
-					},
 				},
 			})
 		end,
