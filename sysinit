@@ -43,7 +43,8 @@ echo "installing text editor & shell"
 xi vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search tree-sitter-devel
 
 echo "installing multimedia tools"
-xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp
+xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv mpv-mpris nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp
+[ -s /usr/lib/mpv-mpris/mpris.so ] && mkdir -p "$HOME/.config/mpv/scripts" && cp /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts"
 
 echo "installing filesystems support"
 xi fuse3 autofs exfat-utils fuse-sshfs mtpfs simple-mtpfs
