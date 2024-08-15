@@ -41,6 +41,19 @@ autocmd({ "BufWritePost" }, {
 	command = "!pkill -SIGUSR1 sxhkd",
 })
 
+autocmd({ "BufReadPost" }, {
+	group = augroup("curpos", { clear = true }),
+	pattern = "*",
+	callback = function(_)
+		local ft = vim.bo.filetype
+		local line =  vim.fn.line("'\"")
+		if line >= 1 and line <= vim.fn.line("$") and ft ~= "commit" and ft ~= "xxd" and ft ~= "gitrebase" then
+			vim.cmd("normal! g`\"")
+		end
+	end
+})
+
+
 autocmd({ "BufWritePre" }, {
 	group = format_group,
 	pattern = "*",
