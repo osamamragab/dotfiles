@@ -12,7 +12,7 @@ xrdb "$XDG_CONFIG_HOME/x11/xresources" & xrdbpid=$!
 [ -z "$DBUS_SESSION_BUS_ADDRESS" ] && eval "$(dbus-launch --exit-with-session --sh-syntax)"
 dbus-update-activation-environment --all
 
-for p in sxhkd picom pipewire dunst scrond clipmenud dwmblocks mpd mpris-proxy "xbanish -i all" "syncthing serve --no-browser"; do
+for p in sxhkd picom pipewire dunst scrond clipmenud dwmblocks mpris-proxy mpd mpd-mpris "xbanish -i all" "syncthing serve --no-browser"; do
 	pidof -qsx "${p%% *}" || $p &
 done >/dev/null 2>&1
 
