@@ -30,7 +30,7 @@ echo "installing network tools"
 xi dhcpcd wpa_supplicant ufw bluez bluez-alsa
 
 echo "installing pipewire"
-xi pipewire wireplumber pulsemixer libspa-bluetooth
+xi pipewire wireplumber wireplumber-elogind pulsemixer libspa-bluetooth
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
