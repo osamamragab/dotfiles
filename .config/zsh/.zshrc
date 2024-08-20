@@ -27,11 +27,12 @@ export GPG_TTY="$(tty)"
 alias doas="doas "
 
 fpath=("${XDG_CONFIG_HOME:-$HOME/.config}/zsh/completions" $fpath)
+_comp_options+=(globdots)
 autoload -U compinit
 zstyle ":completion:*" menu select
 zmodload zsh/complist
-compinit
-_comp_options+=(globdots)
+[ "$(find "$ZDOTDIR/.zcompdump" -mtime +1)" ] && compinit
+compinit -C
 
 bindkey -v
 KEYTIMEOUT=1
