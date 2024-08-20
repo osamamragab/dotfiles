@@ -1,5 +1,5 @@
+set database "sqlite"
 set selection-clipboard clipboard
-set sandbox none
 set statusbar-h-padding 0
 set statusbar-v-padding 0
 set page-padding 1
@@ -19,6 +19,8 @@ map g goto top
 map ; snap_to_page
 
 set recolor
+set recolor-darkcolor       "#d8dee9"
+set recolor-lightcolor      "#242933"
 set default-bg              "#242933"
 set default-fg              "#d8dee9"
 set statusbar-bg            "#242933"
@@ -37,13 +39,13 @@ set notification-error-bg   "#bf616a"
 set notification-error-fg   "#eceff4"
 set notification-warning-bg "#ebcb8b"
 set notification-warning-fg "#2e3440"
-set highlight-color         "#5e81ac"
-set highlight-active-color  "#88c0d0"
+#  #5e81ac, #88c0d0, #d8dee9
+set highlight-color         "rgba(94,129,172,0.5)"
+set highlight-active-color  "rgba(136,192,208,0.5)"
+set highlight-fg            "rgba(216,222,233,0.5)"
 set index-bg                "#242933"
 set index-fg                "#d8dee9"
 set index-active-bg         "#434c5e"
 set index-active-fg         "#d8dee9"
-set recolor-darkcolor       "#d8dee9"
-set recolor-lightcolor      "#242933"
 set render-loading-bg       "#242933"
 set render-loading-fg       "#d8dee9"
