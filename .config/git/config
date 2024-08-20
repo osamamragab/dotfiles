@@ -8,6 +8,10 @@
 [user]
 	name = Osama Ragab
 	email = theosamaragab@gmail.com
+	signingkey = 4F5D73863FBDBED9
+
+[commit]
+	gpgsign = true
 
 [push]
 	default = simple
