@@ -9,10 +9,10 @@ browserdir="$HOME/.mozilla/firefox"
 setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -svf "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-	"$sudocmd" cp -srfvt /etc/X11 "$XDG_CONFIG_HOME/x11/xorg.conf.d"
-	"$sudocmd" cp -srfvt /etc "$XDG_CONFIG_HOME/acpi" "$XDG_CONFIG_HOME/zzz.d"
 	"$sudocmd" cp -fv "$XDG_CONFIG_HOME/doas/doas.conf" /etc/doas.conf
 	"$sudocmd" cp -rfvt /etc "$HERE/.config/modprobe.d"
+	"$sudocmd" cp -srfvt /etc "$XDG_CONFIG_HOME/acpi" "$XDG_CONFIG_HOME/zzz.d"
+	"$sudocmd" cp -srfvt /etc/X11 "$XDG_CONFIG_HOME/x11/xorg.conf.d" "$XDG_CONFIG_HOME/x11/Xwrapper.config"
 }
 
 setup_runit() {

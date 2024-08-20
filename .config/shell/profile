@@ -1,5 +1,10 @@
 #!/bin/sh
 
 . "$HOME/.config/shell/env"
+
 doas -n /usr/bin/loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
-[ "$(tty)" = "/dev/tty1" ] && ! pidof -qsx Xorg && exec startx "$XINITRC"
+
+[ "$(tty)" = "/dev/tty1" ] &&
+	! pidof -qsx Xorg &&
+	mkdir -p "$XDG_DATA_HOME/xorg" &&
+	{ startx "$XINITRC" -- -keeptty >"$XDG_DATA_HOME/xorg/session.log" 2>&1; exit $?; }
