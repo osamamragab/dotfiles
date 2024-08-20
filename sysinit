@@ -24,7 +24,7 @@ echo "installing xorg & dependencies"
 xi xorg-server xorg-input-drivers xauth xinit libX11-devel libXinerama-devel libXft-devel libXrandr-devel xset xsetroot xrandr xev fribidi-devel openssl-devel gcr-devel webkit2gtk-devel
 
 echo "installing drivers & firmware"
-xi mesa mesa-dri mesa-vdpau mesa-vaapi xf86-video-amdgpu xf86-video-intel linux-firmware intel-video-accel
+xi mesa mesa-dri mesa-vdpau mesa-vaapi xf86-video-amdgpu linux-firmware intel-video-accel
 
 echo "installing network tools"
 xi dhcpcd wpa_supplicant ufw bluez bluez-alsa
