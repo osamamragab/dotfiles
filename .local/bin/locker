@@ -1,5 +1,11 @@
 #!/bin/sh
 
 pidof -qsx slock && exit 0
-(sleep 10 && pidof -qsx slock && xset dpms force suspend) &
+
+if [ "$(xssstate -s)" != "disabled" ]; then
+	idle="$(xssstate -i)"
+	(sleep 10 && [ "$(xssstate -i)" -gt "$idle" ] && xset dpms force suspend) &
+	(sleep 12000 && [ "$(xssstate -i)" -gt "$idle" ] && loginctl suspend -i) &
+fi
+
 exec slock "$@"
