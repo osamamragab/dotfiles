@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Music Player
+Icon=mpd
+Exec=/usr/bin/foot ncmpcpp
