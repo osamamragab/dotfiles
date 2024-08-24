@@ -105,6 +105,6 @@ pidof -qsx sandbar || {
 	riverctl spawn "$XDG_CONFIG_HOME/river/bar"
 }
 
-for p in "foot --server" kanshi pipewire dunst scrond mpris-proxy mpd mpd-mpris poweralertd "swayidle -w" "syncthing serve --no-browser "; do
+for p in "foot --server" kanshi pipewire mako scrond mpris-proxy mpd mpd-mpris poweralertd "swayidle -w" "syncthing serve --no-browser "; do
 	pidof -qsx "${p%% *}" || $p &
 done
