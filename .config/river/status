@@ -1,0 +1,24 @@
+#!/bin/sh
+
+printf "%s" "$$" > "$XDG_RUNTIME_DIR/status_pid"
+FIFO="$XDG_RUNTIME_DIR/sandbar"
+[ -e "$FIFO" ] || mkfifo "$FIFO"
+sec=0
+
+while :; do
+	sleep 1 &
+	wait && {
+		[ $((sec % 3600)) -eq 0 ] && days="$((($(date +%s) - $(date -d 2004-06-09 +%s)) / 86400))"
+		[ $((sec % 60)) -eq 0 ] && bat="$(batstat)"
+		[ $((sec % 15)) -eq 0 ] && {
+			cpu="$(grep -o "^[^ ]*" /proc/loadavg)% [$(sensors | awk '/Package id/{print $4}')]"
+			mem="$(free -h | awk '/^Mem/{print substr($3, 1, length($3)-1)}')"
+		}
+		[ $((sec % 5)) -eq 0 ] && {
+			net="$(netconnstat)"
+			date="$(date "+%a %d %b - %H:%M")"
+			echo "all status net: $net | mem: $mem | cpu: $cpu | bat: $bat | $date | #$days" >"$FIFO"
+		}
+		sec=$((sec + 1))
+	}
+done

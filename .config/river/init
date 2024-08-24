@@ -100,6 +100,11 @@ rivertile -view-padding 4 -outer-padding 4 &
 
 [ -s "$XDG_DATA_HOME/bg" ] && wbg "$XDG_DATA_HOME/bg" &
 
+pidof -qsx sandbar || {
+	riverctl spawn "$XDG_CONFIG_HOME/river/status"
+	riverctl spawn "$XDG_CONFIG_HOME/river/bar"
+}
+
 for p in "foot --server" kanshi pipewire dunst scrond mpris-proxy mpd mpd-mpris poweralertd "swayidle -w" "syncthing serve --no-browser "; do
 	pidof -qsx "${p%% *}" || $p &
 done
