@@ -26,15 +26,12 @@ case "$1" in
 	*) exit 1 ;;
 esac
 
-vol="$(getvol)" || vol=0
-icon="audio-volume-muted"
-if [ "$vol" -ge 70 ]; then
-	icon="audio-volume-high"
-elif [ "$vol" -ge 30 ]; then
-	icon="audio-volume-medium"
-elif [ "$vol" -ge 1 ]; then
-	icon="audio-volume-low"
-fi
-
-pkill -x -RTMIN+7 dwmblocks
-notify-send -r 9990 -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$vol" "volume" "$vol%"
+vol="$(getvol)" || exit 1
+notify-send \
+	-u low \
+	-t 1000 \
+	-a "$(basename "$0")" \
+	-h "int:value:$vol" \
+	-h "string:x-canonical-private-synchronous:volume" \
+	"volume" \
+	"$vol%"
