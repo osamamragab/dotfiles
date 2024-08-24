@@ -1,11 +1,7 @@
 #!/bin/sh
 
-pidof -qsx slock && exit 0
-
-if [ "$(xssstate -s)" != "disabled" ]; then
-	idle="$(xssstate -i)"
-	(sleep 10 && [ "$(xssstate -i)" -gt "$idle" ] && xset dpms force suspend) &
-	(sleep 12000 && [ "$(xssstate -i)" -gt "$idle" ] && loginctl suspend -i) &
-fi
-
-exec slock "$@"
+exec waylock \
+	-fork-on-lock \
+	-init-color 0x242933 \
+	-input-color 0x3b4252 \
+	-fail-color 0xbf616a
