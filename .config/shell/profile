@@ -4,7 +4,8 @@
 
 doas -n /usr/bin/loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
 
-[ "$(tty)" = "/dev/tty1" ] &&
-	! pidof -qsx Xorg &&
-	mkdir -p "$XDG_DATA_HOME/xorg" &&
-	{ startx "$XINITRC" -- -keeptty >"$XDG_DATA_HOME/xorg/session.log" 2>&1; exit $?; }
+[ -z "$SSH_AUTH_SOCK" ] && eval "$(ssh-agent -s)"
+[ -z "$DBUS_SESSION_BUS_ADDRESS" ] && eval "$(dbus-launch --exit-with-session --sh-syntax)"
+dbus-update-activation-environment --all
+
+[ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && exec "$XDG_CONFIG_HOME/river/run"
