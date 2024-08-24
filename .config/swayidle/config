@@ -1,0 +1,5 @@
+timeout 180 "screenlightctl set 10" resume "screenlightctl set 80"
+timeout 300 "locker || waylock -fork-on-lock"
+timeout 330 "wlopm --off '*'" resume "wlopm --on '*'"
+timeout 1200 "loginctl suspend -i"
+before-sleep "locker || waylock -fork-on-lock"
