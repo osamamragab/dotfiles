@@ -1,0 +1,105 @@
+#!/bin/sh
+
+riverctl map normal Super J focus-view next
+riverctl map normal Super K focus-view previous
+riverctl map normal Super+Shift J swap next
+riverctl map normal Super+Shift K swap previous
+
+riverctl map normal Super Period focus-output next
+riverctl map normal Super Comma focus-output previous
+riverctl map normal Super+Shift Period send-to-output next
+riverctl map normal Super+Shift Comma send-to-output previous
+
+riverctl map -repeat normal Super H send-layout-cmd rivertile "main-ratio -0.05"
+riverctl map -repeat normal Super L send-layout-cmd rivertile "main-ratio +0.05"
+riverctl map -repeat normal Super+Shift H send-layout-cmd rivertile "main-count +1"
+riverctl map -repeat normal Super+Shift L send-layout-cmd rivertile "main-count -1"
+
+riverctl map -repeat normal Super+Control H move left 100
+riverctl map -repeat normal Super+Control J move down 100
+riverctl map -repeat normal Super+Control K move up 100
+riverctl map -repeat normal Super+Control L move right 100
+
+riverctl map normal Super+Control+Shift H snap left
+riverctl map normal Super+Control+Shift J snap down
+riverctl map normal Super+Control+Shift K snap up
+riverctl map normal Super+Control+Shift L snap right
+
+riverctl map normal Super Space zoom
+riverctl map normal Super+Shift C close
+riverctl map normal Super+Shift Q exit
+riverctl map normal Super F toggle-fullscreen
+riverctl map normal Super+Shift Space toggle-float
+
+riverctl map-pointer normal Super BTN_LEFT move-view
+riverctl map-pointer normal Super BTN_RIGHT resize-view
+
+riverctl declare-mode passthrough
+riverctl map normal Super F11 enter-mode passthrough
+riverctl map passthrough Super F11 enter-mode normal
+
+all_tags=$(((1 << 32) - 1))
+sticky_tag=$((1 << 31))
+riverctl map normal Super 0 set-focused-tags $all_tags
+riverctl map normal Super+Shift 0 set-view-tags $all_tags
+riverctl map normal Super Tab focus-previous-tags
+riverctl map normal Super+Shift Tab send-to-previous-tags
+riverctl map normal Super+Shift S toggle-view-tags $sticky_tag
+riverctl spawn-tagmask $(( all_tags ^ sticky_tag ))
+for i in $(seq 1 9); do
+	tags=$((1 << (i - 1)))
+	riverctl map normal Super "$i" set-focused-tags $((sticky_tag + tags))
+	riverctl map normal Super+Shift "$i" set-view-tags $tags
+	riverctl map normal Super+Control "$i" toggle-focused-tags $tags
+	riverctl map normal Super+Shift+Control "$i" toggle-view-tags $tags
+done
+
+riverctl map normal Super Return spawn "$TERMINAL"
+riverctl map normal Super R spawn "fuzzel"
+riverctl map normal Super Print spawn "grim && notify-send -t 2000 'Screenshot taken'"
+
+for mode in normal locked; do
+	riverctl map $mode None XF86Eject spawn "eject -T"
+
+	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "volumectl inc"
+	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "volumectl dec"
+	riverctl map $mode None XF86AudioMute                spawn "volumectl toggle"
+	riverctl map -repeat $mode Super Equal               spawn "volumectl inc"
+	riverctl map -repeat $mode Super Minus               spawn "volumectl dec"
+	riverctl map $mode Super Backspace                   spawn "volumectl toggle"
+
+	riverctl map $mode None XF86AudioMedia spawn "playerctl play-pause"
+	riverctl map $mode None XF86AudioPlay  spawn "playerctl play-pause"
+	riverctl map $mode None XF86AudioPrev  spawn "playerctl previous"
+	riverctl map $mode None XF86AudioNext  spawn "playerctl next"
+	riverctl map $mode Control+Alt Space   spawn "playerctl play-pause"
+	riverctl map $mode Control+Alt Comma   spawn "playerctl previous"
+	riverctl map $mode Control+Alt Period  spawn "playerctl next"
+
+	riverctl map $mode None XF86MonBrightnessUp   spawn "brightnessctl set +5%"
+	riverctl map $mode None XF86MonBrightnessDown spawn "brightnessctl set 5%-"
+done
+
+riverctl background-color 0x2e3440
+riverctl border-color-urgent 0xb74e58
+riverctl border-color-focused 0x5e81ac
+riverctl border-color-unfocused 0x4c566a
+
+riverctl rule-add sdd
+riverctl rule-add -app-id bar csd
+riverctl rule-add -app-id float float
+
+riverctl hide-cursor when-typing enabled
+riverctl xcursor-theme Adwaita
+
+riverctl set-repeat 50 200
+riverctl keyboard-layout -options "caps:escape,grp:alt_caps_toggle,grp_led:caps" "us,ara"
+
+riverctl default-layout rivertile
+rivertile -view-padding 4 -outer-padding 4 &
+
+[ -s "$XDG_DATA_HOME/bg" ] && wbg "$XDG_DATA_HOME/bg" &
+
+for p in "foot --server" kanshi pipewire dunst scrond mpris-proxy mpd mpd-mpris poweralertd "swayidle -w" "syncthing serve --no-browser "; do
+	pidof -qsx "${p%% *}" || $p &
+done
