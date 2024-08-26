@@ -3,7 +3,7 @@
 getvol() {
 	vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
 	[ -z "$vol" ] && return 1
-	[ "$vol" != "${vol%\[MUTED\]}" ] && echo "muted" && return 1
+	[ "$vol" != "${vol%\[MUTED\]}" ] && echo "muted" && return 0
 	vol="${vol#Volume: }"
 	IFS="."
 	# shellcheck disable=SC2086
@@ -27,6 +27,7 @@ case "$1" in
 esac
 
 vol="$(getvol)" || exit 1
+[ "$vol" = "muted" ] && { vol=0; text="muted"; } || text="$vol%"
 notify-send \
 	-u low \
 	-t 1000 \
@@ -34,4 +35,4 @@ notify-send \
 	-h "int:value:$vol" \
 	-h "string:x-canonical-private-synchronous:volume" \
 	"volume" \
-	"$vol%"
+	"$text"
