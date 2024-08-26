@@ -29,18 +29,6 @@ autocmd({ "BufEnter" }, {
 	end,
 })
 
-autocmd({ "BufWritePost" }, {
-	group = filetype_group,
-	pattern = { "xdefaults", "Xdefaults", "xresources", "Xresources" },
-	command = "!xrdb %",
-})
-
-autocmd({ "BufWritePost" }, {
-	group = filetype_group,
-	pattern = "sxhkdrc",
-	command = "!pkill -SIGUSR1 sxhkd",
-})
-
 autocmd({ "BufReadPost" }, {
 	group = augroup("curpos", { clear = true }),
 	pattern = "*",
