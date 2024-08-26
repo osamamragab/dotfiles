@@ -1,33 +1,13 @@
 #!/bin/sh
 
-min=10
-max=100
-step=10
+brightnessctl -q -c backlight set "$@"
 
-case "$1" in
-	set) xbacklight -set "${2:-$max}" ;;
-	inc)
-		[ "$(xbacklight -get 2>/dev/null)" -lt "$max" ] &&
-			xbacklight -inc "${2:-$step}"
-		;;
-	dec)
-		[ "$(xbacklight -get 2>/dev/null)" -gt "$min" ] &&
-			xbacklight -dec "${2:-$step}"
-		;;
-	dim)
-		trap "exit 0" TERM INT
-		sleep infinity & spid=$!
-		# shellcheck disable=SC2064
-		trap "xbacklight -steps 1 -set $(xbacklight -get); kill $spid" EXIT
-		xbacklight -time 200 -steps 20 -set "${2:-10}"
-		wait
-		;;
-	*) echo "$(basename "$0"): unknown command \"$1\"" >&2; exit 1 ;;
-esac
-
-bri="$(xbacklight -get 2>/dev/null)" || exit 1
-icon="display-brightness-medium"
-[ "$bri" -ge 80 ] && icon="display-brightness-high"
-[ "$bri" -lt 40 ] && icon="display-brightness-low"
-
-notify-send -r 9991 -u low -a "$(basename "$0")" -i "$icon" -h "int:value:$bri" "brightness" "$bri%"
+bri="$(brightnessctl -m -c backlight info 2>/dev/null | cut -d "," -f 4)" || exit 1
+notify-send \
+	-u low \
+	-t 1000 \
+	-a "$(basename "$0")" \
+	-h "int:value:$bri" \
+	-h "string:x-canonical-private-synchronous:brightness" \
+	"brightness" \
+	"$bri"

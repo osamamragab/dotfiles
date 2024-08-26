@@ -76,8 +76,8 @@ for mode in normal locked; do
 	riverctl map $mode Control+Alt Comma   spawn "playerctl previous"
 	riverctl map $mode Control+Alt Period  spawn "playerctl next"
 
-	riverctl map $mode None XF86MonBrightnessUp   spawn "brightnessctl set +5%"
-	riverctl map $mode None XF86MonBrightnessDown spawn "brightnessctl set 5%-"
+	riverctl map -repeat $mode None XF86MonBrightnessUp   spawn "screenlightctl 10%+"
+	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "screenlightctl 10%-"
 done
 
 riverctl background-color 0x2e3440
