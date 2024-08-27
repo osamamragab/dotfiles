@@ -95,6 +95,8 @@ riverctl xcursor-theme Adwaita
 riverctl set-repeat 50 200
 riverctl keyboard-layout -options "caps:escape,grp:alt_caps_toggle,grp_led:caps" "us,ara"
 
+riverctl input "$(riverctl list-inputs | grep -i touchpad)" tap enabled
+
 riverctl default-layout rivertile
 rivertile -view-padding 4 -outer-padding 4 &
 
