@@ -1,5 +1,5 @@
 timeout 180 "brightnessctl -qsc backlight set 10%" resume "brightnessctl -qrc backlight"
 timeout 300 "locker || waylock -fork-on-lock"
 timeout 330 "wlopm --off '*'" resume "wlopm --on '*'"
-timeout 1200 "loginctl suspend -i"
+timeout 1200 "zzz"
 before-sleep "locker || waylock -fork-on-lock"

@@ -1,7 +1,30 @@
 #!/bin/sh
 
-export PATH="/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
-export XAUTHORITY="${XAUTHORITY:-/run/user/1000/Xauthority}"
-for sock in /tmp/.X11-unix/*; do
-	[ -S "$sock" ] && DISPLAY=":${sock##*/X}" slock &
-done && sleep 1
+for xrd in /run/user/*; do
+	uid="${xrd##*/}"
+	user="$(id -un "$uid")"
+	[ -n "$user" ] || { echo "failed to find user of $xrd" >&2; exit 1; }
+	for f in "$xrd"/*; do
+		case "$f" in
+			*/wayland-[0-9])
+				display="${f##*/}"
+				break
+				;;
+			esac
+	done
+done
+[ -z "$display" ] && { echo "no session found" >&2; exit 1; }
+
+home="$(getent passwd "$user" | cut -d ":" -f 6)"
+# shellcheck disable=SC2015
+[ -n "$home" ] && [ -d "$home" ] ||
+	{ echo "failed to find user $user home directory" >&2; exit 1; }
+
+locker="waylock"
+[ -x "$home/.local/bin/locker" ] && locker="$home/.local/bin/locker"
+
+chpst \
+	-u "$user" \
+	env "USER=$user HOME=$home WAYLAND_DISPLAY=$display XDG_RUNTIME_DIR=$xrd" \
+	timeout 5s \
+	"$locker"
