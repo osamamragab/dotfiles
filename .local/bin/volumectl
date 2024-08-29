@@ -12,17 +12,12 @@ getvol() {
 }
 
 case "$1" in
-	set) wpctl set-volume @DEFAULT_AUDIO_SINK@ "${2:-60}%" ;;
-	get) getvol && echo "%"; exit $? ;;
-	inc)
-		wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
-		wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-		;;
-	dec)
-		wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
-		wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-		;;
+	""|get) getvol && echo "%"; exit $? ;;
 	toggle) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
+	*+|*-|*%)
+		wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+		wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1"
+		;;
 	*) exit 1 ;;
 esac
 

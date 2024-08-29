@@ -61,11 +61,12 @@ riverctl map normal Super Print spawn "grim && notify-send -t 2000 'Screenshot t
 for mode in normal locked; do
 	riverctl map $mode None XF86Eject spawn "eject -T"
 
-	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "volumectl inc"
-	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "volumectl dec"
+	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "volumectl 5%+"
+	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "volumectl 5%-"
 	riverctl map $mode None XF86AudioMute                spawn "volumectl toggle"
-	riverctl map -repeat $mode Super Equal               spawn "volumectl inc"
-	riverctl map -repeat $mode Super Minus               spawn "volumectl dec"
+	riverctl map $mode None XF86AudioMicMute             spawn "amixer -q set Capture toggle"
+	riverctl map -repeat $mode Super Equal               spawn "volumectl 5%+"
+	riverctl map -repeat $mode Super Minus               spawn "volumectl 5%-"
 	riverctl map $mode Super Backspace                   spawn "volumectl toggle"
 
 	riverctl map $mode None XF86AudioMedia spawn "playerctl play-pause"
