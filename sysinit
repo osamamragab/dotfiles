@@ -20,21 +20,25 @@ fi
 
 alias xi="doas xbps-install -Sy"
 
-echo "installing xorg & dependencies"
-xi xorg-server xorg-input-drivers xauth xinit libX11-devel libXinerama-devel libXft-devel libXrandr-devel xset xsetroot xrandr xev fribidi-devel openssl-devel gcr-devel webkit2gtk-devel
+echo "installing wayland tools"
+xi river foot sandbar kanshi fuzzel mako poweralertd swayidle wlopm waylock wbg grim slurp wl-clipboard
+
+echo "installing login management tools"
+xi seatd greetd basu dumb_runtime_dir
+doas usermod -aG _seatd "$USER"
 
 echo "installing drivers & firmware"
-xi mesa mesa-dri mesa-vdpau mesa-vaapi xf86-video-amdgpu linux-firmware intel-video-accel
+xi mesa mesa-dri mesa-vdpau mesa-vaapi linux-firmware-amd linux-firmware-intel linux-firmware-network
 
 echo "installing network tools"
 xi dhcpcd wpa_supplicant ufw bluez bluez-alsa
 
 echo "installing pipewire"
-xi pipewire wireplumber wireplumber-elogind pulsemixer libspa-bluetooth
+xi pipewire wireplumber pulsemixer libspa-bluetooth
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-xi xtools xdg-utils xdg-user-dirs sxhkd xdotool xclip xsel xrdb xwallpaper xbanish xprop xss-lock xssstate picom dbus elogind acpilight wmname curl wget git patch rsync gnupg gnupg2 openssh pass pass-otp passmenu bc nq pv slop scrot dunst time entr mlocate nnn fzf ripgrep fd dust chrony scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp earlyoom buku urlview dragon highlight redshift newsboat calcurse sc-im wiki-tui srm lftp hwinfo firejail farbfeld fribidi zbar qrencode mediainfo bat delta tig vsv clipmenu translate-shell screenkey duf direnv syncthing lz4jsoncat gnome-epub-thumbnailer
+xi xdg-utils xdg-user-dirs curl wget git patch rsync gnupg openssh pass pass-otp bc time entr mlocate nnn fzf ripgrep fd chrony scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp buku urlview dragon highlight newsboat calcurse sc-im lftp hwinfo firejail fribidi zbar qrencode mediainfo bat delta tig vsv translate-shell duf direnv syncthing lz4jsoncat gnome-epub-thumbnailer
 
 echo "installing manual pages"
 xi man-pages man-pages-posix texinfo tealdeer
@@ -50,7 +54,7 @@ rustup-init -y --no-modify-path &&
 go install honnef.co/go/tools/cmd/staticcheck@latest
 
 echo "installing multimedia tools"
-xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv mpv-mpris nsxiv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp
+xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp
 [ -s /usr/lib/mpv-mpris/mpris.so ] && mkdir -p "$HOME/.config/mpv/scripts" && cp /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts"
 go install github.com/natsukagami/mpd-mpris/cmd/mpd-mpris@latest
 
@@ -81,7 +85,7 @@ xi openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy betterc
 echo "installing markup & latex tools"
 xi pandoc lowdown groff typst texlive-basic
 
-echo "installing fonts, themes, icons"
+echo "installing fonts, themes and icons"
 xi fontconfig dejavu-fonts-ttf font-ibm-plex-otf amiri-font noto-fonts-emoji arc-theme adwaita-plus
 doas ln -st /etc/fonts/conf.d/ /etc/fonts/conf.avail/10-scale-bitmap-fonts.conf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf
 doas xbps-reconfigure -f fontconfig
