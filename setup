@@ -12,7 +12,6 @@ setup_dotfiles() {
 	"$sudocmd" cp -fv "$XDG_CONFIG_HOME/doas/doas.conf" /etc/doas.conf
 	"$sudocmd" cp -rfvt /etc "$HERE/.config/modprobe.d"
 	"$sudocmd" cp -srfvt /etc "$XDG_CONFIG_HOME/acpi" "$XDG_CONFIG_HOME/zzz.d"
-	"$sudocmd" cp -srfvt /etc/X11 "$XDG_CONFIG_HOME/x11/xorg.conf.d" "$XDG_CONFIG_HOME/x11/Xwrapper.config"
 }
 
 setup_runit() {
@@ -49,8 +48,6 @@ setup_firefox() {
 clean() {
 	cd "$HERE" || exit 1
 	find .config .local -type f -exec rm -fv "$HOME/{}" \;
-	find "$HOME" -maxdepth 1 -xtype l -exec rm -fv "{}" \;
-	"$sudocmd" find /etc/X11/xorg.conf.d /etc/acpi /etc/zzz.d -xtype l -exec rm -fv "{}" \;
 	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
 	[ -s "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
 }
