@@ -1,0 +1,5 @@
+[binds]
+q = quit
+n = next
+p = prev
+P = exec echo $imv_current_file
