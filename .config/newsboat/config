@@ -27,4 +27,4 @@ color listnormal_unread blue default
 color listfocus white default bold standout
 color listfocus_unread blue default bold standout
 color article white default bold
-color info red black bold
+color info cyan black bold
