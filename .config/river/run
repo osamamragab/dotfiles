@@ -18,4 +18,4 @@ export XDG_CURRENT_DESKTOP="river"
 [ -z "$DBUS_SESSION_BUS_ADDRESS" ] && eval "$(dbus-launch --exit-with-session --sh-syntax)"
 dbus-update-activation-environment --all
 
-exec ssh-agent river -log-level debug >/tmp/river-"$(date "+%F-%T")".log 2>&1
+exec river -log-level debug >/tmp/river-"$(date "+%F-%T")".log 2>&1
