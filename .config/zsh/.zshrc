@@ -68,7 +68,7 @@ add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
 bindkey -s "^o" '^uxdg-open "$(fzf)" >/dev/null\n'
 bindkey -s "^f" '^ue "$(fzf)"\n'
-bindkey -s "^g" '^ucd "$(fzf)"\n'
+bindkey -s "^g" '^ucd "$(dirname "$(fzf)")"\n'
 bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
