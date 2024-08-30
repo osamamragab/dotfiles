@@ -53,16 +53,13 @@ rustup-init -y --no-modify-path &&
 	cargo install cargo-update cargo-info
 go install honnef.co/go/tools/cmd/staticcheck@latest
 
-echo "installing multimedia tools"
-xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp
-[ -s /usr/lib/mpv-mpris/mpris.so ] && mkdir -p "$HOME/.config/mpv/scripts" && cp /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts"
-go install github.com/natsukagami/mpd-mpris/cmd/mpd-mpris@latest
-
 echo "installing filesystems support"
 xi fuse3 autofs exfat-utils fuse-sshfs mtpfs simple-mtpfs
 
-echo "installing music players"
-xi mpd mpc ncmpcpp cava
+echo "installing multimedia tools"
+xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp mpd mpc playerctl ncmpcpp cava
+[ -s /usr/lib/mpv-mpris/mpris.so ] && mkdir -p "$HOME/.config/mpv/scripts" && cp /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts"
+go install github.com/natsukagami/mpd-mpris/cmd/mpd-mpris@latest
 
 echo "installing email tools"
 xi neomutt isync msmtp notmuch abook gettext
