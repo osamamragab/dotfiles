@@ -1,4 +1,4 @@
-timeout 180 "brightnessctl -qsc backlight set 10%" resume "brightnessctl -qrc backlight"
+timeout 180 "brightnessctl -qsc backlight set 10%" resume "brightnessctl -r >/dev/null"
 timeout 300 "locker || waylock -fork-on-lock"
 timeout 330 "wlopm --off '*'" resume "wlopm --on '*'"
 timeout 1200 "doas -n /usr/bin/zzz"
