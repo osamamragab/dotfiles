@@ -2,4 +2,4 @@
 Type=Application
 Name=Music Player
 Icon=mpd
-Exec=/usr/bin/foot ncmpcpp
+Exec=foot ncmpcpp
