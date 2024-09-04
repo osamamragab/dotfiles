@@ -25,6 +25,6 @@ locker="waylock"
 
 chpst \
 	-u "$user" \
-	env "USER=$user HOME=$home WAYLAND_DISPLAY=$display XDG_RUNTIME_DIR=$xrd" \
+	env USER="$user" HOME="$home" WAYLAND_DISPLAY="$display" XDG_RUNTIME_DIR="$xrd" \
 	timeout 5s \
 	"$locker"
