@@ -1,0 +1,7 @@
+profile laptop {
+	output eDP-1 enable
+}
+
+profile homelab {
+	output LVDS-1 enable
+}
