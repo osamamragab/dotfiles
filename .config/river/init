@@ -1,5 +1,7 @@
 #!/bin/sh
 
+run() { pidof -qsx "$1" || "$@" & }
+
 riverctl map normal Super J focus-view next
 riverctl map normal Super K focus-view previous
 riverctl map normal Super+Shift J swap next
@@ -110,6 +112,13 @@ pidof -qsx sandbar || {
 	riverctl spawn "$XDG_CONFIG_HOME/river/bar"
 }
 
-for p in "foot --server" kanshi pipewire mako scrond mpris-proxy mpd mpd-mpris poweralertd "swayidle -w" "syncthing serve --no-browser"; do
-	pidof -qsx "${p%% *}" || $p &
-done
+run foot --server
+run kanshi
+run pipewire
+run mako
+run scrond
+run mpris-proxy
+run poweralertd
+run swayidle -w
+run syncthing serve --no-browser
+pidof -qsx mpd || (mpd && mpd-mpris) &
