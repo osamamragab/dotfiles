@@ -42,7 +42,7 @@ setup_firefox() {
 	curl -sL https://raw.githubusercontent.com/arkenfox/user.js/master/user.js |
 		cat - "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
 	# shellcheck disable=SC2015
-	[ -n "$ffpid" ] && pkill firefox || true
+	[ -n "$ffpid" ] && pkill -x firefox || true
 }
 
 clean() {
