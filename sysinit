@@ -58,7 +58,7 @@ xi fuse3 autofs exfat-utils fuse-sshfs mtpfs simple-mtpfs
 
 echo "installing multimedia tools"
 xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp mpd mpc playerctl ncmpcpp cava
-[ -s /usr/lib/mpv-mpris/mpris.so ] && mkdir -p "$HOME/.config/mpv/scripts" && cp /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts"
+[ -s /usr/lib/mpv-mpris/mpris.so ] && mkdir -p "$HOME/.config/mpv/scripts" && ln -svf /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts"
 go install github.com/natsukagami/mpd-mpris/cmd/mpd-mpris@latest
 
 echo "installing email tools"
