@@ -32,11 +32,14 @@ autocmd({ "BufEnter" }, {
 autocmd({ "BufReadPost" }, {
 	group = augroup("curpos", { clear = true }),
 	pattern = "*",
-	callback = function(_)
-		local ft = vim.bo.filetype
-		local line =  vim.fn.line("'\"")
-		if line >= 1 and line <= vim.fn.line("$") and ft ~= "commit" and ft ~= "xxd" and ft ~= "gitrebase" then
-			vim.cmd("normal! g`\"")
+	callback = function(opts)
+		local ft = vim.bo[opts.buf].filetype
+		if ft == "commit" or ft == "rebase" then
+			return
+		end
+		local line = vim.api.nvim_buf_get_mark(opts.buf, "\"")[1]
+		if line > 1 and line <= vim.api.nvim_buf_line_count(opts.buf) then
+			vim.api.nvim_feedkeys("[g`\"", "nx", false)
 		end
 	end
 })
