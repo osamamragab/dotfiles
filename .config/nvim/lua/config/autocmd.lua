@@ -39,20 +39,9 @@ autocmd({ "BufReadPost" }, {
 		end
 		local line = vim.api.nvim_buf_get_mark(opts.buf, "\"")[1]
 		if line > 1 and line <= vim.api.nvim_buf_line_count(opts.buf) then
-			vim.api.nvim_feedkeys("[g`\"", "nx", false)
+			vim.api.nvim_feedkeys("g`\"", "nx", false)
 		end
 	end
-})
-
-
-autocmd({ "BufWritePre" }, {
-	group = format_group,
-	pattern = "*",
-	callback = function(_)
-		local cur = vim.fn.getpos(".")
-		vim.cmd("%s/\\s\\+$//e")
-		vim.fn.setpos(".", cur)
-	end,
 })
 
 autocmd({ "BufWritePre" }, {
@@ -63,6 +52,16 @@ autocmd({ "BufWritePre" }, {
 		end
 		local file = vim.uv.fs_realpath(ev.match) or ev.match
 		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+	end,
+})
+
+autocmd({ "BufWritePre" }, {
+	group = format_group,
+	pattern = "*",
+	callback = function(_)
+		local cur = vim.fn.getpos(".")
+		vim.cmd("%s/\\s\\+$//e")
+		vim.fn.setpos(".", cur)
 	end,
 })
 
