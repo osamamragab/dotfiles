@@ -11,6 +11,9 @@ return {
 					style = "classic",
 				},
 				override = {
+					Comment = {
+						fg = colors.gray5,
+					},
 					StatusLine = {
 						fg = "none",
 					},
