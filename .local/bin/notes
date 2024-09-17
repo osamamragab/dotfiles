@@ -4,14 +4,6 @@ NOTESDIR="${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
 [ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || { echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1; }
 cd "$NOTESDIR" || { echo "$(basename "$0"): can't cd to $NOTESDIR" >&2; exit 1; }
 
-open() {
-	if [ -t 0 ]; then
-		$EDITOR "$1"
-	else
-		setsid -f "$TERMINAL" -e "$EDITOR" "$1"
-	fi
-}
-
 case "$1" in
 	-s)
 		shift
@@ -19,11 +11,10 @@ case "$1" in
 		exec grep -Hnr --color=auto "$@"
 		;;
 	""|-l)
-		lines="${2:-10}"
-		[ -t 0 ] && menucmd="fzf --height=~$((lines+2))" || menucmd="dmenu -i -l $lines -p notes:"
-		sel="$(find "$NOTESDIR" -type f -not -path "$NOTESDIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | $menucmd)" || exit $?
+		height="${2:-10}"
+		sel="$(find "$NOTESDIR" -type f -not -path "$NOTESDIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | fzf --height="~$height")" || exit $?
 		[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
-		open "$NOTESDIR/${sel:-todo.md}"
+		$EDITOR "$NOTESDIR/${sel:-pad.txt}"
 		;;
 	-*)
 		echo "$(basename "$0"): unknown option '$1'" >&2
@@ -32,16 +23,16 @@ case "$1" in
 	*)
 		for f; do
 			case "$f" in
-				*.md | *.txt) open "$NOTESDIR/$f" ;;
+				*.*) $EDITOR "$NOTESDIR/$f" ;;
 				*)
 					if [ -d "$NOTESDIR/$f" ]; then
 						NOTESDIR="$NOTESDIR/$f" "$0"
 					elif [ -f "$NOTESDIR/$f.md" ]; then
-						open "$NOTESDIR/$f.md"
+						$EDITOR "$NOTESDIR/$f.md"
 					elif [ -f "$NOTESDIR/$f.txt" ]; then
-						open "$NOTESDIR/$f.txt"
+						$EDITOR "$NOTESDIR/$f.txt"
 					else
-						open "$NOTESDIR/$f"
+						$EDITOR "$NOTESDIR/$f"
 					fi
 					;;
 			esac
