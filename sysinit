@@ -83,7 +83,7 @@ echo "installing markup & latex tools"
 xi pandoc lowdown groff typst texlive-basic
 
 echo "installing fonts, themes and icons"
-xi fontconfig dejavu-fonts-ttf font-ibm-plex-otf amiri-font noto-fonts-emoji arc-theme
+xi fontconfig dejavu-fonts-ttf amiri-font noto-fonts-emoji arc-theme
 doas ln -st /etc/fonts/conf.d/ /etc/fonts/conf.avail/10-scale-bitmap-fonts.conf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf
 doas xbps-reconfigure -f fontconfig
 
