@@ -2,6 +2,11 @@ profile laptop {
 	output eDP-1 enable
 }
 
+profile dock {
+	output eDP-1 enable
+	output HDMI-A-1 enable
+}
+
 profile homelab {
 	output LVDS-1 enable
 }
