@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-REMOTE_REPOS="https://github.com/behdad/bicon https://github.com/rupa/z https://github.com/zdharma-continuum/fast-syntax-highlighting https://github.com/LukeSmithxyz/mutt-wizard"
+REMOTE_REPOS="https://github.com/behdad/bicon https://github.com/rupa/z https://github.com/zdharma-continuum/fast-syntax-highlighting"
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 
@@ -28,9 +28,6 @@ updatelocal() {
 			z)
 				doas cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1 &&
 					doas chmod 644 /usr/local/share/man/man1/z.1
-				;;
-			mutt-wizard)
-				doas make install
 				;;
 		esac
 	done
