@@ -38,7 +38,7 @@ xi pipewire wireplumber pulsemixer libspa-bluetooth
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-xi xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp pam_ssh bc time entr mlocate nnn fzf ripgrep fd chrony scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 zstd zip unzip tlp buku urlview dragon highlight newsboat calcurse sc-im lftp hwinfo firejail fribidi zbar qrencode mediainfo bat delta tig vsv translate-shell duf direnv syncthing lz4jsoncat gnome-epub-thumbnailer
+xi xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp pam_ssh bc time entr mlocate nnn fzf ripgrep fd chrony scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 7zip tlp buku urlview dragon highlight newsboat calcurse sc-im lftp hwinfo firejail fribidi zbar qrencode mediainfo bat delta tig vsv translate-shell duf direnv syncthing lz4jsoncat gnome-epub-thumbnailer
 
 echo "installing manual pages"
 xi man-pages man-pages-posix texinfo tealdeer
