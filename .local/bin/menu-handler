@@ -1,16 +1,17 @@
 #!/bin/sh
 
-input="${2:-$(xclip -o | dmenu -p "input:")}" || exit 1
-action="${1:-$(printf "copy\ndl\nbrowser\nmpv\nbookmark\ntranslate" | dmenu -i -r -p "action:")}" || exit 1
+input="${2:-$(wl-paste | menu -p "input> ")}" || exit 1
+action="${1:-$(printf "copy\ndl\nbrowser\nmpv\nbookmark\ntranslate" | menu -p "action> ")}" || exit 1
+
 case "$action" in
-	copy) printf "%s" "$input" | xclip -sel clip ;;
-	dl) dmenu_dl "$input" ;;
+	copy) printf "%s" "$input" | wl-copy ;;
 	mpv) setsid -f mpv --really-quiet "$input" >/dev/null 2>&1 ;;
 	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
 	bookmark)
-		tag="$(buku --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | dmenu -p "tag:")" || exit 1
+		tag="$(buku --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | menu -p "tag:")" || exit 1
 		buku --nostdin --tacit --np -a "$input" "$tag" >/dev/null 2>&1 ||
 			notify-send -u critical -a "$(basename "$0")" "bookmark" "adding '$input' with tag '$tag' failed"
 		;;
 	translate) notify-send -a "$(basename "$0")" "$input" "$(trans -no-ansi -no-bidi "$input")" ;;
+	*) exit 1 ;;
 esac
