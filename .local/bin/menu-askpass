@@ -1,3 +1,0 @@
-#!/bin/sh
-
-dmenu -P -fn monospace-14 -p "$1" <&- && echo

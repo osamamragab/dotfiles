@@ -58,8 +58,8 @@ export SDKMAN_DIR="$XDG_DATA_HOME/sdkman"
 
 export PATH="$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$PATH"
 
-export SUDO_ASKPASS="$HOME/.local/bin/dmenu_askpass"
-export SSH_ASKPASS="$HOME/.local/bin/dmenu_askpass"
+export SSH_ASKPASS="wayprompt-ssh-askpass"
+export SUDO_ASKPASS="wayprompt-ssh-askpass"
 
 export LESS="-R"
 export MANPAGER="less -R --use-color -Dd+b -Duc"
