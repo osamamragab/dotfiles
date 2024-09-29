@@ -1,12 +1,12 @@
 #!/bin/sh
 
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-REMOTE_REPOS="https://github.com/behdad/bicon https://github.com/rupa/z https://github.com/zdharma-continuum/fast-syntax-highlighting"
+REMOTE_REPOS="https://github.com/behdad/bicon https://github.com/rupa/z https://github.com/zdharma-continuum/fast-syntax-highlighting https://git.sr.ht/~leon_plickat/wayprompt"
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 
 updatepkgs() {
-	"$sudocmd" xbps-install -Syu
+	$sudocmd xbps-install -Syu
 	command -v rustup >/dev/null 2>&1 && rustup update
 	command -v juliaup >/dev/null 2>&1 && juliaup update
 }
@@ -23,19 +23,23 @@ updatelocal() {
 				./autogen.sh &&
 					./configure &&
 					make &&
-					doas make install
+					$sudocmd make install
 				;;
 			z)
-				doas cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1 &&
-					doas chmod 644 /usr/local/share/man/man1/z.1
+				$sudocmd cp -f "$PROGRAMSDIR/z/z.1" /usr/local/share/man/man1/z.1 &&
+					$sudocmd chmod 644 /usr/local/share/man/man1/z.1
+				;;
+			wayprompt)
+				git submodule update --init &&
+					$sudocmd zig build -Doptimize=ReleaseSafe --prefix /usr/local install
 				;;
 		esac
 	done
 }
 
 clean() {
-	"$sudocmd" xbps-remove -Ooy
-	"$sudocmd" vkpurge rm all
+	$sudocmd xbps-remove -Ooy
+	$sudocmd vkpurge rm all
 }
 
 for cmd in "${@:-all}"; do
