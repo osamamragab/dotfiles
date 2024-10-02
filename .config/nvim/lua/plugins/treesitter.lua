@@ -8,9 +8,8 @@ return {
 				auto_install = true,
 				highlight = {
 					enable = true,
-					additional_vim_regex_highlighting = { "org" },
 				},
-				ensure_installed = { "c", "zig", "rust", "go", "python", "lua", "bash", "org", "vimdoc" },
+				ensure_installed = { "c", "zig", "rust", "go", "python", "lua", "bash", "vimdoc" },
 			})
 		end,
 	},
