@@ -29,7 +29,6 @@ riverctl map normal Super+Control+Shift L snap right
 
 riverctl map normal Super Space zoom
 riverctl map normal Super+Shift C close
-riverctl map normal Super+Shift Q exit
 riverctl map normal Super F toggle-fullscreen
 riverctl map normal Super+Shift Space toggle-float
 
@@ -91,7 +90,9 @@ riverctl border-color-unfocused 0x4c566a
 riverctl rule-add ssd
 riverctl rule-add -app-id bar csd
 riverctl rule-add -app-id float float
+riverctl rule-add -title Picture-in-Picture float
 
+riverctl hide-cursor timeout 5000
 riverctl hide-cursor when-typing enabled
 riverctl xcursor-theme Adwaita
 
