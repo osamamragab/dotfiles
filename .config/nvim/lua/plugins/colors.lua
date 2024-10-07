@@ -4,26 +4,29 @@ return {
 		lazy = false,
 		priority = 1000,
 		config = function()
-			local colors = require("nordic.colors")
 			require("nordic").setup({
-				transparent_bg = true,
+				transparent = {
+					bg = true,
+					float = false,
+				},
 				telescope = {
 					style = "classic",
 				},
-				override = {
-					Comment = {
-						fg = colors.gray5,
-					},
-					StatusLine = {
+				on_highlight = function(highlights, palette)
+					highlights.Comment = {
+						fg = palette.gray5,
+					}
+
+					highlights.StatusLine = {
 						fg = "none",
-					},
-					LineNr = {
-						fg = colors.gray5,
-					},
-					PmenuSel = {
-						bg = colors.blue0,
-					},
-				},
+					}
+					highlights.LineNr = {
+						fg = palette.gray5,
+					}
+					highlights.PmenuSel = {
+						bg = palette.blue0,
+					}
+				end,
 			})
 			require("nordic").load()
 		end,
