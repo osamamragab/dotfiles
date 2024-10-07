@@ -46,14 +46,11 @@ return {
 					"rust_analyzer",
 					"gopls",
 					"pyright",
-					"tsserver",
+					"ts_ls",
 					"lua_ls",
 				},
 				handlers = {
 					function(name)
-						if name == "tsserver" then
-							name = "ts_ls"
-						end
 						require("lspconfig")[name].setup({ capabilities = capabilities })
 					end,
 					["gopls"] = function()
