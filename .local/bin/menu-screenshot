@@ -1,0 +1,34 @@
+#!/bin/sh
+
+notify() {
+	notify-send -a "$(basename "$0")" "$@"
+}
+
+for p in grim slurp wl-copy notify-send xdg-user-dir; do
+	command -v "$p" >/dev/null 2>&1 || { notify -u critical "$p not found"; exit 1; }
+done
+
+dir="$(xdg-user-dir PICTURES)/screenshots"
+[ -d "$dir" ] || mkdir -p "$dir" || { notify -u critical "cannot create directory $dir"; exit 1; }
+
+action="${1:-$(printf "select\nfullscreen\nselect-copy\nfullscreen-copy" | menu -p "$(basename "$0")> ")}"
+case "$action" in
+	select)
+		g="$(slurp -d)" || exit 1
+		grim -g "$g" "$dir/$(date "+%Y%m%d-%H%M%S").png"
+		;;
+	fullscreen)
+		grim "$dir/$(date "+%Y%m%d-%H%M%S").png"
+		;;
+	select-copy)
+		g="$(slurp -d)" || exit 1
+		grim -g "$g" - | wl-copy -t image/png
+		;;
+	fullscreen-copy)
+		grim - | wl-copy -t image/png
+		;;
+	*)
+		notify -u critical "invalid action: $action"
+		exit 1
+	;;
+esac
