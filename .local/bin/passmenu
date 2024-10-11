@@ -1,0 +1,7 @@
+#!/bin/sh
+# passmenu replacement for Wayland
+# requires pass, wl-copy (wl-clipboard), and menu script
+
+dir="${PASSWORD_STORE_DIR-$HOME/.password-store}"
+sel="$(find "$dir" -type f -name "*.gpg" -printf "%P\n" | sed -e 's/\.gpg$//' | menu)" || exit 1
+pass -c "$sel"
