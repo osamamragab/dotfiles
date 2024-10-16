@@ -37,11 +37,11 @@ autocmd({ "BufReadPost" }, {
 		if ft == "commit" or ft == "rebase" then
 			return
 		end
-		local line = vim.api.nvim_buf_get_mark(opts.buf, "\"")[1]
+		local line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
 		if line > 1 and line <= vim.api.nvim_buf_line_count(opts.buf) then
-			vim.api.nvim_feedkeys("g`\"", "nx", false)
+			vim.api.nvim_feedkeys('g`"', "nx", false)
 		end
-	end
+	end,
 })
 
 autocmd({ "BufWritePre" }, {
