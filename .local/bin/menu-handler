@@ -1,17 +1,38 @@
 #!/bin/sh
 
-input="${2:-$(wl-paste | menu -p "input> ")}" || exit 1
-action="${1:-$(printf "copy\ndl\nbrowser\nmpv\nbookmark\ntranslate" | menu -p "action> ")}" || exit 1
+notify() {
+	notify-send -a "$(basename "$0")" "$@"
+}
 
+getinput() {
+	wl-paste | menu -p "${1:-input}> "
+}
+
+action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate\nbookmark\nlist-bookmarks" | menu -p "action> ")}" || exit 1
 case "$action" in
-	copy) printf "%s" "$input" | wl-copy ;;
-	mpv) setsid -f mpv --really-quiet "$input" >/dev/null 2>&1 ;;
-	browser) setsid -f "$BROWSER" "$input" >/dev/null 2>&1 ;;
-	bookmark)
-		tag="$(buku --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | menu -p "tag:")" || exit 1
-		buku --nostdin --tacit --np -a "$input" "$tag" >/dev/null 2>&1 ||
-			notify-send -u critical -a "$(basename "$0")" "bookmark" "adding '$input' with tag '$tag' failed"
+	copy) getinput | wl-copy ;;
+	mpv) setsid -f mpv --really-quiet "$(getinput "$action")" >/dev/null 2>&1 ;;
+	search) setsid -f "$BROWSER" --search "$(getinput "$action")" >/dev/null 2>&1 ;;
+	browser) setsid -f "$BROWSER" "$(getinput "$action")" >/dev/null 2>&1 ;;
+	translate)
+		input="$(getinput "$action")"
+		notify "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
 		;;
-	translate) notify-send -a "$(basename "$0")" "$input" "$(trans -no-ansi -no-bidi "$input")" ;;
-	*) exit 1 ;;
+	bookmark)
+		url="$(getinput "$action")"
+		tag="$(buku --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | menu -p "tag> ")" || exit 1
+		buku --nostdin --tacit --np -a "$url" "$tag" >/dev/null 2>&1 ||
+			notify -u critical "error" "$action: adding '$url' with tag '$tag' failed"
+		;;
+	list-bookmarks)
+		buku -p -f 4 |
+			sed "s/\t/ /g" |
+			menu --counter -p "bookmarks> " |
+			cut -d " " -f 1 |
+			xargs -r buku -o
+		;;
+	*)
+		notify "error" "invalid action: $action"
+		exit 1
+		;;
 esac

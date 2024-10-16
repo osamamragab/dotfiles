@@ -1,7 +1,0 @@
-#!/bin/sh
-
-buku -p -f 4 |
-	sed "s/\t/ /g" |
-	menu --counter -p "bookmarks> " |
-	cut -d " " -f 1 |
-	xargs -r buku -o
