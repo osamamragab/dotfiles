@@ -57,7 +57,9 @@ done
 
 riverctl map normal Super Return spawn "$TERMINAL"
 riverctl map normal Super R spawn "fuzzel"
-riverctl map normal Super Print spawn "grim && notify-send -t 2000 'Screenshot taken'"
+riverctl map normal Super Q spawn "menu-sysact"
+riverctl map normal Super I spawn "menu-handler"
+riverctl map normal None Print spawn "menu-screenshot"
 
 for mode in normal locked; do
 	riverctl map $mode None XF86Eject spawn "eject -T"
