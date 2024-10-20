@@ -108,7 +108,7 @@ riverctl input "$(riverctl list-inputs | grep -i touchpad)" tap enabled
 riverctl default-layout rivertile
 rivertile -view-padding 4 -outer-padding 4 &
 
-dbus-update-activation-environment --all
+dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
 [ -s "$XDG_DATA_HOME/bg" ] && wbg "$XDG_DATA_HOME/bg" &
 
