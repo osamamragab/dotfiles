@@ -1,7 +1,8 @@
 #!/bin/sh
 # passmenu replacement for Wayland
-# requires pass, wl-copy (wl-clipboard), and menu script
+# requires pass, wl-copy (wl-clipboard), notify-send (libnotify), and menu script
 
 dir="${PASSWORD_STORE_DIR-$HOME/.password-store}"
 sel="$(find "$dir" -type f -name "*.gpg" -printf "%P\n" | sed -e 's/\.gpg$//' | menu)" || exit 1
-pass -c "$sel"
+pass -c "$sel" || { notify-send -a "$(basename "$0")" -u critical error "pass command failed"; exit 1; }
+notify-send -a "$(basename "$0")" "$sel" "password copied to clipboard"
