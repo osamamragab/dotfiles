@@ -125,5 +125,6 @@ run scrond
 run mpris-proxy
 run poweralertd
 run swayidle -w
+run playerctld daemon
 run syncthing serve --no-browser
 pidof -qsx mpd || (mpd && mpd-mpris) &
