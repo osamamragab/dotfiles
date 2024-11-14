@@ -60,7 +60,7 @@ riverctl map normal Super R spawn "fuzzel"
 riverctl map normal Super Q spawn "menu-sysact"
 riverctl map normal None Print spawn "menu-screenshot"
 riverctl map normal Super I spawn "menu-handler"
-riverctl map normal Super O spawn "wl-clipmon"
+riverctl map normal Super O spawn "clipman pick -t CUSTOM -T menu"
 riverctl map normal Super P spawn "passmenu"
 
 for mode in normal locked; do
@@ -128,3 +128,4 @@ run mpris-proxy
 run playerctld daemon
 run syncthing serve --no-browser
 pidof -qsx mpd || (mpd && mpd-mpris) &
+run wl-paste -t text -w clipman store -P

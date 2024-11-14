@@ -21,7 +21,7 @@ fi
 alias xi="doas xbps-install -Sy"
 
 echo "installing wayland tools"
-xi river foot sandbar kanshi fuzzel mako poweralertd swayidle wlopm waylock wbg grim slurp wl-clipboard
+xi river foot sandbar kanshi fuzzel mako poweralertd swayidle wlopm waylock wbg grim slurp wl-clipboard clipman
 
 echo "installing login management tools"
 xi seatd greetd dumb_runtime_dir
