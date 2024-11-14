@@ -62,6 +62,7 @@ riverctl map normal None Print spawn "menu-screenshot"
 riverctl map normal Super I spawn "menu-handler"
 riverctl map normal Super O spawn "clipman pick -t CUSTOM -T menu"
 riverctl map normal Super P spawn "passmenu"
+riverctl map normal Super+Shift P spawn "passmenu otp"
 
 for mode in normal locked; do
 	riverctl map $mode None XF86Eject spawn "eject -T"
