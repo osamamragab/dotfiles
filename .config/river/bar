@@ -5,7 +5,7 @@ FIFO="$XDG_RUNTIME_DIR/sandbar"
 mkfifo "$FIFO"
 
 while cat "$FIFO"; do :; done | sandbar \
-	-font "monospace:size=14:weight=bold" \
+	-font "monospace:size=12:weight=bold" \
 	-active-fg-color "#eceff4" \
 	-active-bg-color "#5e81ac" \
 	-inactive-fg-color "#eceff4" \
