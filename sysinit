@@ -3,95 +3,101 @@
 HERE="$(dirname "$(readlink -f "$0")")"
 . "$HERE/.config/shell/env"
 
-PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-[ -d "$PROGRAMSDIR" ] || mkdir -p "$PROGRAMSDIR"
+echo "installing archlinux support"
+sudo pacman -Sqyu --needed --noconfirm artix-archlinux-support
 
-echo "updating packages"
-sudo xbps-install -Syu xbps
-sudo xbps-install -Syu
+if ! command -v doas >/dev/null 2>&1; then
+	echo "installing doas"
+	sudo pacman -Sq --needed --noconfirm opendoas
+fi
 
 echo "setting up dotfiles"
 "$HERE/setup" dotfiles || { echo "setup dotfiles failed" >&2; exit 1; }
 
-if ! command -v doas >/dev/null 2>&1; then
-	echo "installing doas"
-	sudo xbps-install -Sy opendoas
-fi
+alias pkginst="doas pacman -Sq --needed --noconfirm"
+alias aurinst="paru -Sq --needed --noconfirm"
 
-alias xi="doas xbps-install -Sy"
-
-echo "installing wayland tools"
-xi river foot sandbar kanshi fuzzel mako poweralertd swayidle wlopm waylock wbg grim slurp wl-clipboard clipman wev
-
-echo "installing login management tools"
-xi seatd greetd dumb_runtime_dir
-doas usermod -aG _seatd "$USER"
+echo "updating repos and packages"
+pkgisnt -yu
 
 echo "installing drivers & firmware"
-xi mesa mesa-dri mesa-vdpau mesa-vaapi linux-firmware-amd linux-firmware-intel linux-firmware-network
+pkginst linux-firmware mesa
+
+echo "installing wayland tools"
+pkginst river foot foot-terminfo kanshi fuzzel mako swayidle wlopm waylock wl-clipboard grim slurp wf-recorder wev
+aurinst sandbar poweralertd wbg clipman
+
+echo "installing login management tools"
+pkginst seatd pam_rundir
 
 echo "installing network tools"
-xi dhcpcd wpa_supplicant ufw bluez bluez-alsa
+pkginst dhcpcd wpa_supplicant ufw bluez
 
 echo "installing pipewire"
-xi pipewire wireplumber pulsemixer libspa-bluetooth
+pkginst pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pulsemixer
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-xi xtools xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp pam_ssh bc time entr mlocate nnn fzf ripgrep fd chrony scron libnotify darkhttpd yt-dlp bsdtar tar xz gzip bzip2 7zip tlp buku urlview dragon highlight newsboat calcurse sc-im lftp hwinfo firejail fribidi zbar qrencode mediainfo bat delta vsv translate-shell duf direnv syncthing lz4jsoncat gnome-epub-thumbnailer
+pkginst pacman-contrib xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp signify acpid dbus bc time entr z mlocate nnn fzf ripgrep fd chrony libnotify darkhttpd yt-dlp tar xz gzip bzip2 p7zip libisoburn mtools tlp dragon highlight newsboat calcurse lftp hwinfo firejail fribidi zbar qrencode mediainfo bat translate-shell duf direnv syncthing gnome-epub-thumbnailer
+aurinst vsv pam_ssh wayprompt scron-git buku git-delta urlview bicon-git sc-im lz4json
 
 echo "installing manual pages"
-xi man-pages man-pages-posix texinfo tealdeer
+pkginst man-db man-pages texinfo tealdeer
 
 echo "installing text editor & shell"
-xi vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search tree-sitter-devel
+pkginst vim neovim tmux zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
+aurinst zsh-fast-syntax-highlighting
 
 echo "installing programming tools"
-xi gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rustup go python3 python3-pip python3-pipx python3-pipenv uv ruff lua luarocks nodejs pnpm xxd gdb valgrind radare2 delve binutils upx jq cppcheck shellcheck tokei hyperfine nix docker docker-compose podman podman-compose dive jupyterlab
-rustup-init -y --no-modify-path &&
-	rustup default stable &&
-	cargo install cargo-update cargo-info
-go install honnef.co/go/tools/cmd/staticcheck@latest
+pkginst gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rustup go python python-pip python-pipx python-pipenv uv ruff julia lua luarocks deno nodejs npm pnpm yarn xxd gdb valgrind radare2 delve binutils upx jq cppcheck shellcheck tokei hyperfine nix docker docker-compose podman podman-compose staticcheck dive jupyterlab
+aurinst bun-bin
+rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing filesystems support"
-xi fuse3 autofs exfat-utils ntfs-3g fuse-sshfs mtpfs simple-mtpfs
+pkginst fuse3 autofs exfat-utils ntfs-3g sshfs mtpfs
+aurinst simple-mtpfs
 
 echo "installing multimedia tools"
-xi ffmpeg ImageMagick exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu sioyek libwebp mpd mpc playerctl ncmpcpp cava
-[ -s /usr/lib/mpv-mpris/mpris.so ] && mkdir -p "$HOME/.config/mpv/scripts" && ln -svf /usr/lib/mpv-mpris/mpris.so "$HOME/.config/mpv/scripts"
-go install github.com/natsukagami/mpd-mpris/cmd/mpd-mpris@latest
+pkginst ffmpeg imagemagick perl-image-exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp mpd mpd-mpris mpc playerctl ncmpcpp
+aurinst sioyek cava
 
 echo "installing email tools"
-xi neomutt isync msmtp notmuch abook gettext
+pkginst neomutt isync msmtp notmuch gettext
+aurinst abook
 
 echo "installing system monitoring tools"
-xi strace lm_sensors socklog-void htop nvtop iotop iftop powertop
+pkginst strace lm_sensors socklog nvtop iotop iftop powertop
+aurinst htop-vim
 
 echo "installing internet stuff"
-xi firefox lynx w3m amfora weechat
+pkginst firefox lynx w3m amfora weechat webkit2gtk
+aurinst arkenfox-user.js
 
 echo "setting up firefox"
 "$HERE/setup" firefox || { echo "setup firefox failed" >&2; exit 1; }
 
 echo "installing tor and torrent tools"
-xi tor transmission
+pkginst tor torsocks transmission-cli
 
 echo "installing networking tools"
-xi openbsd-netcat lsof ldns wireshark termshark socat websocat mitmproxy bettercap sqlmap xh wrk nemesis macchanger proxychains-ng
+pkginst openbsd-netcat lsof ldns wireshark-cli termshark socat websocat mitmproxy bettercap sqlmap xh macchanger proxychains-ng
+aurinst wrk nemesis
 
 echo "installing markup & latex tools"
-xi pandoc lowdown groff typst texlive-basic
+pkginst pandoc-bin lowdown groff typst texlive-basic
 
 echo "installing fonts, themes and icons"
-xi fontconfig dejavu-fonts-ttf amiri-font noto-fonts-emoji arc-theme kvantum
-doas ln -st /etc/fonts/conf.d/ /etc/fonts/conf.avail/10-scale-bitmap-fonts.conf /usr/share/fontconfig/conf.avail/70-no-bitmaps.conf
-doas xbps-reconfigure -f fontconfig
+pkginst fontconfig ttf-dejavu noto-fonts-emoji arc-gtk-theme kvantum
+aurinst ttf-amiri
+
+echo "installing runit services"
+pkginst seatd-runit dhcpcd-runit wpa_supplicant-runit ufw-runit bluez-runit openssh-runit acpid-runit dbus-runit chrony-runit tlp-runit docker-runit
 
 echo "setting up runit services"
 "$HERE/setup" runit || { echo "setup runit failed" >&2; exit 1; }
 
-echo "installing local programs"
-"$HERE/.local/bin/sysupdate" local || { echo "sysupdate script failed" >&2; exit 1; }
+echo "setting user permissions"
+doas usermod -aG video,audio,input,power,storage,optical,lp,scanner,seat,dbus,adbusers,uucp "$USER"
 
 echo "changing shell"
 chsh -s "$(which zsh)"
