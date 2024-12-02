@@ -38,7 +38,7 @@ pkginst pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pulsemi
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-pkginst pacman-contrib xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp signify acpid dbus bc time entr z mlocate nnn fzf ripgrep fd chrony libnotify darkhttpd yt-dlp tar xz gzip bzip2 p7zip libisoburn mtools tlp dragon highlight newsboat calcurse lftp hwinfo firejail fribidi zbar qrencode mediainfo bat translate-shell duf direnv syncthing gnome-epub-thumbnailer
+pkginst pacman-contrib xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp signify acpid dbus bc time entr z mlocate nnn fzf ripgrep fd chrony libnotify darkhttpd yt-dlp tar xz gzip bzip2 p7zip unzip unrar libisoburn mtools tlp dragon highlight newsboat calcurse lftp hwinfo firejail fribidi zbar qrencode mediainfo bat translate-shell duf direnv syncthing gnome-epub-thumbnailer
 aurinst vsv pam_ssh wayprompt scron-git buku git-delta urlview bicon-git sc-im lz4json
 
 echo "installing manual pages"
