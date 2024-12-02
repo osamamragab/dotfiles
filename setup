@@ -3,53 +3,55 @@
 HERE="$(dirname "$(readlink -f "$0")")"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
-sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
+
+# shellcheck disable=2015
+sudocmd="$([ -s /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 browserdir="$HOME/.mozilla/firefox"
 
 setup_dotfiles() {
-	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
+	cp -srvft "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -svf "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-	"$sudocmd" cp -fv "$XDG_CONFIG_HOME/doas/doas.conf" /etc/doas.conf
-	"$sudocmd" cp -rfvt /etc "$HERE/.config/modprobe.d"
-	"$sudocmd" cp -srfvt /etc "$XDG_CONFIG_HOME/acpi" "$XDG_CONFIG_HOME/zzz.d"
+	$sudocmd cp -vf "$XDG_CONFIG_HOME/doas/doas.conf" /etc/doas.conf
+	$sudocmd cp -rvft /etc "$HERE/.config/modprobe.d"
+	$sudocmd cp -srvft /etc "$XDG_CONFIG_HOME/acpi" "$XDG_CONFIG_HOME/zzz.d"
+	$sudocmd cp -vf "$XDG_CONFIG_HOME/pacman/pacman.conf" /etc/pacman.conf
 }
 
 setup_runit() {
 	doas rm -vf \
-		/var/service/agetty-tty4 \
-		/var/service/agetty-tty5 \
-		/var/service/agetty-tty6
-	doas ln -svft /var/service \
-		/etc/sv/acpid \
-		/etc/sv/seatd \
-		/etc/sv/chronyd \
-		/etc/sv/socklog-unix \
-		/etc/sv/nanoklogd \
-		/etc/sv/udevd \
-		/etc/sv/dhcpcd \
-		/etc/sv/wpa_supplicant \
-		/etc/sv/dbus \
-		/etc/sv/tlp \
-		/etc/sv/bluetoothd \
-		/etc/sv/sshd \
-		/etc/sv/docker
+		/run/runit/service/agetty-tty4 \
+		/run/runit/service/agetty-tty5 \
+		/run/runit/service/agetty-tty6
+	doas ln -svft /run/runit/service \
+		/etc/runit/sv/udevd \
+		/etc/runit/sv/acpid \
+		/etc/runit/sv/seatd \
+		/etc/runit/sv/chronyd \
+		/etc/runit/sv/socklog-unix \
+		/etc/runit/sv/nanoklogd \
+		/etc/runit/sv/dhcpcd \
+		/etc/runit/sv/wpa_supplicant \
+		/etc/runit/sv/dbus \
+		/etc/runit/sv/tlp \
+		/etc/runit/sv/bluetoothd \
+		/etc/runit/sv/sshd \
+		/etc/runit/sv/docker
 }
 
 setup_firefox() {
 	[ -d "$browserdir" ] ||
 		{ firefox --headless >/dev/null 2>&1 & ffpid=$!; sleep 1; }
 	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
-	curl -sL https://raw.githubusercontent.com/arkenfox/user.js/master/user.js |
-		cat - "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
+	cat "/usr/share/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
 	# shellcheck disable=SC2015
-	[ -n "$ffpid" ] && pkill -x firefox || true
+	[ -n "$ffpid" ] && kill "$ffpid" || true
 }
 
 clean() {
 	cd "$HERE" || exit 1
-	find .config .local -type f -exec rm -fv "$HOME/{}" \;
+	find .config .local -type f -exec rm -vf "$HOME/{}" \;
 	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
-	[ -s "$browserdir/$profile/user.js" ] && rm -fv "$browserdir/$profile/user.js"
+	[ -s "$browserdir/$profile/user.js" ] && rm -vf "$browserdir/$profile/user.js"
 }
 
 case "$1" in
