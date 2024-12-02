@@ -1,11 +1,11 @@
 #!/bin/sh
 
 case "${1:-$(printf "lock\nexit\nsuspend\nhibernate\nreboot\npoweroff" | menu -p "sysact> ")}" in
-	lock) locker ;;
+	lock) loginctl lock-session -i ;;
 	exit) riverctl exit ;;
-	suspend) doas -n /usr/bin/zzz -z ;;
-	hibernate) doas -n /usr/bin/zzz -Z ;;
-	reboot) doas -n /usr/bin/reboot ;;
-	poweroff) doas -n /usr/bin/poweroff ;;
+	suspend) loginctl suspend -i ;;
+	hibernate) loginctl hibernate -i ;;
+	reboot) loginctl reboot -i ;;
+	poweroff) loginctl poweroff -i ;;
 	*) exit 1;;
 esac
