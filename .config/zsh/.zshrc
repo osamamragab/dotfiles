@@ -71,7 +71,6 @@ bindkey -s "^f" '^ue "$(fzf)"\n'
 bindkey -s "^g" '^ucd "$(dirname "$(fzf)")"\n'
 bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
-PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 ZSHPLUGINSDIR="${ZSHPLUGINSDIR:-/usr/share/zsh/plugins}"
 if [ -f "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-search.zsh" ]; then
 	. "$ZSHPLUGINSDIR/zsh-history-substring-search/zsh-history-substring-search.zsh"
@@ -84,9 +83,9 @@ if [ -f "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh" ]; t
 	ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 	. "$ZSHPLUGINSDIR/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 fi
-[ -f "$PROGRAMSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
-	. "$PROGRAMSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+[ -f "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] &&
+	. "$ZSHPLUGINSDIR/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
-[ -f "$PROGRAMSDIR/z/z.sh" ] && . "$PROGRAMSDIR/z/z.sh"
+[ -f /usr/share/z/z.sh ] && . /usr/share/z/z.sh
 # [ -f "$SDKMAN_DIR/bin/sdkman-init.sh" ] && . "$SDKMAN_DIR/bin/sdkman-init.sh" || true
