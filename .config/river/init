@@ -114,8 +114,8 @@ dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 [ -s "$XDG_DATA_HOME/bg" ] && wbg "$XDG_DATA_HOME/bg" &
 
 pidof -qsx sandbar || {
-	riverctl spawn "$XDG_CONFIG_HOME/river/status"
 	riverctl spawn "$XDG_CONFIG_HOME/river/bar"
+	riverctl spawn "$XDG_CONFIG_HOME/river/status"
 }
 
 run foot --server
