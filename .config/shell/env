@@ -67,6 +67,7 @@ export SUDO_ASKPASS="wayprompt-ssh-askpass"
 
 export LESS="-R"
 export MANPAGER="less -R --use-color -Dd+b -Duc"
+export MANROFFOPT="-P -c"
 export FZF_DEFAULT_OPTS="--layout=reverse --height=~40%"
 export PASSWORD_STORE_GPG_OPTS="--no-throw-keyids"
 export NIX_REMOTE="daemon"
