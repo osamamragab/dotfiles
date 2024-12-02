@@ -9,29 +9,20 @@ code before running it.
 
 Clone the repo and run the `setup` script:
 ```sh
-git clone https://gitlab.com/osamaragab/dotfiles.git
+git clone https://github.com/osamamragab/dotfiles.git
 cd dotfiles
 ./setup
 ```
 
 Use the `sysinit` script instead to install the packages and setup the dotfiles
-for a fresh [Void Linux](https://voidlinux.org/) install:
+for a fresh [Artix Linux](https://artixlinux.org/) install:
 ```sh
 ./sysinit
 ```
 
 ## Post Install
 
-### PAM config
-
-#### dumb_runtime_dir
-
-add the following to /etc/pam.d/system-login
-```pamconf
-...
--session   optional   pam_dumb_runtime_dir.so
-```
-[GitHub](https://github.com/ifreund/dumb_runtime_dir)
+### pam_ssh
 
 #### pam_ssh
 
