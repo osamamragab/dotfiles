@@ -28,7 +28,7 @@ pkginst river foot foot-terminfo kanshi fuzzel mako swayidle wlopm waylock wl-cl
 aurinst sandbar poweralertd wbg clipman
 
 echo "installing login management tools"
-pkginst seatd pam_rundir
+pkginst elogind pam_rundir
 
 echo "installing network tools"
 pkginst dhcpcd wpa_supplicant ufw bluez
@@ -91,13 +91,13 @@ pkginst fontconfig ttf-dejavu noto-fonts-emoji arc-gtk-theme kvantum
 aurinst ttf-amiri
 
 echo "installing runit services"
-pkginst seatd-runit dhcpcd-runit wpa_supplicant-runit ufw-runit bluez-runit openssh-runit acpid-runit dbus-runit chrony-runit tlp-runit docker-runit
+pkginst elogind-runit dhcpcd-runit wpa_supplicant-runit ufw-runit bluez-runit openssh-runit acpid-runit dbus-runit chrony-runit tlp-runit docker-runit
 
 echo "setting up runit services"
 "$HERE/setup" runit || { echo "setup runit failed" >&2; exit 1; }
 
 echo "setting user permissions"
-doas usermod -aG video,audio,input,power,storage,optical,lp,scanner,seat,dbus,docker,adbusers,uucp "$USER"
+doas usermod -aG video,audio,input,power,storage,optical,lp,scanner,dbus,docker,adbusers,uucp "$USER"
 
 echo "changing shell"
 chsh -s "$(which zsh)"
