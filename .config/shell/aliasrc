@@ -20,10 +20,6 @@ alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
 
-alias xi="xbps-install -S"
-alias xr="xbps-remove -R"
-alias xq="xbps-query -R"
-
 alias ip="ip -color=auto"
 alias bc="bc -ql"
 alias nnn="nnn -Rr"
@@ -40,7 +36,7 @@ alias drag="dragon-drop -x"
 [ -f "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC"
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
-for cmd in su mount umount updatedb zzz ZZZ reboot poweroff shutdown sv vsv xbps-install xbps-remove; do
+for cmd in su mount umount updatedb zzz ZZZ reboot poweroff shutdown sv vsv; do
 	alias $cmd="$sudocmd $cmd"
 done
 unset sudocmd cmd
