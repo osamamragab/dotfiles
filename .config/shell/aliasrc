@@ -36,7 +36,7 @@ alias drag="dragon-drop -x"
 [ -f "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC"
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
-for cmd in su mount umount updatedb zzz ZZZ reboot poweroff shutdown sv vsv; do
-	alias $cmd="$sudocmd $cmd"
+for cmd in su mount umount zzz ZZZ reboot poweroff shutdown sv vsv; do
+	alias $cmd="$sudocmd $(which "$cmd")"
 done
 unset sudocmd cmd
