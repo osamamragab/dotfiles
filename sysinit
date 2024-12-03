@@ -33,8 +33,8 @@ pkginst elogind pam_rundir
 echo "installing network tools"
 pkginst dhcpcd wpa_supplicant ufw bluez
 
-echo "installing pipewire"
-pkginst pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pulsemixer
+echo "installing audio tools"
+pkginst alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pulsemixer
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
