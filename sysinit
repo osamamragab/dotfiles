@@ -38,7 +38,7 @@ pkginst alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplum
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-pkginst pacman-contrib xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp signify dbus bc time entr less lesspipe z mlocate nnn fzf ripgrep fd chrony libnotify darkhttpd yt-dlp tar xz gzip bzip2 p7zip unzip unrar libisoburn mtools tlp dragon highlight newsboat calcurse lftp hwinfo firejail fribidi zbar qrencode mediainfo bat translate-shell duf direnv syncthing gnome-epub-thumbnailer
+pkginst pacman-contrib xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp signify dbus bc time entr less lesspipe z mlocate nnn fzf ripgrep fd chrony libnotify darkhttpd yt-dlp tar xz gzip bzip2 p7zip unzip unrar libisoburn mtools hdparm tlp dragon highlight newsboat calcurse lftp hwinfo firejail fribidi zbar qrencode mediainfo bat translate-shell duf direnv syncthing gnome-epub-thumbnailer
 aurinst vsv pam_ssh wayprompt scron-git buku git-delta urlview bicon-git sc-im lz4json
 
 echo "installing manual pages"
@@ -54,7 +54,7 @@ aurinst bun-bin
 rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing filesystems support"
-pkginst fuse3 autofs exfat-utils ntfs-3g sshfs mtpfs
+pkginst fuse3 autofs exfat-utils ntfs-3g sshfs mtpfs ifuse
 aurinst simple-mtpfs
 
 echo "installing multimedia tools"
@@ -66,7 +66,7 @@ pkginst neomutt isync msmtp notmuch gettext
 aurinst abook
 
 echo "installing system monitoring tools"
-pkginst strace lm_sensors socklog nvtop iotop iftop powertop
+pkginst strace lm_sensors socklog nvtop iotop iftop powertop smartmontools
 aurinst htop-vim
 
 echo "installing internet stuff"
