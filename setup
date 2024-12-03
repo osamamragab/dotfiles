@@ -30,6 +30,7 @@ setup_runit() {
 		/etc/runit/sv/dhcpcd \
 		/etc/runit/sv/wpa_supplicant \
 		/etc/runit/sv/bluetoothd \
+		/etc/runit/sv/cronie \
 		/etc/runit/sv/tlp \
 		/etc/runit/sv/sshd \
 		/etc/runit/sv/docker

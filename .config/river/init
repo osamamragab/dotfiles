@@ -122,7 +122,6 @@ run foot --server
 run kanshi
 run pipewire
 run mako
-run scrond
 run swayidle -w
 run poweralertd
 run mpris-proxy
