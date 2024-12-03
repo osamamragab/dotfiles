@@ -21,8 +21,8 @@ setup_runit() {
 		/run/runit/service/agetty-tty5 \
 		/run/runit/service/agetty-tty6
 	doas ln -svft /run/runit/service \
-		/etc/runit/sv/socklog-unix \
-		/etc/runit/sv/nanoklogd \
+		/etc/runit/sv/socklog \
+		/etc/runit/sv/klog \
 		/etc/runit/sv/dbus \
 		/etc/runit/sv/udevd \
 		/etc/runit/sv/chrony \
