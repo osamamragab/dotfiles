@@ -86,8 +86,8 @@ aurinst wrk nemesis
 echo "installing markup and latex tools"
 pkginst pandoc-bin lowdown groff typst texlive-basic
 
-echo "installing fonts, themes and icons"
-pkginst fontconfig ttf-dejavu noto-fonts-emoji arc-gtk-theme kvantum
+echo "installing fonts, icons, themes and sounds"
+pkginst fontconfig ttf-dejavu noto-fonts-emoji arc-gtk-theme kvantum sound-theme-freedesktop
 aurinst ttf-amiri
 
 echo "installing runit services"
