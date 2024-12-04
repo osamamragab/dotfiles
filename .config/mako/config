@@ -35,3 +35,9 @@ on-notify=exec play -q "$XDG_DATA_HOME/sounds/low_battery.wav"
 
 [app-name=poweralertd category=power.critical]
 on-notify=exec play -q "$XDG_DATA_HOME/sounds/low_battery.wav"
+
+[app-name=wpa_supplicant category=network.connected]
+on-notify=exec play -q /usr/share/sounds/freedesktop/stereo/service-login.oga
+
+[app-name=wpa_supplicant category=network.disconnected]
+on-notify=exec play -q /usr/share/sounds/freedesktop/stereo/service-logout.oga
