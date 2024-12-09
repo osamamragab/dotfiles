@@ -101,4 +101,4 @@ doas usermod -aG video,audio,input,power,storage,optical,lp,scanner,dbus,docker,
 
 echo "changing shell"
 chsh -s "$(which zsh)"
-doas ln -sf "$(which dash)" /bin/sh
+doas ln -sfT dash /usr/bin/sh

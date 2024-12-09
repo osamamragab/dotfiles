@@ -11,8 +11,9 @@ browserdir="$HOME/.mozilla/firefox"
 setup_dotfiles() {
 	cp -srvft "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -svf "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-	$sudocmd cp -rvft /etc "$HERE/.config/modprobe.d" "$XDG_CONFIG_HOME/zzz.d"
 	$sudocmd cp -vft /etc "$XDG_CONFIG_HOME/doas/doas.conf" "$XDG_CONFIG_HOME/pacman/pacman.conf"
+	$sudocmd cp -rvft /etc "$HERE/.config/modprobe.d" "$XDG_CONFIG_HOME/zzz.d"
+	$sudocmd cp -rvft /etc/pacman.d "$HERE/.config/pacman/hooks"
 }
 
 setup_runit() {
