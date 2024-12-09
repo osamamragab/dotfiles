@@ -1,5 +1,48 @@
+[options]
+suppress_default_binds = true
+
 [binds]
 q = quit
+x = close
+f = fullscreen
 n = next
 p = prev
-P = exec echo $imv_current_file
+<Left> = prev
+<bracketleft> = prev
+<Right> = next
+<bracketright> = next
+gg = goto 1
+<Shift+G> = goto -1
+j = pan 0 -50
+k = pan 0 50
+h = pan 50 0
+l = pan -50 0
+<Up> = zoom 1
+<Shift+plus> = zoom 1
+i = zoom 1
+o = zoom -1
+<Down> = zoom -1
+<minus> = zoom -1
+r = rotate by 90
+<Shift+R> = rotate by -90
+d = overlay
+<Shift+P> = exec echo "$imv_current_file"
+c = center
+s = scaling next
+<Shift+S> = upscaling next
+a = zoom actual
+<Ctrl+r> = reset
+<period> = next_frame
+<space> = toggle_playing
+t = slideshow +1
+<Shift+T> = slideshow -1
+
+<Ctrl+x>w = exec pkill -x wbg; exec setsid -f wbg "$imv_current_file"
+<Ctrl+x>r = exec magick mogrify -rotate 90 "$imv_current_file"
+<Ctrl+x><Shift+R> = exec magick mogrify -rotate -90 "$imv_current_file"
+<Ctrl+x>f = exec magick mogrify -flop "$imv_current_file"
+<Ctrl+x>i = exec notify-send -a imv "file info" "$(mediainfo "$imv_current_file" | sed 's/[ ]\+:/:/g;s/: /: <b>/;s/$/<\/b>/' | grep '<b>')"
+<Ctrl+x>d = exec [ "$(printf "no\nyes" | menu -p "delete $imv_current_file?")" = "yes" ] && rm "$imv_current_file" && notify-send -a imv "$imv_current_file deleted" && imv-msg "$imv_pid" close
+<Ctrl+x><Shift+D> = exec rm "$imv_current_file" && notify-send -a imv "$imv_current_file deleted" && imv-msg "$imv_pid" close
+<Ctrl+x>y = exec wl-copy <"$imv_current_file" && notify-send -a imv "$imv_current_file copied to clipboard"
+<Ctrl+x>g = exec setsid -f dragon-drop -x "$imv_current_file"
