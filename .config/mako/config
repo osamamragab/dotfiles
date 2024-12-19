@@ -24,6 +24,9 @@ invisible=1
 [app-name=poweralertd]
 on-notify=none
 
+[app-name=screenlightctl]
+on-notify=none
+
 [app-name=poweralertd category=power.online]
 on-notify=exec play -q /usr/share/sounds/freedesktop/stereo/power-plug.oga
 
