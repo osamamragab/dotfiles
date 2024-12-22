@@ -17,5 +17,5 @@ sel="$(
 	menu -p "$app${otp:+ otp}> "
 )" || exit 1
 
-pass "${otp:+otp}" -c "$sel" || { notify-send -a "$app" -u critical error "pass${otp:+ otp} command failed"; exit 1; }
+pass ${otp:+otp} -c "$sel" || { notify-send -a "$app" -u critical error "pass${otp:+ otp} command failed"; exit 1; }
 notify-send -a "$app" "$sel" "${otp:+otp}${otp:-password} copied to clipboard"
