@@ -67,8 +67,21 @@ function chpwd-osc7-pwd() {
 autoload -Uz add-zsh-hook
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
-bindkey -s "^o" '^uxdg-open "$(fzf)" >/dev/null\n'
+zshcache_time="$(date +%s%N)"
+precmd_rehash() {
+  if [[ -a /var/cache/zsh/pacman ]]; then
+    local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
+    if (( zshcache_time < paccache_time )); then
+      rehash
+      zshcache_time="$paccache_time"
+    fi
+  fi
+}
+add-zsh-hook -Uz precmd precmd_rehash
+
+bindkey -s "^s" '"$(fzf)"\n'
 bindkey -s "^f" '^ue "$(fzf)"\n'
+bindkey -s "^o" '^uxdg-open "$(fzf)"\n'
 bindkey -s "^g" '^ucd "$(dirname "$(fzf)")"\n'
 bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
 
@@ -89,4 +102,3 @@ fi
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 [ -r /usr/share/z/z.sh ] && . /usr/share/z/z.sh
-# [ -r "$SDKMAN_DIR/bin/sdkman-init.sh" ] && . "$SDKMAN_DIR/bin/sdkman-init.sh" || true
