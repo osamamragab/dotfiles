@@ -58,7 +58,7 @@ pkginst fuse3 autofs exfat-utils ntfs-3g sshfs mtpfs ifuse
 aurinst simple-mtpfs
 
 echo "installing multimedia tools"
-pkginst ffmpeg imagemagick perl-image-exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp mpd mpd-mpris mpc playerctl ncmpcpp
+pkginst ffmpeg imagemagick poppler perl-image-exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp mpd mpd-mpris mpc playerctl ncmpcpp
 aurinst sioyek cava
 
 echo "installing email tools"
