@@ -50,7 +50,7 @@ aurinst zsh-fast-syntax-highlighting
 
 echo "installing programming tools"
 pkginst gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rustup go python python-pip python-pipx python-pipenv uv ruff julia lua luarocks deno nodejs npm pnpm yarn xxd gdb valgrind radare2 delve binutils upx jq cppcheck shellcheck tokei hyperfine nix docker docker-compose podman podman-compose staticcheck dive jupyterlab
-aurinst bun-bin
+aurinst bun-bin sdkmanager
 rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing filesystems support"
