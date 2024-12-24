@@ -46,7 +46,7 @@ riverctl map normal Super+Shift 0 set-view-tags $all_tags
 riverctl map normal Super Tab focus-previous-tags
 riverctl map normal Super+Shift Tab send-to-previous-tags
 riverctl map normal Super+Shift S toggle-view-tags $sticky_tag
-riverctl spawn-tagmask $(( all_tags ^ sticky_tag ))
+riverctl spawn-tagmask $((all_tags ^ sticky_tag))
 for i in $(seq 1 9); do
 	tags=$((1 << (i - 1)))
 	riverctl map normal Super "$i" set-focused-tags $((sticky_tag + tags))
@@ -104,7 +104,7 @@ riverctl xcursor-theme Adwaita
 riverctl set-repeat 50 200
 riverctl keyboard-layout -options "caps:escape,grp:alt_caps_toggle,grp_led:caps" "us,ara"
 
-riverctl input "$(riverctl list-inputs | grep -i touchpad)" tap enabled
+riverctl list-inputs | grep -i touchpad | xargs -I{} riverctl input "{}" tap enabled
 
 riverctl default-layout rivertile
 rivertile -view-padding 4 -outer-padding 4 &
