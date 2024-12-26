@@ -8,7 +8,7 @@ background-color=#2e3440
 border-color=#5e81ac
 border-radius=10
 progress-color=over #5e81ac
-on-notify=exec play -q /usr/share/sounds/freedesktop/stereo/message.oga
+on-notify=exec timeout 1 playerctl -a status | grep Playing || play -q /usr/share/sounds/freedesktop/stereo/message.oga
 
 [hidden]
 format=(and %h more)
