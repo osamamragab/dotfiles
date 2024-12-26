@@ -73,7 +73,7 @@ for mode in normal locked; do
 	riverctl map $mode None XF86AudioMicMute spawn "amixer -q set Capture toggle"
 	riverctl map -repeat $mode Super Equal spawn "volumectl 5%+"
 	riverctl map -repeat $mode Super Minus spawn "volumectl 5%-"
-	riverctl map $mode Super Backspace spawn "volumectl toggle"
+	riverctl map $mode Super+Shift Backspace spawn "volumectl toggle"
 
 	riverctl map $mode None XF86AudioMedia spawn "playerctl play-pause"
 	riverctl map $mode None XF86AudioPlay spawn "playerctl play-pause"
