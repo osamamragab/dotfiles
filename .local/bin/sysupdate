@@ -4,12 +4,13 @@ sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 
 updatepkgs() {
 	$sudocmd pacman -Syu --noconfirm
-	paru -Syu --noconfirm
+	paru -Sua --noconfirm
 	command -v rustup >/dev/null 2>&1 && rustup update
 }
 
 clean() {
 	$sudocmd pacman -Sqc --noconfirm
+	paru -Sqca --noconfirm
 }
 
 for cmd in "${@:-all}"; do
