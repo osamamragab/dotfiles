@@ -111,12 +111,12 @@ rivertile -view-padding 4 -outer-padding 4 &
 
 dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
-[ -s "$XDG_DATA_HOME/bg" ] && wbg "$XDG_DATA_HOME/bg" &
-
 pidof -qsx sandbar || {
 	riverctl spawn "$XDG_CONFIG_HOME/river/bar"
 	riverctl spawn "$XDG_CONFIG_HOME/river/status"
 }
+
+[ -s "$XDG_DATA_HOME/bg" ] && run wbg "$XDG_DATA_HOME/bg"
 
 run foot --server
 run kanshi
