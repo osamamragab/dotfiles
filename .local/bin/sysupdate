@@ -13,11 +13,8 @@ clean() {
 	paru -Sqca --noconfirm
 }
 
-for cmd in "${@:-all}"; do
-	case "$cmd" in
-		pkgs) updatepkgs ;;
-		clean) clean ;;
-		all) updatepkgs && clean;;
-		*) echo "$(basename "$0"): unknown command \"$cmd\"" >&2; exit 1 ;;
-	esac
-done
+case "$1" in
+	""|pkgs) updatepkgs ;;
+	clean) clean ;;
+	*) echo "$(basename "$0"): unknown command \"$1\"" >&2; exit 1 ;;
+esac
