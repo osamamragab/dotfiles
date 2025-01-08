@@ -18,7 +18,7 @@ alias pkginst="doas pacman -Sq --needed --noconfirm"
 alias aurinst="paru -Sq --needed --noconfirm"
 
 echo "updating repos and packages"
-pkgisnt -yu
+pkginst -yu
 
 echo "installing drivers and firmware"
 pkginst linux-firmware mesa
