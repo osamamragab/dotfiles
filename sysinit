@@ -80,7 +80,7 @@ echo "installing tor and torrent tools"
 pkginst tor torsocks transmission-cli
 
 echo "installing networking tools"
-pkginst openbsd-netcat lsof ldns wireshark-cli termshark socat websocat mitmproxy bettercap sqlmap xh macchanger proxychains-ng
+pkginst openbsd-netcat lsof ldns inetutils net-tools wireshark-cli termshark socat websocat mitmproxy bettercap sqlmap xh macchanger proxychains-ng
 aurinst wrk nemesis
 
 echo "installing markup and latex tools"
