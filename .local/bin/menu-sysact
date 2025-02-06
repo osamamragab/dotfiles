@@ -7,5 +7,5 @@ case "${1:-$(printf "lock\nexit\nsuspend\nhibernate\nreboot\npoweroff" | menu -p
 	hibernate) loginctl hibernate -i ;;
 	reboot) loginctl reboot -i ;;
 	poweroff) loginctl poweroff -i ;;
-	*) exit 1;;
+	*) exit 1 ;;
 esac

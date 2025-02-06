@@ -14,7 +14,10 @@ clean() {
 }
 
 case "$1" in
-	""|pkgs) updatepkgs ;;
+	"" | pkgs) updatepkgs ;;
 	clean) clean ;;
-	*) echo "$(basename "$0"): unknown command \"$1\"" >&2; exit 1 ;;
+	*)
+		echo "$(basename "$0"): unknown command \"$1\"" >&2
+		exit 1
+		;;
 esac

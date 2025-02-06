@@ -3,22 +3,31 @@
 for xrd in /run/user/*; do
 	uid="${xrd##*/}"
 	user="$(id -un "$uid")"
-	[ -n "$user" ] || { echo "failed to find user of $xrd" >&2; exit 1; }
+	[ -n "$user" ] || {
+		echo "failed to find user of $xrd" >&2
+		exit 1
+	}
 	for f in "$xrd"/*; do
 		case "$f" in
 			*/wayland-[0-9])
 				display="${f##*/}"
 				break
 				;;
-			esac
+		esac
 	done
 done
-[ -z "$display" ] && { echo "no session found" >&2; exit 1; }
+[ -z "$display" ] && {
+	echo "no session found" >&2
+	exit 1
+}
 
 home="$(getent passwd "$user" | cut -d ":" -f 6)"
 # shellcheck disable=SC2015
 [ -n "$home" ] && [ -d "$home" ] ||
-	{ echo "failed to find user $user home directory" >&2; exit 1; }
+	{
+		echo "failed to find user $user home directory" >&2
+		exit 1
+	}
 
 locker="waylock"
 [ -x "$home/.local/bin/locker" ] && locker="$home/.local/bin/locker"

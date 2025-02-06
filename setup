@@ -40,7 +40,11 @@ setup_runit() {
 
 setup_firefox() {
 	[ -d "$browserdir" ] ||
-		{ firefox --headless >/dev/null 2>&1 & ffpid=$!; sleep 1; }
+		{
+			firefox --headless >/dev/null 2>&1 &
+			ffpid=$!
+			sleep 1
+		}
 	sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini" | while IFS= read -r profile; do
 		cat "/usr/share/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
 	done
@@ -56,7 +60,7 @@ clean() {
 }
 
 case "$1" in
-	""|all)
+	"" | all)
 		setup_dotfiles
 		setup_runit
 		setup_firefox

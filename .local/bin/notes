@@ -1,16 +1,25 @@
 #!/bin/sh
 
 NOTESDIR="${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
-[ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || { echo "$(basename "$0"): can't create dir $NOTESDIR" >&2; exit 1; }
-cd "$NOTESDIR" || { echo "$(basename "$0"): can't cd to $NOTESDIR" >&2; exit 1; }
+[ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || {
+	echo "$(basename "$0"): can't create dir $NOTESDIR" >&2
+	exit 1
+}
+cd "$NOTESDIR" || {
+	echo "$(basename "$0"): can't cd to $NOTESDIR" >&2
+	exit 1
+}
 
 case "$1" in
 	-s)
 		shift
-		[ $# -eq 0 ] && { echo "$(basename "$0"): empty search term" >&2; exit 1; }
+		[ $# -eq 0 ] && {
+			echo "$(basename "$0"): empty search term" >&2
+			exit 1
+		}
 		exec grep -Hnr --color=auto "$@"
 		;;
-	""|-l)
+	"" | -l)
 		height="${2:-10}"
 		sel="$(find "$NOTESDIR" -type f -not -path "$NOTESDIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | fzf --height="~$height")" || exit $?
 		[ "$sel" != "${sel#+}" ] && sel="${sel#+}"

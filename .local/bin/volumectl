@@ -12,9 +12,12 @@ getvol() {
 }
 
 case "$1" in
-	""|get) getvol && echo "%"; exit $? ;;
+	"" | get)
+		getvol && echo "%"
+		exit $?
+		;;
 	toggle) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
-	*+|*-|*%)
+	*+ | *- | *%)
 		wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
 		wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1"
 		;;
@@ -22,7 +25,10 @@ case "$1" in
 esac
 
 vol="$(getvol)" || exit 1
-[ "$vol" = "muted" ] && { vol=0; text="muted"; } || text="$vol%"
+[ "$vol" = "muted" ] && {
+	vol=0
+	text="muted"
+} || text="$vol%"
 notify-send \
 	-u low \
 	-t 1000 \

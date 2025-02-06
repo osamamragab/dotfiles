@@ -14,7 +14,7 @@ case "$1" in
 		dir="$(pwd)"
 		shift
 		;;
-	-|"")
+	- | "")
 		dir="$SRCDIR/$(dirsel)" || exit $?
 		[ $# -gt 0 ] && shift
 		;;
@@ -24,7 +24,10 @@ case "$1" in
 		;;
 esac
 
-[ -d "$dir" ] || { echo "$(basename "$0"): '$dir' is not a diretory" >&2; exit 1; }
+[ -d "$dir" ] || {
+	echo "$(basename "$0"): '$dir' is not a diretory" >&2
+	exit 1
+}
 name="$(basename "$dir")"
 
 [ $# -gt 1 ] && tmux new -d -c "$dir" -s "$name" -n "$1" && shift
