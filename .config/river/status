@@ -34,15 +34,19 @@ status_bat() {
 }
 
 status_net() {
+	wifi=""
 	[ "$(cat /sys/class/net/e*/operstate 2>/dev/null)" = "up" ] && eth="E" || eth="E!"
-	case "$(cat /sys/class/net/w*/operstate 2>/dev/null)" in
-		up)
-			wifi=" W $(awk '/^\s*w/{print int($3*100/70)}' /proc/net/wireless)%"
-			;;
-		down)
-			[ "$(cat /sys/class/net/w*/flags 2>/dev/null)" = "0x1003" ] && wifi=" W?" || wifi=" W!"
-			;;
-	esac
+	# shellcheck disable=SC2013
+	for state in $(cat /sys/class/net/w*/operstate 2>/dev/null); do
+		case "$state" in
+			up)
+				wifi="$wifi W $(awk '/^\s*w/{print int($3*100/70)}' /proc/net/wireless)%"
+				;;
+			down)
+				[ "$(cat /sys/class/net/w*/flags 2>/dev/null)" = "0x1003" ] && wifi="$wifi W?" || wifi="$wifi W!"
+				;;
+		esac
+	done
 	[ -n "$(cat /sys/class/net/tun*/operstate 2>/dev/null)" ] && tun=" [TUN]" || tun=""
 	net="$eth$wifi$tun"
 }
