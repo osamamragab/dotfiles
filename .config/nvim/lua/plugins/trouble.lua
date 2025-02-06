@@ -3,24 +3,20 @@ return {
 		"folke/trouble.nvim",
 		config = function()
 			local trouble = require("trouble")
-			trouble.setup({})
-			vim.keymap.set("n", "<leader>xx", function()
-				trouble.toggle("diagnostics")
+			trouble.setup({
+				icons = false
+			})
+			vim.keymap.set("n", "<leader>tt", function()
+				trouble.toggle()
 			end)
-			vim.keymap.set("n", "<leader>xl", function()
-				trouble.toggle("loclist")
-			end)
-			vim.keymap.set("n", "<leader>xq", function()
-				trouble.toggle("qflist")
-			end)
-			vim.keymap.set("n", "<leader>xn", function()
+			vim.keymap.set("n", "[t", function()
 				trouble.next({
 					jump = true,
 					skip_groups = true,
 				})
 			end)
-			vim.keymap.set("n", "<leader>xp", function()
-				trouble.preousv({
+			vim.keymap.set("n", "]t", function()
+				trouble.previous({
 					jump = true,
 					skip_groups = true,
 				})
