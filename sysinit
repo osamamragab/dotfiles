@@ -57,7 +57,7 @@ aurinst bun-bin sdkmanager
 rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing filesystems support"
-pkginst fuse3 autofs btrfs-progs exfat-utils ntfs-3g sshfs mtpfs ifuse
+pkginst artools fuse3 autofs e2fsprogs btrfs-progs squashfs-tools dosfstools exfatprogs ntfs-3g sshfs mtpfs ifuse
 aurinst simple-mtpfs
 
 echo "installing multimedia tools"
