@@ -73,7 +73,7 @@ pkginst strace lm_sensors socklog nvtop iotop iftop powertop smartmontools lshw 
 aurinst htop-vim
 
 echo "installing internet stuff"
-pkginst firefox qutebrowser lynx w3m amfora weechat pdfjs python-adblock
+pkginst firefox chromium qutebrowser lynx w3m amfora weechat pdfjs python-adblock
 aurinst arkenfox-user.js
 
 echo "setting up firefox"
