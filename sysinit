@@ -49,7 +49,7 @@ pkginst gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rust
 rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing filesystems support"
-pkginst artools fuse3 autofs e2fsprogs btrfs-progs squashfs-tools dosfstools exfatprogs ntfs-3g sshfs mtpfs ifuse
+pkginst udisks2 artools fuse3 autofs e2fsprogs btrfs-progs squashfs-tools dosfstools exfatprogs ntfs-3g sshfs mtpfs ifuse
 
 echo "installing multimedia tools"
 pkginst ffmpeg imagemagick poppler perl-image-exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp mpd mpd-mpris mpc playerctl ncmpcpp ffmpegthumbnailer gnome-epub-thumbnailer
