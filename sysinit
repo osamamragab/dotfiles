@@ -18,17 +18,12 @@ echo "setting up dotfiles"
 }
 
 alias pkginst="doas pacman -Sq --needed --noconfirm"
-alias aurinst="paru -Sq --needed --noconfirm"
 
 echo "updating repos and packages"
 pkginst -yu
 
 echo "installing drivers and firmware"
 pkginst linux-firmware mesa
-
-echo "installing wayland tools"
-pkginst river foot foot-terminfo kanshi fuzzel mako swayidle wlopm waylock wl-clipboard grim slurp wf-recorder wev
-aurinst sandbar poweralertd wbg clipman
 
 echo "installing login management tools"
 pkginst elogind pam_rundir
@@ -42,62 +37,64 @@ doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
 pkginst pacman-contrib xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp signify dbus cronie bc time entr less lesspipe source-highlight z mlocate nnn fzf ripgrep fd chrony libnotify brightnessctl darkhttpd yt-dlp libarchive tar xz gzip bzip2 p7zip unzip unrar libisoburn mtools hdparm sdparm tlp highlight newsboat calcurse lftp hwinfo firejail fribidi zbar qrencode mediainfo bat translate-shell duf direnv croc syncthing flatpak gnome-epub-thumbnailer
-aurinst vsv pam_ssh wayprompt buku git-delta urlview dragon-drop bicon-git sc-im lz4json
 
 echo "installing manual pages"
 pkginst man-db man-pages texinfo tealdeer
 
 echo "installing text editor and shell"
 pkginst vim neovim tmux dash bash zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
-aurinst zsh-fast-syntax-highlighting
 
 echo "installing programming tools"
 pkginst gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rustup go python python-pip python-pipx python-pipenv uv ruff julia lua luarocks deno nodejs npm pnpm yarn xxd gdb valgrind radare2 delve binutils upx jq cppcheck shellcheck-bin tokei hyperfine nix docker docker-compose podman podman-compose staticcheck dive jupyterlab
-aurinst bun-bin sdkmanager
 rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing filesystems support"
 pkginst artools fuse3 autofs e2fsprogs btrfs-progs squashfs-tools dosfstools exfatprogs ntfs-3g sshfs mtpfs ifuse
-aurinst simple-mtpfs
 
 echo "installing multimedia tools"
 pkginst ffmpeg imagemagick poppler perl-image-exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp mpd mpd-mpris mpc playerctl ncmpcpp
-aurinst sioyek cava
 
 echo "installing email tools"
 pkginst neomutt isync msmtp notmuch gettext
-aurinst abook
 
 echo "installing system monitoring tools"
 pkginst strace lm_sensors socklog nvtop iotop iftop powertop smartmontools lshw inxi
-aurinst htop-vim
-
-echo "installing internet stuff"
-pkginst firefox chromium qutebrowser lynx w3m amfora weechat pdfjs python-adblock
-aurinst arkenfox-user.js
-
-echo "setting up firefox"
-"$HERE/setup" firefox || {
-	echo "setup firefox failed" >&2
-	exit 1
-}
 
 echo "installing tor and torrent tools"
 pkginst tor torsocks transmission-cli
 
 echo "installing networking tools"
 pkginst openbsd-netcat lsof ldns inetutils net-tools wireshark-cli termshark socat websocat mitmproxy bettercap sqlmap xh macchanger proxychains-ng
-aurinst wrk nemesis
 
 echo "installing markup and latex tools"
 pkginst pandoc-bin lowdown groff typst texlive-basic
 
 echo "installing fonts, icons, themes and sounds"
 pkginst fontconfig ttf-dejavu noto-fonts-emoji arc-gtk-theme kvantum sound-theme-freedesktop
-aurinst ttf-amiri
 
 echo "installing runit services"
 pkginst elogind-runit dbus-runit dhcpcd-runit wpa_supplicant-runit ufw-runit bluez-runit chrony-runit cronie-runit openssh-runit tlp-runit docker-runit
+
+if ! command -v paru >/dev/null 2>&1; then
+	echo "installing paru"
+	git clone https://aur.archlinux.org/paru.git
+	makepkg -siD paru && rm -rf paru
+fi
+
+echo "installing aur packages"
+paru -Sq --needed --noconfirm vsv pam_ssh wayprompt buku git-delta urlview dragon-drop bicon-git sc-im lz4json zsh-fast-syntax-highlighting bun-bin sdkmanager simple-mtpfs sioyek cava abook htop-vim sandbar poweralertd wbg clipman arkenfox-user.js wrk nemesis ttf-amiri
+
+echo "installing wayland tools"
+pkginst river foot foot-terminfo kanshi fuzzel mako swayidle wlopm waylock wl-clipboard grim slurp wf-recorder wev
+
+echo "installing internet stuff"
+pkginst firefox chromium qutebrowser lynx w3m amfora weechat pdfjs python-adblock
+
+echo "setting up firefox"
+"$HERE/setup" firefox || {
+	echo "setup firefox failed" >&2
+	exit 1
+}
 
 echo "setting up runit services"
 "$HERE/setup" runit || {
