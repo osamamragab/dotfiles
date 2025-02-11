@@ -12,5 +12,5 @@ for f; do
 	[ "$files" ] && files="$files $f" || files="$f"
 done
 
-# shellcheck disable=SC2086
+# shellcheck disable=2086
 git add $files && git commit -m "$msg"

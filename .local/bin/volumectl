@@ -6,7 +6,7 @@ getvol() {
 	[ "$vol" != "${vol%\[MUTED\]}" ] && echo "muted" && return 0
 	vol="${vol#Volume: }"
 	IFS="."
-	# shellcheck disable=SC2086
+	# shellcheck disable=2086
 	set -- ${vol#0}
 	printf "%s" "$@"
 }

@@ -36,7 +36,7 @@ status_bat() {
 status_net() {
 	wifi=""
 	[ "$(cat /sys/class/net/e*/operstate 2>/dev/null)" = "up" ] && eth="E" || eth="E!"
-	# shellcheck disable=SC2013
+	# shellcheck disable=2013
 	for state in $(cat /sys/class/net/w*/operstate 2>/dev/null); do
 		case "$state" in
 			up)

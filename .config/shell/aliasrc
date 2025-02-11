@@ -1,5 +1,5 @@
 #!/bin/sh
-# shellcheck disable=SC2139
+# shellcheck disable=2139
 
 alias e="${EDITOR:-vi}"
 alias q="exit"
