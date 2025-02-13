@@ -1,7 +1,8 @@
 lock "locker || waylock -fork-on-lock"
 before-sleep "locker || waylock -fork-on-lock"
 idlehint 1200
-timeout 180 "brightnessctl -qsc backlight set 10%" resume "brightnessctl -r >/dev/null"
-timeout 300 "locker || waylock -fork-on-lock"
-timeout 330 "wlopm --off '*'" resume "wlopm --on '*'"
-timeout 1200 "timeout 1 playerctl -a status | grep Playing || loginctl suspend-then-hibernate"
+
+timeout 180 "$XDG_CONFIG_HOME/swayidle/inhibit || brightnessctl -qsc backlight set 10%" resume "brightnessctl -r >/dev/null"
+timeout 300 "$XDG_CONFIG_HOME/swayidle/inhibit || loginctl lock-session -i"
+timeout 330 "$XDG_CONFIG_HOME/swayidle/inhibit || wlopm --off '*'" resume "wlopm --on '*'"
+timeout 1200 "$XDG_CONFIG_HOME/swayidle/inhibit || loginctl suspend-then-hibernate -i"
