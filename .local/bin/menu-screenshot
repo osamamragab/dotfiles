@@ -39,7 +39,6 @@ case "$sel" in
 		notify "screenshot" "saved to clipboard"
 		;;
 	*)
-		notify -u critical "invalid selection: $sel"
 		exit 1
 		;;
 esac
