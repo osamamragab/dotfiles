@@ -29,7 +29,7 @@ echo "installing login management tools"
 pkginst elogind pam_rundir
 
 echo "installing network tools"
-pkginst dhcpcd wpa_supplicant ufw bluez bluez-utils
+pkginst dhcpcd wpa_supplicant ethtool ufw bluez bluez-utils
 
 echo "installing audio tools"
 pkginst alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pulsemixer
