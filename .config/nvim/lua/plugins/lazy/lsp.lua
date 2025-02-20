@@ -90,16 +90,12 @@ return {
 										version = "LuaJIT",
 									},
 									diagnostics = {
-										globals = {
-											"vim",
-										},
+										globals = { "vim" },
 									},
 									workspace = {
 										checkThirdParty = false,
 										ignoreDir = { "/lua" },
-										library = {
-											vim.env.VIMRUNTIME,
-										},
+										library = vim.api.nvim_get_runtime_file("", true)
 									},
 									telemetry = {
 										enable = false,
