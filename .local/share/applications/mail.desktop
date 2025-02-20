@@ -1,5 +1,5 @@
 [Desktop Entry]
 Type=Application
 Name=Mail
-Icon=neomutt
-Exec=foot neomutt %u
+Icon=aerc
+Exec=foot aerc %u

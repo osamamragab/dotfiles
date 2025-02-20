@@ -55,7 +55,7 @@ echo "installing multimedia tools"
 pkginst ffmpeg imagemagick poppler perl-image-exiftool mat2 qpdf gimp sox mpv mpv-mpris imv zathura mupdf zathura-pdf-mupdf zathura-ps zathura-djvu libwebp mpd mpd-mpris mpc playerctl ncmpcpp ffmpegthumbnailer gnome-epub-thumbnailer
 
 echo "installing email tools"
-pkginst neomutt isync msmtp notmuch gettext
+pkginst aerc isync
 
 echo "installing system monitoring tools"
 pkginst strace lm_sensors socklog nvtop iotop iftop powertop smartmontools lshw inxi
