@@ -67,6 +67,12 @@ autocmd({ "BufWritePre" }, {
 
 autocmd({ "BufWritePre" }, {
 	group = format_group,
+	pattern = { "todo.txt", "*.todo.txt" },
+	command = "TodotxtArchiveDone",
+})
+
+autocmd({ "BufWritePre" }, {
+	group = format_group,
 	pattern = "*.go",
 	callback = function(_)
 		vim.lsp.buf.format()
