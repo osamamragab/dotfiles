@@ -45,7 +45,7 @@ echo "installing text editor and shell"
 pkginst vim neovim tmux dash bash zsh zsh-completions zsh-autosuggestions zsh-history-substring-search
 
 echo "installing programming tools"
-pkginst gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rustup go python python-pip python-pipx python-pipenv uv ruff julia lua luarocks deno nodejs npm pnpm yarn xxd gdb valgrind radare2 delve binutils upx jq cppcheck shellcheck-bin tokei hyperfine nix docker docker-compose podman podman-compose staticcheck dive jupyterlab
+pkginst gcc llvm clang lld tcc nasm make meson pkgconf automake libtool zig rustup go python python-pip python-pipx python-pipenv uv ruff julia lua luarocks deno nodejs npm pnpm yarn xxd gdb valgrind radare2 delve binutils upx jq cppcheck shellcheck-bin tokei hyperfine nix docker docker-compose podman podman-compose staticcheck dive jupyterlab android-tools
 rustup default stable && cargo install cargo-update cargo-info
 
 echo "installing filesystems support"
