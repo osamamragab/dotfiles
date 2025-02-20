@@ -12,7 +12,7 @@ zstyle ":vcs_info:*" enable git svn
 zstyle ":vcs_info:*" formats "(%b) "
 precmd() {
 	vcs_info
-	echo -ne "\e[1 q"
+	# echo -ne "\e[1 q"
 }
 PROMPT='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
 RPROMPT='%(?..[%F{red}%?%f] )'
