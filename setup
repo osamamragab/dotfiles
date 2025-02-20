@@ -2,7 +2,6 @@
 
 HERE="$(dirname "$(readlink -f "$0")")"
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-PROGRAMSDIR="${PROGRAMSDIR:-$HOME/programs}"
 
 # shellcheck disable=2015
 sudocmd="$([ -s /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
