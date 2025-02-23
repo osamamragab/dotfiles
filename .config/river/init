@@ -95,6 +95,7 @@ riverctl border-color-unfocused 0x4c566a
 riverctl rule-add ssd
 riverctl rule-add -app-id bar csd
 riverctl rule-add -app-id float float
+riverctl rule-add -app-id dragon-drop float
 riverctl rule-add -title Picture-in-Picture float
 
 riverctl hide-cursor timeout 5000
