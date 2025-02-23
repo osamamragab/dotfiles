@@ -82,7 +82,7 @@ if ! command -v paru >/dev/null 2>&1; then
 fi
 
 echo "installing aur packages"
-paru -Sq --needed --noconfirm pam_ssh wayprompt buku git-delta urlview dragon-drop bicon-git sc-im lz4json zsh-fast-syntax-highlighting bun-bin sdkmanager simple-mtpfs sioyek cava abook htop-vim sandbar poweralertd wbg clipman arkenfox-user.js wrk nemesis ttf-amiri
+paru -Sq --needed --noconfirm pam_ssh wayprompt lswt buku git-delta urlview dragon-drop bicon-git sc-im lz4json zsh-fast-syntax-highlighting bun-bin sdkmanager simple-mtpfs sioyek cava abook htop-vim sandbar poweralertd wbg clipman arkenfox-user.js wrk nemesis ttf-amiri
 
 echo "installing wayland tools"
 pkginst river foot foot-terminfo kanshi fuzzel mako swayidle wlopm waylock wl-clipboard grim slurp wf-recorder wev
