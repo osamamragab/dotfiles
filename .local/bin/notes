@@ -40,6 +40,8 @@ case "$1" in
 						$EDITOR "$NOTESDIR/$f.md"
 					elif [ -f "$NOTESDIR/$f.txt" ]; then
 						$EDITOR "$NOTESDIR/$f.txt"
+					elif [ -f "$NOTESDIR/$f.todo.txt" ]; then
+						$EDITOR "$NOTESDIR/$f.todo.txt"
 					else
 						$EDITOR "$NOTESDIR/$f"
 					fi
