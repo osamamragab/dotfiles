@@ -36,7 +36,7 @@ pkginst alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplum
 doas cp -a /usr/share/pipewire /usr/share/wireplumber /etc
 
 echo "installing general tools"
-pkginst pacman-contrib xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp signify dbus cronie bc time entr less lesspipe source-highlight z mlocate nnn fzf ripgrep fd fdupes chrony libnotify brightnessctl darkhttpd yt-dlp libarchive tar xz gzip bzip2 p7zip unzip unrar libisoburn mtools hdparm sdparm tlp rsm highlight newsboat zk calcurse lftp hwinfo firejail fribidi zbar qrencode mediainfo bat translate-shell duf direnv croc syncthing flatpak
+pkginst pacman-contrib xdg-utils xdg-user-dirs xdg-desktop-portal-wlr curl wget git mercurial patch rsync gnupg openssh pass pass-otp signify dbus cronie bc time entr less lesspipe source-highlight z mlocate nnn fzf ripgrep fd fdupes chrony libnotify brightnessctl darkhttpd yt-dlp libarchive tar xz gzip bzip2 p7zip unzip unrar-free libisoburn mtools hdparm sdparm tlp rsm highlight newsboat zk calcurse lftp hwinfo firejail fribidi zbar qrencode mediainfo bat translate-shell duf direnv croc syncthing flatpak
 
 echo "installing manual pages"
 pkginst man-db man-pages texinfo tealdeer
