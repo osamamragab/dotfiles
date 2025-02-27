@@ -1,0 +1,7 @@
+#!/bin/sh
+
+NOTES_DIR="${NOTES_DIR:-$HOME/src/notes}"
+
+zk="$(which --skip-tilde zk)" || exit 1
+[ ! -d .zk ] && [ -d "$NOTES_DIR" ] && exec $zk -W "$NOTES_DIR" "$@"
+exec $zk "$@"
