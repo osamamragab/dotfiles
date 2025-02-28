@@ -1,0 +1,26 @@
+#!/bin/sh
+
+set -eu
+
+clip=0
+noti=1
+for arg; do
+	case "$arg" in
+		-c) clip=1 ;;
+		-n) noti=0 ;;
+		*)
+			echo "$(basename "$0"): unknown command: $arg" >&2
+			exit 1
+			;;
+	esac
+done
+
+color="$(grim -g "$(slurp -b 00000000 -p)" -t png - |
+	magick - -format '%[pixel:p{0,0}]' txt:- |
+	sed -n '2{s/.*\(#[0-9A-F]\{6\}\).*/\L\1/p;q}')"
+
+echo "$color"
+[ $clip -eq 1 ] &&
+	echo "$color" | wl-copy -n &&
+	[ $noti -eq 1 ] &&
+	notify-send -a "$(basename "$0")" "color copied to clipboard" "$color"
