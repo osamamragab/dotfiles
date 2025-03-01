@@ -5,4 +5,4 @@ idlehint 1200
 timeout 180 "$XDG_CONFIG_HOME/swayidle/inhibit || brightnessctl -qsc backlight set 10%" resume "brightnessctl -r >/dev/null"
 timeout 300 "$XDG_CONFIG_HOME/swayidle/inhibit || loginctl lock-session -i"
 timeout 330 "$XDG_CONFIG_HOME/swayidle/inhibit || wlopm --off '*'" resume "wlopm --on '*'"
-timeout 1200 "$XDG_CONFIG_HOME/swayidle/inhibit || loginctl suspend-then-hibernate -i"
+timeout 1200 "$XDG_CONFIG_HOME/swayidle/inhibit || loginctl suspend-then-hibernate"
