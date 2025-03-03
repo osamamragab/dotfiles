@@ -2,12 +2,15 @@
 
 set -eu
 
+sel=0
 clip=0
-noti=1
+noti=0
+
 for arg; do
 	case "$arg" in
+		-s) sel=1 ;;
 		-c) clip=1 ;;
-		-n) noti=0 ;;
+		-n) noti=1 ;;
 		*)
 			echo "$(basename "$0"): unknown command: $arg" >&2
 			exit 1
@@ -15,9 +18,20 @@ for arg; do
 	esac
 done
 
-color="$(grim -g "$(slurp -b 00000000 -p)" -t png - |
-	magick - -format '%[pixel:p{0,0}]' txt:- |
-	sed -n '2{s/.*\(#[0-9A-F]\{6\}\).*/\L\1/p;q}')"
+pos="$(slurp -b 00000000 -p 2>/dev/null)" || exit 1
+color="$(grim -g "$pos" -t png - |
+	magick - -format "%[pixel:p{0,0}]" txt:- |
+	grep -Eom1 "#[0-9A-F]+" |
+	tr "[:upper:]" "[:lower:]")" || exit 1
+
+[ $sel -eq 1 ] && {
+	rgb="$(zenity --color-selection --title="$(basename "$0")" --color="$color" 2>/dev/null |
+		grep -Eom1 "[0-9]+")" || exit 1
+	color="#"
+	for n in $rgb; do
+		color="$color$(printf "%.2x" "$n")"
+	done
+}
 
 echo "$color"
 [ $clip -eq 1 ] &&
