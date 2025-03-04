@@ -1,0 +1,4 @@
+/.git/
+/zig-out/
+/target/
+/node_modules/
