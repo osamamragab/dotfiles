@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 if [ $# -lt 2 ]; then
 	printf "usage:\n  %s files... message\n" "$(basename "$0")"
 	exit 1
@@ -9,7 +11,7 @@ for msg; do :; done
 
 for f; do
 	[ "$f" = "$msg" ] && break
-	[ "$files" ] && files="$files $f" || files="$f"
+	[ "${files:-}" ] && files="$files $f" || files="$f"
 done
 
 # shellcheck disable=2086

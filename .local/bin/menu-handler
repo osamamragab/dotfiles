@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 notify() {
 	notify-send -a "$(basename "$0")" "$@"
 }
@@ -28,16 +30,16 @@ case "$action" in
 		;;
 	bookmark)
 		url="$(getinput "$action")"
-		tag="$(buku --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | menu -p "tag> ")" || exit 1
+		tag="$(buku --nostdin --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | menu -p "tag> ")" || exit 1
 		buku --nostdin --tacit --np -a "$url" "$tag" >/dev/null 2>&1 ||
 			notify -u critical "error" "$action: adding '$url' with tag '$tag' failed"
 		;;
 	list-bookmarks)
-		buku -p -f 4 |
+		buku --nostdin -p -f 4 |
 			sed "s/\t/ /g" |
 			menu --counter -w 90 -p "bookmarks> " |
 			cut -d " " -f 1 |
-			xargs -r buku -o
+			xargs -r buku --nostdin -o
 		;;
 	*)
 		notify "error" "invalid action: $action"

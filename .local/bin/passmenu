@@ -2,23 +2,23 @@
 # passmenu replacement for Wayland
 # requires pass, wl-copy (wl-clipboard), notify-send (libnotify), and menu script
 
-app="$(basename "$0")"
-dir="${PASSWORD_STORE_DIR-$HOME/.password-store}"
+set -eu
 
-case "$1" in
+PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/password-store}"
+app="$(basename "$0")"
+
+case "${1:-}" in
 	"") ;;
 	otp) otp=1 ;;
 	*)
-		echo "$app: $1: unknown command" >&2
+		echo "$app: unknown command: $1" >&2
 		exit 1
 		;;
 esac
 
-sel="$(
-	find "$dir" -type f -name "*.gpg" -printf "%P\n" |
-		sed -e 's/\.gpg$//' |
-		menu -p "$app${otp:+ otp}> "
-)" || exit 1
+sel="$(find "$PASSWORD_STORE_DIR" -type f -name "*.gpg" -printf "%P\n" |
+	sed -e 's/\.gpg$//' |
+	menu -p "$app${otp:+ otp}> ")" || exit 1
 
 pass ${otp:+otp} -c "$sel" || {
 	notify-send -a "$app" -u critical error "pass${otp:+ otp} command failed"

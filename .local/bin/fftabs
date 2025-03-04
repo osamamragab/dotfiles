@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 BROWSER_DIR="${BROWSER_DIR:-$HOME/.mozilla/firefox}"
 
 sed -n "/Default=.*\..*/s/.*=//p" "$BROWSER_DIR/profiles.ini" | while IFS= read -r p; do

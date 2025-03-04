@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 for arg; do
 	case "$arg" in
 		-m[0-9])

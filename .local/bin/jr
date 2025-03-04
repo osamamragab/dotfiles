@@ -1,13 +1,15 @@
 #!/bin/sh
 
+set -eu
+
 JOURNALDIR="${JOURNALDIR:-$(xdg-user-dir DOCUMENTS)/journal}"
 [ -d "$JOURNALDIR" ] || mkdir -p "$JOURNALDIR" || {
 	echo "$(basename "$0"): can't create dir $JOURNALDIR" >&2
 	exit 1
 }
 
-case "$1" in
-	"" | new)
+case "${1:-new}" in
+	new)
 		f="$JOURNALDIR/$(date "+%Y-%m-%d").md"
 		[ -s "$f" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" >"$f"
 		exec "$EDITOR" +$ "$f"
@@ -15,7 +17,7 @@ case "$1" in
 	edit) cmd="$EDITOR" ;;
 	read) cmd="$EDITOR -R" ;;
 	*)
-		echo "$(basename "$0"): unknown command \"$1\"" >&2
+		echo "$(basename "$0"): unknown command: $1" >&2
 		exit 1
 		;;
 esac

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 for arg; do
 	case "$arg" in
 		-a) format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio" ;;
@@ -11,7 +13,7 @@ for arg; do
 			break
 			;;
 		-*)
-			echo "$(basename "$0"): unknown option \"$arg\"" >&2
+			echo "$(basename "$0"): unknown option: $arg" >&2
 			exit 1
 			;;
 		*) continue ;;

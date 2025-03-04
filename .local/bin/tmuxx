@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 SRCDIR="${SRCDIR:-$HOME/src}"
 
 dirsel() {
@@ -9,12 +11,12 @@ dirsel() {
 		fzf
 }
 
-case "$1" in
+case "${1:--}" in
 	.)
 		dir="$(pwd)"
 		shift
 		;;
-	- | "")
+	-)
 		dir="$SRCDIR/$(dirsel)" || exit $?
 		[ $# -gt 0 ] && shift
 		;;
