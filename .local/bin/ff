@@ -8,20 +8,18 @@ for arg; do
 			maxdepth="${arg#-m}"
 			;;
 		-t[bcdpflsD])
-			[ "$type" ] && type="$type,${arg#-t}" || type="${arg#-t}"
+			[ "${type:-}" ] && type="$type,${arg#-t}" || type="${arg#-t}"
 			;;
 		*)
-			[ "$name" ] && dir="$name"
+			[ "${name:-}" ] && dir="$name"
 			name="$arg"
 			;;
 	esac
 done
 
-set -- "${dir:-.}" \
+exec find "${dir:-.}" \
 	${maxdepth:+-maxdepth $maxdepth} \
 	${type:+-type "$type"} \
 	"(" ! -path "*.git*" -o -name ".gitignore" -o -name ".gitmodules" ")" \
 	${name:+-iname "*$name*"} \
 	-printf "%P\n"
-
-find "$@"
