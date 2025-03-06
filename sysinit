@@ -26,7 +26,7 @@ echo "installing drivers and firmware"
 pkginst linux-firmware mesa
 
 echo "installing login management tools"
-pkginst elogind pam_rundir
+pkginst elogind
 
 echo "installing network tools"
 pkginst dhcpcd wpa_supplicant ethtool ufw bluez bluez-utils
