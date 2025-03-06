@@ -1,3 +1,8 @@
 /node_modules/
+/__pycache__/
 /zig-out/
 /target/
+/wheels/
+/.venv/
+*.py[oc]
+*.egg-info
