@@ -11,7 +11,7 @@ for msg; do :; done
 
 for f; do
 	[ "$f" = "$msg" ] && break
-	[ "${files:-}" ] && files="$files $f" || files="$f"
+	[ -n "${files:-}" ] && files="$files $f" || files="$f"
 done
 
 # shellcheck disable=2086

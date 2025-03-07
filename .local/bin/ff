@@ -8,10 +8,10 @@ for arg; do
 			maxdepth="${arg#-m}"
 			;;
 		-t[bcdpflsD])
-			[ "${type:-}" ] && type="$type,${arg#-t}" || type="${arg#-t}"
+			[ -n "${type:-}" ] && type="$type,${arg#-t}" || type="${arg#-t}"
 			;;
 		*)
-			[ "${name:-}" ] && dir="$name"
+			[ -n "${name:-}" ] && dir="$name"
 			name="$arg"
 			;;
 	esac
