@@ -1,25 +1,61 @@
 #!/bin/sh
 
+set -eu
+
 HERE="$(dirname "$(readlink -f "$0")")"
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+. "$HERE/.config/shell/env"
+
+SETUP_PROGRAMS_DIR="${SETUP_PROGRAMS_DIR:-$HOME/programs}"
+SETUP_BROWSER_DIR="${SETUP_BROWSER_DIR:-$HOME/.mozilla/firefox}"
+SETUP_PKGS_FILE="${SETUP_PKGS_FILE:-$XDG_DATA_HOME/meta/pkgs.txt}"
+SETUP_PKGS_AUR_FILE="${SETUP_PKGS_AUR_FILE:-$XDG_DATA_HOME/meta/pkgs_aur.txt}"
 
 # shellcheck disable=2015
 sudocmd="$([ -s /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
-browserdir="$HOME/.mozilla/firefox"
+
+[ "$(id -u)" -eq 0 ] && {
+	echo "$(basename "$0"): this script should not run as root" >&2
+	exit 1
+}
 
 setup_dotfiles() {
-	cp -srvft "$HOME" "$HERE/.config" "$HERE/.local"
-	ln -svf "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-	$sudocmd cp -rvf "$HERE/etc/." /etc
-	$sudocmd mkdir -p /var/cache/zsh
+	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
+	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
+	$sudocmd cp -rfvt /etc "$HERE/etc/."
+	$sudocmd cp -afvt /etc /usr/share/pipewire /usr/share/wireplumber
+	$sudocmd mkdir -pv /var/cache/zsh
+}
+
+setup_pkgs() {
+	$sudocmd pacman -Syu --noconfirm
+	$sudocmd pacman -S --needed --noconfirm artix-archlinux-support &&
+		$sudocmd pacman-key --populate archlinux &&
+		$sudocmd pacman -Sy --noconfirm
+	[ -s "$SETUP_PKGS_FILE" ] &&
+		$sudocmd pacman -S --needed --noconfirm - <"$SETUP_PKGS_FILE"
+	[ -s "$SETUP_PKGS_AUR_FILE" ] && {
+		command -v paru >/dev/null 2>&1 || {
+			git clone https://aur.archlinux.org/paru.git "$SETUP_PROGRAMS_DIR/paru" &&
+				makepkg -siD "$SETUP_PROGRAMS_DIR/paru"
+		}
+		paru -Sa --needed --noconfirm --sudo "$sudocmd" - <"$SETUP_PKGS_AUR_FILE"
+	}
+	rustup default stable &&
+		cargo install cargo-update cargo-info
+}
+
+setup_user() {
+	chsh -s "$(which zsh)"
+	$sudocmd ln -sfT dash /usr/bin/sh
+	$sudocmd usermod -aG video,audio,input,power,storage,optical,lp,scanner,dbus,docker,adbusers,uucp "$USER"
 }
 
 setup_runit() {
-	doas rm -vf \
+	$sudocmd rm -vf \
 		/run/runit/service/agetty-tty4 \
 		/run/runit/service/agetty-tty5 \
 		/run/runit/service/agetty-tty6
-	doas ln -svft /run/runit/service \
+	$sudocmd ln -svft /run/runit/service \
 		/etc/runit/sv/socklog \
 		/etc/runit/sv/klog \
 		/etc/runit/sv/dbus \
@@ -36,38 +72,46 @@ setup_runit() {
 }
 
 setup_firefox() {
-	[ -d "$browserdir" ] ||
+	[ -d "$SETUP_BROWSER_DIR" ] ||
 		{
 			firefox --headless >/dev/null 2>&1 &
 			ffpid=$!
 			sleep 1
 		}
-	sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini" | while IFS= read -r profile; do
-		cat "/usr/share/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$browserdir/$profile/user.js"
-	done
+	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
+		while IFS= read -r profile; do
+			cat "/usr/share/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$SETUP_BROWSER_DIR/$profile/user.js"
+		done
 	# shellcheck disable=2015
-	[ -n "$ffpid" ] && kill "$ffpid" || true
+	[ -n "${ffpid:-}" ] && kill "$ffpid" || true
 }
 
 clean() {
 	cd "$HERE" || exit 1
 	find .config .local -type f -exec rm -vf "$HOME/{}" \;
-	profile="$(sed -n "/Default=.*\..*/s/.*=//p" "$browserdir/profiles.ini")"
-	[ -s "$browserdir/$profile/user.js" ] && rm -vf "$browserdir/$profile/user.js"
+	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
+		while IFS= read -r profile; do
+			[ -s "$SETUP_BROWSER_DIR/$profile/user.js" ] &&
+				rm -vf "$SETUP_BROWSER_DIR/$profile/user.js"
+		done
 }
 
-case "$1" in
-	"" | all)
+case "${1:-dotfiles}" in
+	all)
 		setup_dotfiles
+		setup_pkgs
+		setup_user
 		setup_runit
 		setup_firefox
 		;;
 	dotfiles) setup_dotfiles ;;
+	pkgs) setup_pkgs ;;
+	user) setup_user ;;
 	runit) setup_runit ;;
 	firefox) setup_firefox ;;
 	clean) clean ;;
 	*)
-		echo "$(basename "$0"): unknown command \"$1\"" >&2
+		echo "$(basename "$0"): unknown command: $1" >&2
 		exit 1
 		;;
 esac

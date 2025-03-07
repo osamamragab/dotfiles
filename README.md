@@ -14,10 +14,10 @@ cd dotfiles
 ./setup
 ```
 
-Use the `sysinit` script instead to install the packages and setup the dotfiles
-for a fresh [Artix Linux](https://artixlinux.org/) install:
+By default it will only symlink the dotfiles only. However, if you want to
+install the packages and setup the dotfiles for a fresh [Artix Linux](https://artixlinux.org/):
 ```sh
-./sysinit
+./setup all
 ```
 
 ## Post Install
