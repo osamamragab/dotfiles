@@ -13,7 +13,7 @@ user_pref("dom.security.https_only_mode", false);
 user_pref("webgl.disabled", false);
 user_pref("gfx.webrender.all", true);
 user_pref("media.eme.enabled", true);
-user_perf("media.ffmpeg.vaapi.enabled", true);
+user_pref("media.ffmpeg.vaapi.enabled", true);
 user_pref("identity.fxaccounts.enabled", true);
 user_pref("extensions.pocket.enabled", false);
 user_pref("accessibility.typeaheadfind.enablesound", false);
