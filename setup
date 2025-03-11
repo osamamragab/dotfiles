@@ -6,7 +6,7 @@ HERE="$(dirname "$(readlink -f "$0")")"
 . "$HERE/.config/shell/env"
 
 SETUP_PROGRAMS_DIR="${SETUP_PROGRAMS_DIR:-$HOME/programs}"
-SETUP_BROWSER_DIR="${SETUP_BROWSER_DIR:-$HOME/.mozilla/firefox}"
+SETUP_BROWSER_DIR="${SETUP_BROWSER_DIR:-$HOME/.zen}"
 SETUP_PKGS_FILE="${SETUP_PKGS_FILE:-$XDG_DATA_HOME/meta/pkgs.txt}"
 SETUP_PKGS_AUR_FILE="${SETUP_PKGS_AUR_FILE:-$XDG_DATA_HOME/meta/pkgs_aur.txt}"
 
@@ -71,16 +71,20 @@ setup_runit() {
 		/etc/runit/sv/docker
 }
 
-setup_firefox() {
+setup_browser() {
 	[ -d "$SETUP_BROWSER_DIR" ] ||
 		{
-			firefox --headless >/dev/null 2>&1 &
+			$BROWSER --headless >/dev/null 2>&1 &
 			ffpid=$!
 			sleep 1
 		}
 	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
 		while IFS= read -r profile; do
 			cat "/usr/share/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$SETUP_BROWSER_DIR/$profile/user.js"
+			[ "$BROWSER" != "firefox" ] &&
+				[ -s "$XDG_CONFIG_HOME/$BROWSER/user.js" ] &&
+				cat "$XDG_CONFIG_HOME/$BROWSER/user.js" >>"$SETUP_BROWSER_DIR/$profile/user.js"
+
 		done
 	# shellcheck disable=2015
 	[ -n "${ffpid:-}" ] && kill "$ffpid" || true
@@ -102,13 +106,13 @@ case "${1:-dotfiles}" in
 		setup_pkgs
 		setup_user
 		setup_runit
-		setup_firefox
+		setup_browser
 		;;
 	dotfiles) setup_dotfiles ;;
 	pkgs) setup_pkgs ;;
 	user) setup_user ;;
 	runit) setup_runit ;;
-	firefox) setup_firefox ;;
+	browser) setup_browser ;;
 	clean) clean ;;
 	*)
 		echo "$(basename "$0"): unknown command: $1" >&2
