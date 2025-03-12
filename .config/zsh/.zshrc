@@ -12,8 +12,14 @@ zstyle ":vcs_info:*" enable git svn
 zstyle ":vcs_info:*" formats "(%b) "
 precmd() {
 	vcs_info
-	# echo -ne "\e[1 q"
+	# foot's pipe-command-output shell integration
+	builtin zle || printf "\e]133;D\e\\"
 }
+preexec() {
+	# foot's pipe-command-output shell integration
+    printf "\e]133;C\e\\"
+}
+
 PROMPT='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
 RPROMPT='%(?..[%F{red}%?%f] )'
 [ -n "$SSH_TTY" ] && PROMPT="%F{magenta}[%M] $PROMPT"
