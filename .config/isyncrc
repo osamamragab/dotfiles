@@ -1,0 +1,85 @@
+Create Both
+Expunge Both
+MaxMessages 0
+ExpireUnread no
+CopyArrivalDate yes
+
+
+IMAPStore theosamaragab@gmail.com-remote
+Host imap.gmail.com
+Port 993
+User theosamaragab@gmail.com
+PassCmd "pass mail/theosamaragab@gmail.com | sed 1q"
+AuthMechs LOGIN
+TLSType IMAPS
+
+MaildirStore theosamaragab@gmail.com-local
+Path ~/.local/share/mail/theosamaragab@gmail.com/
+Inbox ~/.local/share/mail/theosamaragab@gmail.com/Inbox
+Subfolders Verbatim
+
+Channel theosamaragab@gmail.com
+Far :theosamaragab@gmail.com-remote:
+Near :theosamaragab@gmail.com-local:
+Patterns *
+SyncState *
+
+
+IMAPStore iosamaify@gmail.com-remote
+Host imap.gmail.com
+Port 993
+User iosamaify@gmail.com
+PassCmd "pass mail/iosamaify@gmail.com | sed 1q"
+AuthMechs LOGIN
+TLSType IMAPS
+
+MaildirStore iosamaify@gmail.com-local
+Path ~/.local/share/mail/iosamaify@gmail.com/
+Inbox ~/.local/share/mail/iosamaify@gmail.com/Inbox
+Subfolders Verbatim
+
+Channel iosamaify@gmail.com
+Far :iosamaify@gmail.com-remote:
+Near :iosamaify@gmail.com-local:
+Patterns *
+SyncState *
+
+
+IMAPStore osamaragab@disroot.org-remote
+Host disroot.org
+Port 993
+User osamaragab@disroot.org
+PassCmd "pass mail/osamaragab@disroot.org | sed 1q"
+AuthMechs LOGIN
+TLSType IMAPS
+
+MaildirStore osamaragab@disroot.org-local
+Path ~/.local/share/mail/osamaragab@disroot.org/
+Inbox ~/.local/share/mail/osamaragab@disroot.org/Inbox
+Subfolders Verbatim
+
+Channel osamaragab@disroot.org
+Far :osamaragab@disroot.org-remote:
+Near :osamaragab@disroot.org-local:
+Patterns *
+SyncState *
+
+
+IMAPStore osamamuhammad@std.mans.edu.eg-remote
+Host imap.gmail.com
+Port 993
+User osamamuhammad@std.mans.edu.eg
+PassCmd "pass mail/osamamuhammad@std.mans.edu.eg | sed 1q"
+AuthMechs LOGIN
+TLSType IMAPS
+
+MaildirStore osamamuhammad@std.mans.edu.eg-local
+Path ~/.local/share/mail/osamamuhammad@std.mans.edu.eg/
+Inbox ~/.local/share/mail/osamamuhammad@std.mans.edu.eg/Inbox
+Subfolders Verbatim
+
+Channel osamamuhammad@std.mans.edu.eg
+Far :osamamuhammad@std.mans.edu.eg-remote:
+Near :osamamuhammad@std.mans.edu.eg-local:
+Patterns *
+SyncState *

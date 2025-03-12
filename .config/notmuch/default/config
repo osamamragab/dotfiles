@@ -1,0 +1,21 @@
+[database]
+path=.local/share/mail
+
+[user]
+name=Osama Ragab
+primary_email=theosamaragab@gmail.com
+primary_tag=inbox
+other_email=iosamaify@gmail.com;osamaragab@disroot.org;osamamuhammad@std.mans.edu.eg;
+
+[new]
+tags=unread;inbox;sent;
+ignore=.uidvalidity;.mbsyncstate;
+
+[search]
+exclude_tags=deleted;spam;
+
+[maildir]
+synchronize_flags=true
+
+[crypto]
+gpg_path=gpg
