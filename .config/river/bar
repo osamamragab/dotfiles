@@ -15,4 +15,5 @@ while cat "$FIFO"; do :; done | sandbar \
 	-title-fg-color "#eceff4" \
 	-title-bg-color "#2e3440" \
 	-hide-vacant-tags \
-	-no-title
+	-no-title \
+	-no-layout
