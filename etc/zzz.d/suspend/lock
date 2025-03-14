@@ -16,7 +16,7 @@ for xrd in /run/user/*; do
 		esac
 	done
 done
-[ -z "$display" ] && {
+[ -n "$display" ] || {
 	echo "no session found" >&2
 	exit 1
 }

@@ -4,7 +4,7 @@ set -eu
 
 getvol() {
 	vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
-	[ -z "$vol" ] && return 1
+	[ -n "$vol" ] || return 1
 	[ "$vol" != "${vol%\[MUTED\]}" ] && echo "muted" && return 0
 	vol="${vol#Volume: }"
 	IFS="."
