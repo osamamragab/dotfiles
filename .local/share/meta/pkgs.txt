@@ -76,6 +76,7 @@ groff
 gzip
 hdparm
 highlight
+hurl
 hwinfo
 hyperfine
 iftop
