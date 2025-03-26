@@ -3,10 +3,11 @@ https://hnrss.org/best tech
 https://hnrss.org/frontpage tech
 https://lobste.rs/rss tech
 
-https://suckless.org/atom.xml linux
-https://voidlinux.org/atom.xml linux
+https://artixlinux.org/feed.php linux
 https://archlinux.org/feeds/news/ linux
 https://www.debian.org/News/news linux
+https://voidlinux.org/atom.xml linux
+https://suckless.org/atom.xml linux
 
 https://www.freebsd.org/news/feed.xml bsd
 https://www.bsdnow.tv/rss bsd
@@ -15,6 +16,9 @@ https://undeadly.org/cgi?action=rss&full=1 bsd
 https://www.rfc-editor.org/rfcatom.xml rfc
 
 http://neovim.io/news.xml tools
+
+https://hackaday.com/blog/feed/ blog linux
+https://lxer.com/module/newswire/headlines.rss news linux
 
 https://beej.us/blog/rss.xml blog tech
 https://unixsheikh.com/feed.rss blog tech
