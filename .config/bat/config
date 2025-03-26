@@ -1,1 +1,2 @@
---theme=Nord
+--theme Nord
+--map-syntax "*.hurl:HTTP Request and Response"
