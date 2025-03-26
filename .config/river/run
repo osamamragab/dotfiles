@@ -5,7 +5,7 @@ export CLUTTER_BACKEND="wayland"
 export QT_QPA_PLATFORM="wayland"
 export MOZ_ENABLE_WAYLAND=1
 export NO_AT_BRIDGE=1
-export _JAVA_AWT_WM_NOREPARENTING=1
+export _JAVA_AWT_WM_NONREPARENTING=1
 export AWT_TOOLKIT="MToolkit wmname LG3D"
 
 export XDG_SESSION_TYPE="wayland"
