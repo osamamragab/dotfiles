@@ -11,14 +11,20 @@ autocmd({ "BufNewFile", "BufRead" }, {
 
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = filetype_group,
-	pattern = { "todo.txt", "done.txt", "*.todo.txt", "*.done.txt" },
-	command = "setlocal ft=todotxt",
+	pattern = { "*.pcss" },
+	command = "setlocal ft=css",
 })
 
 autocmd({ "BufNewFile", "BufRead" }, {
 	group = filetype_group,
-	pattern = { "*.pcss" },
-	command = "setlocal ft=css",
+	pattern = { "*.http" },
+	command = "setlocal ft=http",
+})
+
+autocmd({ "BufNewFile", "BufRead" }, {
+	group = filetype_group,
+	pattern = { "todo.txt", "done.txt", "*.todo.txt", "*.done.txt" },
+	command = "setlocal ft=todotxt",
 })
 
 autocmd({ "BufEnter" }, {
