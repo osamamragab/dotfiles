@@ -10,6 +10,7 @@ updatepkgs() {
 	command -v paru >/dev/null 2>&1 && paru -Sua --noconfirm
 	command -v rustup >/dev/null 2>&1 && rustup update
 	command -v cargo >/dev/null 2>&1 && cargo install-update -a
+	command -v flatpak >/dev/null 2>&1 && flatpak update -y
 }
 
 clean() {
