@@ -93,6 +93,7 @@ jupyterlab
 kanshi
 kvantum
 ldns
+leiningen
 less
 lesspipe
 lftp
