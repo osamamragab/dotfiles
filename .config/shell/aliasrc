@@ -34,6 +34,8 @@ alias drag="dragon-drop -x"
 
 [ -f "$XINITRC" ] && alias startx="startx $XINITRC"
 [ -f "$MBSYNCRC" ] && alias mbsync="mbsync -c $MBSYNCRC"
+alias mitmproxy="mitmproxy --set confdir=$XDG_CONFIG_HOME/mitmproxy"
+alias mitmweb="mitmweb --set confdir=$XDG_CONFIG_HOME/mitmproxy"
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 for cmd in su mount umount zzz ZZZ reboot poweroff shutdown sv rsm; do
