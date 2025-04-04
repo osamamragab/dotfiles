@@ -33,13 +33,16 @@ export GPG_TTY="$(tty)"
 [ -r "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc" ] && . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/aliasrc"
 alias doas="doas "
 
-fpath=("${XDG_CONFIG_HOME:-$HOME/.config}/zsh/completions" $fpath)
+export ZDOTDIR="${ZDOTDIR:-${XDG_CONFIG_HOME:-$HOME/.config}/zsh}"
+fpath=("$ZDOTDIR/completions" $fpath)
 _comp_options+=(globdots)
 autoload -Uz compinit
 zstyle ":completion:*" menu select
+zstyle ":completion:*" use-cache on
+zstyle ":completion:*" cache-path "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompcache"
+zstyle ":completion:*" completer _extensions _complete _approximate
 zmodload zsh/complist
-[ "$(find "$ZDOTDIR/.zcompdump" -mtime +1)" ] && compinit
-compinit -C
+find "$ZDOTDIR/.zcompdump" -mtime +1 >/dev/null 2>&1 && compinit || compinit -C
 
 bindkey -v
 KEYTIMEOUT=1
