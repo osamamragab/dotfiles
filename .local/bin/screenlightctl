@@ -2,14 +2,13 @@
 
 set -eu
 
-bri="$(brightnessctl -m -c backlight info 2>/dev/null | cut -d "," -f 4)" || exit 1
 [ $# -eq 0 ] && {
-	echo "$bri"
-	exit 0
+	brightnessctl -m -c backlight info 2>/dev/null | cut -d "," -f 4
+	exit $?
 }
 
 brightnessctl -q -c backlight set "$@"
-
+bri="$(brightnessctl -m -c backlight info 2>/dev/null | cut -d "," -f 4)" || exit 1
 notify-send \
 	-u low \
 	-t 1000 \
