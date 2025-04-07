@@ -22,5 +22,6 @@ urlview
 wayprompt
 wbg
 wrk
-zsh-fast-syntax-highlighting
+zaread-git
 zen-browser-bin
+zsh-fast-syntax-highlighting
