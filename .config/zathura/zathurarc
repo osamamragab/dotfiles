@@ -1,4 +1,4 @@
-set database "sqlite"
+set database sqlite
 set selection-clipboard clipboard
 set statusbar-h-padding 0
 set statusbar-v-padding 0
@@ -17,6 +17,9 @@ map i recolor
 map p print
 map g goto top
 map ; snap_to_page
+map = zoom in
+map - zoom out
+map + zoom best-fit
 
 # set recolor
 set recolor-darkcolor       "#d8dee9"
