@@ -1,6 +1,7 @@
 /node_modules/
 /__pycache__/
 /zig-out/
+/.zig-cache/
 /target/
 /wheels/
 /.venv/
