@@ -208,6 +208,7 @@ tealdeer
 termshark
 texinfo
 texlive-basic
+texlive-fontsrecommended
 time
 tlp
 tlp-runit
