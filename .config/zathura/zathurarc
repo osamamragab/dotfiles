@@ -20,6 +20,8 @@ map ; snap_to_page
 map = zoom in
 map - zoom out
 map + zoom best-fit
+map [presentation] k scroll full-up
+map [presentation] j scroll full-down
 
 # set recolor
 set recolor-darkcolor       "#d8dee9"
