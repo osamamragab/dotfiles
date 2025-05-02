@@ -16,7 +16,6 @@ return {
 					highlights.Comment = {
 						fg = palette.gray5,
 					}
-
 					highlights.StatusLine = {
 						fg = "none",
 					}
