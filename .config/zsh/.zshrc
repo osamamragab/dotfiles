@@ -39,7 +39,7 @@ autoload -Uz compinit
 zstyle ":completion:*" menu select
 zstyle ":completion:*" use-cache on
 zstyle ":completion:*" cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
-zstyle ":completion:*" completer _extensions _complete _approximate
+zstyle ":completion:*" completer _complete _extensions _correct
 zmodload zsh/complist
 find "$ZDOTDIR/.zcompdump" -mtime +1 >/dev/null 2>&1 && compinit || compinit -C
 
