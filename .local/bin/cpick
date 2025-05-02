@@ -33,8 +33,9 @@ color="$(grim -g "$pos" -t png - |
 	done
 }
 
-echo "$color"
 [ $clip -eq 1 ] &&
 	echo "$color" | wl-copy -n &&
 	[ $noti -eq 1 ] &&
 	notify-send -a "$(basename "$0")" "color copied to clipboard" "$color"
+
+echo "$color"
