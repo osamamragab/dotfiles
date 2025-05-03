@@ -1,5 +1,21 @@
 #!/bin/sh
 
+OPEN_HISTORY_FILE="${OPEN_HISTORY_FILE:-${XDG_DATA_HOME:-$HOME/.local/share}/open_history.txt}"
+
+[ $# -eq 0 ] &&
+	[ -f "$OPEN_HISTORY_FILE" ] &&
+	tac "$OPEN_HISTORY_FILE" |
+	menu |
+	exec xargs -I{} setsid -f xdg-open {}
+
 for arg; do
 	setsid -f xdg-open "$arg"
+	[ -e "$arg" ] && arg="$(readlink -f "$arg")"
+	echo "$arg" >>"$OPEN_HISTORY_FILE"
+	cat -n "$OPEN_HISTORY_FILE" |
+		sort -rk2 |
+		sort -uk2 |
+		sort -nk1 |
+		cut -f2- >"$OPEN_HISTORY_FILE.tmp" &&
+		mv -f "$OPEN_HISTORY_FILE.tmp" "$OPEN_HISTORY_FILE"
 done
