@@ -117,7 +117,7 @@ pidof -qsx sandbar || {
 	riverctl spawn "$XDG_CONFIG_HOME/river/status"
 }
 
-[ -s "$XDG_DATA_HOME/bg" ] && run wbg "$XDG_DATA_HOME/bg"
+[ -f "$XDG_DATA_HOME/bg" ] && run wbg "$XDG_DATA_HOME/bg"
 
 run foot --server
 run kanshi

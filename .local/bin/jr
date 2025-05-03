@@ -11,7 +11,7 @@ JOURNALDIR="${JOURNALDIR:-$(xdg-user-dir DOCUMENTS)/journal}"
 case "${1:-new}" in
 	new)
 		f="$JOURNALDIR/$(date "+%Y-%m-%d").md"
-		[ -s "$f" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" >"$f"
+		[ -f "$f" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" >"$f"
 		exec "$EDITOR" +$ "$f"
 		;;
 	edit) cmd="$EDITOR" ;;

@@ -71,7 +71,7 @@ status_nettraf() {
 
 printf "%s" "$$" >"$XDG_RUNTIME_DIR/status_pid"
 FIFO="$XDG_RUNTIME_DIR/sandbar"
-[ -e "$FIFO" ] || mkfifo "$FIFO"
+[ -p "$FIFO" ] || mkfifo "$FIFO"
 sec=0
 
 while :; do
