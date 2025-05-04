@@ -6,9 +6,21 @@ HERE="$(dirname "$(readlink -f "$0")")"
 . "$HERE/.config/shell/env"
 
 SETUP_PROGRAMS_DIR="${SETUP_PROGRAMS_DIR:-$HOME/programs}"
-SETUP_BROWSER_DIR="${SETUP_BROWSER_DIR:-$HOME/.zen}"
 SETUP_PKGS_FILE="${SETUP_PKGS_FILE:-$XDG_DATA_HOME/meta/pkgs.txt}"
 SETUP_PKGS_AUR_FILE="${SETUP_PKGS_AUR_FILE:-$XDG_DATA_HOME/meta/pkgs_aur.txt}"
+
+[ -n "${SETUP_BROWSER_DIR:-}" ] || case "$BROWSER" in
+	zen-browser) SETUP_BROWSER_DIR="$HOME/.zen" ;;
+	librewolf) SETUP_BROWSER_DIR="$HOME/.librewolf" ;;
+	waterfox) SETUP_BROWSER_DIR="$HOME/.waterfox" ;;
+	firefox) SETUP_BROWSER_DIR="$HOME/.mozilla/firefox" ;;
+	*)
+		[ "$1" = "browser" ] || [ "$1" = "all" ] && {
+			echo "$(basename "$0"): cannot determine SETUP_BROWSER_DIR" >&2
+			exit 1
+		}
+		;;
+esac
 
 # shellcheck disable=2015
 sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
@@ -40,7 +52,8 @@ setup_pkgs() {
 		}
 		paru -Sa --needed --noconfirm --sudo "$sudocmd" - <"$SETUP_PKGS_AUR_FILE"
 	}
-	rustup default stable &&
+	command -v rustup >/dev/null 2>&1 &&
+		rustup default stable &&
 		cargo install cargo-update cargo-info
 }
 
@@ -72,31 +85,50 @@ setup_runit() {
 }
 
 setup_browser() {
-	[ -d "$SETUP_BROWSER_DIR" ] ||
-		{
-			$BROWSER --headless >/dev/null 2>&1 &
-			ffpid=$!
-			sleep 1
-		}
+	[ -d "$SETUP_BROWSER_DIR" ] || {
+		$BROWSER --headless >/dev/null 2>&1 &
+		ffpid=$!
+		sleep 1
+	}
 	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
-		while IFS= read -r profile; do
-			cat "/usr/share/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" >"$SETUP_BROWSER_DIR/$profile/user.js"
-			[ "$BROWSER" != "firefox" ] &&
-				[ -f "$XDG_CONFIG_HOME/$BROWSER/user.js" ] &&
-				cat "$XDG_CONFIG_HOME/$BROWSER/user.js" >>"$SETUP_BROWSER_DIR/$profile/user.js"
-
+		while IFS= read -r p; do
+			cat "/usr/share/arkenfox-user.js/user.js" >"$SETUP_BROWSER_DIR/$p/user.js"
+			browsers="firefox"
+			# shellcheck disable=2015
+			[ "$BROWSER" != "$browsers" ] && browsers="$browsers $BROWSER" || true
+			for b in $browsers; do
+				[ -f "$XDG_CONFIG_HOME/$b/user.js" ] &&
+					cat "$XDG_CONFIG_HOME/$b/user.js" >>"$SETUP_BROWSER_DIR/$p/user.js"
+				[ -d "$XDG_CONFIG_HOME/$b/chrome" ] &&
+					cp -rL "$XDG_CONFIG_HOME/$b/chrome" "$SETUP_BROWSER_DIR/$p"
+			done
+			printf "%s" "$browsers" |
+				xargs -d " " -I{} echo "$XDG_CONFIG_HOME/{}/chrome/userChrome.css" |
+				xargs cat >"$SETUP_BROWSER_DIR/$p/chrome/userChrome.css" 2>/dev/null ||
+				true
 		done
 	# shellcheck disable=2015
 	[ -n "${ffpid:-}" ] && kill "$ffpid" || true
 }
 
 clean() {
-	cd "$HERE" || exit 1
-	find .config .local -type f -exec rm -vf "$HOME/{}" \;
+	find "$HERE/.config" "$HERE/.local" -type f |
+		while IFS= read -r p; do
+			f="${p#"$HERE/"}"
+			# shellcheck disable=2015
+			[ -L "$HOME/$f" ] &&
+				[ "$HERE/$f" = "$(readlink -f "$HOME/$f")" ] ||
+				continue
+			rm -vf "$HOME/$f"
+		done
 	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
-		while IFS= read -r profile; do
-			[ -f "$SETUP_BROWSER_DIR/$profile/user.js" ] &&
-				rm -vf "$SETUP_BROWSER_DIR/$profile/user.js"
+		while IFS= read -r p; do
+			# shellcheck disable=2015
+			[ -f "$SETUP_BROWSER_DIR/$p/user.js" ] &&
+				cat "/usr/share/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" "$XDG_CONFIG_HOME/$BROWSER/user.js" |
+				cmp "$SETUP_BROWSER_DIR/$p/user.js" ||
+				continue
+			rm -vf "$SETUP_BROWSER_DIR/$p/user.js"
 		done
 }
 
