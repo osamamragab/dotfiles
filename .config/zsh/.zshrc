@@ -70,28 +70,69 @@ function osc7-pwd() {
 	printf '\e]7;file://%s%s\e\' $HOST ${PWD//(#m)([^@-Za-z&-;_~])/%${(l:2::0:)$(([##16]#MATCH))}}
 }
 function chpwd-osc7-pwd() {
-	(( ZSH_SUBSHELL )) || osc7-pwd
+	[ $ZSH_SUBSHELL -eq 0 ] && osc7-pwd
 }
 autoload -Uz add-zsh-hook
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
 zshcache_time="$(date +%s%N)"
 precmd_rehash() {
-	if [[ -a /var/cache/zsh/pacman ]]; then
+	[ -f /var/cache/zsh/pacman ] && {
 		local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
-		if (( zshcache_time < paccache_time )); then
+		[ "$zshcache_time" -lt "$paccache_time" ] && {
 			rehash
 			zshcache_time="$paccache_time"
-		fi
-	fi
+		}
+	}
 }
 add-zsh-hook -Uz precmd precmd_rehash
 
-bindkey -s "^s" '"$(fzf)"\n'
-bindkey -s "^f" '^ue "$(fzf)"\n'
-bindkey -s "^o" '^uxdg-open "$(fzf)"\n'
-bindkey -s "^g" '^ucd "$(dirname "$(fzf)")"\n'
-bindkey -s "^t" '^u[ -f TODO.md ] && $EDITOR TODO.md || notes todo\n'
+fzf_select_widget() {
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf)" || return
+	BUFFER="$BUFFER \"$file\""
+	zle redisplay
+	zle accept-line
+}
+zle -N fzf_select_widget
+bindkey "^s" fzf_select_widget
+
+fzf_editor_widget() {
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf)" || return
+	BUFFER="$EDITOR \"$file\""
+	zle redisplay
+	zle accept-line
+}
+zle -N fzf_editor_widget
+bindkey "^f" fzf_editor_widget
+
+fzf_open_widget() {
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf)" || return
+	opener="open"
+	command -v "$opener" >/dev/null 2>&1 || opener="xdg-open"
+	BUFFER="$opener \"$file\""
+	zle redisplay
+	zle accept-line
+}
+zle -N fzf_open_widget
+bindkey "^o" fzf_open_widget
+
+fzf_cd_widget() {
+	local dir="$(fd --type d --hidden --strip-cwd-prefix | fzf)" || return
+	BUFFER="cd \"$dir\""
+	zle redisplay
+	zle accept-line
+}
+zle -N fzf_cd_widget
+bindkey "^g" fzf_cd_widget
+
+todo_widget() {
+	BUFFER="notes todo"
+	[ -f TODO.md ] && BUFFER="$EDITOR TODO.md"
+	zle redisplay
+	zle accept-line
+}
+zle -N todo_widget
+bindkey "^t" todo_widget
 
 [ -r /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ] && {
 	. /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
