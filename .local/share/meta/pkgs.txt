@@ -3,6 +3,7 @@ alsa-utils
 amfora
 android-tools
 arc-gtk-theme
+arduino-cli
 artools
 autofs
 automake
@@ -11,6 +12,7 @@ bat
 bc
 bettercap
 binutils
+blender
 bluez
 bluez-runit
 bluez-utils
@@ -58,12 +60,14 @@ flatpak
 fontconfig
 foot
 foot-terminfo
+freecad
 fribidi
 fuse3
 fuzzel
 fzf
 gcc
 gdb
+geogebra
 gimp
 git
 git-delta
@@ -84,6 +88,7 @@ ifuse
 imagemagick
 imv
 inetutils
+inkscape
 inxi
 iotop
 isync
@@ -91,6 +96,8 @@ jq
 julia
 jupyterlab
 kanshi
+kdenlive
+kicad
 kvantum
 ldns
 leiningen
@@ -107,10 +114,12 @@ linux-firmware
 lld
 llvm
 lm_sensors
+lmms
 lowdown
 lshw
 lsof
 lua
+luakit
 luarocks
 lynx
 macchanger
@@ -144,8 +153,11 @@ noto-fonts-emoji
 npm
 ntfs-3g
 nvtop
+obs-studio
+okular
 openbsd-netcat
 opendoas
+openscad
 openssh
 openssh-runit
 p7zip
@@ -205,6 +217,7 @@ syncthing
 tar
 tcc
 tealdeer
+telegram-desktop
 termshark
 texinfo
 texlive-basic
