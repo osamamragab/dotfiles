@@ -79,6 +79,7 @@ grim
 groff
 gzip
 hdparm
+heimdall
 highlight
 hurl
 hwinfo
