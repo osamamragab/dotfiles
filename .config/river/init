@@ -47,7 +47,7 @@ riverctl map normal Super Tab focus-previous-tags
 riverctl map normal Super+Shift Tab send-to-previous-tags
 riverctl map normal Super+Shift S toggle-view-tags $sticky_tag
 riverctl spawn-tagmask $((all_tags ^ sticky_tag))
-for i in $(seq 1 9); do
+for i in 1 2 3 4 5 6 7 8 9; do
 	tags=$((1 << (i - 1)))
 	riverctl map normal Super "$i" set-focused-tags $((sticky_tag + tags))
 	riverctl map normal Super+Shift "$i" set-view-tags $tags
@@ -74,15 +74,15 @@ for mode in normal locked; do
 	riverctl map $mode None XF86AudioMicMute spawn "amixer -q set Capture toggle"
 	riverctl map -repeat $mode Super Equal spawn "volumectl 5%+"
 	riverctl map -repeat $mode Super Minus spawn "volumectl 5%-"
-	riverctl map $mode Super+Shift Backspace spawn "volumectl toggle"
+	riverctl map $mode Super Backspace spawn "volumectl toggle"
 
-	riverctl map $mode None XF86AudioMedia spawn "playerctl play-pause"
-	riverctl map $mode None XF86AudioPlay spawn "playerctl play-pause"
-	riverctl map $mode None XF86AudioPrev spawn "playerctl previous"
 	riverctl map $mode None XF86AudioNext spawn "playerctl next"
-	riverctl map $mode Control+Alt Space spawn "playerctl play-pause"
-	riverctl map $mode Control+Alt Comma spawn "playerctl previous"
-	riverctl map $mode Control+Alt Period spawn "playerctl next"
+	riverctl map $mode None XF86AudioPrev spawn "playerctl previous"
+	riverctl map $mode None XF86AudioPlay spawn "playerctl play-pause"
+	riverctl map $mode None XF86AudioMedia spawn "playerctl play-pause"
+	riverctl map $mode Super+Shift Equal spawn "playerctl next"
+	riverctl map $mode Super+Shift Minus spawn "playerctl previous"
+	riverctl map $mode Super+Shift Backspace spawn "playerctl play-pause"
 
 	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "screenlightctl 10%+"
 	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "screenlightctl 10%-"
