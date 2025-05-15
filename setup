@@ -8,6 +8,7 @@ HERE="$(dirname "$(readlink -f "$0")")"
 SETUP_PROGRAMS_DIR="${SETUP_PROGRAMS_DIR:-$HOME/programs}"
 SETUP_PKGS_FILE="${SETUP_PKGS_FILE:-$XDG_DATA_HOME/meta/pkgs.txt}"
 SETUP_PKGS_AUR_FILE="${SETUP_PKGS_AUR_FILE:-$XDG_DATA_HOME/meta/pkgs_aur.txt}"
+SETUP_PKGS_FLATPAKS_FILE="${SETUP_PKGS_AUR_FILE:-$XDG_DATA_HOME/meta/flatpaks.txt}"
 
 [ -n "${SETUP_BROWSER_DIR:-}" ] || case "$BROWSER" in
 	zen-browser) SETUP_BROWSER_DIR="$HOME/.zen" ;;
@@ -55,6 +56,9 @@ setup_pkgs() {
 	command -v rustup >/dev/null 2>&1 &&
 		rustup default stable &&
 		cargo install cargo-update cargo-info
+	[ -f "$SETUP_PKGS_FLATPAKS_FILE" ] &&
+		command -v flatpak >/dev/null 2>&1 &&
+		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
 }
 
 setup_user() {
