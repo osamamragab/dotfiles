@@ -162,6 +162,7 @@ opendoas
 openscad
 openssh
 openssh-runit
+otf-font-awesome
 p7zip
 pacman-contrib
 pandoc-bin
@@ -234,6 +235,9 @@ torsocks
 translate-shell
 transmission-cli
 ttf-dejavu
+ttf-dejavu-nerd
+ttf-nerd-fonts-symbols
+ttf-nerd-fonts-symbols-mono
 typst
 udisks2
 ufw
@@ -245,6 +249,7 @@ uv
 valgrind
 vim
 w3m
+waybar
 waylock
 websocat
 weechat

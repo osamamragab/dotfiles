@@ -12,7 +12,6 @@ lz4json
 nemesis
 pam_ssh
 poweralertd
-sandbar
 sc-im
 sdkmanager
 simple-mtpfs
