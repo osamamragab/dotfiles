@@ -59,7 +59,7 @@ setup_pkgs() {
 
 setup_user() {
 	chsh -s "$(which zsh)"
-	$sudocmd ln -sfT dash /usr/bin/sh
+	$sudocmd ln -svfT dash /usr/bin/sh
 	$sudocmd usermod -aG video,audio,input,power,storage,optical,lp,scanner,dbus,docker,adbusers,uucp "$USER"
 }
 
@@ -84,6 +84,10 @@ setup_runit() {
 		/etc/runit/sv/docker
 }
 
+setup_fonts() {
+	$sudocmd ln -svft /etc/fonts/conf.d/ /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf
+}
+
 setup_browser() {
 	[ -d "$SETUP_BROWSER_DIR" ] || {
 		$BROWSER --headless >/dev/null 2>&1 &
@@ -100,7 +104,7 @@ setup_browser() {
 				[ -f "$XDG_CONFIG_HOME/$b/user.js" ] &&
 					cat "$XDG_CONFIG_HOME/$b/user.js" >>"$SETUP_BROWSER_DIR/$p/user.js"
 				[ -d "$XDG_CONFIG_HOME/$b/chrome" ] &&
-					cp -rL "$XDG_CONFIG_HOME/$b/chrome" "$SETUP_BROWSER_DIR/$p"
+					cp -rvL "$XDG_CONFIG_HOME/$b/chrome" "$SETUP_BROWSER_DIR/$p"
 			done
 			printf "%s" "$browsers" |
 				xargs -d " " -I{} echo "$XDG_CONFIG_HOME/{}/chrome/userChrome.css" |
@@ -138,12 +142,14 @@ case "${1:-dotfiles}" in
 		setup_pkgs
 		setup_user
 		setup_runit
+		setup_fonts
 		setup_browser
 		;;
 	dotfiles) setup_dotfiles ;;
 	pkgs) setup_pkgs ;;
 	user) setup_user ;;
 	runit) setup_runit ;;
+	fonts) setup_fonts ;;
 	browser) setup_browser ;;
 	clean) clean ;;
 	*)
