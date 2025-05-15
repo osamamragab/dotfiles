@@ -80,6 +80,7 @@ groff
 gzip
 hdparm
 heimdall
+helvum
 highlight
 hurl
 hwinfo
