@@ -29,6 +29,8 @@ window#waybar {
 #window,
 #privacy,
 #clock,
+#custom-dnd,
+#custom-recording,
 #tray,
 #pulseaudio,
 #bluetooth,
@@ -45,9 +47,10 @@ window#waybar {
 #tray {
 	margin-right: 10px;
 }
-
-#custom-wf-recorder {
-	padding: 0 15px;
+#custom-recording {
+	padding-left: 1em;
+	padding-right: 1em;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 	border-bottom: 4px solid #b74e58;
-	background-color: #3b4252;
 }

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -eu
+
+makoctl mode | grep -Fxq dnd || exit 1
+count="$(makoctl list 2>/dev/null | grep -c "^Notification")" &&
+	echo " $count" ||
+	echo ""

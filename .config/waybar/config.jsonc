@@ -11,10 +11,11 @@
 		"clock#date",
 		"clock#time",
 		"privacy",
-		"custom/wf-recorder"
+		"custom/recording"
 	],
 	"modules-right": [
 		"tray",
+		"custom/dnd",
 		"pulseaudio",
 		"bluetooth",
 		"network",
@@ -141,13 +142,23 @@
 		"icon-size": 18,
 		"spacing": 12
 	},
-	"custom/wf-recorder": {
+	"custom/dnd": {
+		"format": "{}",
+		"interval": "once",
+		"restart-interval": 1,
+		"exec": "$XDG_CONFIG_HOME/waybar/scripts/dnd",
+		"on-click": "makoctl mode -r dnd",
+		"tooltip": false,
+		"hide-empty-text": true,
+		"signal": 7
+	},
+	"custom/recording": {
 		"format": "{}",
 		"interval": "once",
 		"exec": "echo ''",
-		"tooltip": false,
 		"exec-if": "pidof -sqx wf-recorder",
 		"on-click": "menu-record stop",
+		"tooltip": false,
 		"signal": 8
 	}
 }
