@@ -19,7 +19,7 @@ update_history() {
 }
 
 [ $# -eq 0 ] && {
-	[ -f "$OPEN_HISTORY_FILE" ] || exit 1
+	[ -r "$OPEN_HISTORY_FILE" ] || exit 1
 	sel="$(tac "$OPEN_HISTORY_FILE" | menu -p "open recents> ")" || exit 1
 	setsid -f xdg-open "$sel"
 	update_history "$sel"

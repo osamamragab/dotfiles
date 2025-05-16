@@ -8,9 +8,7 @@ wfpid="$(pidof -sx wf-recorder 2>/dev/null)" && {
 	sel="${1:-$(printf "stop\ncontinue" | menu -p "$(basename "$0")> ")}" || exit 1
 	case "$sel" in
 		stop)
-			while kill -INT "$wfpid" >/dev/null 2>&1; do
-				sleep 0.1
-			done
+			while kill -INT "$wfpid" >/dev/null 2>&1; do sleep 0.1; done
 			pkill -RTMIN+8 waybar
 			;;
 		continue) ;;
@@ -37,7 +35,5 @@ case "$sel" in
 		setsid -f wf-recorder -a -f "$out" >/dev/null 2>&1
 		pkill -RTMIN+8 waybar
 		;;
-	*)
-		exit 1
-		;;
+	*) exit 1 ;;
 esac
