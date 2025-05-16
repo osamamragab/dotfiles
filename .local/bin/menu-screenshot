@@ -1,22 +1,13 @@
 #!/bin/sh
+# Wrapper menu script for grim and slurp
+# requires: grim, slurp, wl-clipboard, libnotify, xdg-user-dirs, and menu script
 
 set -eu
-
-notify() {
-	notify-send -a "$(basename "$0")" "$@"
-}
-
-for p in grim slurp wl-copy notify-send xdg-user-dir; do
-	command -v "$p" >/dev/null 2>&1 || {
-		echo "$(basename "$0"): $p not found" >&2
-		exit 1
-	}
-done
 
 dir="$(xdg-user-dir PICTURES)/screenshots"
 [ -d "$dir" ] || mkdir -p "$dir" || {
 	echo "$(basename "$0"): cannot create directory $dir" >&2
-	notify -u critical "error" "cannot create directory $dir"
+	notify-send -u critical -a "$(basename "$0")" "error" "cannot create directory $dir"
 	exit 1
 }
 
@@ -26,20 +17,20 @@ case "$sel" in
 	select)
 		g="$(slurp -d)" || exit 1
 		grim -g "$g" "$out"
-		notify "screenshot" "saved to $out"
+		notify-send -a "$(basename "$0")" "screenshot" "saved to $out"
 		;;
 	fullscreen)
 		grim "$out"
-		notify "screenshot" "saved to $out"
+		notify-send -a "$(basename "$0")" "screenshot" "saved to $out"
 		;;
 	select-copy)
 		g="$(slurp -d)" || exit 1
 		grim -g "$g" - | wl-copy -t image/png
-		notify "screenshot" "saved to clipboard"
+		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
 		;;
 	fullscreen-copy)
 		grim - | wl-copy -t image/png
-		notify "screenshot" "saved to clipboard"
+		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
 		;;
 	*)
 		exit 1

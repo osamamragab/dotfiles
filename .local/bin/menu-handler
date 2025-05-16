@@ -2,10 +2,6 @@
 
 set -eu
 
-notify() {
-	notify-send -a "$(basename "$0")" "$@"
-}
-
 getinput() {
 	wl-paste | menu -p "${1:-input}> "
 }
@@ -26,14 +22,14 @@ case "$action" in
 		;;
 	translate)
 		input="$(getinput "$action")"
-		notify "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
+		notify-send -a "$(basename "$0")" "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
 		;;
 	bookmark)
 		url="$(getinput "$action")"
 		tag="$(buku --nostdin --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | menu -p "tag> ")" || exit 1
 		buku --nostdin --tacit --np -a "$url" "$tag" >/dev/null 2>&1 || {
 			echo "$(basename "$0"): $action: adding '$url' with tag '$tag' failed" >&2
-			notify -u critical "error" "$action: adding '$url' with tag '$tag' failed"
+			notify-send -u critical -a "$(basename "$0")" "error" "$action: adding '$url' with tag '$tag' failed"
 		}
 		;;
 	list-bookmarks)
@@ -46,7 +42,7 @@ case "$action" in
 	*)
 
 		echo "$(basename "$0"): invalid action: $action" >&2
-		notify -u critical "error" "invalid action: $action"
+		notify-send -u critical -a "$(basename "$0")" "error" "invalid action: $action"
 		exit 1
 		;;
 esac
