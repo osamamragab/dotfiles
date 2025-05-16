@@ -95,6 +95,7 @@
 	"memory": {
 		"interval": 30,
 		"format": " {used:0.1f}G",
+		"tooltip-format": "mem:  {used:0.1f}G/{total:0.1f}G ({percentage}%)\nswap: {swapUsed:0.1f}G/{swapTotal:0.1f}G ({swapPercentage}%)",
 		"max-length": 10
 	},
 	"network": {
