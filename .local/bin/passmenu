@@ -21,8 +21,10 @@ sel="$(find "$PASSWORD_STORE_DIR" -type f -name "*.gpg" -printf "%P\n" |
 	menu -p "$app${otp:+ otp}> ")" || exit 1
 
 pass ${otp:+otp} -c "$sel" || {
+	echo "$app: pass${otp:+ otp} command failed" >&2
 	notify-send -a "$app" -u critical error "pass${otp:+ otp} command failed"
 	exit 1
 }
+
 [ "${otp:-0}" -eq 1 ] && type="otp" || type="password"
 notify-send -a "$app" "$sel" "$type copied to clipboard"
