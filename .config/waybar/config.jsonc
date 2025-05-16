@@ -10,7 +10,8 @@
 		// "river/window",
 		"clock#date",
 		"clock#time",
-		"privacy"
+		"privacy",
+		"custom/wf-recorder"
 	],
 	"modules-right": [
 		"tray",
@@ -138,5 +139,14 @@
 	"tray": {
 		"icon-size": 18,
 		"spacing": 12
+	},
+	"custom/wf-recorder": {
+		"format": "{}",
+		"interval": "once",
+		"exec": "echo ''",
+		"tooltip": false,
+		"exec-if": "pidof -sqx wf-recorder",
+		"on-click": "menu-record stop",
+		"signal": 8
 	}
 }

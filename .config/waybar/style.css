@@ -45,3 +45,9 @@ window#waybar {
 #tray {
 	margin-right: 10px;
 }
+
+#custom-wf-recorder {
+	padding: 0 15px;
+	border-bottom: 4px solid #b74e58;
+	background-color: #3b4252;
+}
