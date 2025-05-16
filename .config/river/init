@@ -66,6 +66,8 @@ riverctl map normal Super O spawn "clipman pick -t CUSTOM -T menu"
 riverctl map normal Super+Shift O spawn "open"
 riverctl map normal Super P spawn "passmenu"
 riverctl map normal Super+Shift P spawn "passmenu otp"
+riverctl map normal Super Backslash spawn "makoctl dismiss -a && pkill -RTMIN+7 waybar"
+riverctl map normal Super+Shift Backslash spawn "makoctl mode -t dnd && pkill -RTMIN+7 waybar"
 
 for mode in normal locked; do
 	riverctl map $mode None XF86Eject spawn "eject -T"
