@@ -1,0 +1,43 @@
+#!/bin/sh
+# Wrapper menu script for wf-recorder. Supports waybar signals.
+# requires: wf-recorder, slurp, libnotify, xdg-user-dirs, and menu script
+
+set -eu
+
+wfpid="$(pidof -sx wf-recorder 2>/dev/null)" && {
+	sel="${1:-$(printf "stop\ncontinue" | menu -p "$(basename "$0")> ")}" || exit 1
+	case "$sel" in
+		stop)
+			while kill -INT "$wfpid" >/dev/null 2>&1; do
+				sleep 0.1
+			done
+			pkill -RTMIN+8 waybar
+			;;
+		continue) ;;
+		*) exit 1 ;;
+	esac
+	exit 0
+}
+
+dir="$(xdg-user-dir VIDEOS)/recordings"
+[ -d "$dir" ] || mkdir -p "$dir" || {
+	echo "$(basename "$0"): cannot create directory $dir" >&2
+	notify-send -u critical -a "$(basename "$0")" "error" "cannot create directory $dir"
+	exit 1
+}
+
+sel="${1:-$(printf "select\nfullscreen" | menu -p "$(basename "$0")> ")}" || exit 1
+out="$dir/$(date "+%Y%m%d-%H%M%S").mkv"
+case "$sel" in
+	select)
+		setsid -f wf-recorder -a -g "$(slurp -d)" -f "$out" >/dev/null 2>&1
+		pkill -RTMIN+8 waybar
+		;;
+	fullscreen)
+		setsid -f wf-recorder -a -f "$out" >/dev/null 2>&1
+		pkill -RTMIN+8 waybar
+		;;
+	*)
+		exit 1
+		;;
+esac
