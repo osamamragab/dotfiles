@@ -147,7 +147,7 @@
 		"interval": "once",
 		"restart-interval": 1,
 		"exec": "$XDG_CONFIG_HOME/waybar/scripts/dnd",
-		"on-click": "makoctl mode -r dnd",
+		"on-click": "makoctl mode -r dnd >/dev/null 2>&1",
 		"tooltip": false,
 		"hide-empty-text": true,
 		"signal": 7
