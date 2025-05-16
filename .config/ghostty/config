@@ -3,7 +3,7 @@ auto-update = off
 font-size = 15
 background = 2e3440
 foreground = eceff4
-background-opacity = 0.9
+background-opacity = 0.95
 selection-invert-fg-bg
 cursor-style = block
 cursor-style-blink = false
