@@ -14,7 +14,7 @@ on-touch=invoke-default-action
 on-button-left=invoke-default-action
 on-button-right=dismiss
 on-button-middle=exec makoctl menu -n "$id" menu -p "select action> "
-on-notify=exec [ "$(makoctl list | jq ".data.[] | length")" -eq 1 ] && play -q /usr/share/sounds/freedesktop/stereo/message.oga
+on-notify=exec [ "$(makoctl list | grep -c "^Notification")" -eq 1 ] && play -q /usr/share/sounds/freedesktop/stereo/message.oga
 
 [hidden]
 format=(and %h more)
