@@ -121,11 +121,11 @@
 		"interface": "wlan0",
 		"format": "{ifname}",
 		"format-wifi": " {signalStrength}%",
-		"format-ethernet": "{ipaddr}/{cidr} 󰊗",
+		"format-ethernet": "{ipaddr}/{cidr} ",
 		"format-disconnected": "",
 		"on-click": "foot -a float wpa_cli",
 		"tooltip-format": "{ifname} via {gwaddr} 󰊗",
-		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ipaddr} at {ifname}",
+		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ipaddr}/{cidr} at {ifname}",
 		"tooltip-format-ethernet": "{ifname} ",
 		"tooltip-format-disconnected": "Disconnected"
 	},
