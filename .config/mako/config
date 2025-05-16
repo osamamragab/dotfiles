@@ -5,6 +5,7 @@ max-visible=5
 max-history=20
 default-timeout=5000
 font=monospace 14
+text-alignment=left
 text-color=#eceff4
 background-color=#2e3440
 border-color=#5e81ac
@@ -47,12 +48,10 @@ invisible=0
 [app-name=volumectl]
 history=0
 on-notify=none
-text-alignment=center
 
 [app-name=screenlightctl]
 history=0
 on-notify=none
-text-alignment=center
 
 [app-name=poweralertd]
 history=0
