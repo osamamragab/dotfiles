@@ -35,7 +35,7 @@ window#waybar {
 #network,
 #memory,
 #cpu,
-#temperature
+#temperature,
 #battery {
 	background-color: #3b4252;
 	margin: 4px;
