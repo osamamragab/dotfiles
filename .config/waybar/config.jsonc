@@ -1,0 +1,142 @@
+{
+	"layer": "top",
+	"position": "top",
+	"height": 1,
+	"modules-left": [
+		"river/tags",
+		"river/mode"
+	],
+	"modules-center": [
+		// "river/window",
+		"clock#date",
+		"clock#time",
+		"privacy"
+	],
+	"modules-right": [
+		"tray",
+		"pulseaudio",
+		"bluetooth",
+		"network",
+		"memory",
+		"cpu",
+		"temperature",
+		"battery"
+	],
+	"river/tags": {
+		"num-tags": 9,
+		"hide-vacant": true
+	},
+	"clock#time": {
+		"interval": 10,
+		"format": " {:%H:%M}",
+		"tooltip-format": ""
+	},
+	"clock#date": {
+		"interval": 60,
+		"format": " {:%a %d %b}",
+		"tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+		"calendar": {}
+	},
+	"pulseaudio": {
+		"format": "{icon}{volume}%",
+		"format-muted": " muted",
+		"on-click": "foot -a float pulsemixer",
+		"on-click-right": "helvum",
+		"on-click-middle": "volumectl toggle",
+		"max-volume": 200,
+		"scroll-step": 5,
+		"format-icons": {
+			"headphone": " ",
+			"hands-free": " ",
+			"headset": " ",
+			"default": [
+				" ",
+				" ",
+				" "
+			]
+		}
+	},
+	"battery": {
+		"interval": 60,
+		"states": {
+			"warning": 20
+		},
+		"format": "{icon}{capacity}%",
+		"format-charging": "{icon}{capacity}% ",
+		"format-plugged": "{icon}{capacity}% ",
+		"format-warning": "{icon}{capacity}% ",
+		"format-time": "{H}h {M}m",
+		"format-icons": [
+			" ",
+			" ",
+			" ",
+			" ",
+			" "
+		]
+	},
+	"temperature": {
+		"interval": 10,
+		"critical-threshold": 80,
+		"format": "{icon} {temperatureC}°C",
+		"format-icons": [
+			"",
+			"",
+			"",
+			"",
+			""
+		]
+	},
+	"cpu": {
+		"interval": 10,
+		"format": " {}%",
+		"max-length": 10
+	},
+	"memory": {
+		"interval": 30,
+		"format": " {used:0.1f}G",
+		"max-length": 10
+	},
+	"network": {
+		"interface": "wlan0",
+		"format": "{ifname}",
+		"format-wifi": " {signalStrength}%",
+		"format-ethernet": "{ipaddr}/{cidr} 󰊗",
+		"format-disconnected": "",
+		"on-click": "foot -a float wpa_cli",
+		"tooltip-format": "{ifname} via {gwaddr} 󰊗",
+		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ipaddr} at {ifname}",
+		"tooltip-format-ethernet": "{ifname} ",
+		"tooltip-format-disconnected": "Disconnected"
+	},
+	"bluetooth": {
+		"format": "", // " {status}",
+		"format-connected": " {device_alias}",
+		"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+		"on-click": "foot -a float bluetoothctl",
+		"tooltip-format": "{controller_alias}\t{controller_address}",
+		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
+		"tooltip-format-enumerate-connected": "- {device_alias}\t[{device_address}]",
+		"tooltip-format-enumerate-connected-battery": "- {device_alias}\t[{device_address}]\t({device_battery_percentage}%)"
+	},
+	"privacy": {
+		"icon-spacing": 4,
+		"icon-size": 18,
+		"transition-duration": 250,
+		"modules": [
+			{
+				"type": "screenshare",
+				"tooltip": true,
+				"tooltip-icon-size": 24
+			},
+			{
+				"type": "audio-in",
+				"tooltip": true,
+				"tooltip-icon-size": 24
+			}
+		]
+	},
+	"tray": {
+		"icon-size": 18,
+		"spacing": 12
+	}
+}
