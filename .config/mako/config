@@ -28,6 +28,11 @@ default-timeout=0
 background-color=#b74e58
 border-color=#bf616a
 
+[mode=away]
+on-notify=none
+ignore-timeout=1
+default-timeout=0
+
 [mode=dnd]
 invisible=1
 default-timeout=0
