@@ -58,7 +58,7 @@
 		}
 	},
 	"pulseaudio": {
-		"format": "{icon}{volume}%",
+		"format": "{icon} {volume}%",
 		"format-muted": " muted",
 		"on-click": "foot -a float pulsemixer",
 		"on-click-right": "helvum",
@@ -66,13 +66,13 @@
 		"max-volume": 200,
 		"scroll-step": 5,
 		"format-icons": {
-			"headphone": " ",
-			"hands-free": " ",
-			"headset": " ",
+			"headphone": "",
+			"hands-free": "",
+			"headset": "",
 			"default": [
-				" ",
-				" ",
-				" "
+				"",
+				"",
+				""
 			]
 		}
 	},
@@ -81,17 +81,17 @@
 		"states": {
 			"warning": 20
 		},
-		"format": "{icon}{capacity}%",
+		"format": "{icon} {capacity}%",
 		"format-charging": "{icon}{capacity}% ",
 		"format-plugged": "{icon}{capacity}% ",
 		"format-warning": "{icon}{capacity}% ",
 		"format-time": "{H}h {M}m",
 		"format-icons": [
-			" ",
-			" ",
-			" ",
-			" ",
-			" "
+			"",
+			"",
+			"",
+			"",
+			""
 		]
 	},
 	"temperature": {
@@ -124,7 +124,7 @@
 		"format-wifi": " {signalStrength}%",
 		"format-ethernet": "{ipaddr}/{cidr} ",
 		"format-disconnected": "",
-		"on-click": "foot -a float wpa_cli",
+		"on-click": "foot -a float iwctl",
 		"tooltip-format": "{ifname} via {gwaddr} 󰊗",
 		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ipaddr}/{cidr} at {ifname}",
 		"tooltip-format-ethernet": "{ifname} ",
