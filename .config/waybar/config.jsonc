@@ -51,8 +51,8 @@
 			}
 		},
 		"actions": {
-			"on-click": "mode",
-			"on-click-right": "shift_reset",
+			"on-click": "shift_reset",
+			"on-click-right": "mode",
 			"on-scroll-up": "shift_up",
 			"on-scroll-down": "shift_down"
 		}
@@ -68,7 +68,10 @@
 		"format-icons": {
 			"headphone": "",
 			"hands-free": "",
-			"headset": "",
+			"headset": "",
+			"phone": "",
+			"portable": "",
+			"car": "",
 			"default": [
 				"",
 				"",
