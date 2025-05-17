@@ -20,6 +20,7 @@ brightnessctl
 btrfs-progs
 bzip2
 calcurse
+cava
 chromium
 chrony
 chrony-runit

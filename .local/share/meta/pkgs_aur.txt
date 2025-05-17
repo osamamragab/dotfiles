@@ -4,7 +4,6 @@ arkenfox-user.js
 bicon-git
 buku
 bun-bin
-cava
 clipman
 dragon-drop
 htop-vim
