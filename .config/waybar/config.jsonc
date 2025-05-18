@@ -85,9 +85,9 @@
 			"warning": 20
 		},
 		"format": "{icon} {capacity}%",
-		"format-charging": "{icon}{capacity}% ",
-		"format-plugged": "{icon}{capacity}% ",
-		"format-warning": "{icon}{capacity}% ",
+		"format-charging": "{icon} {capacity}% ",
+		"format-plugged": "{icon} {capacity}% ",
+		"format-warning": "{icon} {capacity}% ",
 		"format-time": "{H}h {M}m",
 		"format-icons": [
 			"",
