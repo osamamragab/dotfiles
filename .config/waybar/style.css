@@ -17,10 +17,12 @@ window#waybar {
 	padding: 0 .2rem;
 	border-bottom: 4px solid transparent;
 }
+
 #tags button.focused {
 	background-color: #3b4252;
 	border-bottom-color: #5e81ac;
 }
+
 #tags button.urgent {
 	border-bottom-color: #b74e58;
 }
@@ -38,15 +40,18 @@ window#waybar {
 #memory,
 #cpu,
 #temperature,
-#battery {
+#battery,
+#custom-days {
 	background-color: #3b4252;
 	margin: 4px;
 	padding: 0.4em 0.6em;
 	border-radius: 6px;
 }
+
 #tray {
 	margin-right: 10px;
 }
+
 #custom-recording {
 	padding-left: 1em;
 	padding-right: 1em;

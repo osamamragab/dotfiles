@@ -22,7 +22,8 @@
 		"memory",
 		"cpu",
 		"temperature",
-		"battery"
+		"battery",
+		"custom/days"
 	],
 	"river/tags": {
 		"num-tags": 9,
@@ -183,5 +184,11 @@
 		"on-click": "menu-record stop",
 		"tooltip": false,
 		"signal": 8
+	},
+	"custom/days": {
+		"format": " {}",
+		"interval": 1800,
+		"exec": "echo $(( ($(date +%s) - $(date -d 2004-06-09 +%s)) / 86400 ))",
+		"tooltip": false
 	}
 }
