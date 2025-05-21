@@ -162,6 +162,7 @@ obs-studio
 okular
 openbsd-netcat
 opendoas
+openresolv
 openscad
 openssh
 openssh-runit
