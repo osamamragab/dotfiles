@@ -1,0 +1,92 @@
+#!/bin/sh
+
+status_date() {
+	date="$(date "+%a %d %b - %H:%M")"
+}
+
+status_days() {
+	days="$((($(date +%s) - $(date -d 2004-06-09 +%s)) / 86400))"
+}
+
+status_cpu() {
+	cpu="$(grep -o "^[^ ]*" /proc/loadavg)% [$(sensors | awk '/Package id/{print $4}')]"
+}
+
+status_mem() {
+	mem="$(free -h | awk '/^Mem/{print substr($3, 1, length($3)-1)}')"
+}
+
+status_bat() {
+	bat=""
+	for b in /sys/class/power_supply/BAT?*; do
+		[ -n "${bat:+x}" ] && bat="$bat "
+		cap="$(cat "$b/capacity" 2>&1)"
+		stat="$(cat "$b/status" 2>&1)"
+		case "$stat" in
+			Full) flag="F" ;;
+			Charging) flag="C" ;;
+			Discharging) [ "$cap" -le 20 ] && flag="!" || flag="" ;;
+			"Not charging") flag="N" ;;
+			Unknown) flag="?" ;;
+		esac
+		bat="$bat$cap%${flag:+ [$flag]}"
+	done
+}
+
+status_net() {
+	wifi=""
+	[ "$(cat /sys/class/net/e*/operstate 2>/dev/null)" = "up" ] && eth="E" || eth="E!"
+	# shellcheck disable=2013
+	for state in $(cat /sys/class/net/w*/operstate 2>/dev/null); do
+		case "$state" in
+			up)
+				wifi="$wifi W $(awk '/^\s*w/{print int($3*100/70)}' /proc/net/wireless)%"
+				;;
+			down)
+				[ "$(cat /sys/class/net/w*/flags 2>/dev/null)" = "0x1003" ] && wifi="$wifi W?" || wifi="$wifi W!"
+				;;
+		esac
+	done
+	[ -n "$(cat /sys/class/net/tun*/operstate 2>/dev/null)" ] && tun=" [TUN]" || tun=""
+	net="$eth$wifi$tun"
+}
+
+nettraf_update() {
+	sum=0
+	for arg; do
+		read -r i <"$arg"
+		sum=$((sum + i))
+	done
+	cache="${XDG_CACHE_HOME:-$HOME/.cache}/${1##*/}"
+	[ -r "$cache" ] && read -r old <"$cache" || old=0
+	echo "$sum" >"$cache"
+	numfmt --to=iec $((sum - old))
+}
+
+status_nettraf() {
+	nettraf="$(printf "↓ %4sB – ↑ %4sB\n" \
+		"$(nettraf_update /sys/class/net/[ew]*/statistics/rx_bytes)" \
+		"$(nettraf_update /sys/class/net/[ew]*/statistics/tx_bytes)")"
+}
+
+printf "%s" "$$" >"$XDG_RUNTIME_DIR/status_pid"
+FIFO="$XDG_RUNTIME_DIR/sandbar"
+[ -p "$FIFO" ] || mkfifo "$FIFO"
+sec=0
+
+while :; do
+	sleep 1 &
+	wait && {
+		[ $((sec % 3600)) -eq 0 ] && status_days
+		[ $((sec % 5)) -eq 0 ] && {
+			status_date
+			status_cpu
+			status_mem
+			status_bat
+			status_net
+		}
+		status_nettraf
+		echo "all status $nettraf | net: $net | mem: $mem | cpu: $cpu | bat: $bat | $date | #$days" >"$FIFO"
+		sec=$((sec + 1))
+	}
+done
