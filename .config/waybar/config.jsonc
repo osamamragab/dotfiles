@@ -81,7 +81,7 @@
 		}
 	},
 	"battery": {
-		"interval": 60,
+		"interval": 5,
 		"states": {
 			"warning": 20
 		},
@@ -90,6 +90,7 @@
 		"format-plugged": "{icon} {capacity}% ",
 		"format-warning": "{icon} {capacity}% ",
 		"format-time": "{H}h {M}m",
+		"tooltip-format": "{timeTo}\nhealth: {health}%",
 		"format-icons": [
 			"",
 			"",
