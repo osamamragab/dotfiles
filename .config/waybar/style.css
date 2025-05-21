@@ -41,6 +41,7 @@ window#waybar {
 #cpu,
 #temperature,
 #battery,
+#upower,
 #custom-days {
 	background-color: #3b4252;
 	margin: 4px;

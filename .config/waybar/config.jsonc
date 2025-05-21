@@ -22,7 +22,7 @@
 		"memory",
 		"cpu",
 		"temperature",
-		"battery",
+		"upower",
 		"custom/days"
 	],
 	"river/tags": {
@@ -98,6 +98,13 @@
 			"",
 			""
 		]
+	},
+	"upower": {
+		"format": " {percentage} {time}",
+		"icon-size": 16,
+		"hide-if-empty": true,
+		"tooltip": true,
+		"tooltip-spacing": 20
 	},
 	"temperature": {
 		"interval": 10,
@@ -187,7 +194,7 @@
 		"signal": 8
 	},
 	"custom/days": {
-		"format": " {}",
+		"format": " {}",
 		"interval": 1800,
 		"exec": "echo $(( ($(date +%s) - $(date -d 2004-06-09 +%s)) / 86400 ))",
 		"tooltip": false
