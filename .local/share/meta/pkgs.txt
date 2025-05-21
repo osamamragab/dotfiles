@@ -95,6 +95,8 @@ inkscape
 inxi
 iotop
 isync
+iwd
+iwd-runit
 jq
 julia
 jupyterlab
@@ -261,8 +263,6 @@ wireplumber
 wireshark-cli
 wl-clipboard
 wlopm
-wpa_supplicant
-wpa_supplicant-runit
 xdg-desktop-portal-wlr
 xdg-user-dirs
 xdg-utils
