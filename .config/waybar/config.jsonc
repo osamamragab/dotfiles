@@ -100,11 +100,12 @@
 		]
 	},
 	"upower": {
-		"format": " {percentage} {time}",
-		"icon-size": 16,
-		"hide-if-empty": true,
+		"format": " {percentage}",
+		"tooltip-format": " {time}",
 		"tooltip": true,
-		"tooltip-spacing": 20
+		"tooltip-spacing": 20,
+		"icon-size": 16,
+		"hide-if-empty": true
 	},
 	"temperature": {
 		"interval": 10,
