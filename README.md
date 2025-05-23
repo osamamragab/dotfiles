@@ -27,9 +27,7 @@ subcommand instead:
 
 ### pam_ssh
 
-#### pam_ssh
-
-add the following to /etc/pam.d/login
+Add the following to /etc/pam.d/login
 ```pamconf
 ...
 -auth        optional    pam_ssh.so    try_first_pass
