@@ -35,7 +35,6 @@ setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
 	$sudocmd cp -rfvt /etc "$HERE/etc/."
-	$sudocmd cp -afvt /etc /usr/share/pipewire /usr/share/wireplumber
 	$sudocmd mkdir -pv /var/cache/zsh
 }
 
@@ -93,10 +92,13 @@ setup_fonts() {
 	$sudocmd ln -svft /etc/fonts/conf.d/ /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf
 }
 
+setup_pipewire() {
+	$sudocmd cp -afvt /etc /usr/share/pipewire /usr/share/wireplumber
+}
+
 setup_ufw() {
 	$sudocmd ufw default deny
 	$sudocmd ufw allow from 192.168.0.0/24
-	$sudocmd ufw allow Deluge
 	$sudocmd ufw limit ssh
 }
 
@@ -127,7 +129,18 @@ setup_browser() {
 	[ -n "${ffpid:-}" ] && kill "$ffpid" || true
 }
 
-clean() {
+setup_install() {
+	setup_dotfiles
+	setup_pkgs
+	setup_user
+	setup_runit
+	setup_ufw
+	setup_fonts
+	setup_pipewire
+	setup_browser
+}
+
+setup_uninstall() {
 	find "$HERE/.config" "$HERE/.local" -type f |
 		while IFS= read -r p; do
 			f="${p#"$HERE/"}"
@@ -149,23 +162,16 @@ clean() {
 }
 
 case "${1:-dotfiles}" in
-	all)
-		setup_dotfiles
-		setup_pkgs
-		setup_user
-		setup_runit
-		setup_fonts
-		setup_ufw
-		setup_browser
-		;;
+	install) setup_install ;;
 	dotfiles) setup_dotfiles ;;
 	pkgs) setup_pkgs ;;
 	user) setup_user ;;
 	runit) setup_runit ;;
-	fonts) setup_fonts ;;
 	ufw) setup_ufw ;;
+	fonts) setup_fonts ;;
+	pipewire) setup_pipewire ;;
 	browser) setup_browser ;;
-	clean) clean ;;
+	uninstall) setup_uninstall ;;
 	*)
 		echo "$(basename "$0"): unknown command: $1" >&2
 		exit 1
