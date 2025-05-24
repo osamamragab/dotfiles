@@ -139,7 +139,7 @@
 		"format-wifi": " {signalStrength}%",
 		"format-ethernet": "{ipaddr}/{cidr} ",
 		"format-disconnected": "",
-		"on-click": "foot -a float iwctl",
+		"on-click": "foot -a float nmtui",
 		"tooltip-format": "{ifname} via {gwaddr} 󰊗",
 		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ipaddr}/{cidr} at {ifname}",
 		"tooltip-format-ethernet": "{ifname} ",

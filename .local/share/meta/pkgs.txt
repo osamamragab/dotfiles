@@ -36,10 +36,9 @@ dbus
 dbus-runit
 delve
 deno
-dhcpcd
-dhcpcd-runit
 direnv
 dive
+dnsmasq
 docker
 docker-compose
 docker-runit
@@ -95,8 +94,6 @@ inkscape
 inxi
 iotop
 isync
-iwd
-iwd-runit
 jq
 julia
 jupyterlab
@@ -150,6 +147,8 @@ nasm
 ncmpcpp
 neovim
 net-tools
+networkmanager
+networkmanager-runit
 newsboat
 nix
 nnn
