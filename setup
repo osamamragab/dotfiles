@@ -77,13 +77,15 @@ setup_runit() {
 		/etc/runit/sv/dbus \
 		/etc/runit/sv/udevd \
 		/etc/runit/sv/chrony \
+		/etc/runit/sv/cronie \
 		/etc/runit/sv/elogind \
 		/etc/runit/sv/NetworkManager \
-		/etc/runit/sv/ufw \
 		/etc/runit/sv/bluetoothd \
-		/etc/runit/sv/cronie \
+		/etc/runit/sv/ufw \
 		/etc/runit/sv/tlp \
 		/etc/runit/sv/sshd \
+		/etc/runit/sv/cupsd \
+		/etc/runit/sv/avahi-daemon \
 		/etc/runit/sv/docker
 }
 

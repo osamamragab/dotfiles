@@ -8,12 +8,15 @@ artools
 autofs
 automake
 bash
+avahi
+avahi-runit
 bat
 bc
 bettercap
 binutils
 blender
 bluez
+bluez-cups
 bluez-runit
 bluez-utils
 brightnessctl
@@ -29,6 +32,9 @@ cppcheck
 croc
 cronie
 cronie-runit
+cups
+cups-pdf
+cups-runit
 curl
 darkhttpd
 dash
@@ -77,6 +83,7 @@ go
 goimapnotify
 grim
 groff
+gutenprint
 gzip
 hdparm
 heimdall
