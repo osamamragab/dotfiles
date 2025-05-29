@@ -7,9 +7,9 @@ arduino-cli
 artools
 autofs
 automake
-bash
 avahi
 avahi-runit
+bash
 bat
 bc
 bettercap
@@ -74,6 +74,7 @@ fzf
 gcc
 gdb
 geogebra
+geoip
 gimp
 git
 git-delta
