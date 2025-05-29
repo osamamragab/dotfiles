@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -eu
+
+[ -z "${WTTR_PARAMS:-}" ] && {
+	WTTR_PARAMS=""
+	[ -t 1 ] && [ "$(tput cols)" -lt 125 ] && WTTR_PARAMS="$WTTR_PARAMS n"
+	case "$(locale LC_MEASUREMENT 2>/dev/null | sed 1q)" in
+		1) WTTR_PARAMS="$WTTR_PARAMS m" ;;
+		2) WTTR_PARAMS="$WTTR_PARAMS u" ;;
+	esac
+}
+
+[ -n "${1:-}" ] &&
+	loc="$(echo "$1" | tr " " "+")" ||
+	loc="$(geoiplookup "$(drill -Q myip.opendns.com @resolver1.opendns.com)" | sed -n "2{p;q}" | cut -d, -f7,8 | tr -d " ")"
+[ $# -gt 0 ] && shift
+
+args=""
+for p in $WTTR_PARAMS "$@"; do
+	args="$args --data-urlencode $p"
+done
+
+# shellcheck disable=2086
+curl -fGsS -H "Accept-Language: ${LANG%_*}" ${args# } --compressed "https://wttr.in/$loc"
