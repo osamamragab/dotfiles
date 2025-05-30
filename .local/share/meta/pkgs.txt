@@ -81,6 +81,7 @@ git-delta
 gnome-epub-thumbnailer
 gnupg
 go
+gofumpt
 goimapnotify
 grim
 groff
