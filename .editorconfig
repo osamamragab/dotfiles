@@ -7,9 +7,16 @@ indent_style = tab
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+[{*.sh,*/scripts/*,.local/bin/*}]
 shell_variant = posix
+space_redirects = false
 binary_next_line = false
+function_next_line = false
 switch_case_indent = true
 
 [*.diff]
 trim_trailing_whitespace = false
+
+[{*.yml,*.yaml,*.md,*.py,*.rb}]
+indent_style = space
