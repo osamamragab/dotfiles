@@ -4,6 +4,8 @@ run() { pidof -qsx "$1" || "$@" & }
 
 riverctl map normal Super J focus-view next
 riverctl map normal Super K focus-view previous
+riverctl map normal Super+Alt J focus-view -skip-floating next
+riverctl map normal Super+Alt K focus-view -skip-floating previous
 riverctl map normal Super+Shift J swap next
 riverctl map normal Super+Shift K swap previous
 
