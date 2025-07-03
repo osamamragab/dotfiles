@@ -25,9 +25,12 @@ return {
 					highlights.PmenuSel = {
 						bg = palette.blue0,
 					}
+					highlights.PmenuThumb = {
+						bg = palette.blue0,
+					}
 				end,
 			})
-			require("nordic").load()
+			require("nordic").load({})
 		end,
 	},
 }
