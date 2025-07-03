@@ -88,7 +88,7 @@ precmd_rehash() {
 add-zsh-hook -Uz precmd precmd_rehash
 
 fzf_select_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | sed "s/ /\\\ /g")" || return
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
 	BUFFER="$BUFFER $file"
 	zle redisplay
 	zle accept-line
@@ -97,7 +97,7 @@ zle -N fzf_select_widget
 bindkey "^s" fzf_select_widget
 
 fzf_editor_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | sed "s/ /\\\ /g")" || return
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
 	BUFFER="$EDITOR $file"
 	zle redisplay
 	zle accept-line
@@ -106,7 +106,7 @@ zle -N fzf_editor_widget
 bindkey "^f" fzf_editor_widget
 
 fzf_open_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | sed "s/ /\\\ /g")" || return
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
 	opener="open"
 	command -v "$opener" >/dev/null 2>&1 || opener="xdg-open"
 	BUFFER="$opener $file"
@@ -117,7 +117,7 @@ zle -N fzf_open_widget
 bindkey "^o" fzf_open_widget
 
 fzf_cd_widget() {
-	local dir="$(fd --type d --hidden --strip-cwd-prefix | fzf | sed "s/ /\\\ /g")" || return
+	local dir="$(fd --type d --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
 	BUFFER="cd $dir"
 	zle redisplay
 	zle accept-line
