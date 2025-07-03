@@ -27,19 +27,13 @@ vim.diagnostic.config({
 
 return {
 	{
-		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
 		build = ":MasonUpdate",
 		dependencies = {
-			"williamboman/mason-lspconfig.nvim",
-			"neovim/nvim-lspconfig",
+			{ "williamboman/mason.nvim", opts = {}, build = ":MasonUpdate" },
+			{ "neovim/nvim-lspconfig" },
 		},
 		config = function()
-			local cmp_lsp = require("cmp_nvim_lsp")
-			local capabilities = vim.tbl_deep_extend(
-				"force",
-				vim.lsp.protocol.make_client_capabilities(),
-				cmp_lsp.default_capabilities()
-			)
 			require("mason").setup({})
 			require("mason-lspconfig").setup({
 				ensure_installed = {
@@ -51,70 +45,85 @@ return {
 					"ts_ls",
 					"lua_ls",
 				},
-				handlers = {
-					function(name)
-						require("lspconfig")[name].setup({ capabilities = capabilities })
-					end,
-					["gopls"] = function()
-						require("lspconfig").gopls.setup({
-							capabilities = capabilities,
-							settings = {
-								gopls = {
-									completeUnimported = true,
-									usePlaceholders = true,
-									staticcheck = true,
-									gofumpt = true,
-									analyses = {
-										unusedparams = true,
-										unusedvariable = true,
-										unusedwrite = true,
-									},
+			})
+
+			vim.lsp.config("clangd", {
+				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+			})
+
+			vim.lsp.config("gopls", {
+				settings = {
+					gopls = {
+						completeUnimported = true,
+						usePlaceholders = true,
+						staticcheck = true,
+						gofumpt = true,
+						analyses = {
+							unusedparams = true,
+							unusedvariable = true,
+							unusedwrite = true,
+						},
+					},
+				},
+			})
+
+			vim.lsp.config("vtsls", {
+				settings = {
+					vtsls = {
+						tsserver = {
+							globalPlugins = {
+								{
+									name = "@vue/typescript-plugin",
+									location = vim.fn.expand(
+										"$MASON/packages/vue-language-server/node_modules/@vue/language-server"),
+									languages = { "vue" },
+									configNamespace = "typescript",
 								},
 							},
-						})
-					end,
-					["lua_ls"] = function()
-						require("lspconfig").lua_ls.setup({
-							capabilities = capabilities,
-							on_init = function(client)
-								local path = client.workspace_folders[1].name
-								if vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc") then
-									return
-								end
-								client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-									runtime = {
-										path = { "?.lua", "?/init.lua" },
-										pathStrict = true,
-										version = "LuaJIT",
-									},
-									diagnostics = {
-										globals = { "vim" },
-									},
-									workspace = {
-										checkThirdParty = false,
-										ignoreDir = { "/lua" },
-										library = vim.api.nvim_get_runtime_file("", true)
-									},
-									telemetry = {
-										enable = false,
-									},
-								})
-							end,
-							settings = {
-								Lua = {},
+						},
+					},
+				},
+				filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+			})
+
+			vim.lsp.config("vue_ls", {
+				on_init = function(client)
+					client.handlers["tsserver/request"] = function(_, result, context)
+						local clients = vim.lsp.get_clients({ bufnr = context.bufnr, name = "vtsls" })
+						if #clients == 0 then
+							vim.notify("Could not find `vtsls` lsp client, vue_lsp would not work without it.",
+								vim.log.levels.ERROR)
+							return
+						end
+						local ts_client = clients[1]
+
+						local param = unpack(result)
+						local id, command, payload = unpack(param)
+						ts_client:exec_cmd(
+							{
+								title = "vue_request_forward",
+								command = "typescript.tsserverRequest",
+								arguments = {
+									command,
+									payload,
+								},
 							},
-						})
-					end,
-					["arduino_language_server"] = function()
-						require("lspconfig").arduino_language_server.setup({
-							capabilities = capabilities,
-							cmd = {
-								"arduino-language-server",
-								"-cli-config",
-								"$ARDUINO_DIRECTORIES_DATA/arduino-cli.yaml",
-							},
-						})
-					end,
+							{ bufnr = context.bufnr },
+							function(_, r)
+								local response_data = { { id, r.body } }
+								---@diagnostic disable-next-line: param-type-mismatch
+								client:notify("tsserver/response", response_data)
+							end
+						)
+					end
+				end,
+			})
+
+			vim.lsp.config("arduino_language_server", {
+				cmd = {
+					"arduino-language-server",
+					"-cli-config",
+					"$ARDUINO_DIRECTORIES_DATA/arduino-cli.yaml",
 				},
 			})
 		end,
