@@ -15,6 +15,9 @@ return {
 			appearance = {
 				nerd_font_variant = "mono",
 			},
+			cmdline = {
+				enabled = false,
+			},
 			completion = {
 				list = {
 					selection = {
