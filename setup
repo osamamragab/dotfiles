@@ -121,10 +121,6 @@ setup_browser() {
 				[ -d "$XDG_CONFIG_HOME/$b/chrome" ] &&
 					cp -rvL "$XDG_CONFIG_HOME/$b/chrome" "$SETUP_BROWSER_DIR/$p"
 			done
-			printf "%s" "$browsers" |
-				xargs -d " " -I{} echo "$XDG_CONFIG_HOME/{}/chrome/userChrome.css" |
-				xargs cat >"$SETUP_BROWSER_DIR/$p/chrome/userChrome.css" 2>/dev/null ||
-				true
 		done
 	# shellcheck disable=2015
 	[ -n "${ffpid:-}" ] && kill "$ffpid" || true
