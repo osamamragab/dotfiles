@@ -249,6 +249,7 @@ translate-shell
 transmission-cli
 ttf-dejavu
 ttf-dejavu-nerd
+ttf-ibm-plex
 ttf-nerd-fonts-symbols
 ttf-nerd-fonts-symbols-mono
 typst
