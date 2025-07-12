@@ -80,6 +80,7 @@ git
 git-delta
 gnome-epub-thumbnailer
 gnupg
+gnuplot
 go
 gofumpt
 goimapnotify
