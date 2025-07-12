@@ -28,6 +28,7 @@ chromium
 chrony
 chrony-runit
 clang
+clisp
 cppcheck
 croc
 cronie
@@ -51,6 +52,7 @@ docker-runit
 dosfstools
 duf
 e2fsprogs
+ecl
 elogind
 elogind-runit
 entr
