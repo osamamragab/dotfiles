@@ -140,6 +140,8 @@ mako
 man-db
 man-pages
 mat2
+maxima
+maxima-ecl
 mediainfo
 mercurial
 mesa
