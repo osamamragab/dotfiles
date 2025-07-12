@@ -105,6 +105,7 @@ iotop
 isync
 jq
 julia
+jupyter-notebook
 jupyterlab
 kanshi
 kdenlive
