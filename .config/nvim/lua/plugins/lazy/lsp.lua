@@ -39,10 +39,12 @@ return {
 				ensure_installed = {
 					"clangd",
 					"zls",
+					"efm",
 					"rust_analyzer",
 					"gopls",
-					"pyright",
-					"ts_ls",
+					"basedpyright",
+					"ruff",
+					"vtsls",
 					"lua_ls",
 				},
 			})
