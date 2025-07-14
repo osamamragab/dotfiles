@@ -105,9 +105,11 @@ inetutils
 inkscape
 inxi
 iotop
+ipython
 isync
 jq
 julia
+jupyter-console
 jupyter-notebook
 jupyterlab
 kanshi
@@ -206,6 +208,7 @@ proxychains-ng
 pulsemixer
 python
 python-adblock
+python-jedi
 python-pip
 python-pipenv
 python-pipx
