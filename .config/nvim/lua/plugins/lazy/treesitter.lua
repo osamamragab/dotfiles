@@ -9,7 +9,19 @@ return {
 				highlight = {
 					enable = true,
 				},
-				ensure_installed = { "c", "zig", "rust", "go", "python", "lua", "bash", "vimdoc" },
+				modules = {},
+				ignore_install = {},
+				ensure_installed = {
+					"c",
+					"zig",
+					"rust",
+					"go",
+					"python",
+					"lua",
+					"bash",
+					"vimdoc",
+					"todotxt"
+				},
 			})
 		end,
 	},
