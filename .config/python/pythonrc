@@ -1,4 +1,23 @@
-import readline
+#!/usr/bin/env python3
+
 from os import getenv
 
-readline.write_history_file = lambda _: (getenv("XDG_CACHE_HOME") or getenv("HOME", "~")+"/.cache")+"/.python_history"
+try:
+    from jedi.utils import setup_readline
+except ImportError:
+    # Fallback to the stdlib readline completer if it is installed.
+    # Taken from http://docs.python.org/2/library/rlcompleter.html
+    print("Jedi is not installed, falling back to readline")
+    try:
+        import readline
+        import rlcompleter
+
+        readline.parse_and_bind("tab: complete")
+        readline.write_history_file = (
+            lambda _: (getenv("XDG_CACHE_HOME") or getenv("HOME", "~") + "/.cache")
+            + "/.python_history"
+        )
+    except ImportError:
+        print("Readline is not installed either. No tab completion is enabled.")
+else:
+    setup_readline()
