@@ -31,9 +31,9 @@ window#waybar {
 #battery,
 #upower,
 #custom-days {
-	background-color: #3b4252;
+	background-color: #2e3440;
 	padding: 0.4rem 0.6rem 0.2rem 0.6rem;
-	border-bottom: 0.32rem solid #3b4252;
+	border-bottom: 0.32rem solid #2e3440;
 }
 
 #mode {
@@ -61,6 +61,7 @@ window#waybar {
 }
 
 #tags button.focused {
+	background-color: #3b4252;
 	border-bottom-color: #5e81ac;
 }
 
