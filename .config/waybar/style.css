@@ -41,6 +41,20 @@ window#waybar {
 	padding-right: 0.7rem;
 }
 
+#mode,
+#clock.time,
+#tray,
+#custom-dnd {
+	border-bottom-right-radius: 0.32rem;
+}
+
+#pulseaudio,
+#clock.date,
+#tray,
+#custom-dnd {
+	border-bottom-left-radius: 0.32rem;
+}
+
 #tags button {
 	padding-left: 0.3rem;
 	padding-right: 0.3rem;
