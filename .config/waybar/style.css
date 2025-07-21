@@ -1,7 +1,9 @@
 * {
+	margin: 0;
+	padding: 0;
 	border: 0;
-	border-radius: 0;
 	min-height: 0;
+	border-radius: 0;
 	font-size: 14px;
 	font-weight: bold;
 	font-family: monospace;
@@ -12,27 +14,13 @@ window#waybar {
 	background-color: transparent;
 }
 
-#tags button {
-	margin: 2px;
-	padding: 0 .2rem;
-	border-bottom: 4px solid transparent;
-}
-
-#tags button.focused {
-	background-color: #3b4252;
-	border-bottom-color: #5e81ac;
-}
-
-#tags button.urgent {
-	border-bottom-color: #b74e58;
-}
-
 #mode,
+#tags button,
 #window,
-#privacy,
 #clock,
-#custom-dnd,
+#privacy,
 #custom-recording,
+#custom-dnd,
 #tray,
 #pulseaudio,
 #bluetooth,
@@ -44,19 +32,36 @@ window#waybar {
 #upower,
 #custom-days {
 	background-color: #3b4252;
-	margin: 4px;
-	padding: 0.4em 0.6em;
-	border-radius: 6px;
+	padding: 0.4rem 0.6rem 0.2rem 0.6rem;
+	border-bottom: 0.32rem solid #3b4252;
 }
 
-#tray {
-	margin-right: 10px;
+#mode {
+	padding-left: 0.7rem;
+	padding-right: 0.7rem;
 }
 
+#tags button {
+	padding-left: 0.3rem;
+	padding-right: 0.3rem;
+}
+
+#tags button.focused {
+	border-bottom-color: #5e81ac;
+}
+
+#tags button.urgent,
+#privacy,
 #custom-recording {
-	padding-left: 1em;
-	padding-right: 1em;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	border-bottom: 4px solid #b74e58;
+	border-bottom-color: #b74e58;
+}
+
+#privacy {
+	margin-left: 1rem;
+}
+
+#tray,
+#custom-dnd,
+#custom-recording {
+	margin-right: 1rem;
 }
