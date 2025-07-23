@@ -36,6 +36,11 @@ window#waybar {
 	border-bottom: 0.32rem solid #2e3440;
 }
 
+#tags button {
+	padding-left: 0.3rem;
+	padding-right: 0.3rem;
+}
+
 #mode {
 	padding-left: 0.7rem;
 	padding-right: 0.7rem;
@@ -55,11 +60,6 @@ window#waybar {
 	border-bottom-left-radius: 0.32rem;
 }
 
-#tags button {
-	padding-left: 0.3rem;
-	padding-right: 0.3rem;
-}
-
 #tags button.focused {
 	background-color: #3b4252;
 	border-bottom-color: #5e81ac;
@@ -71,11 +71,8 @@ window#waybar {
 	border-bottom-color: #b74e58;
 }
 
-#privacy {
-	margin-left: 1rem;
-}
-
 #tray,
+#privacy,
 #custom-dnd,
 #custom-recording {
 	margin-right: 1rem;

@@ -9,11 +9,11 @@
 	"modules-center": [
 		// "river/window",
 		"clock#date",
-		"clock#time",
-		"privacy",
-		"custom/recording"
+		"clock#time"
 	],
 	"modules-right": [
+		"privacy",
+		"custom/recording",
 		"tray",
 		"custom/dnd",
 		"pulseaudio",
