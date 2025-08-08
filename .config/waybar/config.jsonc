@@ -12,6 +12,7 @@
 		"clock#time"
 	],
 	"modules-right": [
+		"mpris",
 		"privacy",
 		"custom/recording",
 		"tray",
@@ -175,6 +176,17 @@
 	"tray": {
 		"icon-size": 18,
 		"spacing": 12
+	},
+	"mpris": {
+		"player": "playerctld",
+		"format": "{status_icon} {title} • {artist}",
+		"title-len": 10,
+		"artist-len": 10,
+		"status-icons": {
+			"paused": "",
+			"stopped": "",
+			"playing": ""
+		}
 	},
 	"custom/dnd": {
 		"format": "{}",
