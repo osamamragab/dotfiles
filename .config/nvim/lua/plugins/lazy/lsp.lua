@@ -118,6 +118,9 @@ return {
 							},
 							{ bufnr = context.bufnr },
 							function(_, r)
+								if not r then
+									return
+								end
 								local response_data = { { id, r.body } }
 								---@diagnostic disable-next-line: param-type-mismatch
 								client:notify("tsserver/response", response_data)
