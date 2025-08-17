@@ -7,6 +7,7 @@ bun-bin
 clipman
 dragon-drop
 htop-vim
+informant
 lswt
 lz4json
 nemesis
