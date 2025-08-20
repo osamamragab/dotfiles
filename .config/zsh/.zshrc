@@ -146,7 +146,10 @@ bindkey "^t" todo_widget
 	. /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 }
 [ -r /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ] &&
-	. /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+	. /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh &&
+	[ -f "$XDG_CONFIG_HOME/fsh/overlay.ini" ] &&
+	command -v fast-theme >/dev/null 2>&1 &&
+	fast-theme XDG:overlay >/dev/null 2>&1
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 [ -r /usr/share/z/z.sh ] && . /usr/share/z/z.sh
