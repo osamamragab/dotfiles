@@ -9,6 +9,7 @@ user_pref("privacy.sanitize.sanitizeOnShutdown", false);
 user_pref("privacy.resistFingerprinting", false);
 user_pref("privacy.resistFingerprinting.letterboxing", false);
 user_pref("network.http.referer.XOriginPolicy", 0);
+user_pref("security.ssl.require_safe_negotiation", false);
 user_pref("dom.security.https_only_mode", false);
 user_pref("webgl.disabled", false);
 user_pref("gfx.webrender.all", true);
