@@ -34,7 +34,7 @@ alias drag="dragon-drop -x"
 
 [ -f "$XINITRC" ] && alias startx='startx "$XINITRC"'
 [ -f "$MBSYNCRC" ] && alias mbsync='mbsync -c "$MBSYNCRC"'
-alias adb='HOME="$ANDROID_USER_HOME" adb'
+alias adb='env HOME="$ANDROID_USER_HOME" adb'
 alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 
