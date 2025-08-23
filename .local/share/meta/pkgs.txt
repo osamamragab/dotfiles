@@ -80,6 +80,8 @@ geoip
 gimp
 git
 git-delta
+git-filter-repo
+git-lfs
 gnome-epub-thumbnailer
 gnupg
 gnuplot
