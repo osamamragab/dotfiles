@@ -186,7 +186,7 @@ openscad
 openssh
 openssh-runit
 otf-font-awesome
-p7zip
+7zip
 pacman-contrib
 pandoc-bin
 pass
