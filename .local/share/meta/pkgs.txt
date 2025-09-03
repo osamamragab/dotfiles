@@ -1,3 +1,4 @@
+7zip
 aerc
 alsa-utils
 amfora
@@ -186,7 +187,6 @@ openscad
 openssh
 openssh-runit
 otf-font-awesome
-7zip
 pacman-contrib
 pandoc-bin
 pass
@@ -268,8 +268,6 @@ typst
 udisks2
 ufw
 ufw-runit
-unrar-free
-unzip
 upx
 uv
 valgrind
