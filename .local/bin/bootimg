@@ -2,16 +2,16 @@
 
 set -eu
 
+command -v qemu-system-x86_64 >/dev/null 2>&1 || {
+	echo "$(basename "$0"): qemu-system-x86_64 not found" >&2
+	exit 1
+}
+
 cpu=4
 mem=4096
 bios="/usr/share/qemu/bios.bin"
 img=""
 imgfmt=""
-
-command -v qemu-system-x86_64 >/dev/null 2>&1 || {
-	echo "$(basename "$0"): qemu-system-x86_64 not found" >&2
-	exit 1
-}
 
 for arg; do
 	case "$arg" in
@@ -34,26 +34,33 @@ for arg; do
 			shift
 			imgfmt="$1"
 			;;
+		-c)
+			shift
+			conf="$(readlink -f "$1")"
+			# shellcheck disable=1090
+			[ -r "$conf" ] && . "$conf"
+			;;
 		--)
 			shift
 			break
 			;;
 		*)
-			img="$1"
+			[ -n "${1:-}" ] && img="$1"
 			;;
 	esac
-	shift
+	[ $# -ne 0 ] && shift
 done
 
 [ -f "$img" ] || {
 	echo "$(basename "$0"): $img: file not found" >&2
 	exit 1
 }
+
 [ -n "$imgfmt" ] || {
 	imgfmt="$(qemu-img info "$img" | sed -n "s/file format: \(.*\)/\1/p")" || exit 1
 	imgext="${img##*.}"
 	[ "$imgfmt" != "$imgext" ] && {
-		printf 'detected image format is "%s", [Y/n] or specify the format: ' "$imgfmt"
+		printf "detected image format is \"%s\", [Y/n] or specify the format: " "$imgfmt"
 		read -r p
 		case "$p" in
 			"" | Y | y | yes | Yes | YES) ;;
@@ -69,8 +76,8 @@ exec qemu-system-x86_64 \
 	-smp "$cpu" \
 	-m "$mem" \
 	-machine vmport=off \
-	-vga qxl \
 	-serial stdio \
+	-vga virtio \
 	-display sdl,gl=on \
 	-audiodev pipewire,id=snd0 \
 	-device ich9-intel-hda \
