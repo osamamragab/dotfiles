@@ -288,6 +288,7 @@ xdg-desktop-portal-wlr
 xdg-user-dirs
 xdg-utils
 xh
+xournalpp
 xxd
 xz
 yarn
