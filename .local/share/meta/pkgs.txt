@@ -131,6 +131,7 @@ libisoburn
 libnotify
 libreoffice-still
 libtool
+libvirt
 libwebp
 linux-firmware
 lld
@@ -274,6 +275,7 @@ upx
 uv
 valgrind
 vim
+virt-manager
 w3m
 waybar
 waylock
