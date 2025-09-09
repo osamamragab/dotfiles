@@ -112,6 +112,7 @@ iotop
 ipython
 isync
 jq
+jujutsu
 julia
 jupyter-console
 jupyter-notebook
