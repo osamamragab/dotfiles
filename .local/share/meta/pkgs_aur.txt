@@ -8,6 +8,7 @@ clipman
 dragon-drop
 htop-vim
 informant
+landrun
 lswt
 lz4json
 nemesis
