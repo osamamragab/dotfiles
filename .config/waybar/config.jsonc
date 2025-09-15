@@ -113,7 +113,7 @@
 		"critical-threshold": 90,
 		"hwmon-path": "/sys/class/hwmon/hwmon7/temp1_input",
 		"format": "{icon} {temperatureC}°C",
-		"format-critical": "{icon} {temperatureC}°C ",
+		"format-critical": "{icon} {temperatureC}°C ",
 		"format-icons": [
 			"",
 			"",
