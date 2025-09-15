@@ -2,6 +2,9 @@
 
 exec waylock \
 	-fork-on-lock \
-	-init-color 0x242933 \
+	-log-level info \
+	-ignore-empty-password \
+	-init-color 0x2e3440 \
 	-input-color 0x3b4252 \
+	-input-alt-color 0x5e81ac \
 	-fail-color 0xbf616a
