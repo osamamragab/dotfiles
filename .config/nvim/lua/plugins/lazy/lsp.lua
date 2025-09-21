@@ -40,12 +40,13 @@ return {
 					"clangd",
 					"zls",
 					"efm",
-					"rust_analyzer",
 					"gopls",
+					"rust_analyzer",
 					"basedpyright",
 					"ruff",
 					"vtsls",
 					"lua_ls",
+					"phpactor",
 				},
 			})
 
