@@ -52,6 +52,8 @@ setup_pkgs() {
 		}
 		paru -Sa --needed --noconfirm --sudo "$sudocmd" - <"$SETUP_PKGS_AUR_FILE"
 	}
+	command -v go >/dev/null 2>&1 &&
+		go telemetry off
 	command -v rustup >/dev/null 2>&1 &&
 		rustup default stable &&
 		cargo install cargo-update cargo-info
