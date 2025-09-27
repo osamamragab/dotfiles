@@ -57,6 +57,8 @@ setup_pkgs() {
 	command -v rustup >/dev/null 2>&1 &&
 		rustup default stable &&
 		cargo install cargo-update cargo-info
+	command -v wine >/dev/null 2>&1 &&
+		mkdir -pv "$WINEPREFIX"
 	[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
 		command -v flatpak >/dev/null 2>&1 &&
 		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
