@@ -3,6 +3,8 @@ aerc
 alsa-utils
 amfora
 android-tools
+apparmor
+apparmor-runit
 arc-gtk-theme
 arduino-cli
 artools
