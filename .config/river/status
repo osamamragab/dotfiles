@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 status_date() {
 	date="$(date "+%a %d %b - %H:%M")"
 }
@@ -19,7 +21,6 @@ status_mem() {
 status_bat() {
 	bat=""
 	for b in /sys/class/power_supply/BAT?*; do
-		[ -n "${bat:+x}" ] && bat="$bat "
 		cap="$(cat "$b/capacity" 2>&1)"
 		stat="$(cat "$b/status" 2>&1)"
 		case "$stat" in
@@ -29,7 +30,7 @@ status_bat() {
 			"Not charging") flag="N" ;;
 			Unknown) flag="?" ;;
 		esac
-		bat="$bat$cap%${flag:+ [$flag]}"
+		bat="${bat:+$bat }$cap%${flag:+ [$flag]}"
 	done
 }
 

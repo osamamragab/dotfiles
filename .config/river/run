@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 export SDL_VIDEODRIVER="wayland"
 export CLUTTER_BACKEND="wayland"
 export QT_QPA_PLATFORM="wayland"

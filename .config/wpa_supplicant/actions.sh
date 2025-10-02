@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 ssid="$(wpa_cli list_networks | awk -F '\t' -v ID="$WPA_ID" 'ID==$1 {print $2}')"
 case "$2" in
 	CONNECTED)

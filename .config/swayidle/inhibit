@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 exec >/dev/null 2>&1
 
 grep 1 /sys/class/power_supply/AC*/online || playerctl -a status | grep Playing

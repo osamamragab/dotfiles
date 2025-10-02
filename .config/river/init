@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 run() { pidof -qsx "$1" || "$@" & }
 
 riverctl map normal Super J focus-view next

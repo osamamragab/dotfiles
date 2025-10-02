@@ -1,7 +1,12 @@
 #!/bin/sh
 
+set -eu
+
 . "$HOME/.config/shell/env"
 
-doas -n /usr/bin/loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
+[ -r "$XDG_CONFIG_HOME/loadkeys/loadkeysrc" ] &&
+	doas -n /usr/bin/loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
 
-[ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ] && exec "$XDG_CONFIG_HOME/river/run"
+[ -z "$WAYLAND_DISPLAY" ] &&
+	[ "$(tty)" = "/dev/tty1" ] &&
+	exec "$XDG_CONFIG_HOME/river/run"
