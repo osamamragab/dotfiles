@@ -51,6 +51,12 @@ return {
 			})
 
 			vim.lsp.config("clangd", {
+				cmd = {
+					"clangd",
+					"--enable-config",
+					"--clang-tidy",
+					"--background-index",
+				},
 				filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
 			})
 
