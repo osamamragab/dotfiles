@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -eu
+
+exec cat "${XDG_DATA_HOME:-$HOME/.local/share}/meta/emojis.txt" |
+	menu -p "emoji> " |
+	cut -d " " -f 1 |
+	wl-copy -n
