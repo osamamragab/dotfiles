@@ -7,6 +7,6 @@ set -eu
 [ -r "$XDG_CONFIG_HOME/loadkeys/loadkeysrc" ] &&
 	doas -n /usr/bin/loadkeys "$XDG_CONFIG_HOME/loadkeys/loadkeysrc"
 
-[ -z "$WAYLAND_DISPLAY" ] &&
+[ -z "${WAYLAND_DISPLAY:-}" ] &&
 	[ "$(tty)" = "/dev/tty1" ] &&
 	exec "$XDG_CONFIG_HOME/river/run"
