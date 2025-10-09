@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -eu
-
 . "$HOME/.config/shell/env"
 
 [ -r "$XDG_CONFIG_HOME/loadkeys/loadkeysrc" ] &&
