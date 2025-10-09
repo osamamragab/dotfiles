@@ -40,6 +40,11 @@ return {
 			sources = {
 				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
 				providers = {
+					snippets = {
+						opts = {
+							friendly_snippets = true,
+						},
+					},
 					lazydev = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",

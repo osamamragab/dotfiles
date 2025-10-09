@@ -1,0 +1,11 @@
+{
+	"iferr": {
+		"prefix": "iferr",
+		"body": [
+			"if ${1:err} != nil {",
+			"\t$2.logger.Error(\"error\", \"error\", $1)",
+			"\treturn ${3:err}",
+			"}"
+		]
+	}
+}
