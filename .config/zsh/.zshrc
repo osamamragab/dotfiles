@@ -12,7 +12,9 @@ zstyle ":vcs_info:*" enable git svn hg
 zstyle ":vcs_info:*" formats "(%b) "
 precmd() {
 	vcs_info
-	# foot's pipe-command-output shell integration
+	# foot: jumping between commands
+	printf "\e]133;A\e\\"
+	# foot: pipe-command-output shell integration
 	builtin zle || printf "\e]133;D\e\\"
 }
 preexec() {
