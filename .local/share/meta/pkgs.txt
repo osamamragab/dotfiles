@@ -76,6 +76,7 @@ freecad
 fribidi
 fuse3
 fuzzel
+fvm
 fzf
 gcc
 gdb
