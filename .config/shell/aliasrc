@@ -32,6 +32,9 @@ alias urls="grep -aohE '(((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-z
 alias bm="buku --suggest"
 alias drag="dragon-drop -a -x"
 
+alias dart="fvm dart"
+alias flutter="fvm flutter"
+
 [ -f "$XINITRC" ] && alias startx='startx "$XINITRC"'
 [ -f "$MBSYNCRC" ] && alias mbsync='mbsync -c "$MBSYNCRC"'
 alias adb='env HOME="$ANDROID_USER_HOME" adb'
