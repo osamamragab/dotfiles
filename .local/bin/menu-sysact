@@ -3,11 +3,11 @@
 set -eu
 
 case "${1:-$(printf "lock\nexit\nsuspend\nhibernate\nreboot\npoweroff" | menu -p "sysact> ")}" in
-	lock) loginctl lock-session -i ;;
+	lock) loginctl -i lock-session ;;
 	exit) riverctl exit ;;
-	suspend) loginctl suspend -i ;;
-	hibernate) loginctl hibernate -i ;;
-	reboot) loginctl reboot -i ;;
-	poweroff) loginctl poweroff -i ;;
+	suspend) loginctl -i suspend ;;
+	hibernate) loginctl -i hibernate ;;
+	reboot) loginctl -i reboot ;;
+	poweroff) loginctl -i poweroff ;;
 	*) exit 1 ;;
 esac
