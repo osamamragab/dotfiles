@@ -93,6 +93,7 @@ gnuplot
 go
 gofumpt
 goimapnotify
+grex
 grim
 groff
 gutenprint
