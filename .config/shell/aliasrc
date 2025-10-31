@@ -20,6 +20,9 @@ alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
 
+alias reboot="loginctl -i reboot"
+alias poweroff="loginctl -i poweroff"
+
 alias ip="ip -color=auto"
 alias bc="bc -ql"
 alias nnn="nnn -Rr"
