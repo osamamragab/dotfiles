@@ -217,6 +217,7 @@ proxychains-ng
 pulsemixer
 python
 python-adblock
+python-faker
 python-jedi
 python-pip
 python-pipenv
