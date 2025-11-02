@@ -226,6 +226,7 @@ qpdf
 qrencode
 qutebrowser
 radare2
+realtime-privileges
 ripgrep
 river
 rsm
