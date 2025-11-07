@@ -1,3 +1,4 @@
+app.zen_browser.zen
 com.discordapp.Discord
 com.getpostman.Postman
 com.github.tchx84.Flatseal
