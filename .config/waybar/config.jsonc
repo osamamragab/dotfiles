@@ -134,7 +134,6 @@
 		"max-length": 10
 	},
 	"network": {
-		"interface": "wlan0",
 		"interval": 60,
 		"format": "{ifname}",
 		"format-wifi": " {signalStrength}%",
