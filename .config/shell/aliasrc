@@ -44,7 +44,7 @@ alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 [ -f "$MBSYNCRC" ] && alias mbsync='mbsync -c "$MBSYNCRC"'
 
 sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
-for cmd in su mount umount sv rsm ufw; do
+for cmd in su mount umount sv vsv ufw; do
 	alias $cmd="$sudocmd $(which "$cmd")"
 done
 unset sudocmd cmd

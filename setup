@@ -7,7 +7,6 @@ HERE="$(dirname "$(readlink -f "$0")")"
 
 SETUP_PROGRAMS_DIR="${SETUP_PROGRAMS_DIR:-$HOME/programs}"
 SETUP_PKGS_FILE="${SETUP_PKGS_FILE:-$XDG_DATA_HOME/meta/pkgs.txt}"
-SETUP_PKGS_AUR_FILE="${SETUP_PKGS_AUR_FILE:-$XDG_DATA_HOME/meta/pkgs_aur.txt}"
 SETUP_PKGS_FLATPAKS_FILE="${SETUP_PKGS_FLATPAKS_FILE:-$XDG_DATA_HOME/meta/flatpaks.txt}"
 
 [ -n "${SETUP_BROWSER_DIR:-}" ] || case "$BROWSER" in
@@ -39,19 +38,15 @@ setup_dotfiles() {
 }
 
 setup_pkgs() {
-	$sudocmd pacman -Syu --noconfirm
-	$sudocmd pacman -S --needed --noconfirm artix-archlinux-support &&
-		$sudocmd pacman-key --populate archlinux &&
-		$sudocmd pacman -Sy --noconfirm
+	$sudocmd xbps-install -Sy &&
+		$sudocmd xbps-install -Suy xbps &&
+		$sudocmd xbps-install -Suy
 	[ -r "$SETUP_PKGS_FILE" ] &&
-		$sudocmd pacman -S --needed --noconfirm - <"$SETUP_PKGS_FILE"
-	[ -r "$SETUP_PKGS_AUR_FILE" ] && {
-		command -v paru >/dev/null 2>&1 || {
-			git clone https://aur.archlinux.org/paru.git "$SETUP_PROGRAMS_DIR/paru" &&
-				makepkg -siD "$SETUP_PROGRAMS_DIR/paru"
-		}
-		paru -Sa --needed --noconfirm --sudo "$sudocmd" - <"$SETUP_PKGS_AUR_FILE"
-	}
+		xargs $sudocmd xbps-install -Sy <"$SETUP_PKGS_FILE"
+	[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
+		command -v flatpak >/dev/null 2>&1 &&
+		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
+		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
 	command -v go >/dev/null 2>&1 &&
 		go telemetry off
 	command -v rustup >/dev/null 2>&1 &&
@@ -59,46 +54,37 @@ setup_pkgs() {
 		cargo install cargo-update cargo-info
 	command -v wine >/dev/null 2>&1 &&
 		mkdir -pv "$WINEPREFIX"
-	[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
-		command -v flatpak >/dev/null 2>&1 &&
-		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
 }
 
 setup_user() {
 	chsh -s "$(which zsh)"
-	$sudocmd ln -svfT dash /usr/bin/sh
-	$sudocmd usermod -aG video,audio,input,power,storage,optical,network,lp,scanner,dbus,realtime,docker,nix-users,nixbld,adbusers,uucp,informant "$USER"
+	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner,dbus,docker,nixbld "$USER"
 }
 
 setup_runit() {
 	$sudocmd rm -vf \
-		/run/runit/service/agetty-tty4 \
-		/run/runit/service/agetty-tty5 \
-		/run/runit/service/agetty-tty6
-	$sudocmd ln -svft /run/runit/service \
-		/etc/runit/sv/socklog \
-		/etc/runit/sv/klog \
-		/etc/runit/sv/dbus \
-		/etc/runit/sv/udevd \
-		/etc/runit/sv/chrony \
-		/etc/runit/sv/cronie \
-		/etc/runit/sv/elogind \
-		/etc/runit/sv/NetworkManager \
-		/etc/runit/sv/bluetoothd \
-		/etc/runit/sv/ufw \
-		/etc/runit/sv/tlp \
-		/etc/runit/sv/sshd \
-		/etc/runit/sv/cupsd \
-		/etc/runit/sv/avahi-daemon \
-		/etc/runit/sv/docker
-}
-
-setup_fonts() {
-	$sudocmd ln -svft /etc/fonts/conf.d/ /usr/share/fontconfig/conf.avail/10-nerd-font-symbols.conf
-}
-
-setup_pipewire() {
-	$sudocmd cp -afvt /etc /usr/share/pipewire /usr/share/wireplumber
+		/var/service/agetty-tty4 \
+		/var/service/agetty-tty5 \
+		/var/service/agetty-tty6 \
+		/var/service/sshd \
+		/var/service/acpid \
+		/var/service/dhcpcd \
+		/var/service/wpa_supplicant
+	$sudocmd ln -svft /var/service \
+		/etc/sv/socklog \
+		/etc/sv/nanoklog \
+		/etc/sv/dbus \
+		/etc/sv/udevd \
+		/etc/sv/chrony \
+		/etc/sv/cronie \
+		/etc/sv/elogind \
+		/etc/sv/NetworkManager \
+		/etc/sv/bluetoothd \
+		/etc/sv/ufw \
+		/etc/sv/tlp \
+		/etc/sv/sshd \
+		/etc/sv/cupsd \
+		/etc/sv/docker
 }
 
 setup_ufw() {
@@ -136,8 +122,6 @@ setup_install() {
 	setup_user
 	setup_runit
 	setup_ufw
-	setup_fonts
-	setup_pipewire
 	setup_browser
 }
 
@@ -169,8 +153,6 @@ case "${1:-dotfiles}" in
 	user) setup_user ;;
 	runit) setup_runit ;;
 	ufw) setup_ufw ;;
-	fonts) setup_fonts ;;
-	pipewire) setup_pipewire ;;
 	browser) setup_browser ;;
 	uninstall) setup_uninstall ;;
 	*)

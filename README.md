@@ -18,7 +18,7 @@ cd dotfiles
 ```
 
 However, if you want to install the packages and setup everything for a fresh
-[Artix Linux](https://artixlinux.org/), run the `setup` script with `install`
+[Void Linux](https://voidlinux.org/), run the `setup` script with `install`
 subcommand instead:
 
 ```sh
