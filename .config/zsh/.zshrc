@@ -136,22 +136,17 @@ todo_widget() {
 zle -N todo_widget
 bindkey "^t" todo_widget
 
-[ -r /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ] && {
-	. /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-	bindkey -a "k" history-substring-search-up
-	bindkey -a "j" history-substring-search-down
-	bindkey "^[[A" history-substring-search-up
-	bindkey "^[[B" history-substring-search-down
+command -v zr >/dev/null 2>&1 &&
+	[ -r "$XDG_DATA_HOME/meta/zsh_plugins.txt" ] &&
+	. <(xargs zr <"$XDG_DATA_HOME/meta/zsh_plugins.txt") && {
+		ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+		bindkey -a "k" history-substring-search-up
+		bindkey -a "j" history-substring-search-down
+		bindkey "^[[A" history-substring-search-up
+		bindkey "^[[B" history-substring-search-down
+		[ -f "$XDG_CONFIG_HOME/fsh/overlay.ini" ] &&
+			command -v fast-theme >/dev/null 2>&1 &&
+			fast-theme XDG:overlay >/dev/null 2>&1
 }
-[ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh ] && {
-	ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-	. /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
-}
-[ -r /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ] &&
-	. /usr/share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh &&
-	[ -f "$XDG_CONFIG_HOME/fsh/overlay.ini" ] &&
-	command -v fast-theme >/dev/null 2>&1 &&
-	fast-theme XDG:overlay >/dev/null 2>&1
 
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
-[ -r /usr/share/z/z.sh ] && . /usr/share/z/z.sh
