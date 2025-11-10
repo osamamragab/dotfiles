@@ -35,6 +35,13 @@ setup_dotfiles() {
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
 	$sudocmd cp -rfvt /etc "$HERE/etc/."
 	$sudocmd mkdir -pv /var/cache/zsh
+	[ -n "${WINEPREFIX:-}" ] &&
+		command -v wine >/dev/null 2>&1 &&
+		mkdir -pv "$WINEPREFIX"
+	command -v gsettings >/dev/null 2>&1 &&
+		gsettings set org.gnome.desktop.interface color-scheme prefer-dark &&
+		[ -n "${GTK_THEME:-}" ] &&
+		gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME"
 }
 
 setup_pkgs() {
@@ -52,8 +59,6 @@ setup_pkgs() {
 	command -v rustup >/dev/null 2>&1 &&
 		rustup default stable &&
 		cargo install cargo-update cargo-info
-	command -v wine >/dev/null 2>&1 &&
-		mkdir -pv "$WINEPREFIX"
 }
 
 setup_user() {
