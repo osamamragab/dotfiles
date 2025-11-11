@@ -132,6 +132,7 @@ lftp
 libarchive
 libnotify
 libreoffice
+libspa-bluetooth
 libtool
 libvirt
 libwebp
