@@ -200,6 +200,7 @@ openscad
 openssh
 pam_ssh
 pandoc
+parallel
 pass
 pass-otp
 patch
