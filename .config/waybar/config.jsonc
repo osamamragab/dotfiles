@@ -17,7 +17,7 @@
 		"custom/recording",
 		"tray",
 		"custom/dnd",
-		"pulseaudio",
+		"wireplumber",
 		"bluetooth",
 		"network",
 		"memory",
@@ -59,7 +59,7 @@
 			"on-scroll-down": "shift_down"
 		}
 	},
-	"pulseaudio": {
+	"wireplumber": {
 		"format": "{icon} {volume}%",
 		"format-muted": " muted",
 		"on-click": "foot -a float wiremix",

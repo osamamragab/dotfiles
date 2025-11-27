@@ -23,7 +23,7 @@ window#waybar {
 #custom-dnd,
 #tray,
 #mpris,
-#pulseaudio,
+#wireplumber,
 #bluetooth,
 #network,
 #memory,
@@ -63,7 +63,7 @@ window#waybar {
 #tray,
 #mpris,
 #custom-dnd,
-#pulseaudio,
+#wireplumber,
 #clock.date {
 	border-bottom-left-radius: 0.32rem;
 }
