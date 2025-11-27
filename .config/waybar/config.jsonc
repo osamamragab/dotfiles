@@ -62,7 +62,7 @@
 	"pulseaudio": {
 		"format": "{icon} {volume}%",
 		"format-muted": " muted",
-		"on-click": "foot -a float pulsemixer",
+		"on-click": "foot -a float wiremix",
 		"on-click-right": "helvum",
 		"on-click-middle": "volumectl toggle",
 		"max-volume": 200,

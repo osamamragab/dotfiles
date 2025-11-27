@@ -218,7 +218,6 @@ poppler
 poweralertd
 powertop
 proxychains-ng
-pulsemixer
 python
 python3-Faker
 python3-adblock
@@ -294,6 +293,7 @@ weechat
 wev
 wf-recorder
 wget
+wiremix
 wireplumber
 wireshark
 wl-clipboard
