@@ -42,6 +42,7 @@ zstyle ":completion:*" menu select
 zstyle ":completion:*" use-cache on
 zstyle ":completion:*" cache-path "$XDG_CACHE_HOME/zsh/.zcompcache"
 zstyle ":completion:*" completer _complete _extensions _correct
+zstyle ':completion:*' matcher-list "" "m:{a-zA-Z}={A-Za-z}" "r:|[._-]=* r:|=*" "l:|=* r:|=*"
 zmodload zsh/complist
 find "$ZDOTDIR/.zcompdump" -mtime +1 >/dev/null 2>&1 && compinit || compinit -C
 
