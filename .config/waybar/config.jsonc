@@ -81,6 +81,7 @@
 			]
 		}
 	},
+	/*
 	"battery": {
 		"interval": 5,
 		"states": {
@@ -100,6 +101,7 @@
 			""
 		]
 	},
+	*/
 	"upower": {
 		"format": " {percentage}",
 		"tooltip-format": " {time}",
@@ -136,13 +138,14 @@
 	"network": {
 		"interval": 60,
 		"format": "{ifname}",
-		"format-wifi": " {signalStrength}%",
-		"format-ethernet": "{ipaddr}/{cidr} ",
+		"format-wifi": "{icon} {signalStrength}%",
+		"format-ethernet": "",
 		"format-disconnected": "",
-		"on-click": "foot -a float nmtui",
+		"format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+		"on-click": "foot -a float -w 980x620 nmtui",
 		"tooltip-format": "{ifname} via {gwaddr} 󰊗",
-		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ipaddr}/{cidr} at {ifname}",
-		"tooltip-format-ethernet": "{ifname} ",
+		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ifname}: {ipaddr}/{cidr}",
+		"tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
 		"tooltip-format-disconnected": "Disconnected"
 	},
 	"bluetooth": {
