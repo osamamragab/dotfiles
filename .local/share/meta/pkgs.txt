@@ -235,6 +235,7 @@ rsync
 ruff
 runit-void-apparmor
 rustup
+satty
 sc-im
 sdparm
 shellcheck
