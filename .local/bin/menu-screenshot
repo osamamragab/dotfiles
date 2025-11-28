@@ -1,6 +1,6 @@
 #!/bin/sh
 # Wrapper menu script for grim and slurp
-# requires: grim, slurp, wl-clipboard, libnotify, xdg-user-dirs, and menu script
+# requires: grim, slurp, wl-clipboard, libnotify, xdg-user-dirs, satty, and menu script
 
 set -eu
 
@@ -11,7 +11,7 @@ dir="$(xdg-user-dir PICTURES)/screenshots"
 	exit 1
 }
 
-sel="${1:-$(printf "select\nfullscreen\nselect-copy\nfullscreen-copy" | menu -p "$(basename "$0")> ")}" || exit 1
+sel="${1:-$(printf "select\nfullscreen\nselect-copy\nfullscreen-copy\nselect-edit\nfullscreen-edit" | menu -p "$(basename "$0")> ")}" || exit 1
 out="$dir/$(date "+%Y%m%d-%H%M%S").png"
 case "$sel" in
 	select)
@@ -31,6 +31,13 @@ case "$sel" in
 	fullscreen-copy)
 		grim - | wl-copy -t image/png
 		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
+		;;
+	select-edit)
+		g="$(slurp -d)" || exit 1
+		grim -g "$g" -t ppm - | satty -f - -o "$out"
+		;;
+	fullscreen-edit)
+		grim -t ppm - | satty -f - -o "$out"
 		;;
 	*)
 		exit 1
