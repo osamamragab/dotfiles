@@ -149,10 +149,12 @@
 		"tooltip-format-disconnected": "Disconnected"
 	},
 	"bluetooth": {
-		"format": "", // " {status}",
+		"format": "",
 		"format-connected": " {device_alias}",
+		"format-disabled": "󰂲",
+		"format-no-controller": "",
 		"format-connected-battery": " {device_alias} {device_battery_percentage}%",
-		"on-click": "foot -a float bluetoothctl",
+		"on-click": "foot -a float -w 980x620 bluetoothctl",
 		"tooltip-format": "{controller_alias}\t{controller_address}",
 		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
 		"tooltip-format-enumerate-connected": "- {device_alias}\t[{device_address}]",
