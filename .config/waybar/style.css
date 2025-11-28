@@ -6,7 +6,7 @@
 	border-radius: 0;
 	font-size: 14px;
 	font-weight: bold;
-	font-family: monospace;
+	font-family: "IBM Plex Mono", "Font Awesome 6 Free";
 }
 
 window#waybar {
