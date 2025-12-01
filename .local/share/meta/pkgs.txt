@@ -33,7 +33,7 @@ cava
 chromium
 chrony
 clang
-clipman
+cliphist
 clisp
 cmake
 cppcheck
@@ -297,6 +297,7 @@ wget
 wiremix
 wireplumber
 wireshark
+wl-clip-persist
 wl-clipboard
 wlopm
 wrk
