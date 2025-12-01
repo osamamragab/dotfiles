@@ -2,8 +2,6 @@
 
 set -eu
 
-run() { pidof -qsx "$1" || "$@" & }
-
 riverctl map normal Super J focus-view next
 riverctl map normal Super K focus-view previous
 riverctl map normal Super+Alt J focus-view -skip-floating next
@@ -124,7 +122,10 @@ rivertile -view-padding 4 -outer-padding 2 &
 
 dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
-[ -f "$XDG_DATA_HOME/bg" ] && run wbg "$XDG_DATA_HOME/bg"
+run() {
+	pidof -qsx "$1" ||
+		riverctl spawn "$@"
+}
 
 run foot --server
 run kanshi
@@ -138,4 +139,5 @@ run syncthing serve --no-browser
 run wl-clip-persist -c regular
 run wl-paste -w cliphist store
 run waybar
+[ -r "$XDG_DATA_HOME/bg" ] && run wbg "$XDG_DATA_HOME/bg"
 # pidof -qsx mpd || (mpd && mpd-mpris) &
