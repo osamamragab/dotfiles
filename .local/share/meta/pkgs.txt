@@ -285,6 +285,7 @@ void-live-audio
 vsv
 vulkan-loader
 w3m
+wavemon
 wayland-devel
 wayland-protocols
 waylock
