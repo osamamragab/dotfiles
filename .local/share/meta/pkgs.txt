@@ -170,6 +170,7 @@ mesa-dri
 mesa-vaapi
 mesa-vdpau
 meson
+mise
 mitmproxy
 mpc
 mpd
