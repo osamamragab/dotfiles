@@ -4,6 +4,7 @@ NetworkManager
 Waybar
 abook
 aerc
+aircrack-ng
 alsa-utils
 amdvlk
 amfora
@@ -101,6 +102,7 @@ grim
 groff
 gutenprint
 gzip
+hashcat
 hdparm
 heimdall
 helvum
