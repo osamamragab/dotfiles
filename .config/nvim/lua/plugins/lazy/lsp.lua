@@ -36,6 +36,7 @@ return {
 		config = function()
 			require("mason").setup({})
 			require("mason-lspconfig").setup({
+				automatic_enable = true,
 				ensure_installed = {
 					"clangd",
 					"zls",
@@ -48,6 +49,10 @@ return {
 					"lua_ls",
 					"phpactor",
 				},
+			})
+
+			vim.lsp.config("*", {
+				capabilities = vim.lsp.protocol.make_client_capabilities(),
 			})
 
 			vim.lsp.config("clangd", {
@@ -111,7 +116,6 @@ return {
 							return
 						end
 						local ts_client = clients[1]
-
 						local param = unpack(result)
 						local id, command, payload = unpack(param)
 						ts_client:exec_cmd(
