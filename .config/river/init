@@ -124,7 +124,7 @@ dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
 run() {
 	pidof -qsx "$1" ||
-		riverctl spawn "$@"
+		riverctl spawn "$*"
 }
 
 run foot --server
