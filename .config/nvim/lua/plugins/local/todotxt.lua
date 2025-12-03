@@ -21,15 +21,15 @@ function M.archive_done()
 	end
 
 	local ok, err = pcall(function()
-		local donetxt = vim.fn.fnamemodify(curfile, ":h") .. "/done.txt"
-		local file = io.open(donetxt, "a")
-		if not file then
-			error("failed to open done.txt: " .. donetxt)
+		local done_path = vim.fn.resolve(vim.fn.fnamemodify(curfile, ":h") .. "/done.txt")
+		local done_file = io.open(done_path, "a")
+		if not done_file then
+			error("failed to open done.txt: " .. done_path)
 		end
 		for _, task in ipairs(completed) do
-			file:write(task .. "\n")
+			done_file:write(task .. "\n")
 		end
-		file:close()
+		done_file:close()
 	end)
 	if not ok then
 		vim.notify("failed to write to done.txt: " .. tostring(err), vim.log.levels.ERROR)
