@@ -82,6 +82,7 @@ export MAVEN_OPTS="-Dmaven.repo.local=$XDG_DATA_HOME/maven/repository"
 export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
 
 export PATH="$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$NPM_CONFIG_PREFIX/bin:$PNPM_HOME:${PATH:-}"
+export MANPATH="$XDG_DATA_HOME/man:$MANPATH"
 
 export SSH_ASKPASS="wayprompt-ssh-askpass"
 export SUDO_ASKPASS="wayprompt-ssh-askpass"
