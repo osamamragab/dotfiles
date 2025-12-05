@@ -33,7 +33,8 @@ sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v su
 setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-	$sudocmd cp -rfvt /etc "$HERE/etc/."
+	$sudocmd cp --preserve=mode,links,timestamp -rfvt /etc "$HERE/etc/."
+	$sudocmd cp --preserve=mode,links,timestamp -rfvt /usr "$HERE/usr/."
 	$sudocmd mkdir -pv /var/cache/zsh
 	[ -n "${WINEPREFIX:-}" ] &&
 		command -v wine >/dev/null 2>&1 &&
@@ -49,7 +50,7 @@ setup_pkgs() {
 		$sudocmd xbps-install -Suy xbps &&
 		$sudocmd xbps-install -Suy
 	[ -r "$SETUP_PKGS_FILE" ] &&
-		xargs $sudocmd xbps-install -Sy <"$SETUP_PKGS_FILE"
+		xargs "$sudocmd" xbps-install -Sy <"$SETUP_PKGS_FILE"
 	[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
 		command -v flatpak >/dev/null 2>&1 &&
 		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
