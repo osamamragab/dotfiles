@@ -2,7 +2,7 @@
 
 set -eu
 
-NOTESDIR="${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
+NOTESDIR="${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/share/notes}"
 [ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || {
 	echo "$(basename "$0"): can't create dir $NOTESDIR" >&2
 	exit 1
