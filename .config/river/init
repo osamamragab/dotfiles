@@ -43,12 +43,15 @@ riverctl map passthrough Super+Shift Escape enter-mode normal
 
 all_tags=$(((1 << 32) - 1))
 sticky_tag=$((1 << 31))
+scratch_tag=$((1 << 20))
 riverctl map normal Super 0 set-focused-tags $all_tags
 riverctl map normal Super+Shift 0 set-view-tags $all_tags
 riverctl map normal Super Tab focus-previous-tags
 riverctl map normal Super+Shift Tab send-to-previous-tags
 riverctl map normal Super+Shift S toggle-view-tags $sticky_tag
-riverctl spawn-tagmask $((all_tags ^ sticky_tag))
+riverctl map normal Super P spawn "$XDG_CONFIG_HOME/river/scratchpad $all_tags $scratch_tag"
+riverctl map normal Super+Shift P set-view-tags $scratch_tag
+riverctl spawn-tagmask $((all_tags ^ sticky_tag ^ scratch_tag))
 for i in 1 2 3 4 5 6 7 8 9; do
 	tags=$((1 << (i - 1)))
 	riverctl map normal Super $i set-focused-tags $((sticky_tag + tags))
@@ -102,6 +105,8 @@ riverctl border-color-unfocused 0x4c566a
 riverctl rule-add ssd
 riverctl rule-add -app-id bar csd
 riverctl rule-add -app-id float float
+riverctl rule-add -app-id scratchpad float
+riverctl rule-add -app-id scratchpad tags $scratch_tag
 riverctl rule-add -app-id dragon-drop float
 riverctl rule-add -title Picture-in-Picture float
 

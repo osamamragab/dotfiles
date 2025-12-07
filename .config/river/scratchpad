@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -eu
+
+lswt -c a | grep -Fxq scratchpad ||
+	riverctl spawn "foot -a scratchpad -w 920x680; riverctl toggle-focused-tags $1"
+
+riverctl toggle-focused-tags "$1"
+
+wlrctl window waitfor app_id:scratchpad &&
+	wlrctl window focus app_id:scratchpad
