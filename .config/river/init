@@ -38,8 +38,8 @@ riverctl map-pointer normal Super BTN_LEFT move-view
 riverctl map-pointer normal Super BTN_RIGHT resize-view
 
 riverctl declare-mode passthrough
-riverctl map normal Super F11 enter-mode passthrough
-riverctl map passthrough Super F11 enter-mode normal
+riverctl map normal Super+Shift Escape enter-mode passthrough
+riverctl map passthrough Super+Shift Escape enter-mode normal
 
 all_tags=$(((1 << 32) - 1))
 sticky_tag=$((1 << 31))
@@ -51,10 +51,10 @@ riverctl map normal Super+Shift S toggle-view-tags $sticky_tag
 riverctl spawn-tagmask $((all_tags ^ sticky_tag))
 for i in 1 2 3 4 5 6 7 8 9; do
 	tags=$((1 << (i - 1)))
-	riverctl map normal Super "$i" set-focused-tags $((sticky_tag + tags))
-	riverctl map normal Super+Shift "$i" set-view-tags $tags
-	riverctl map normal Super+Control "$i" toggle-focused-tags $tags
-	riverctl map normal Super+Shift+Control "$i" toggle-view-tags $tags
+	riverctl map normal Super $i set-focused-tags $((sticky_tag + tags))
+	riverctl map normal Super+Shift $i set-view-tags $tags
+	riverctl map normal Super+Control $i toggle-focused-tags $tags
+	riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
 done
 
 riverctl map normal Super Return spawn "$TERMINAL"
@@ -67,8 +67,6 @@ riverctl map normal Super U spawn "menu-emojis"
 riverctl map normal Super I spawn "menu-handler"
 riverctl map normal Super O spawn "cliphist list | menu -w 70 --with-nth 2 | cliphist decode | wl-copy"
 riverctl map normal Super+Shift O spawn "open"
-riverctl map normal Super P spawn "passmenu"
-riverctl map normal Super+Shift P spawn "passmenu otp"
 riverctl map normal Super M spawn "wooz --mouse-track --map-close q"
 riverctl map normal Super Backslash spawn "makoctl dismiss -a && pkill -RTMIN+7 waybar"
 riverctl map normal Super+Shift Backslash spawn "makoctl mode | grep -Fxq dnd || makoctl dismiss -a; makoctl mode -t dnd && pkill -RTMIN+7 waybar"
@@ -139,5 +137,5 @@ run syncthing serve --no-browser
 run wl-clip-persist -c regular
 run wl-paste -w cliphist store
 run waybar
+# run mpd
 [ -r "$XDG_DATA_HOME/bg" ] && run wbg "$XDG_DATA_HOME/bg"
-# pidof -qsx mpd || (mpd && mpd-mpris) &
