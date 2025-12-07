@@ -9,7 +9,7 @@ getinput() {
 action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate\nbookmark\nlist-bookmarks\npass\npass-otp" | menu -p "action> ")}" || exit 1
 case "$action" in
 	copy)
-		getinput | wl-copy
+		menu --prompt-only "$action> " | wl-copy
 		;;
 	mpv)
 		setsid -f mpv --keep-open --really-quiet "$(getinput "$action")" >/dev/null 2>&1
