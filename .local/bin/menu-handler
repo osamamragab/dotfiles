@@ -6,7 +6,7 @@ getinput() {
 	wl-paste | menu -p "${1:-input}> "
 }
 
-action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate\nbookmark\nlist-bookmarks" | menu -p "action> ")}" || exit 1
+action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate\nbookmark\nlist-bookmarks\npass\npass-otp" | menu -p "action> ")}" || exit 1
 case "$action" in
 	copy)
 		getinput | wl-copy
@@ -38,6 +38,12 @@ case "$action" in
 			menu --counter -w 90 -p "bookmarks> " |
 			cut -d " " -f 1 |
 			xargs -r buku --nostdin -o
+		;;
+	pass)
+		exec passmenu
+		;;
+	pass-otp)
+		exec passmenu otp
 		;;
 	*)
 
