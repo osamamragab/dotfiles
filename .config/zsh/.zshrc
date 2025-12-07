@@ -66,29 +66,17 @@ bindkey -M vicmd "^e" edit-command-line
 bindkey -M vicmd "^[[P" vi-delete-char
 bindkey -M visual "^[[P" vi-delete
 
-function osc7-pwd() {
+osc7-pwd() {
 	emulate -L zsh
 	setopt extendedglob
 	local LC_ALL=C
 	printf '\e]7;file://%s%s\e\' $HOST ${PWD//(#m)([^@-Za-z&-;_~])/%${(l:2::0:)$(([##16]#MATCH))}}
 }
-function chpwd-osc7-pwd() {
+chpwd-osc7-pwd() {
 	[ $ZSH_SUBSHELL -eq 0 ] && osc7-pwd
 }
 autoload -Uz add-zsh-hook
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
-
-zshcache_time="$(date +%s%N)"
-precmd_rehash() {
-	[ -f /var/cache/zsh/pacman ] && {
-		local paccache_time="$(date -r /var/cache/zsh/pacman +%s%N)"
-		[ "$zshcache_time" -lt "$paccache_time" ] && {
-			rehash
-			zshcache_time="$paccache_time"
-		}
-	}
-}
-add-zsh-hook -Uz precmd precmd_rehash
 
 fzf_select_widget() {
 	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
