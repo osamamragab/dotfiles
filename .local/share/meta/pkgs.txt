@@ -303,7 +303,9 @@ wireplumber
 wireshark
 wl-clip-persist
 wl-clipboard
+wl-mirror
 wlopm
+wlrctl
 wrk
 xdg-desktop-portal
 xdg-desktop-portal-gtk
