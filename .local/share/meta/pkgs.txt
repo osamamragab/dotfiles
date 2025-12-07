@@ -40,6 +40,7 @@ cmake
 cppcheck
 croc
 cronie
+crun
 cups
 cups-filters
 cups-pdf
