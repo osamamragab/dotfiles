@@ -9,13 +9,9 @@ sed -n "s/^User\s\(.*\)/\1/p" "$MBSYNCRC" | while read -r dir; do
 	mkdir -p "$MAILDIR/$dir"
 done
 
-pidof -sqx mbsync || pidof -sqx notmuch && {
-	echo "already running" >&2
+pidof -sqx mbsync && {
+	echo "$(basename "$0"): already running" >&2
 	exit 1
 }
 
-# echo "Deleting messages tagged as *deleted*"
-# notmuch search --format=text0 --output=files tag:deleted | xargs -0 --no-run-if-empty rm -v
-
-mbsync -aV
-# notmuch new
+exec mbsync -aV
