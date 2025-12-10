@@ -2,7 +2,6 @@ return {
 	{
 		"saghen/blink.cmp",
 		dependencies = { "rafamadriz/friendly-snippets" },
-		-- use a release tag to download pre-built binaries
 		version = "1.*",
 		-- build = "cargo build --release",
 
@@ -14,9 +13,20 @@ return {
 			},
 			appearance = {
 				nerd_font_variant = "mono",
+				kind_icons = {},
 			},
 			cmdline = {
-				enabled = false,
+				keymap = {
+					preset = "inherit",
+				},
+				completion = {
+					menu = {
+						auto_show = false,
+					},
+					ghost_text = {
+						enabled = true,
+					},
+				},
 			},
 			completion = {
 				list = {
@@ -28,12 +38,25 @@ return {
 				documentation = {
 					auto_show = false,
 				},
+				ghost_text = {
+					enabled = true,
+				},
 				menu = {
 					draw = {
-						columns = {
-							{ "kind_icon", "label", gap = 2 },
-							{ "kind" },
+						components = {
+							source_name = {
+								width = { max = 30 },
+								text = function(ctx)
+									return "[" .. ctx.source_name .. "]"
+								end,
+								highlight = "BlinkCmpSource",
+							},
 						},
+						columns = {
+							{ "kind_icon", "label", gap = 1 },
+							{ "kind", "source_name", gap = 1 },
+						},
+						treesitter = { "lsp" },
 					},
 				},
 			},
@@ -57,6 +80,11 @@ return {
 			},
 			fuzzy = {
 				implementation = "prefer_rust_with_warning",
+				sorts = {
+					"score",
+					"sort_text",
+					"label",
+				},
 			},
 		},
 		opts_extend = { "sources.default" },
