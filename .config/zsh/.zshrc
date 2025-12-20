@@ -138,4 +138,9 @@ command -v zr >/dev/null 2>&1 &&
 			fast-theme XDG:overlay >/dev/null 2>&1
 }
 
+command -v mise >/dev/null 2>&1 && eval "$(mise activate zsh)"
 command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
+command -v fzf >/dev/null 2>&1 && {
+	[ -r /usr/share/fzf/completion.zsh ] && . /usr/share/fzf/completion.zsh
+	[ -r /usr/share/fzf/key-bindings.zsh ] && . /usr/share/fzf/key-bindings.zsh
+}
