@@ -5,6 +5,7 @@ Waybar
 abook
 aerc
 aircrack-ng
+alsa-firmware
 alsa-utils
 amdvlk
 amfora
@@ -227,6 +228,7 @@ smartmontools
 socat
 socklog
 socklog-void
+sof-firmware
 sound-theme-freedesktop
 sox
 sqlmap
