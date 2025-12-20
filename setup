@@ -33,16 +33,18 @@ sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v su
 setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
-	$sudocmd cp --preserve=mode,links,timestamp -rfvt /etc "$HERE/etc/."
-	$sudocmd cp --preserve=mode,links,timestamp -rfvt /usr "$HERE/usr/."
-	$sudocmd mkdir -pv /var/cache/zsh
+	[ -d "$HERE/etc" ] && $sudocmd cp --preserve=mode,links,timestamp -rfvt /etc "$HERE/etc/."
+	[ -d "$HERE/usr" ] && $sudocmd cp --preserve=mode,links,timestamp -rfvt /usr "$HERE/usr/."
+	$sudocmd mkdir -pv /var/cache/zsh || true
 	[ -n "${WINEPREFIX:-}" ] &&
 		command -v wine >/dev/null 2>&1 &&
-		mkdir -pv "$WINEPREFIX"
+		mkdir -pv "$WINEPREFIX" ||
+		true
 	command -v gsettings >/dev/null 2>&1 &&
 		gsettings set org.gnome.desktop.interface color-scheme prefer-dark &&
 		[ -n "${GTK_THEME:-}" ] &&
-		gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME"
+		gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME" ||
+		true
 }
 
 setup_pkgs() {
@@ -50,16 +52,20 @@ setup_pkgs() {
 		$sudocmd xbps-install -Suy xbps &&
 		$sudocmd xbps-install -Suy
 	[ -r "$SETUP_PKGS_FILE" ] &&
-		xargs "$sudocmd" xbps-install -Sy <"$SETUP_PKGS_FILE"
+		xargs "$sudocmd" xbps-install -Sy <"$SETUP_PKGS_FILE" ||
+		true
 	[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
 		command -v flatpak >/dev/null 2>&1 &&
 		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
-		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
+		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE" ||
+		true
 	command -v go >/dev/null 2>&1 &&
-		go telemetry off
+		go telemetry off ||
+		true
 	command -v rustup >/dev/null 2>&1 &&
 		rustup default stable &&
-		cargo install cargo-update cargo-info
+		cargo install cargo-update cargo-info ||
+		true
 }
 
 setup_user() {
@@ -75,7 +81,8 @@ setup_runit() {
 		/var/service/sshd \
 		/var/service/acpid \
 		/var/service/dhcpcd \
-		/var/service/wpa_supplicant
+		/var/service/wpa_supplicant ||
+		true
 	$sudocmd ln -svft /var/service \
 		/etc/sv/socklog \
 		/etc/sv/nanoklog \
@@ -150,7 +157,7 @@ setup_uninstall() {
 				cat "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" "$XDG_CONFIG_HOME/$BROWSER/user.js" |
 				cmp "$SETUP_BROWSER_DIR/$p/user.js" ||
 				continue
-			rm -vf "$SETUP_BROWSER_DIR/$p/user.js"
+			rm -vf "$SETUP_BROWSER_DIR/$p/user.js" || true
 		done
 }
 
