@@ -24,7 +24,7 @@ for arg; do
 			mem="$1"
 			;;
 		-efi)
-			bios="/usr/share/ovmf/x64/OVMF.4m.fd"
+			bios="/usr/share/OVMF/x64/OVMF.4m.fd"
 			;;
 		-bios)
 			shift
@@ -52,7 +52,7 @@ for arg; do
 	[ $# -ne 0 ] && shift
 done
 
-[ -f "$img" ] || {
+[ -e "$img" ] || {
 	echo "$(basename "$0"): $img: file not found" >&2
 	exit 1
 }
