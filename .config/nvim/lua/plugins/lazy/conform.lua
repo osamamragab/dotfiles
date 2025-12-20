@@ -12,7 +12,8 @@ local function get_formatters(formatters)
 				if type(f.fallback) == "string" then
 					table.insert(results, f.fallback)
 				elseif type(f.fallback) == "table" then
-					for _, v in ipairs(f.fallback --[[@as table]]) do
+					local fallback = f.fallback --[[@as string[]=]]
+					for _, v in ipairs(fallback) do
 						table.insert(results, v)
 					end
 				end
@@ -40,18 +41,30 @@ return {
 					zig = { "zigfmt" },
 					sh = { "shfmt" },
 					zsh = { "shfmt" },
+					bash = { "shfmt" },
 					asm = { "asmfmt" },
 					rust = { "rustfmt", lsp_format = "fallback" },
-					javascript = prettier_fmt,
-					typescript = prettier_fmt,
-					vue = prettier_fmt,
 					go = get_formatters({
-						{ "gofumpt", fallback = "gofumpt" },
+						{ "gofumpt", fallback = "gofmt" },
 						{ "goimports-reviser", fallback = "goimports" },
 					}),
 					python = get_formatters({
 						{ "ruff_format", fallback = { "isort", "black" } },
 					}),
+					proto = { "buf", "clang-format", stop_after_first = true },
+					javascript = prettier_fmt,
+					typescript = prettier_fmt,
+					json = prettier_fmt,
+					jsonc = prettier_fmt,
+					html = prettier_fmt,
+					css = prettier_fmt,
+					scss = prettier_fmt,
+					sass = prettier_fmt,
+					less = prettier_fmt,
+					vue = prettier_fmt,
+					svelte = prettier_fmt,
+					javascriptreact = prettier_fmt,
+					typescriptreact = prettier_fmt,
 					["*"] = { "codespell" },
 					["_"] = { "trim_whitespace" },
 				},
