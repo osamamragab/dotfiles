@@ -100,6 +100,8 @@ setup_ufw() {
 }
 
 setup_browser() {
+	[ -d "$SETUP_PROGRAMS_DIR/arkenfox-user.js" ] ||
+		git clone https://github.com/arkenfox/user.js.git "$SETUP_PROGRAMS_DIR/arkenfox-user.js"
 	[ -d "$SETUP_BROWSER_DIR" ] || {
 		$BROWSER --headless >/dev/null 2>&1 &
 		ffpid=$!
@@ -107,7 +109,7 @@ setup_browser() {
 	}
 	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
 		while IFS= read -r p; do
-			cat "/usr/share/arkenfox-user.js/user.js" >"$SETUP_BROWSER_DIR/$p/user.js"
+			cat "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" >"$SETUP_BROWSER_DIR/$p/user.js"
 			browsers="firefox"
 			# shellcheck disable=2015
 			[ "$BROWSER" != "$browsers" ] && browsers="$browsers $BROWSER" || true
@@ -145,7 +147,7 @@ setup_uninstall() {
 		while IFS= read -r p; do
 			# shellcheck disable=2015
 			[ -r "$SETUP_BROWSER_DIR/$p/user.js" ] &&
-				cat "/usr/share/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" "$XDG_CONFIG_HOME/$BROWSER/user.js" |
+				cat "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" "$XDG_CONFIG_HOME/$BROWSER/user.js" |
 				cmp "$SETUP_BROWSER_DIR/$p/user.js" ||
 				continue
 			rm -vf "$SETUP_BROWSER_DIR/$p/user.js"
