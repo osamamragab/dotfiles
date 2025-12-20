@@ -58,7 +58,12 @@ return {
 							lsp_format = "fallback",
 						})
 					end, opts)
-					-- vim.keymap.set("n", "<leader>bf", vim.lsp.buf.format, opts)
+					--[[
+					vim.keymap.set("n", "<leader>bf", vim.lsp.buf.format, opts)
+					if client.server_capabilities.document_range_formatting then
+						vim.keymap.set("v", "<leader>bf", vim.lsp.buf.format, opts)
+					end
+					]]
 				end,
 			})
 

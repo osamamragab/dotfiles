@@ -2,6 +2,7 @@ return {
 	{
 
 		"olexsmir/gopher.nvim",
+		lazy = true,
 		ft = "go",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -9,5 +10,4 @@ return {
 		},
 		opts = {},
 	},
-
 }
