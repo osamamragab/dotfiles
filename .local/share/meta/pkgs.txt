@@ -53,6 +53,7 @@ direnv
 dive
 dnsmasq
 docker
+docker-buildx
 docker-compose
 dosfstools
 dragon
