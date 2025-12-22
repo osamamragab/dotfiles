@@ -87,6 +87,8 @@ export MANPATH="$XDG_DATA_HOME/man:${MANPATH:-}"
 export SSH_ASKPASS="wayprompt-ssh-askpass"
 export SUDO_ASKPASS="wayprompt-ssh-askpass"
 
+export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
+
 export LESS="-R"
 export MANPAGER="less -R --use-color -Dd+b -Duc"
 export MANROFFOPT="-P -c"

@@ -97,7 +97,8 @@ setup_runit() {
 		/etc/sv/tlp \
 		/etc/sv/sshd \
 		/etc/sv/cupsd \
-		/etc/sv/docker
+		/etc/sv/podman \
+		/etc/sv/podman-docker
 }
 
 setup_ufw() {
