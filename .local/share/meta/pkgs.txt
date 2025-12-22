@@ -111,6 +111,7 @@ imv
 inetutils
 inxi
 iotop
+iptables-nft
 isync
 jq
 jujutsu
@@ -174,6 +175,7 @@ nerd-fonts
 nerd-fonts-symbols-ttf
 net-tools
 newsboat
+nftables
 nix
 nnn
 nodejs
