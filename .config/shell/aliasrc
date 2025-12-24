@@ -41,7 +41,8 @@ alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 [ -f "$XINITRC" ] && alias startx='startx "$XINITRC"'
 [ -f "$MBSYNCRC" ] && alias mbsync='mbsync -c "$MBSYNCRC"'
 
-sudocmd="$(command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
+# shellcheck disable=2015
+sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 for cmd in su mount umount sv vsv ufw; do
 	alias $cmd="$sudocmd $(which "$cmd")"
 done
