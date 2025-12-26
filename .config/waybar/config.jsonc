@@ -4,12 +4,12 @@
 	"height": 1,
 	"modules-left": [
 		"river/tags",
-		"river/mode"
+		"river/mode",
 	],
 	"modules-center": [
 		// "river/window",
 		"clock#date",
-		"clock#time"
+		"clock#time",
 	],
 	"modules-right": [
 		"mpris",
@@ -20,24 +20,24 @@
 		"wireplumber",
 		"bluetooth",
 		"network",
-		"memory",
-		"cpu",
-		"temperature",
+		// "memory",
+		// "cpu",
+		// "temperature",
 		"upower",
-		"custom/days"
+		"custom/days",
 	],
 	"river/tags": {
 		"num-tags": 9,
-		"hide-vacant": true
+		"hide-vacant": true,
 	},
 	"clock#time": {
 		"interval": 10,
-		"format": " {:%H:%M}",
-		"tooltip": false
+		"format": "{:%H:%M}",
+		"tooltip": false,
 	},
 	"clock#date": {
 		"interval": 60,
-		"format": " {:%a %d %b}",
+		"format": "{:%A}",
 		"tooltip-format": "<span size='10pt'>{calendar}</span>",
 		"calendar": {
 			"mode": "month",
@@ -49,19 +49,19 @@
 				"days": "<span color='#eceff4'><b>{}</b></span>",
 				"weeks": "<span color='#8fbcbb'><b>W{}</b></span>",
 				"weekdays": "<span color='#81a1c1'><b>{}</b></span>",
-				"today": "<span color='#bf616a'><b><u>{}</u></b></span>"
-			}
+				"today": "<span color='#bf616a'><b><u>{}</u></b></span>",
+			},
 		},
 		"actions": {
 			"on-click": "shift_reset",
 			"on-click-right": "mode",
 			"on-scroll-up": "shift_up",
-			"on-scroll-down": "shift_down"
-		}
+			"on-scroll-down": "shift_down",
+		},
 	},
 	"wireplumber": {
-		"format": "{icon} {volume}%",
-		"format-muted": " muted",
+		"format": "{icon}",
+		"format-muted": "",
 		"on-click": "foot -a float wiremix",
 		"on-click-right": "helvum",
 		"on-click-middle": "volumectl toggle",
@@ -74,12 +74,8 @@
 			"phone": "",
 			"portable": "",
 			"car": "",
-			"default": [
-				"",
-				"",
-				""
-			]
-		}
+			"default": ["", "", ""],
+		},
 	},
 	/*
 	"battery": {
@@ -108,8 +104,9 @@
 		"tooltip": true,
 		"tooltip-spacing": 20,
 		"icon-size": 16,
-		"hide-if-empty": true
+		"hide-if-empty": true,
 	},
+	/*
 	"temperature": {
 		"interval": 10,
 		"critical-threshold": 90,
@@ -135,6 +132,7 @@
 		"tooltip-format": "mem:  {used:0.1f}G/{total:0.1f}G ({percentage}%)\nswap: {swapUsed:0.1f}G/{swapTotal:0.1f}G ({swapPercentage}%)",
 		"max-length": 10
 	},
+	*/
 	"network": {
 		"interval": 60,
 		"format": "{ifname}",
@@ -146,7 +144,7 @@
 		"tooltip-format": "{ifname} via {gwaddr} 󰊗",
 		"tooltip-format-wifi": "{essid} ({frequency}GHz)\n{ifname}: {ipaddr}/{cidr}",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
-		"tooltip-format-disconnected": "Disconnected"
+		"tooltip-format-disconnected": "Disconnected",
 	},
 	"bluetooth": {
 		"format": "",
@@ -158,7 +156,7 @@
 		"tooltip-format": "{controller_alias}\t{controller_address}",
 		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
 		"tooltip-format-enumerate-connected": "- {device_alias}\t[{device_address}]",
-		"tooltip-format-enumerate-connected-battery": "- {device_alias}\t[{device_address}]\t({device_battery_percentage}%)"
+		"tooltip-format-enumerate-connected-battery": "- {device_alias}\t[{device_address}]\t({device_battery_percentage}%)",
 	},
 	"privacy": {
 		"icon-spacing": 4,
@@ -168,29 +166,30 @@
 			{
 				"type": "screenshare",
 				"tooltip": true,
-				"tooltip-icon-size": 24
+				"tooltip-icon-size": 24,
 			},
 			{
 				"type": "audio-in",
 				"tooltip": true,
-				"tooltip-icon-size": 24
-			}
-		]
+				"tooltip-icon-size": 24,
+			},
+		],
 	},
 	"tray": {
 		"icon-size": 18,
-		"spacing": 12
+		"spacing": 12,
 	},
 	"mpris": {
 		"player": "playerctld",
-		"format": "{status_icon} {title} • {artist}",
+		"format": "{status_icon}",
+		"tooltip-format": "{title} • {artist}",
 		"title-len": 10,
 		"artist-len": 10,
 		"status-icons": {
 			"paused": "",
 			"stopped": "",
-			"playing": ""
-		}
+			"playing": "",
+		},
 	},
 	"custom/dnd": {
 		"format": "{}",
@@ -199,7 +198,7 @@
 		"on-click": "makoctl mode -r dnd >/dev/null 2>&1",
 		"tooltip": false,
 		"hide-empty-text": true,
-		"signal": 7
+		"signal": 7,
 	},
 	"custom/recording": {
 		"format": "{}",
@@ -208,13 +207,13 @@
 		"exec-if": "pidof -sqx wf-recorder",
 		"on-click": "menu-record stop",
 		"tooltip": false,
-		"signal": 8
+		"signal": 8,
 	},
 	"custom/days": {
-		"format": " {}",
+		"format": "{}",
 		"tooltip": false,
 		"interval": 1800,
 		"exec": "echo $(( ($(date +%s) - $(date -d 2004-06-09 +%s)) / 86400 ))",
-		"on-click": "foot -a float -w 980x620 notes todo"
-	}
+		"on-click": "foot -a float -w 980x620 notes todo",
+	},
 }
