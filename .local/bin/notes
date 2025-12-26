@@ -2,13 +2,13 @@
 
 set -eu
 
-NOTESDIR="${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/share/notes}"
-[ -d "$NOTESDIR" ] || mkdir -p "$NOTESDIR" || {
-	echo "$(basename "$0"): can't create dir $NOTESDIR" >&2
+NOTES_DIR="${NOTES_DIR:-$(xdg-user-dir DOCUMENTS)/share/notes}"
+[ -d "$NOTES_DIR" ] || mkdir -p "$NOTES_DIR" || {
+	echo "$(basename "$0"): can't create dir $NOTES_DIR" >&2
 	exit 1
 }
-cd "$NOTESDIR" || {
-	echo "$(basename "$0"): can't cd to $NOTESDIR" >&2
+cd "$NOTES_DIR" || {
+	echo "$(basename "$0"): can't cd to $NOTES_DIR" >&2
 	exit 1
 }
 
@@ -23,9 +23,9 @@ case "${1:--l}" in
 		;;
 	-l)
 		height="${2:-10}"
-		sel="$(find "$NOTESDIR" -type f -not -path "$NOTESDIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | fzf --height="~$height")" || exit $?
+		sel="$(find "$NOTES_DIR" -type f -not -path "$NOTES_DIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | fzf --height="~$height")" || exit $?
 		[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
-		$EDITOR "$NOTESDIR/${sel:-pad.txt}"
+		$EDITOR "$NOTES_DIR/${sel:-pad.txt}"
 		;;
 	-*)
 		echo "$(basename "$0"): unknown option: $1" >&2
@@ -34,18 +34,18 @@ case "${1:--l}" in
 	*)
 		for f; do
 			case "$f" in
-				*.*) $EDITOR "$NOTESDIR/$f" ;;
+				*.*) $EDITOR "$NOTES_DIR/$f" ;;
 				*)
-					if [ -d "$NOTESDIR/$f" ]; then
-						NOTESDIR="$NOTESDIR/$f" "$0"
-					elif [ -f "$NOTESDIR/$f.md" ]; then
-						$EDITOR "$NOTESDIR/$f.md"
-					elif [ -f "$NOTESDIR/$f.txt" ]; then
-						$EDITOR "$NOTESDIR/$f.txt"
-					elif [ -f "$NOTESDIR/$f.todo.txt" ]; then
-						$EDITOR "$NOTESDIR/$f.todo.txt"
+					if [ -d "$NOTES_DIR/$f" ]; then
+						NOTES_DIR="$NOTES_DIR/$f" "$0"
+					elif [ -f "$NOTES_DIR/$f.md" ]; then
+						$EDITOR "$NOTES_DIR/$f.md"
+					elif [ -f "$NOTES_DIR/$f.txt" ]; then
+						$EDITOR "$NOTES_DIR/$f.txt"
+					elif [ -f "$NOTES_DIR/$f.todo.txt" ]; then
+						$EDITOR "$NOTES_DIR/$f.todo.txt"
 					else
-						$EDITOR "$NOTESDIR/$f"
+						$EDITOR "$NOTES_DIR/$f"
 					fi
 					;;
 			esac
