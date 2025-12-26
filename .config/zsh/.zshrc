@@ -26,7 +26,7 @@ PROMPT='%B%F{cyan}%c %F{blue}${vcs_info_msg_0_}%F{%(?.green.red)}>%f%b '
 RPROMPT='%(?..[%F{red}%?%f] )'
 [ -n "${SSH_TTY:-}" ] && PROMPT="%F{magenta}[%M] $PROMPT"
 
-HISTSIZE=999999999
+HISTSIZE=32768
 SAVEHIST=$HISTSIZE
 HISTFILE="${HISTFILE:-$XDG_STATE_HOME/history}"
 
