@@ -143,6 +143,6 @@ run syncthing serve --no-browser
 run wl-clip-persist -c regular
 run wl-paste -w cliphist store
 run waybar
-[ -S "$DOCKER_HOST" ] || riverctl spawn "podman --log-level info system service --time 0"
 # run mpd
 [ -r "$XDG_DATA_HOME/bg" ] && run wbg "$XDG_DATA_HOME/bg"
+[ -S "$DOCKER_HOST" ] || riverctl spawn "podman --log-level info system service --time 0"

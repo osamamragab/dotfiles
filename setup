@@ -69,6 +69,13 @@ setup_pkgs() {
 }
 
 setup_user() {
+	[ -r "$XDG_CONFIG_HOME/user-dirs.dirs" ] &&
+		cut -d "=" -f2 <"$XDG_CONFIG_HOME/user-dirs.dirs" |
+		sed -e "s|\$HOME|$HOME|" |
+		xargs mkdir -pv &&
+		command -v xdg-user-dirs-update >/dev/null 2>&1 &&
+		xdg-user-dirs-update ||
+		true
 	chsh -s "$(which zsh)"
 	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner,dbus,docker,nixbld "$USER"
 }
@@ -117,7 +124,7 @@ setup_browser() {
 	}
 	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
 		while IFS= read -r p; do
-			cat "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" >"$SETUP_BROWSER_DIR/$p/user.js"
+			cp -vf "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$SETUP_BROWSER_DIR/$p/user.js"
 			browsers="firefox"
 			# shellcheck disable=2015
 			[ "$BROWSER" != "$browsers" ] && browsers="$browsers $BROWSER" || true
