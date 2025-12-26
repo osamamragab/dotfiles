@@ -38,9 +38,21 @@ alias adb='env HOME="$ANDROID_USER_HOME" adb'
 alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 
+pass() {
+	case "$EDITOR" in
+		vim | nvim) editor="$EDITOR --noplugin" ;;
+		*) editor="vi" ;;
+	esac
+	env EDITOR="$editor" pass "$@"
+	unset editor
+}
+
 zk() {
 	NOTES_DIR="${NOTES_DIR:-$(xdg-user-dir DOCUMENTS)/share/notes}"
-	[ ! -d .zk ] && [ -d "$NOTES_DIR" ] && command zk -W "$NOTES_DIR" "$@"
+	[ ! -d .zk ] && [ -d "$NOTES_DIR" ] && {
+		command zk -W "$NOTES_DIR" "$@"
+		return $?
+	}
 	command zk "$@"
 }
 
