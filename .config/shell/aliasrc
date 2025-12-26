@@ -1,6 +1,6 @@
 #!/bin/sh
-# shellcheck disable=2139
 
+# shellcheck disable=2139
 alias e="${EDITOR:-vi}"
 alias q="exit"
 
@@ -37,6 +37,12 @@ alias drag="dragon-drop -a -x"
 alias adb='env HOME="$ANDROID_USER_HOME" adb'
 alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
+
+zk() {
+	NOTES_DIR="${NOTES_DIR:-$(xdg-user-dir DOCUMENTS)/share/notes}"
+	[ ! -d .zk ] && [ -d "$NOTES_DIR" ] && command zk -W "$NOTES_DIR" "$@"
+	command zk "$@"
+}
 
 [ -f "$XINITRC" ] && alias startx='startx "$XINITRC"'
 [ -f "$MBSYNCRC" ] && alias mbsync='mbsync -c "$MBSYNCRC"'
