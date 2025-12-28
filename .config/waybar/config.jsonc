@@ -62,6 +62,7 @@
 	"wireplumber": {
 		"format": "{icon}",
 		"format-muted": "",
+		"tooltip-format": "{volume}% - {node_name}",
 		"on-click": "foot -a float wiremix",
 		"on-click-right": "helvum",
 		"on-click-middle": "volumectl toggle",
