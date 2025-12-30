@@ -3,7 +3,7 @@
 set -eu
 
 lswt -c a | grep -Fxq scratchpad ||
-	riverctl spawn "foot -a scratchpad -w 920x680 -o colors.alpha=0.8; riverctl toggle-focused-tags $1"
+	riverctl spawn "foot -a scratchpad -w 920x680 && riverctl toggle-focused-tags $1"
 
 riverctl toggle-focused-tags "$1"
 
