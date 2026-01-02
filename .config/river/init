@@ -104,6 +104,7 @@ riverctl border-color-unfocused 0x4c566a
 
 riverctl rule-add ssd
 riverctl rule-add -app-id bar csd
+riverctl rule-add -app-id float float
 riverctl rule-add -app-id scratchpad float
 riverctl rule-add -app-id scratchpad tags $scratch_tag
 riverctl rule-add -app-id dragon-drop float
