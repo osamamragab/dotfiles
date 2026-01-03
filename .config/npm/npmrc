@@ -3,5 +3,6 @@ cache = "${XDG_CACHE_HOME}/npm"
 init-module = "${XDG_CONFIG_HOME}/npm/npm-init.js"
 engine-strict = true
 foreground-scripts = true
+auto-install-peers = true
 update-notifier = false
 fund = false
