@@ -1,5 +1,3 @@
-require("config.options")
-require("config.globals")
-require("config.filetype")
+require("config.base")
 require("config.keymaps")
 require("config.autocmd")
