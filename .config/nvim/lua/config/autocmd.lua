@@ -1,31 +1,6 @@
 local autocmd = vim.api.nvim_create_autocmd
 local augroup = vim.api.nvim_create_augroup
 local format_group = augroup("format", { clear = true })
-local filetype_group = augroup("filetype", { clear = true })
-
-autocmd({ "BufNewFile", "BufRead" }, {
-	group = filetype_group,
-	pattern = "*.h",
-	command = "setlocal ft=c",
-})
-
-autocmd({ "BufNewFile", "BufRead" }, {
-	group = filetype_group,
-	pattern = { "*.pcss" },
-	command = "setlocal ft=css",
-})
-
-autocmd({ "BufNewFile", "BufRead" }, {
-	group = filetype_group,
-	pattern = { "*.http" },
-	command = "setlocal ft=http",
-})
-
-autocmd({ "BufNewFile", "BufRead" }, {
-	group = filetype_group,
-	pattern = { "todo.txt", "done.txt", "*.todo.txt", "*.done.txt" },
-	command = "setlocal ft=todotxt",
-})
 
 autocmd({ "BufEnter" }, {
 	group = augroup("statusline", { clear = true }),
