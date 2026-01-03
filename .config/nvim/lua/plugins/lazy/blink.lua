@@ -1,7 +1,6 @@
 return {
 	{
 		"saghen/blink.cmp",
-		dependencies = { "rafamadriz/friendly-snippets" },
 		version = "1.*",
 		-- build = "cargo build --release",
 
@@ -61,13 +60,8 @@ return {
 				},
 			},
 			sources = {
-				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+				default = { "lazydev", "lsp", "path", "buffer" },
 				providers = {
-					snippets = {
-						opts = {
-							friendly_snippets = true,
-						},
-					},
 					lazydev = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",
