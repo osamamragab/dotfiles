@@ -1,4 +1,27 @@
 $include /etc/inputrc
+
 set editing-mode vi
 set bell-style none
-Control-l: clear-screen
+
+set meta-flag on
+set input-meta on
+set output-meta on
+set convert-meta off
+set completion-ignore-case on
+set completion-prefix-display-length 2
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+
+set mark-symlinked-directories on
+set match-hidden-files off
+set page-completions off
+set completion-query-items 200
+set visible-stats on
+set colored-stats on
+set skip-completed-text on
+
+"\e[C": forward-char
+"\e[D": backward-char
+"\e[B": history-search-forward
+"\e[A": history-search-backward
+"Control-l": clear-screen
