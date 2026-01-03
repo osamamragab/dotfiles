@@ -171,8 +171,6 @@ nasm
 ncmpcpp
 nemesis
 neovim
-nerd-fonts
-nerd-fonts-symbols-ttf
 net-tools
 newsboat
 nftables
