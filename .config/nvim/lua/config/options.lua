@@ -5,7 +5,7 @@ vim.opt.updatetime = 50
 vim.opt.background = "dark"
 vim.opt.termguicolors = true
 vim.opt.isfname:append("@-@")
-vim.opt.shortmess:append({ I = true })
+vim.opt.shortmess:append({ a = true, I = true })
 
 vim.opt.number = true
 vim.opt.relativenumber = true

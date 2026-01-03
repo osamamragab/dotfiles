@@ -61,6 +61,7 @@ autocmd({ "BufWritePre" }, {
 	end,
 })
 
+--[[
 autocmd({ "BufWritePre" }, {
 	group = format_group,
 	pattern = "*",
@@ -70,6 +71,7 @@ autocmd({ "BufWritePre" }, {
 		vim.fn.setpos(".", cur)
 	end,
 })
+]]
 
 autocmd({ "BufWritePre" }, {
 	group = format_group,
