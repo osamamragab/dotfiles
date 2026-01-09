@@ -1,0 +1,34 @@
+[tools]
+usage = "latest"
+go = "latest"
+zig = "latest"
+rust = "latest"
+node = "latest"
+pnpm = "latest"
+uv = "latest"
+python = "latest"
+pipx = "latest"
+pipenv = "latest"
+ruff = "latest"
+cmake = "latest"
+meson = "latest"
+ninja = "latest"
+neovim = "nightly"
+jujutsu = "latest"
+github-cli = "latest"
+direnv = "latest"
+upx = "latest"
+wrk = "latest"
+dive = "latest"
+usql = "latest"
+grex = "latest"
+hurl = "latest"
+hyperfine = "latest"
+mitmproxy = "latest"
+shellcheck = "latest"
+staticcheck = "latest"
+
+[settings]
+
+[settings.python]
+compile = true

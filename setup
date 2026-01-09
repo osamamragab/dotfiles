@@ -63,12 +63,11 @@ setup_pkgs() {
 		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
 		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE" ||
 		true
+	command -v mise >/dev/null 2>&1 &&
+		mise install -y ||
+		true
 	command -v go >/dev/null 2>&1 &&
 		go telemetry off ||
-		true
-	command -v rustup >/dev/null 2>&1 &&
-		rustup default stable &&
-		cargo install cargo-update cargo-info ||
 		true
 }
 
