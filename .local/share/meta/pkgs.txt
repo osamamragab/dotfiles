@@ -1,6 +1,5 @@
 7zip
 ImageMagick
-NetworkManager
 Waybar
 aardvark-dns
 abook
@@ -46,8 +45,7 @@ dbus
 dejavu-fonts-ttf
 delta
 delve
-dhclient
-dnsmasq
+dhcpcd
 docker
 docker-buildx
 docker-compose
@@ -98,12 +96,14 @@ highlight
 hwinfo
 iftop
 ifuse
+impala
 imv
 inetutils
 inxi
 iotop
 iptables-nft
 isync
+iwd
 jq
 kanshi
 kvantum

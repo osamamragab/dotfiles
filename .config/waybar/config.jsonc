@@ -141,7 +141,7 @@
 		"format-ethernet": "",
 		"format-disconnected": "",
 		"format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
-		"on-click": "foot -a float -w 980x620 nmtui",
+		"on-click": "foot -a float -w 980x620 impala",
 		"tooltip-format": "{ifname} via {gwaddr} 󰊗",
 		"tooltip-format-wifi": "{essid} ({frequency}GHz) {signalStrength}% \n{ifname}: {ipaddr}/{cidr}",
 		"tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",

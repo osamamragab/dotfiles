@@ -90,7 +90,6 @@ setup_runit() {
 		"$SETUP_RUNIT_SVDIR/agetty-tty5" \
 		"$SETUP_RUNIT_SVDIR/agetty-tty6" \
 		"$SETUP_RUNIT_SVDIR/acpid" \
-		"$SETUP_RUNIT_SVDIR/dhcpcd" \
 		"$SETUP_RUNIT_SVDIR/wpa_supplicant"
 	$sudocmd ln -svft "$SETUP_RUNIT_SVDIR" \
 		"$SETUP_RUNIT_SVHOME/socklog" \
@@ -100,7 +99,8 @@ setup_runit() {
 		"$SETUP_RUNIT_SVHOME/chrony" \
 		"$SETUP_RUNIT_SVHOME/cronie" \
 		"$SETUP_RUNIT_SVHOME/elogind" \
-		"$SETUP_RUNIT_SVHOME/NetworkManager" \
+		"$SETUP_RUNIT_SVHOME/dhcpcd" \
+		"$SETUP_RUNIT_SVHOME/iwd" \
 		"$SETUP_RUNIT_SVHOME/bluetoothd" \
 		"$SETUP_RUNIT_SVHOME/ufw" \
 		"$SETUP_RUNIT_SVHOME/tlp" \
