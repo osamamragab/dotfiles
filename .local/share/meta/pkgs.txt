@@ -2,6 +2,7 @@
 ImageMagick
 NetworkManager
 Waybar
+aardvark-dns
 abook
 aerc
 aircrack-ng
