@@ -120,6 +120,7 @@ setup_ufw() {
 setup_browser() {
 	[ -d "$SETUP_PROGRAMS_DIR/arkenfox-user.js" ] ||
 		git clone https://github.com/arkenfox/user.js.git "$SETUP_PROGRAMS_DIR/arkenfox-user.js"
+	git -C "$SETUP_PROGRAMS_DIR/arkenfox-user.js" pull --rebase
 	[ -d "$SETUP_BROWSER_DIR" ] || {
 		$BROWSER --headless >/dev/null 2>&1 &
 		ffpid=$!
