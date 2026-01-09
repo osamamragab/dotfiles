@@ -8,6 +8,8 @@ HERE="$(dirname "$(readlink -f "$0")")"
 SETUP_PROGRAMS_DIR="${SETUP_PROGRAMS_DIR:-$HOME/programs}"
 SETUP_PKGS_FILE="${SETUP_PKGS_FILE:-$XDG_DATA_HOME/meta/pkgs.txt}"
 SETUP_PKGS_FLATPAKS_FILE="${SETUP_PKGS_FLATPAKS_FILE:-$XDG_DATA_HOME/meta/flatpaks.txt}"
+SETUP_RUNIT_SVHOME="${SETUP_RUNIT_SVHOME:-/etc/sv}"
+SETUP_RUNIT_SVDIR="${SETUP_RUNIT_SVDIR:-/var/service}"
 
 [ -n "${SETUP_BROWSER_DIR:-}" ] || case "$BROWSER" in
 	zen-browser) SETUP_BROWSER_DIR="$HOME/.zen" ;;
@@ -34,21 +36,18 @@ setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
 	[ -d "$HERE/etc" ] &&
-		$sudocmd cp --preserve=mode,links,timestamp -rfvt /etc "$HERE/etc/." ||
-		true
+		$sudocmd cp --preserve=mode,links,timestamp -rfvt /etc "$HERE/etc/."
 	[ -d "$HERE/usr" ] &&
-		$sudocmd cp --preserve=mode,links,timestamp -rfvt /usr "$HERE/usr/." ||
-		true
-	$sudocmd mkdir -pv /var/cache/zsh || true
+		$sudocmd cp --preserve=mode,links,timestamp -rfvt /usr "$HERE/usr/."
 	[ -n "${WINEPREFIX:-}" ] &&
 		command -v wine >/dev/null 2>&1 &&
-		mkdir -pv "$WINEPREFIX" ||
-		true
-	command -v gsettings >/dev/null 2>&1 &&
-		gsettings set org.gnome.desktop.interface color-scheme prefer-dark &&
+		mkdir -pv "$WINEPREFIX"
+	command -v gsettings >/dev/null 2>&1 && {
+		gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 		[ -n "${GTK_THEME:-}" ] &&
-		gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME" ||
-		true
+			gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME"
+	}
+	return 0
 }
 
 setup_pkgs() {
@@ -56,57 +55,60 @@ setup_pkgs() {
 		$sudocmd xbps-install -Suy xbps &&
 		$sudocmd xbps-install -Suy
 	[ -r "$SETUP_PKGS_FILE" ] &&
-		xargs "$sudocmd" xbps-install -Sy <"$SETUP_PKGS_FILE" ||
-		true
+		xargs "$sudocmd" xbps-install -Sy <"$SETUP_PKGS_FILE"
 	[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
 		command -v flatpak >/dev/null 2>&1 &&
 		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
-		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE" ||
-		true
+		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
 	command -v mise >/dev/null 2>&1 &&
-		mise install -y ||
-		true
+		mise install -y
 	command -v go >/dev/null 2>&1 &&
-		go telemetry off ||
-		true
+		go telemetry off
+	return 0
 }
 
 setup_user() {
-	[ -r "$XDG_CONFIG_HOME/user-dirs.dirs" ] &&
+	[ -r "$XDG_CONFIG_HOME/user-dirs.dirs" ] && {
 		cut -d "=" -f2 <"$XDG_CONFIG_HOME/user-dirs.dirs" |
-		sed -e "s|\$HOME|$HOME|" |
-		xargs mkdir -pv &&
+			sed -e "s|\$HOME|$HOME|" |
+			xargs mkdir -pv
 		command -v xdg-user-dirs-update >/dev/null 2>&1 &&
-		xdg-user-dirs-update ||
-		true
+			xdg-user-dirs-update
+	}
 	chsh -s "$(which zsh)"
-	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner,dbus,docker,nixbld "$USER"
+	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner,dbus "$USER"
+	command -v docker >/dev/null 2>&1 &&
+		$sudocmd usermod -aG docker "$USER"
+	command -v nix >/dev/null 2>&1 &&
+		$sudocmd usermod -aG nixbld "$USER"
+	return 0
 }
 
 setup_runit() {
 	$sudocmd rm -vf \
-		/var/service/agetty-tty4 \
-		/var/service/agetty-tty5 \
-		/var/service/agetty-tty6 \
-		/var/service/sshd \
-		/var/service/acpid \
-		/var/service/dhcpcd \
-		/var/service/wpa_supplicant ||
-		true
-	$sudocmd ln -svft /var/service \
-		/etc/sv/socklog \
-		/etc/sv/nanoklog \
-		/etc/sv/dbus \
-		/etc/sv/udevd \
-		/etc/sv/chrony \
-		/etc/sv/cronie \
-		/etc/sv/elogind \
-		/etc/sv/NetworkManager \
-		/etc/sv/bluetoothd \
-		/etc/sv/ufw \
-		/etc/sv/tlp \
-		/etc/sv/sshd \
-		/etc/sv/cupsd
+		"$SETUP_RUNIT_SVDIR/agetty-tty4" \
+		"$SETUP_RUNIT_SVDIR/agetty-tty5" \
+		"$SETUP_RUNIT_SVDIR/agetty-tty6" \
+		"$SETUP_RUNIT_SVDIR/acpid" \
+		"$SETUP_RUNIT_SVDIR/dhcpcd" \
+		"$SETUP_RUNIT_SVDIR/wpa_supplicant"
+	$sudocmd ln -svft "$SETUP_RUNIT_SVDIR" \
+		"$SETUP_RUNIT_SVHOME/socklog" \
+		"$SETUP_RUNIT_SVHOME/nanoklog" \
+		"$SETUP_RUNIT_SVHOME/dbus" \
+		"$SETUP_RUNIT_SVHOME/udevd" \
+		"$SETUP_RUNIT_SVHOME/chrony" \
+		"$SETUP_RUNIT_SVHOME/cronie" \
+		"$SETUP_RUNIT_SVHOME/elogind" \
+		"$SETUP_RUNIT_SVHOME/NetworkManager" \
+		"$SETUP_RUNIT_SVHOME/bluetoothd" \
+		"$SETUP_RUNIT_SVHOME/ufw" \
+		"$SETUP_RUNIT_SVHOME/tlp" \
+		"$SETUP_RUNIT_SVHOME/sshd" \
+		"$SETUP_RUNIT_SVHOME/cupsd"
+	[ -d "$SETUP_RUNIT_SVDIR/sshd" ] &&
+		$sudocmd touch "$SETUP_RUNIT_SVDIR/sshd/down"
+	return 0
 }
 
 setup_ufw() {
@@ -127,8 +129,7 @@ setup_browser() {
 		while IFS= read -r p; do
 			cp -vf "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$SETUP_BROWSER_DIR/$p/user.js"
 			browsers="firefox"
-			# shellcheck disable=2015
-			[ "$BROWSER" != "$browsers" ] && browsers="$browsers $BROWSER" || true
+			[ "$BROWSER" != "$browsers" ] && browsers="$browsers $BROWSER"
 			for b in $browsers; do
 				[ -r "$XDG_CONFIG_HOME/$b/user.js" ] &&
 					cat "$XDG_CONFIG_HOME/$b/user.js" >>"$SETUP_BROWSER_DIR/$p/user.js"
@@ -166,7 +167,7 @@ setup_uninstall() {
 				cat "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" "$XDG_CONFIG_HOME/$BROWSER/user.js" |
 				cmp "$SETUP_BROWSER_DIR/$p/user.js" ||
 				continue
-			rm -vf "$SETUP_BROWSER_DIR/$p/user.js" || true
+			rm -vf "$SETUP_BROWSER_DIR/$p/user.js"
 		done
 }
 
