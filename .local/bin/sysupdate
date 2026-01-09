@@ -9,9 +9,10 @@ updatepkgs() {
 	$sudocmd xbps-install -Sy &&
 		$sudocmd xbps-install -uy xbps &&
 		$sudocmd xbps-install -uy
-	command -v mise >/dev/null 2>&1 && mise update || true
-	command -v flatpak >/dev/null 2>&1 && flatpak update -y || true
-	command -v xlocate >/dev/null 2>&1 && xlocate -S || true
+	command -v mise >/dev/null 2>&1 && mise update
+	command -v flatpak >/dev/null 2>&1 && flatpak update -y
+	command -v xlocate >/dev/null 2>&1 && xlocate -S
+	return 0
 }
 
 clean() {
