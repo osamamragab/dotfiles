@@ -1,0 +1,29 @@
+[general]
+fullscreen = true
+early-exit = true
+copy-command = "wl-copy -t image/png"
+
+[keybinds]
+pointer = "p"
+crop = "c"
+brush = "b"
+line = "l"
+arrow = "a"
+rectangle = "r"
+ellipse = "e"
+text = "t"
+marker = "m"
+blur = "u"
+highlight = "h"
+
+[color-palette]
+palette = [
+	"#b74e58",
+	"#97b67c",
+	"#e7c173",
+	"#5e81ac",
+	"#a97ea1",
+	"#80b3b2",
+	"#bbc3d4",
+	"#2e3440",
+]
