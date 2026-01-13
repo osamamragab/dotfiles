@@ -24,21 +24,13 @@ dir="$(xdg-user-dir VIDEOS)/recordings"
 	exit 1
 }
 
-sel="${1:-$(printf "select\nfullscreen\nselect-video-only\nfullscreen-video-only" | menu -p "$(basename "$0")> ")}" || exit 1
-out="$dir/$(date "+%Y%m%d-%H%M%S").mkv"
+sel="${1:-$(printf "fullscreen\nfullscreen-video-only\nselect\nselect-video-only" | menu -p "$(basename "$0")> ")}" || exit 1
 case "$sel" in
-	select)
-		setsid -f wf-recorder -a -g "$(slurp -d)" -f "$out" >/dev/null 2>&1
-		;;
-	fullscreen)
-		setsid -f wf-recorder -a -f "$out" >/dev/null 2>&1
-		;;
-	select-video-only)
-		setsid -f wf-recorder -g "$(slurp -d)" -f "$out" >/dev/null 2>&1
-		;;
-	fullscreen-video-only)
-		setsid -f wf-recorder -f "$out" >/dev/null 2>&1
-		;;
+	fullscreen) set -- -a ;;
+	fullscreen-video-only) ;;
+	select) set -- -a -g "$(slurp -d)"  || exit 1 ;;
+	select-video-only) set -- -g "$(slurp -d)" || exit 1 ;;
 	*) exit 1 ;;
 esac
+setsid -f wf-recorder "$@" -f "$dir/$(date "+%Y%m%d-%H%M%S").mkv"
 pkill -RTMIN+8 waybar
