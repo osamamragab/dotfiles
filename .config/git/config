@@ -27,6 +27,9 @@
 [rebase]
 	autoStash = true
 
+[rerere]
+	enabled = true
+
 [alias]
 	co = checkout
 	cm = commit -m
