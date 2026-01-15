@@ -1,0 +1,5 @@
+#!/bin/sh
+
+exec 2>&1
+[ -r ./conf ] && . ./conf
+exec podman --log-level info system service --time 0 $OPTS 2>&1

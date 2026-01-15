@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -eu
+
+export SVDIR="${SVDIR_USER:-${XDG_DATA_HOME:-$HOME/.local/share}/services}"
+
+exec sv "$@"

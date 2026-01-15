@@ -127,23 +127,5 @@ rivertile -view-padding 4 -outer-padding 2 &
 
 dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
-run() {
-	pidof -qsx "$1" ||
-		riverctl spawn "$*"
-}
-
-run foot --server
-run kanshi
-run pipewire
-run mako
-run swayidle -w
-run poweralertd
-run mpris-proxy
-run playerctld daemon
-run syncthing serve --no-browser
-run wl-clip-persist -c regular
-run wl-paste -w cliphist store
-run waybar
-# run mpd
-[ -r "$XDG_DATA_HOME/bg" ] && run wbg "$XDG_DATA_HOME/bg"
-[ -S "$DOCKER_HOST" ] || riverctl spawn "podman --log-level info system service --time 0"
+command -v runsvdir >/dev/null 2>&1 &&
+	riverctl spawn "runsvdir '${SVDIR_USER:-$XDG_DATA_HOME/services}'"
