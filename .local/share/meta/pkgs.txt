@@ -245,6 +245,7 @@ wl-clip-persist
 wl-clipboard
 wl-mirror
 wlopm
+wlr-randr
 wlrctl
 xdg-desktop-portal
 xdg-desktop-portal-gtk
