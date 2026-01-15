@@ -184,6 +184,7 @@ radare2
 ripgrep
 river
 rsync
+rtkit
 runit-void-apparmor
 satty
 sc-im

@@ -94,10 +94,11 @@ setup_runit() {
 	$sudocmd ln -svft "$SETUP_RUNIT_SVDIR" \
 		"$SETUP_RUNIT_SVHOME/socklog" \
 		"$SETUP_RUNIT_SVHOME/nanoklog" \
-		"$SETUP_RUNIT_SVHOME/dbus" \
 		"$SETUP_RUNIT_SVHOME/udevd" \
 		"$SETUP_RUNIT_SVHOME/chrony" \
 		"$SETUP_RUNIT_SVHOME/cronie" \
+		"$SETUP_RUNIT_SVHOME/dbus" \
+		"$SETUP_RUNIT_SVHOME/rtkit" \
 		"$SETUP_RUNIT_SVHOME/elogind" \
 		"$SETUP_RUNIT_SVHOME/dhcpcd" \
 		"$SETUP_RUNIT_SVHOME/iwd" \
