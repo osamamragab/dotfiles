@@ -29,6 +29,7 @@ shellcheck = "latest"
 staticcheck = "latest"
 
 [settings]
+idiomatic_version_file_enable_tools = []
 
 [settings.python]
 compile = true
