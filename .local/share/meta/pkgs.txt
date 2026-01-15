@@ -224,6 +224,7 @@ unzip
 urlview
 valgrind
 vim
+vnstat
 void-live-audio
 vsv
 vulkan-loader
