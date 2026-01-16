@@ -213,7 +213,7 @@
 		"interval": "once",
 		"exec": "echo ''",
 		"exec-if": "pidof -sqx wf-recorder",
-		"on-click": "menu-screenrec stop",
+		"on-click": "menu-handler screenrec stop",
 		"tooltip": false,
 		"signal": 8,
 	},
