@@ -4,6 +4,6 @@ set -eu
 
 buku --nostdin -p -f 4 |
 	sed "s/\t/ /g" |
-	menu --counter -w 90 -p "bookmarks> " |
+	menu --counter -w 90 |
 	cut -d " " -f 1 |
 	xargs -r buku --nostdin -o

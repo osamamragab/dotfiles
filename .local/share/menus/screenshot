@@ -11,7 +11,7 @@ dir="$(xdg-user-dir PICTURES)/screenshots"
 	exit 1
 }
 
-sel="${1:-$(printf "select\nfullscreen\nselect-copy\nfullscreen-copy\nselect-edit\nfullscreen-edit" | menu -p "$(basename "$0")> ")}" || exit 1
+sel="${1:-$(printf "select\nfullscreen\nselect-copy\nfullscreen-copy\nselect-edit\nfullscreen-edit" | menu)}" || exit 1
 out="$dir/$(date "+%Y%m%d-%H%M%S").png"
 case "$sel" in
 	select)

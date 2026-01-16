@@ -3,6 +3,6 @@
 set -eu
 
 exec cat "${XDG_DATA_HOME:-$HOME/.local/share}/meta/emojis.txt" |
-	menu -p "emoji> " |
+	menu |
 	cut -d " " -f 1 |
 	wl-copy -n

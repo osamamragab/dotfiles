@@ -6,7 +6,7 @@ getinput() {
 	wl-paste | menu -p "${1:-input}> "
 }
 
-action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate" | menu -p "action> ")}" || exit 1
+action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate" | menu)}" || exit 1
 case "$action" in
 	copy)
 		menu --prompt-only "$action> " | wl-copy

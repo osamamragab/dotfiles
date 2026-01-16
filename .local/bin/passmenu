@@ -16,9 +16,11 @@ case "${1:-}" in
 		;;
 esac
 
-sel="$(find "$PASSWORD_STORE_DIR" -type f -name "*.gpg" -printf "%P\n" |
-	sed -e 's/\.gpg$//' |
-	menu -p "$app${otp:+ otp}> ")" || exit 1
+sel="$(
+	find "$PASSWORD_STORE_DIR" -type f -name "*.gpg" -printf "%P\n" |
+		sed -e 's/\.gpg$//' |
+		menu -p "${MENU_PROMPT:-$app${otp:+ otp}}> "
+)" || exit 1
 
 pass ${otp:+otp} -c "$sel" || {
 	echo "$app: pass${otp:+ otp} command failed" >&2
