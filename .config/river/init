@@ -128,4 +128,4 @@ rivertile -view-padding 4 -outer-padding 2 &
 dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
 command -v runsvdir >/dev/null 2>&1 &&
-	riverctl spawn "runsvdir '${SVDIR_USER:-$XDG_DATA_HOME/services}'"
+	runsvdir "${SVDIR_USER:-$XDG_DATA_HOME/services}"
