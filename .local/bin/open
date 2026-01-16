@@ -4,28 +4,14 @@ set -eu
 
 OPEN_HISTORY_FILE="${OPEN_HISTORY_FILE:-${XDG_DATA_HOME:-$HOME/.local/share}/open_history.txt}"
 
-update_history() {
-	for arg; do
-		echo "$arg"
-	done >>"$OPEN_HISTORY_FILE"
+for arg; do
+	setsid -f xdg-open "$arg"
+	[ -e "$arg" ] && arg="$(readlink -f "$arg")"
+	echo "$arg" >>"$OPEN_HISTORY_FILE"
 	cat -n "$OPEN_HISTORY_FILE" |
 		sort -rk2 |
 		sort -uk2 |
 		sort -nk1 |
 		cut -f2- >"$OPEN_HISTORY_FILE.tmp" &&
 		mv -f "$OPEN_HISTORY_FILE.tmp" "$OPEN_HISTORY_FILE"
-}
-
-[ $# -eq 0 ] && {
-	[ -r "$OPEN_HISTORY_FILE" ] || exit 1
-	sel="$(tac "$OPEN_HISTORY_FILE" | menu -w 70 -p "open recents> ")" || exit 1
-	setsid -f xdg-open "$sel"
-	update_history "$sel"
-	exit $?
-}
-
-for arg; do
-	setsid -f xdg-open "$arg"
-	[ -e "$arg" ] && arg="$(readlink -f "$arg")"
-	update_history "$arg"
 done
