@@ -1,0 +1,31 @@
+#!/bin/sh
+
+set -eu
+
+getinput() {
+	wl-paste | menu -p "${1:-input}> "
+}
+
+action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate" | menu -p "action> ")}" || exit 1
+case "$action" in
+	copy)
+		menu --prompt-only "$action> " | wl-copy
+		;;
+	mpv)
+		setsid -f mpv --keep-open --really-quiet "$(getinput "$action")" >/dev/null 2>&1
+		;;
+	search)
+		setsid -f "$BROWSER" --search "$(getinput "$action")" >/dev/null 2>&1
+		;;
+	browser)
+		setsid -f "$BROWSER" "$(getinput "$action")" >/dev/null 2>&1
+		;;
+	translate)
+		input="$(getinput "$action")"
+		notify-send -a "$(basename "$0")" "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
+		;;
+	*)
+		echo "$(basename "$0"): invalid action: $action" >&2
+		exit 1
+		;;
+esac

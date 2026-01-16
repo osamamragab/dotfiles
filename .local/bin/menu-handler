@@ -2,53 +2,16 @@
 
 set -eu
 
-getinput() {
-	wl-paste | menu -p "${1:-input}> "
-}
-
-action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate\nbookmark\nlist-bookmarks\npass\npass-otp" | menu -p "action> ")}" || exit 1
+action="${1:-$(printf "input\nrecents\nbookmarks\npass\npass-otp\nclipboard\nemojis\nscreenshot\nscreenrec\nsysact" | menu -p "menu> ")}" || exit 1
 case "$action" in
-	copy)
-		menu --prompt-only "$action> " | wl-copy
+	input | recents | bookmarks | clipboard | emojis | screenshot | screenrec | sysact)
+		exec "menu-$action"
 		;;
-	mpv)
-		setsid -f mpv --keep-open --really-quiet "$(getinput "$action")" >/dev/null 2>&1
-		;;
-	search)
-		setsid -f "$BROWSER" --search "$(getinput "$action")" >/dev/null 2>&1
-		;;
-	browser)
-		setsid -f "$BROWSER" "$(getinput "$action")" >/dev/null 2>&1
-		;;
-	translate)
-		input="$(getinput "$action")"
-		notify-send -a "$(basename "$0")" "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
-		;;
-	bookmark)
-		url="$(getinput "$action")"
-		tag="$(buku --nostdin --stag --np | cut -d "." -f 2 | cut -d " " -f 2 | menu -p "tag> ")" || exit 1
-		buku --nostdin --tacit --np -a "$url" "$tag" >/dev/null 2>&1 || {
-			echo "$(basename "$0"): $action: adding '$url' with tag '$tag' failed" >&2
-			notify-send -u critical -a "$(basename "$0")" "error" "$action: adding '$url' with tag '$tag' failed"
-		}
-		;;
-	list-bookmarks)
-		buku --nostdin -p -f 4 |
-			sed "s/\t/ /g" |
-			menu --counter -w 90 -p "bookmarks> " |
-			cut -d " " -f 1 |
-			xargs -r buku --nostdin -o
-		;;
-	pass)
-		exec passmenu
-		;;
-	pass-otp)
-		exec passmenu otp
+	pass | pass-otp)
+		exec passmenu "${action#*-}"
 		;;
 	*)
-
-		echo "$(basename "$0"): invalid action: $action" >&2
-		notify-send -u critical -a "$(basename "$0")" "error" "invalid action: $action"
+		echo "$(basename "$0"): invalid menu: $action" >&2
 		exit 1
 		;;
 esac
