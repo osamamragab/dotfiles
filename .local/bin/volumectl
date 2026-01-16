@@ -2,35 +2,42 @@
 
 set -eu
 
+VOLUMECTL_LIMIT="${VOLUMECTL_LIMIT:-1.3}"
+
 getvol() {
 	vol="$(wpctl get-volume @DEFAULT_AUDIO_SINK@)"
 	[ -n "$vol" ] || return 1
-	[ "$vol" != "${vol%\[MUTED\]}" ] && echo "muted" && return 0
-	vol="${vol#Volume: }"
-	IFS="."
-	# shellcheck disable=2086
-	set -- ${vol#0}
-	printf "%s" "$@"
+	[ "$vol" != "${vol%\[MUTED\]}" ] && {
+		echo "muted"
+		return 0
+	}
+	numfmt --from-unit=100 --format="%.0f" "${vol#Volume: }"
 }
 
 case "${1:-get}" in
 	get)
-		getvol && echo "%"
-		exit $?
+		vol="$(getvol)" || exit $?
+		echo "$vol%"
 		;;
-	toggle) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
+	toggle)
+		wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+		;;
 	*+ | *- | *%)
 		wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
-		wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1"
+		wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1" --limit "$VOLUMECTL_LIMIT"
 		;;
-	*) exit 1 ;;
+	*)
+		echo "$(basename): invalid command: $1" >&2
+		exit 1
+		;;
 esac
 
-vol="$(getvol)" || exit 1
+vol="$(getvol)" || exit $?
+text="$vol%"
 [ "$vol" = "muted" ] && {
 	vol=0
 	text="muted"
-} || text="$vol%"
+}
 notify-send \
 	-u low \
 	-t 1000 \
