@@ -92,10 +92,10 @@ setup_runit() {
 		"$SETUP_RUNIT_SVDIR/acpid" \
 		"$SETUP_RUNIT_SVDIR/wpa_supplicant"
 	$sudocmd ln -svft "$SETUP_RUNIT_SVDIR" \
-		"$SETUP_RUNIT_SVHOME/socklog" \
-		"$SETUP_RUNIT_SVHOME/nanoklog" \
+		"$SETUP_RUNIT_SVHOME/socklog-unix" \
+		"$SETUP_RUNIT_SVHOME/nanoklogd" \
 		"$SETUP_RUNIT_SVHOME/udevd" \
-		"$SETUP_RUNIT_SVHOME/chrony" \
+		"$SETUP_RUNIT_SVHOME/chronyd" \
 		"$SETUP_RUNIT_SVHOME/cronie" \
 		"$SETUP_RUNIT_SVHOME/dbus" \
 		"$SETUP_RUNIT_SVHOME/rtkit" \
