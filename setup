@@ -76,7 +76,7 @@ setup_user() {
 			xdg-user-dirs-update
 	}
 	chsh -s "$(which zsh)"
-	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner,dbus "$USER"
+	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner,dbus,socklog "$USER"
 	command -v docker >/dev/null 2>&1 &&
 		$sudocmd usermod -aG docker "$USER"
 	command -v nix >/dev/null 2>&1 &&
