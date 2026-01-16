@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eu
+
+sel="$(cliphist list | menu -w 70 --with-nth 2)" || exit 1
+echo "$sel" | cliphist decode | wl-copy
