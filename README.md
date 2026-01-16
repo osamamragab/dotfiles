@@ -24,19 +24,3 @@ subcommand instead:
 ```sh
 ./setup install
 ```
-
-## Post Install
-
-### pam_ssh
-
-Add the following to /etc/pam.d/login
-
-```pamconf
-...
--auth        optional    pam_ssh.so    try_first_pass
-...
--session     optional    pam_ssh.so
-```
-
-- [Homepage](https://pam-ssh.sourceforge.net/)
-- [ArchWiki](https://wiki.archlinux.org/title/SSH_keys#pam_ssh)

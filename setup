@@ -123,6 +123,16 @@ setup_ufw() {
 	$sudocmd ufw limit ssh
 }
 
+setup_pam() {
+	grep -Fq "pam_ssh.so" /etc/pam.d/login || {
+		cat <<-_EOF | $sudocmd tee -a /etc/pam.d/login >/dev/null
+
+			-auth optional pam_ssh.so try_first_pass
+			-session optional pam_ssh.so
+		_EOF
+	}
+}
+
 setup_browser() {
 	[ -d "$SETUP_PROGRAMS_DIR/arkenfox-user.js" ] ||
 		git clone https://github.com/arkenfox/user.js.git "$SETUP_PROGRAMS_DIR/arkenfox-user.js"
@@ -153,6 +163,7 @@ setup_install() {
 	setup_user
 	setup_runit
 	setup_ufw
+	setup_pam
 	setup_browser
 }
 
@@ -183,6 +194,7 @@ case "${1:-dotfiles}" in
 	user) setup_user ;;
 	runit) setup_runit ;;
 	ufw) setup_ufw ;;
+	pam) setup_pam ;;
 	browser) setup_browser ;;
 	uninstall) setup_uninstall ;;
 	*)
