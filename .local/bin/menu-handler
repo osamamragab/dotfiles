@@ -2,9 +2,9 @@
 
 set -eu
 
-action="${1:-$(printf "input\nrecents\nbookmarks\npass\npass-otp\nclipboard\nemojis\nscreenshot\nscreenrec\nsysact" | menu -p "menu> ")}" || exit 1
+action="${1:-$(printf "input\nrecents\nbookmarks\npass\npass-otp\nclipboard\nemojis\nscreenshot\nscreenrec\ndisplay-profiles\nsysact" | menu -p "menu> ")}" || exit 1
 case "$action" in
-	input | recents | bookmarks | clipboard | emojis | screenshot | screenrec | sysact)
+	input | recents | bookmarks | clipboard | emojis | screenshot | screenrec | display-profiles | sysact)
 		exec "menu-$action"
 		;;
 	pass | pass-otp)
