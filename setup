@@ -76,7 +76,11 @@ setup_user() {
 			xdg-user-dirs-update
 	}
 	chsh -s "$(which zsh)"
-	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner,dbus,socklog "$USER"
+	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner "$USER"
+	command -v dbus-daemon >/dev/null 2>&1 &&
+		$sudocmd usermod -aG dbus "$USER"
+	command -v socklog >/dev/null 2>&1 &&
+		$sudocmd usermod -aG socklog "$USER"
 	command -v docker >/dev/null 2>&1 &&
 		$sudocmd usermod -aG docker "$USER"
 	command -v nix >/dev/null 2>&1 &&
@@ -140,7 +144,6 @@ setup_browser() {
 					cp -rvL "$XDG_CONFIG_HOME/$b/chrome" "$SETUP_BROWSER_DIR/$p"
 			done
 		done
-	# shellcheck disable=2015
 	[ -n "${ffpid:-}" ] && kill "$ffpid" || true
 }
 
@@ -157,7 +160,6 @@ setup_uninstall() {
 	find "$HERE/.config" "$HERE/.local" -type f |
 		while IFS= read -r p; do
 			f="${p#"$HERE/"}"
-			# shellcheck disable=2015
 			[ -L "$HOME/$f" ] &&
 				[ "$HERE/$f" = "$(readlink -f "$HOME/$f")" ] ||
 				continue
