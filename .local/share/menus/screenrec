@@ -5,7 +5,7 @@
 set -eu
 
 wfpid="$(pidof -sx wf-recorder 2>/dev/null)" && {
-	sel="${1:-$(printf "stop\ncancel" | menu -p "${MENU_PROMPT:-}> Stop recording? ")}" || exit 1
+	sel="${1:-$(printf "stop\ncancel" | menu -p "${MENU_PROMPT:-> }Stop recording? ")}" || exit 1
 	case "$sel" in
 		stop)
 			while kill -INT "$wfpid" >/dev/null 2>&1; do sleep 0.1; done

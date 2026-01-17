@@ -2,7 +2,7 @@
 
 set -eu
 
-[ -n "${MENU_PROMPT:-}" ] && set -- --prompt "$MENU_PROMPT> " "$@"
+[ -n "${MENU_PROMPT:-}" ] && set -- --prompt "$MENU_PROMPT" "$@"
 
 [ -n "${WAYLAND_DISPLAY:-}" ] &&
 	command -v fuzzel >/dev/null 2>&1 &&

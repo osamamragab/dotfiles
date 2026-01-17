@@ -3,11 +3,10 @@
 set -eu
 
 MENUS_DIR="${MENUS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/menus}"
-export MENU_PROMPT="Menu"
 
 # TODO: remove tail pipe when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
 menu="${1:-$(
-	menu --nth-delimiter "," --with-nth 2 <<-_EOF | tail -1
+	menu --nth-delimiter "," --with-nth 2 -p "Menu> " <<-_EOF | tail -1
 		input, Input Handler
 		recents, Recent Files
 		clipboard, Clipboard History
@@ -30,4 +29,4 @@ script="${menu%,*}"
 }
 
 [ $# -gt 0 ] && shift
-MENU_PROMPT="$name" exec "$MENUS_DIR/$script" "$@"
+MENU_PROMPT="$name> " exec "$MENUS_DIR/$script" "$@"
