@@ -1,12 +1,27 @@
+output HEADLESS-1 {
+	position 1920,0
+	alias $HEADLESS
+}
+
 profile laptop {
 	output eDP-1 enable
+	output $HEADLESS disable
+	exec pkill wayvnc
 }
 
 profile dock {
 	output eDP-1 enable
 	output HDMI-A-1 enable
+	exec pkill wayvnc
 }
 
 profile homelab {
 	output LVDS-1 enable
+	exec pkill wayvnc
+}
+
+profile headless {
+	output eDP-1 enable
+	output $HEADLESS enable
+	exec riverctl spawn "wayvnc -o HEADLESS-1"
 }
