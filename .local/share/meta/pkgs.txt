@@ -234,6 +234,7 @@ wavemon
 wayland-devel
 wayland-protocols
 waylock
+wayvnc
 wbg
 wev
 wf-recorder
