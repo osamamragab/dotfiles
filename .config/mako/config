@@ -8,14 +8,14 @@ font=monospace 14
 text-alignment=left
 text-color=#eceff4
 background-color=#2e3440
-border-color=#5e81ac
+border-color=#4c566a
 border-radius=10
 progress-color=over #5e81ac
 on-touch=invoke-default-action
 on-button-left=invoke-default-action
-on-button-right=dismiss
-on-button-middle=exec makoctl menu -n "$id" menu -p "select action> "
-on-notify=exec [ "$(makoctl list | grep -c "^Notification")" -eq 1 ] && play -q /usr/share/sounds/freedesktop/stereo/message.oga
+on-button-right=exec makoctl menu -n "$id" menu -p "Action> "
+on-button-middle=dismiss
+on-notify=exec [ "$(makoctl list | grep -c "^Notification")" -eq 1 ] && pw-play /usr/share/sounds/freedesktop/stereo/message.oga
 
 [hidden]
 format=(and %h more)
@@ -26,8 +26,7 @@ on-notify=none
 
 [urgency=critical]
 default-timeout=0
-background-color=#b74e58
-border-color=#bf616a
+border-color=#b74e58
 
 [mode=away]
 on-notify=none
@@ -58,23 +57,23 @@ history=0
 on-notify=none
 
 [app-name=poweralertd category=power.online]
-on-notify=exec play -q /usr/share/sounds/freedesktop/stereo/power-plug.oga
+on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/power-plug.oga
 
 [app-name=poweralertd category=power.offline]
-on-notify=exec play -q /usr/share/sounds/freedesktop/stereo/power-unplug.oga
+on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/power-unplug.oga
 
 [app-name=poweralertd category=power.low]
-on-notify=exec play -q "$XDG_DATA_HOME/sounds/low_battery.wav"
+on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
 
 [app-name=poweralertd category=power.critical]
-on-notify=exec play -q "$XDG_DATA_HOME/sounds/low_battery.wav"
+on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
 
 [app-name=wpa_supplicant]
 history=0
 on-notify=none
 
 [app-name=wpa_supplicant category=network.connected]
-on-notify=exec play -q /usr/share/sounds/freedesktop/stereo/service-login.oga
+on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/service-login.oga
 
 [app-name=wpa_supplicant category=network.disconnected]
-on-notify=exec play -q /usr/share/sounds/freedesktop/stereo/service-logout.oga
+on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/service-logout.oga
