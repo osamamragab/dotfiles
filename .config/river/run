@@ -14,4 +14,5 @@ export XDG_SESSION_TYPE="wayland"
 export XDG_SESSION_DESKTOP="river"
 export XDG_CURRENT_DESKTOP="river"
 
-exec dbus-run-session river -log-level debug >"/tmp/river-$(date "+%F-%T").log" 2>&1
+exec env WLR_BACKENDS=drm,libinput,headless WLR_HEADLESS_OUTPUTS=1 \
+	dbus-run-session river -log-level debug >"/tmp/river-$(date "+%F-%T").log" 2>&1
