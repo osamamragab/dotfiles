@@ -43,9 +43,9 @@ setup_dotfiles() {
 		command -v wine >/dev/null 2>&1 &&
 		mkdir -pv "$WINEPREFIX"
 	command -v gsettings >/dev/null 2>&1 && {
+		gsettings set org.gnome.desktop.interface gtk-theme "${GTK_THEME:-Adwaita-dark}"
 		gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-		[ -n "${GTK_THEME:-}" ] &&
-			gsettings set org.gnome.desktop.interface gtk-theme "$GTK_THEME"
+		gsettings set org.gnome.desktop.interface icon-theme Adwaita
 	}
 	return 0
 }
