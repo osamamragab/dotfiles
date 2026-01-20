@@ -111,6 +111,7 @@ setup_runit() {
 		"$SETUP_RUNIT_SVHOME/tlp" \
 		"$SETUP_RUNIT_SVHOME/sshd" \
 		"$SETUP_RUNIT_SVHOME/cupsd" \
+		"$SETUP_RUNIT_SVHOME/zramen" \
 		"$SETUP_RUNIT_SVHOME/vnstatd"
 	[ -d "$SETUP_RUNIT_SVDIR/sshd" ] &&
 		$sudocmd touch "$SETUP_RUNIT_SVDIR/sshd/down"

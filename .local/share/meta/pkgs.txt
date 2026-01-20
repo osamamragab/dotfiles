@@ -266,4 +266,5 @@ zenity
 zip
 zk
 zr
+zramen
 zsh
