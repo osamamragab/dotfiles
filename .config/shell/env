@@ -88,7 +88,8 @@ export SSH_ASKPASS="wayprompt-ssh-askpass"
 export SUDO_ASKPASS="wayprompt-ssh-askpass"
 
 export SVDIR_USER="$XDG_DATA_HOME/services"
-export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
+[ -n "${XDG_RUNTIME_DIR:-}" ] &&
+	export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
 
 export LESS="-R"
 export MANPAGER="less -R --use-color -Dd+b -Duc"
