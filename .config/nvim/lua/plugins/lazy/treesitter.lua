@@ -4,25 +4,17 @@ return {
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				sync_install = false,
-				auto_install = true,
-				highlight = {
-					enable = true,
-				},
-				modules = {},
-				ignore_install = {},
-				ensure_installed = {
-					"c",
-					"zig",
-					"rust",
-					"go",
-					"python",
-					"lua",
-					"bash",
-					"vimdoc",
-					"todotxt",
-				},
+			require("nvim-treesitter").install({
+				"c",
+				"zig",
+				"cpp",
+				"rust",
+				"go",
+				"python",
+				"lua",
+				"bash",
+				"vimdoc",
+				"todotxt",
 			})
 		end,
 	},
