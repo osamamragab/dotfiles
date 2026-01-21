@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -eu
+
+prompt="Password"
+description="Type your password"
+
+echo "OK Pleased to meet you"
+
+while read -r cmd sub; do
+	case "$cmd" in
+	SETPROMPT)
+		prompt="${sub%:}"
+		echo "OK"
+		;;
+	SETDESC)
+		description="$sub"
+		echo "OK"
+		;;
+	GETPIN)
+		notify-send -a "$(basneame "$0")" "$prompt" "$description"
+		pin=$(fuzzel --dmenu --password --cache /dev/null --prompt-only "$prompt> ") || exit 1
+		[ -n "${pin:-}" ] && {
+			echo "D $pin"
+			echo "OK"
+		}
+		;;
+	BYE)
+		break
+		;;
+	*)
+		echo "OK"
+		;;
+	esac
+done
