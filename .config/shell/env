@@ -84,8 +84,8 @@ export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
 export PATH="$HOME/.local/bin:$CARGO_HOME/bin:$GOPATH/bin:$NPM_CONFIG_PREFIX/bin:$PNPM_HOME:${PATH:-}"
 export MANPATH="$XDG_DATA_HOME/man:${MANPATH:-}"
 
-export SSH_ASKPASS="wayprompt-ssh-askpass"
-export SUDO_ASKPASS="wayprompt-ssh-askpass"
+export SSH_ASKPASS="fuzzel-ssh-askpass"
+export SUDO_ASKPASS="fuzzel-ssh-askpass"
 
 export SVDIR_USER="$XDG_DATA_HOME/services"
 [ -n "${XDG_RUNTIME_DIR:-}" ] &&

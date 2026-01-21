@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -eu
+
+[ -n "${1:-}" ] && notify-send -a "$(basename "$0")" "$@"
+exec fuzzel --dmenu --password --cache /dev/null --prompt-only "Password> " <&-
