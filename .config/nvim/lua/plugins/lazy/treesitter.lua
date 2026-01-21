@@ -4,7 +4,7 @@ return {
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
-			require("nvim-treesitter").install({
+			local langs = {
 				"c",
 				"zig",
 				"cpp",
@@ -15,6 +15,15 @@ return {
 				"bash",
 				"vimdoc",
 				"todotxt",
+			}
+			require("nvim-treesitter").install(langs)
+			vim.api.nvim_create_autocmd({ "FileType" }, {
+				group = vim.api.nvim_create_augroup("treesitter", { clear = true }),
+				pattern = langs,
+				callback = function(opts)
+					vim.treesitter.start(opts.buf, opts.match)
+					vim.bo.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+				end,
 			})
 		end,
 	},
