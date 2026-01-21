@@ -218,6 +218,7 @@ tor
 torsocks
 translate-shell
 transmission
+tree-sitter-devel
 typst
 udisks2
 ufw
