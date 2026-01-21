@@ -93,6 +93,42 @@ return {
 				},
 			})
 
+			local config_dir = vim.fn.stdpath("config")
+			local data_dir = vim.fn.stdpath("config")
+			vim.lsp.config("lua_ls", {
+				settings = {
+					Lua = {
+						codeLens = {
+							enable = true
+						},
+						hint = {
+							enable = true,
+							semicolon = "Disable"
+						},
+						runtime = {
+							path = { "?.lua", "?/init.lua" },
+							pathStrict = true,
+							version = "LuaJIT"
+						},
+						workspace = {
+							checkThirdParty = false,
+							ignoreDir = { "/lua" },
+							library = {
+								"${3rd}/luv/library",
+								"/usr/share/nvim/runtime/lua",
+								config_dir .. "/lua",
+								data_dir .. "/lazy/nvim-treesitter/lua",
+								data_dir .. "/lazy/nvim-treesitter-context/lua",
+								data_dir .. "/lazy/mason.nvim/lua",
+								data_dir .. "/lazy/mason-lspconfig.nvim/lua",
+								data_dir .. "/lazy/conform.nvim/lua",
+								data_dir .. "/lazy/lazy.nvim/lua",
+							}
+						}
+					}
+				}
+			})
+
 			vim.lsp.config("ts_ls", {
 				init_options = {
 					maxTsServerMemory = 3 * 1024,
