@@ -2,6 +2,8 @@
 
 set -eu
 
+export MENU_PROMPT="${MENU_PROMPT:-Display Profiles}"
+
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 [ -r "$XDG_CONFIG_HOME/kanshi/config" ] || {
 	echo "$(basename "$0"): cannot read kanshi config: $XDG_CONFIG_HOME/kanshi/config" >&2

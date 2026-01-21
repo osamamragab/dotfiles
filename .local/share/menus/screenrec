@@ -4,15 +4,21 @@
 
 set -eu
 
+export MENU_PROMPT="${MENU_PROMPT:-Screen Recording}"
+
 wfpid="$(pidof -sx wf-recorder 2>/dev/null)" && {
-	sel="${1:-$(printf "stop\ncancel" | menu -p "${MENU_PROMPT:-> }Stop recording? ")}" || exit 1
+	sel="${1:-$(printf " Stop\n Cancel" | menu slug -p "$MENU_PROMPT> Stop recording?")}" || exit 1
 	case "$sel" in
 		stop)
 			while kill -INT "$wfpid" >/dev/null 2>&1; do sleep 0.1; done
 			pkill -RTMIN+8 waybar
 			;;
-		cancel) ;;
-		*) exit 1 ;;
+		cancel)
+			;;
+		*)
+			echo "$(basename "$0"): invalid command: $sel" >&2
+			exit 1
+			;;
 	esac
 	exit 0
 }
@@ -24,13 +30,25 @@ dir="$(xdg-user-dir VIDEOS)/recordings"
 	exit 1
 }
 
-sel="${1:-$(printf "fullscreen\nfullscreen-video-only\nselect\nselect-video-only" | menu)}" || exit 1
+sel="${1:-$(printf " Fullscreen\n Fullscreen (Video Only)\n Select\n Select (Video Only)" | menu slug)}" || exit 1
 case "$sel" in
-	fullscreen) set -- -a ;;
-	fullscreen-video-only) ;;
-	select) set -- -a -g "$(slurp -d)" || exit 1 ;;
-	select-video-only) set -- -g "$(slurp -d)" || exit 1 ;;
-	*) exit 1 ;;
+	fullscreen)
+		set -- -a
+		;;
+	fullscreen-video-only)
+		;;
+	select)
+		g="$(slurp -d)" || exit 1
+		set -- -a -g "$g"
+		;;
+	select-video-only)
+		g="$(slurp -d)" || exit 1
+		set -- -g "$g"
+		;;
+	*)
+		echo "$(basename "$0"): invalid command: $sel" >&2
+		exit 1
+		;;
 esac
 setsid -f wf-recorder "$@" -f "$dir/$(date "+%Y%m%d-%H%M%S").mkv"
 pkill -RTMIN+8 waybar

@@ -2,27 +2,25 @@
 
 set -eu
 
-getinput() {
-	wl-paste | menu -p "${1:-input}> "
-}
+export MENU_PROMPT="${MENU_PROMPT:-Input Handler}"
 
-action="${1:-$(printf "copy\nmpv\nsearch\nbrowser\ntranslate" | menu)}" || exit 1
+input="$(menu input)" || exit 1
+action="${1:-$(printf " Copy\n Open\n Search\n Browser\n Translate" | menu slug)}" || exit 1
 case "$action" in
 	copy)
-		menu --prompt-only "$action> " | wl-copy
+		echo "$input" | exec wl-copy -t text/plain
 		;;
-	mpv)
-		setsid -f mpv --keep-open --really-quiet "$(getinput "$action")" >/dev/null 2>&1
+	open)
+		exec open "$input" >/dev/null 2>&1
 		;;
 	search)
-		setsid -f "$BROWSER" --search "$(getinput "$action")" >/dev/null 2>&1
+		exec setsid -f "$BROWSER" --search "$input" >/dev/null 2>&1
 		;;
 	browser)
-		setsid -f "$BROWSER" "$(getinput "$action")" >/dev/null 2>&1
+		exec setsid -f "$BROWSER" "$input" >/dev/null 2>&1
 		;;
 	translate)
-		input="$(getinput "$action")"
-		notify-send -a "$(basename "$0")" "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
+		exec notify-send -a "$(basename "$0")" "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
 		;;
 	*)
 		echo "$(basename "$0"): invalid action: $action" >&2

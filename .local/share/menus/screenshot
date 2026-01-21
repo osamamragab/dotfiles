@@ -4,6 +4,8 @@
 
 set -eu
 
+export MENU_PROMPT="${MENU_PROMPT:-Screenshot}"
+
 dir="$(xdg-user-dir PICTURES)/screenshots"
 [ -d "$dir" ] || mkdir -p "$dir" || {
 	echo "$(basename "$0"): cannot create directory $dir" >&2
@@ -11,35 +13,35 @@ dir="$(xdg-user-dir PICTURES)/screenshots"
 	exit 1
 }
 
-sel="${1:-$(printf "select\nfullscreen\nselect-copy\nfullscreen-copy\nselect-edit\nfullscreen-edit" | menu)}" || exit 1
-out="$dir/$(date "+%Y%m%d-%H%M%S").png"
+sel="${1:-$(printf " Select\n Fullscreen" | menu slug)}" || exit 1
 case "$sel" in
+	fullscreen)
+		;;
 	select)
 		g="$(slurp -d)" || exit 1
-		grim -g "$g" "$out"
-		notify-send -a "$(basename "$0")" "screenshot" "saved to $out"
-		;;
-	fullscreen)
-		grim "$out"
-		notify-send -a "$(basename "$0")" "screenshot" "saved to $out"
-		;;
-	select-copy)
-		g="$(slurp -d)" || exit 1
-		grim -g "$g" - | wl-copy -t image/png
-		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
-		;;
-	fullscreen-copy)
-		grim - | wl-copy -t image/png
-		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
-		;;
-	select-edit)
-		g="$(slurp -d)" || exit 1
-		grim -g "$g" -t ppm - | satty -f - -o "$out"
-		;;
-	fullscreen-edit)
-		grim -t ppm - | satty -f - -o "$out"
 		;;
 	*)
+		echo "$(basename "$0"): invalid command: $sel" >&2
+		exit 1
+		;;
+esac
+
+sel="${2:-$(printf " Copy\n Save\n Edit" | menu slug)}" || exit 1
+case "$sel" in
+	copy)
+		grim ${g:+-g "$g"} - | wl-copy -t image/png
+		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
+		;;
+	save)
+		out="$dir/$(date "+%Y%m%d-%H%M%S").png"
+		grim ${g:+-g "$g"} "$out"
+		notify-send -a "$(basename "$0")" "screenshot" "saved to $out"
+		;;
+	edit)
+		grim ${g:+-g "$g"} -t ppm - | satty -f - -o "$out"
+		;;
+	*)
+		echo "$(basename "$0"): invalid subcommand: $sel" >&2
 		exit 1
 		;;
 esac

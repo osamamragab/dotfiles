@@ -2,12 +2,30 @@
 
 set -eu
 
-case "${1:-$(printf "lock\nexit\nsuspend\nhibernate\nreboot\npoweroff" | menu)}" in
-	lock) loginctl -i lock-session ;;
-	exit) riverctl exit ;;
-	suspend) loginctl -i suspend ;;
-	hibernate) loginctl -i hibernate ;;
-	reboot) loginctl -i reboot ;;
-	poweroff) loginctl -i poweroff ;;
-	*) exit 1 ;;
+export MENU_PROMPT="${MENU_PROMPT:-Power Menu}"
+
+sel="${1:-$(printf " Lock\n Exit\n Suspend\n Hibernate\n Reboot\n Power Off" | menu slug)}" || exit 1
+case "$sel" in
+	lock)
+		loginctl -i lock-session
+		;;
+	exit)
+		riverctl exit
+		;;
+	suspend)
+		loginctl -i suspend
+		;;
+	hibernate)
+		loginctl -i hibernate
+		;;
+	reboot)
+		loginctl -i reboot
+		;;
+	power-off)
+		loginctl -i poweroff
+		;;
+	*)
+		echo "$(basename "$0"): invalid command: $sel" >&2
+		exit 1
+		;;
 esac

@@ -2,10 +2,35 @@
 
 set -eu
 
-[ -n "${MENU_PROMPT:-}" ] && set -- --prompt "$MENU_PROMPT" "$@"
+slug=0
+input=0
 
-[ -n "${WAYLAND_DISPLAY:-}" ] &&
-	command -v fuzzel >/dev/null 2>&1 &&
-	exec fuzzel -dR "$@"
+case "${1:-}" in
+	slug)
+		slug=1
+		shift
+		;;
+	input)
+		input=1
+		shift
+		;;
+esac
 
-exec fzf "$@"
+[ -n "${MENU_PROMPT:-}" ] && {
+	# shellcheck disable=SC2015
+	[ $input -eq 1 ] &&
+		set -- "$@" --prompt-only "$MENU_PROMPT> " ||
+		set -- "$@" --prompt "$MENU_PROMPT> "
+}
+
+# TODO: remove tail pipe when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
+sel="$(fuzzel -dR "$@")" || exit 1
+[ $slug -eq 1 ] && {
+	sel="$(echo "$sel" | tail -1 | tr -cd "[:print:]" | tr "[:upper:][:space:][:punct:]" "[:lower:]-" | sed "s/-\+/-/g")"
+	sel="${sel#-}"
+	sel="${sel%-}"
+	echo "$sel"
+	exit 0
+}
+
+echo "$sel" | tail -1

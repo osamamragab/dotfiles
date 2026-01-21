@@ -2,6 +2,8 @@
 
 set -eu
 
+export MENU_PROMPT="${MENU_PROMPT:-Bookmarks}"
+
 buku --nostdin -p -f 4 |
 	sed "s/\t/ /g" |
 	menu --counter -w 90 |

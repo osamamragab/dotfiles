@@ -4,9 +4,7 @@
 
 set -eu
 
-PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/password-store}"
 app="$(basename "$0")"
-
 case "${1:-}" in
 	"") ;;
 	otp) otp=1 ;;
@@ -16,10 +14,13 @@ case "${1:-}" in
 		;;
 esac
 
+export MENU_PROMPT="${MENU_PROMPT:-$app${otp:+ otp}}"
+export PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/password-store}"
+
 sel="$(
 	find "$PASSWORD_STORE_DIR" -type f -name "*.gpg" -printf "%P\n" |
 		sed -e 's/\.gpg$//' |
-		menu -p "${MENU_PROMPT:-$app${otp:+ otp}> }"
+		menu
 )" || exit 1
 
 pass ${otp:+otp} -c "$sel" || {

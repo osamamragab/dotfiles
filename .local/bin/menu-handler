@@ -2,11 +2,11 @@
 
 set -eu
 
-MENUS_DIR="${MENUS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/menus}"
+export MENU_PROMPT="${MENU_PROMPT:-Menu}"
 
-# TODO: remove tail pipe when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
-menu="${1:-$(
-	menu --nth-delimiter "," --with-nth 2 -p "Menu> " <<-_EOF | tail -1
+MENUS_DIR="${MENUS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/menus}"
+menus="$(
+	cat <<-_EOF
 		input, Input Handler
 		recents, Recent Files
 		clipboard, Clipboard History
@@ -19,7 +19,15 @@ menu="${1:-$(
 		display-profiles, Display Profiles
 		sysact, Power Menu
 	_EOF
-)}" || exit 1
+)"
+
+# TODO: remove tail pipe when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
+menu="${1:-$(echo "$menus" | menu --nth-delimiter "," --with-nth 2 | tail -1)}" || exit 1
+[ $# -gt 0 ] && {
+	shift
+	menu="$(echo "$menus" | grep "^$menu,")"
+}
+
 name="${menu#*,}"
 script="${menu%,*}"
 
@@ -28,5 +36,4 @@ script="${menu%,*}"
 	exit 1
 }
 
-[ $# -gt 0 ] && shift
-MENU_PROMPT="$name> " exec "$MENUS_DIR/$script" "$@"
+MENU_PROMPT="$name" exec "$MENUS_DIR/$script" "$@"

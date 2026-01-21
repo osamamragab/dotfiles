@@ -2,4 +2,6 @@
 
 set -eu
 
+export MENU_PROMPT="${MENU_PROMPT:-Passwords}"
+
 exec passmenu "$@"
