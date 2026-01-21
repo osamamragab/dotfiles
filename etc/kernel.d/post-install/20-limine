@@ -1,0 +1,15 @@
+#!/bin/sh
+
+pkgname="$1"
+version="$2"
+
+cp /etc/limine/limine.conf /boot/limine.conf
+
+cat <<-_EOF >>/boot/limine.conf
+
+/Void Linux ($(echo "$pkgname" | cut -c 6-))
+    protocol: linux
+    path: boot():/vmlinuz-$version
+    cmdline: loglevel=4 rd.auto=1 rd.luks.allow-discards root=/dev/mapper/root resume=/dev/mapper/root
+    module_path: boot():/initramfs-$version.img
+_EOF
