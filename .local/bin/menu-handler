@@ -28,12 +28,12 @@ menu="${1:-$(echo "$menus" | menu --nth-delimiter "," --with-nth 2 | tail -1)}" 
 	menu="$(echo "$menus" | grep "^$menu,")"
 }
 
-name="${menu#*,}"
+prompt="${menu#*,* }"
 script="${menu%,*}"
 
 [ -x "$MENUS_DIR/$script" ] || {
-	echo "$(basename "$0"): invalid menu: $name" >&2
+	echo "$(basename "$0"): invalid menu: $prompt ($script)" >&2
 	exit 1
 }
 
-MENU_PROMPT="$name" exec "$MENUS_DIR/$script" "$@"
+MENU_PROMPT="$prompt" exec "$MENUS_DIR/$script" "$@"
