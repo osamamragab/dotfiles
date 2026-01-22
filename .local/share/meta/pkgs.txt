@@ -145,6 +145,7 @@ mtpfs
 mupdf
 nasm
 ncmpcpp
+ncurses-term
 nemesis
 neovim
 nerd-fonts-symbols-ttf
