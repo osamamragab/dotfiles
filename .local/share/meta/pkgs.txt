@@ -137,6 +137,7 @@ mesa-dri
 mesa-vaapi
 mesa-vdpau
 mise
+mosh
 mpc
 mpd
 mpv
