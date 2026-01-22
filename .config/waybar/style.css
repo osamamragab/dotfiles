@@ -1,7 +1,12 @@
+@define-color background #2e3440;
+@define-color foreground #eceff4;
+@define-color module #3b4252;
+@define-color active #5e81ac;
+@define-color urgent #b74e58;
+
 * {
-	margin: 0;
-	padding: 0;
-	border: 0;
+	border: none;
+	border-radius: 0;
 	min-height: 0;
 	border-radius: 0;
 	font-size: 14px;
@@ -10,8 +15,8 @@
 }
 
 window#waybar {
-	color: #eceff4;
-	background-color: transparent;
+	color: @foreground;
+	background-color: @background;
 }
 
 #mode,
@@ -32,23 +37,45 @@ window#waybar {
 #battery,
 #upower,
 #custom-days {
-	background-color: #3b4252;
-	padding: 0.4rem 0.6rem 0.2rem 0.6rem;
-	border-bottom: 0.32rem solid #3b4252;
+	background-color: @module;
+	padding: 7px 10px;
+}
+
+#tags button,
+#privacy,
+#custom-recording {
+	padding-bottom: 2px;
+	border-bottom: 5px solid @module;
 }
 
 #tags button {
-	color: #eceff4;
-	background-color: #2e3440;
-	border-bottom-color: #2e3440;
-	padding-left: 0.3rem;
-	padding-right: 0.3rem;
+	background-color: @background;
+	border-bottom-color: @background;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+#tags button.focused {
+	background-color: @module;
+	border-bottom-color: @active;
+}
+
+#tags button.urgent,
+#privacy,
+#custom-recording {
+	border-bottom-color: @urgent;
 }
 
 #mode {
-	margin-left: 1rem;
-	padding-left: 0.7rem;
-	padding-right: 0.7rem;
+	margin-left: 14px;
+}
+
+#tray,
+#mpris,
+#privacy,
+#custom-dnd,
+#custom-recording {
+	margin-right: 14px;
 }
 
 #mode,
@@ -56,7 +83,7 @@ window#waybar {
 #mpris,
 #custom-dnd,
 #clock.time {
-	border-bottom-right-radius: 0.32rem;
+	border-bottom-right-radius: 5px;
 }
 
 #mode,
@@ -65,24 +92,13 @@ window#waybar {
 #custom-dnd,
 #wireplumber,
 #clock.date {
-	border-bottom-left-radius: 0.32rem;
+	border-bottom-left-radius: 5px;
 }
 
-#tags button.focused {
-	background-color: #3b4252;
-	border-bottom-color: #5e81ac;
+#clock.time {
+	padding-left: 5px;
 }
 
-#tags button.urgent,
-#privacy,
-#custom-recording {
-	border-bottom-color: #b74e58;
-}
-
-#tray,
-#mpris,
-#privacy,
-#custom-dnd,
-#custom-recording {
-	margin-right: 1rem;
+#clock.date {
+	padding-right: 5px;
 }
