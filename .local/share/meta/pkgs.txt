@@ -42,7 +42,6 @@ daemontools
 darkhttpd
 dash
 dbus
-dejavu-fonts-ttf
 delta
 delve
 dhcpcd
@@ -66,7 +65,7 @@ ffmpegthumbnailer
 firejail
 flatpak
 font-awesome6
-font-ibm-plex-otf
+font-hack-ttf
 fontconfig
 foot
 fribidi
@@ -112,6 +111,7 @@ less
 lesspipe
 lftp
 libarchive
+liberation-fonts-ttf
 libnotify
 libspa-bluetooth
 libtool
