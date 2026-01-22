@@ -13,7 +13,7 @@ set -eu
 
 [ -n "${1:-}" ] &&
 	loc="$(echo "$1" | tr " " "+")" ||
-	loc="$(geoiplookup "$(drill -Q myip.opendns.com @resolver1.opendns.com)" | sed -n "2{p;q}" | cut -d, -f7,8 | tr -d " ")"
+	loc="$(geoiplookup "$(drill -Q myip.opendns.com @resolver1.opendns.com)" | sed -n "2{p;q}" | cut -d "," -f 7,8 | tr -d " ")"
 [ $# -gt 0 ] && shift
 
 args=""

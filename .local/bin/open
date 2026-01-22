@@ -12,6 +12,6 @@ for arg; do
 		sort -rk2 |
 		sort -uk2 |
 		sort -nk1 |
-		cut -f2- >"$OPEN_HISTORY_FILE.tmp" &&
+		cut -f 2- >"$OPEN_HISTORY_FILE.tmp" &&
 		mv -f "$OPEN_HISTORY_FILE.tmp" "$OPEN_HISTORY_FILE"
 done

@@ -71,7 +71,7 @@ setup_pkgs() {
 
 setup_user() {
 	[ -r "$XDG_CONFIG_HOME/user-dirs.dirs" ] && {
-		cut -d "=" -f2 <"$XDG_CONFIG_HOME/user-dirs.dirs" |
+		cut -d "=" -f 2 <"$XDG_CONFIG_HOME/user-dirs.dirs" |
 			sed -e "s|\$HOME|$HOME|" |
 			xargs mkdir -pv
 		command -v xdg-user-dirs-update >/dev/null 2>&1 &&
