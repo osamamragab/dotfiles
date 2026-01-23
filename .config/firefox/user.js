@@ -20,3 +20,6 @@ user_pref("extensions.pocket.enabled", false);
 user_pref("accessibility.typeaheadfind.enablesound", false);
 user_pref("layout.css.prefers-color-scheme.content-override", 0);
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+user_pref("gfx.font_rendering.opentype_svg.enabled", true);
+user_pref("gfx.font_rendering.fontconfig.max_generic_substitutions", 127);
+user_pref("font.name-list.emoji", "emoji, Twemoji Mozilla");
