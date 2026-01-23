@@ -9,7 +9,6 @@ alsa-firmware
 alsa-utils
 amdvlk
 amfora
-amiri-font
 android-tools
 apparmor
 arc-theme
