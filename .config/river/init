@@ -124,9 +124,11 @@ riverctl keyboard-layout -options "caps:escape,grp:alt_space_toggle,grp_led:caps
 riverctl list-inputs | grep -i touchpad | xargs -I{} riverctl input "{}" tap enabled
 
 riverctl default-layout rivertile
+pidof -sqx rivertile && pkill -x rivertile || true
 rivertile -view-padding 4 -outer-padding 2 &
 
 dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
 command -v runsvdir >/dev/null 2>&1 &&
-	runsvdir "${SVDIR_USER:-$XDG_DATA_HOME/services}"
+	! pgrep -x -u "$USER" runsvdir >/dev/null 2>&1 &&
+	runsvdir "${SVDIR_USER:-$XDG_DATA_HOME/services}" &
