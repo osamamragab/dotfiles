@@ -1,5 +1,5 @@
-lock "locker || waylock -fork-on-lock"
-before-sleep "locker || waylock -fork-on-lock"
+lock "screenlock || waylock -fork-on-lock"
+before-sleep "screenlock || waylock -fork-on-lock"
 idlehint 1200
 
 timeout 180 "makoctl mode -a away >/dev/null 2>&1; $XDG_CONFIG_HOME/swayidle/inhibit || brightnessctl -qsc backlight set 10%" resume "makoctl mode -r away >/dev/null 2>&1; brightnessctl -r >/dev/null"

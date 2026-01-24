@@ -29,11 +29,11 @@ home="$(getent passwd "$user" | cut -d ":" -f 6)"
 		exit 1
 	}
 
-locker="waylock"
-[ -x "$home/.local/bin/locker" ] && locker="$home/.local/bin/locker"
+lockcmd="waylock"
+[ -x "$home/.local/bin/screenlock" ] && lockcmd="$home/.local/bin/screenlock"
 
-chpst \
+exec chpst \
 	-u "$user" \
 	env USER="$user" HOME="$home" WAYLAND_DISPLAY="$display" XDG_RUNTIME_DIR="$xrd" \
 	timeout 5s \
-	"$locker"
+	"$lockcmd"
