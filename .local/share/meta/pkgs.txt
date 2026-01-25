@@ -177,6 +177,7 @@ pipewire
 pkgconf
 playerctl
 plocate
+plymouth
 podman
 podman-compose
 poppler
