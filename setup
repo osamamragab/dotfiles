@@ -56,6 +56,8 @@ setup_pkgs() {
 	$sudocmd xbps-install -Sy &&
 		$sudocmd xbps-install -Suy xbps &&
 		$sudocmd xbps-install -Suy
+	$sudocmd xbps-install -Sy void-repo-nonfree &&
+		$sudocmd xbps-install -Sy
 	[ -r "$SETUP_PKGS_FILE" ] &&
 		xargs "$sudocmd" xbps-install -Sy <"$SETUP_PKGS_FILE"
 	[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&

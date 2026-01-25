@@ -97,6 +97,7 @@ ifuse
 impala
 imv
 inetutils
+intel-ucode
 inxi
 iotop
 iptables-nft
