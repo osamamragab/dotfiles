@@ -41,6 +41,7 @@ daemontools
 darkhttpd
 dash
 dbus
+dejavu-fonts-ttf
 delta
 delve
 dhcpcd
@@ -111,7 +112,6 @@ less
 lesspipe
 lftp
 libarchive
-liberation-fonts-ttf
 libnotify
 libspa-bluetooth
 libtool
