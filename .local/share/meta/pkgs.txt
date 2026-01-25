@@ -33,6 +33,7 @@ cliphist
 croc
 cronie
 crun
+cryptsetup
 cups
 cups-filters
 cups-pdf
@@ -52,6 +53,7 @@ dosfstools
 dragon
 duf
 e2fsprogs
+efibootmgr
 elogind
 entr
 ethtool
@@ -117,6 +119,7 @@ libspa-bluetooth
 libtool
 libvirt
 libxkbcommon-devel
+limine
 linux-firmware
 lm_sensors
 lshw
