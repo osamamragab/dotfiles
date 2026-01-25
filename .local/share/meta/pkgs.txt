@@ -59,6 +59,7 @@ entr
 ethtool
 exfatprogs
 exiftool
+fastfetch
 fcft-devel
 fd
 fdupes
