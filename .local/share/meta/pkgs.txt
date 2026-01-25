@@ -60,7 +60,6 @@ ethtool
 exfatprogs
 exiftool
 fastfetch
-fcft-devel
 fd
 fdupes
 ffmpeg
@@ -119,7 +118,6 @@ libnotify
 libspa-bluetooth
 libtool
 libvirt
-libxkbcommon-devel
 limine
 linux-firmware
 lm_sensors
@@ -176,7 +174,6 @@ pass-otp
 patch
 pinentry
 pipewire
-pixman-devel
 pkgconf
 playerctl
 plocate
@@ -240,8 +237,6 @@ vsv
 vulkan-loader
 w3m
 wavemon
-wayland-devel
-wayland-protocols
 waylock
 wayvnc
 wbg
