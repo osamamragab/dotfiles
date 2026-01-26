@@ -116,6 +116,7 @@ setup_runit() {
 		"$SETUP_RUNIT_SVHOME/ufw" \
 		"$SETUP_RUNIT_SVHOME/tlp" \
 		"$SETUP_RUNIT_SVHOME/sshd" \
+		"$SETUP_RUNIT_SVHOME/keyd" \
 		"$SETUP_RUNIT_SVHOME/cupsd" \
 		"$SETUP_RUNIT_SVHOME/zramen" \
 		"$SETUP_RUNIT_SVHOME/vnstatd"

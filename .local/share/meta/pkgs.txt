@@ -108,6 +108,7 @@ isync
 iwd
 jq
 kanshi
+keyd
 kvantum
 ldns
 less
