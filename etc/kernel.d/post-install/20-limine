@@ -1,15 +1,62 @@
 #!/bin/sh
 
-pkgname="$1"
+set -eu
+
+# pkgname="$1"
 version="$2"
 
-cp /etc/limine/limine.conf /boot/limine.conf
+CMDLINE="rw quiet splash zswap.enabled=0"
+BOOT_DIR="/boot"
+BOOT_EFI="EFI/BOOT"
+
+EFI_BOOT_DIR="$BOOT_DIR/$BOOT_EFI"
+[ -d "$EFI_BOOT_DIR" ] || mkdir -p "$EFI_BOOT_DIR"
+
+kernel_name="vmlinuz-$version"
+kernel_hash="$(b2sum "$BOOT_DIR/$kernel_name")"
+kernel_hash="${kernel_hash%% *}"
+
+ramfs_name="initramfs-$version.img"
+ramfs_hash="$(b2sum "$BOOT_DIR/$ramfs_name")"
+ramfs_hash="${ramfs_hash%% *}"
+
+root_info="$(findmnt -nvo SOURCE,FSTYPE /)"
+root_device="${root_info% *}"
+root_fstype="${root_info#* }"
+
+CMDLINE="$CMDLINE root=$root_device rootfstype=$root_fstype"
+
+luks_device="$(lsblk -spJ | jq -r --arg dev "$root_device" '.blockdevices | .[] | select(.name == $dev) | .children | .[0] | .name')"
+cryptsetup isLuks "$luks_device" && {
+	luks_uuid="$(blkid -o value -s UUID "$luks_device")"
+	CMDLINE="$CMDLINE rd.auto rd.luks.allow-discards rd.luks.uuid=luks-$luks_uuid rd.luks.name=$luks_uuid=${root_device##*/}"
+}
+
+case "$(getconf LONG_BIT)" in
+	32) efi_file="BOOTIA32.EFI" ;;
+	64) efi_file="BOOTX64.EFI" ;;
+esac
+
+cp -f "/usr/share/limine/$efi_file" "$EFI_BOOT_DIR"
+
+[ -f /boot/limine.conf ] && mv /boot/limine.conf /boot/limine.conf.bak
+cp -f /etc/limine/limine.conf /boot/limine.conf
 
 cat <<-_EOF >>/boot/limine.conf
 
-/Void Linux ($(echo "$pkgname" | cut -c 6-))
-    protocol: linux
-    path: boot():/vmlinuz-$version
-    cmdline: loglevel=4 rd.auto=1 rd.luks.allow-discards root=/dev/mapper/root resume=/dev/mapper/root
-    module_path: boot():/initramfs-$version.img
+	/+Void Linux
+	comment: Void Linux
+		//linux
+		comment: Kernel version: $version
+		comment: order-priority=50
+		protocol: linux
+		cmdline: $CMDLINE
+		path: boot():/$kernel_name#$kernel_hash
+		module_path: boot():/$ramfs_name#$ramfs_hash
+
+	/EFI
+	comment: Default EFI loader
+	comment: order-priority=10
+	protocol: efi
+	path: boot():/$BOOT_EFI/$efi_file
 _EOF
