@@ -74,6 +74,7 @@ fribidi
 fuse-sshfs
 fuse3
 fuzzel
+fwupd
 fzf
 gcc
 gdb
