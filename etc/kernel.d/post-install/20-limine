@@ -5,7 +5,7 @@ set -eu
 # pkgname="$1"
 # version="$2"
 
-CMDLINE="rw quiet splash zswap.enabled=0"
+CMDLINE="rw quiet splash apparmor=1 security=apparmor zswap.enabled=0"
 BOOT_DIR="/boot"
 BOOT_EFI="EFI/BOOT"
 
