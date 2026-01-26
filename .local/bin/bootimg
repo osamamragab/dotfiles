@@ -45,8 +45,13 @@ for arg; do
 			shift
 			break
 			;;
+		/dev/* | *.iso | *.img | *.qcow2 | *.qcow)
+			img="$arg"
+			;;
 		*)
-			[ -n "${1:-}" ] && img="$1"
+			echo "$(basename "$0"): invalid argument: $arg" >&2
+			echo "use -- to pass qemu's arguments" >&2
+			exit 1
 			;;
 	esac
 	[ $# -ne 0 ] && shift
