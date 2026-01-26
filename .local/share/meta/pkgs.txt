@@ -19,6 +19,7 @@ bc
 bettercap
 binutils
 bluez
+bluez-alsa
 bluez-cups
 brightnessctl
 bsdtar
