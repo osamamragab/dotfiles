@@ -5,6 +5,7 @@ set -eu
 export SDL_VIDEODRIVER="wayland"
 export CLUTTER_BACKEND="wayland"
 export QT_QPA_PLATFORM="wayland"
+export ELM_DISPLAY="wl"
 export MOZ_ENABLE_WAYLAND=1
 export NO_AT_BRIDGE=1
 export _JAVA_AWT_WM_NONREPARENTING=1
