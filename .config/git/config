@@ -8,14 +8,13 @@
 [user]
 	name = Osama Ragab
 	email = theosamaragab@gmail.com
-	#signingkey = 4F5D73863FBDBED9
-	signingkey = ~/.ssh/id_ed25519.pub
+	signingKey = ~/.ssh/id_ed25519.pub
 
 [gpg]
 	format = ssh
 
 [commit]
-	gpgsign = true
+	gpgSign = true
 
 [push]
 	default = simple
