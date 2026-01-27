@@ -1,7 +1,10 @@
 #!/bin/sh
 
 exec 2>&1
+
 [ -r ./conf ] && . ./conf
+
 IMAGE_FILE="${IMAGE_FILE:-${XDG_DATA_HOME:-$HOME/.local/share}/bg}"
 [ -r "$IMAGE_FILE" ] || exit 1
+
 exec wbg $OPTS "$IMAGE_FILE" 2>&1

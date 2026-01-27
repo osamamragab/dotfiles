@@ -1,5 +1,7 @@
 #!/bin/sh
 
 exec 2>&1
+
 [ -r ./conf ] && . ./conf
-exec wl-paste -w cliphist store $OPTS 2>&1
+
+exec wl-paste ${MIME_TYPE:+--type $MIME_TYPE} --watch cliphist store $OPTS 2>&1
