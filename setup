@@ -10,6 +10,8 @@ SETUP_PKGS_FILE="${SETUP_PKGS_FILE:-$XDG_DATA_HOME/meta/pkgs.txt}"
 SETUP_PKGS_FLATPAKS_FILE="${SETUP_PKGS_FLATPAKS_FILE:-$XDG_DATA_HOME/meta/flatpaks.txt}"
 SETUP_RUNIT_SVHOME="${SETUP_RUNIT_SVHOME:-/etc/sv}"
 SETUP_RUNIT_SVDIR="${SETUP_RUNIT_SVDIR:-/var/service}"
+SETUP_RUNIT_SVHOME_USER="${SETUP_RUNIT_SVHOME_USER:-${SVHOME_USER:-$XDG_CONFIG_HOME/runit/sv}}"
+SETUP_RUNIT_SVDIR_USER="${SETUP_RUNIT_SVDIR_USER:-${SVDIR_USER:-$XDG_DATA_HOME/services}}"
 
 [ -n "${SETUP_BROWSER_DIR:-}" ] || case "$BROWSER" in
 	zen-browser) SETUP_BROWSER_DIR="$HOME/.zen" ;;
@@ -127,6 +129,26 @@ setup_runit() {
 		"$SETUP_RUNIT_SVHOME/vnstatd"
 	[ -d "$SETUP_RUNIT_SVDIR/sshd" ] &&
 		$sudocmd touch "$SETUP_RUNIT_SVDIR/sshd/down"
+	[ -d "$SETUP_RUNIT_SVHOME_USER" ] && {
+		mkdir -pv "$SETUP_RUNIT_SVDIR_USER"
+		ln -svft "$SETUP_RUNIT_SVDIR_USER" \
+			"$SETUP_RUNIT_SVHOME_USER/foot" \
+			"$SETUP_RUNIT_SVHOME_USER/kanshi" \
+			"$SETUP_RUNIT_SVHOME_USER/mako" \
+			"$SETUP_RUNIT_SVHOME_USER/pipewire" \
+			"$SETUP_RUNIT_SVHOME_USER/swayidle" \
+			"$SETUP_RUNIT_SVHOME_USER/poweralertd" \
+			"$SETUP_RUNIT_SVHOME_USER/cliphist-text" \
+			"$SETUP_RUNIT_SVHOME_USER/cliphist-image" \
+			"$SETUP_RUNIT_SVHOME_USER/wl-clip-persist" \
+			"$SETUP_RUNIT_SVHOME_USER/mpd" \
+			"$SETUP_RUNIT_SVHOME_USER/mpris-proxy" \
+			"$SETUP_RUNIT_SVHOME_USER/playerctld" \
+			"$SETUP_RUNIT_SVHOME_USER/podman" \
+			"$SETUP_RUNIT_SVHOME_USER/syncthing" \
+			"$SETUP_RUNIT_SVHOME_USER/waybar" \
+			"$SETUP_RUNIT_SVHOME_USER/wbg"
+	}
 	return 0
 }
 
