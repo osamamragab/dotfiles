@@ -66,6 +66,10 @@ setup_pkgs() {
 		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
 	command -v mise >/dev/null 2>&1 &&
 		mise install -y
+	command -v nix >/dev/null 2>&1 && {
+		nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+		nix-channel --update
+	}
 	command -v go >/dev/null 2>&1 &&
 		go telemetry off
 	return 0
@@ -119,6 +123,7 @@ setup_runit() {
 		"$SETUP_RUNIT_SVHOME/keyd" \
 		"$SETUP_RUNIT_SVHOME/cupsd" \
 		"$SETUP_RUNIT_SVHOME/zramen" \
+		"$SETUP_RUNIT_SVHOME/nix-daemon" \
 		"$SETUP_RUNIT_SVHOME/vnstatd"
 	[ -d "$SETUP_RUNIT_SVDIR/sshd" ] &&
 		$sudocmd touch "$SETUP_RUNIT_SVDIR/sshd/down"
