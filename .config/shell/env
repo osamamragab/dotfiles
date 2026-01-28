@@ -87,6 +87,7 @@ export MANPATH="$XDG_DATA_HOME/man:${MANPATH:-}"
 export SSH_ASKPASS="fuzzel-ssh-askpass"
 export SUDO_ASKPASS="fuzzel-ssh-askpass"
 
+export SVHOME_USER="$XDG_CONFIG_HOME/runit/sv"
 export SVDIR_USER="$XDG_DATA_HOME/services"
 [ -n "${XDG_RUNTIME_DIR:-}" ] &&
 	export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
