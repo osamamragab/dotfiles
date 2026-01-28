@@ -5,7 +5,7 @@ set -eu
 MAILDIR="${MAILDIR:-${XDG_DATA_HOME:-$HOME/.local/share}/mail}"
 MBSYNCRC="${MBSYNCRC:-${XDG_CONFIG_HOME:-$HOME/.config}/isyncrc}"
 
-sed -n "s/^User\s\(.*\)/\1/p" "$MBSYNCRC" | while read -r dir; do
+sed -n "s/^User\s\(.*\)/\1/p" "$MBSYNCRC" | while IFS= read -r dir; do
 	mkdir -p "$MAILDIR/$dir"
 done
 
