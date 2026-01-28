@@ -4,5 +4,5 @@ set -eu
 
 export MENU_PROMPT="${MENU_PROMPT:-Clipboard History}"
 
-sel="$(cliphist list | menu -w 70 --with-nth 2)" || exit 1
+sel="$(cliphist list | menu -w 70 --counter --with-nth 2)" || exit 1
 echo "$sel" | cliphist decode | exec wl-copy
