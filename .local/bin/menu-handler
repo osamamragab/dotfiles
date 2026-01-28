@@ -17,6 +17,7 @@ menus="$(
 		pass-otp, Passwords OTP
 		screenshot, Screenshot
 		screenrec, Screen Recording
+		power-profiles, Power Profiles
 		display-profiles, Display Profiles
 		sysact, Power Menu
 	_EOF
