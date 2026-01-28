@@ -24,7 +24,7 @@ esac
 }
 
 # TODO: remove tail pipe when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
-sel="$(fuzzel -dR "$@")" || exit 1
+sel="$(fuzzel -dR --no-sort "$@")" || exit 1
 [ $slug -eq 1 ] && {
 	sel="$(echo "$sel" | tail -1 | tr -cd "[:print:]" | tr "[:upper:][:space:][:punct:]" "[:lower:]-" | sed "s/-\+/-/g")"
 	sel="${sel#-}"
