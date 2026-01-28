@@ -183,6 +183,7 @@ plymouth
 podman
 podman-compose
 poppler
+power-profiles-daemon
 poweralertd
 powertop
 proxychains-ng
