@@ -19,7 +19,7 @@
 		"wireplumber",
 		"bluetooth",
 		"network",
-		"upower",
+		"battery",
 		"custom/days",
 	],
 	"river/tags": {
@@ -82,6 +82,25 @@
 		"icon-size": 16,
 		"hide-if-empty": true,
 	},
+	"battery": {
+		"interval": 5,
+		"format": "{capacity}% {icon}",
+		"format-discharging": "{icon}",
+		"format-charging": "{icon}",
+		"format-plugged": "",
+		"format-icons": {
+			"charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+			"default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+		},
+		"format-full": "󰂅",
+		"tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+		"tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+		"on-click": "menu-handler sysact",
+		"states": {
+			"warning": 20,
+			"critical": 10
+		},
+	},
 	"network": {
 		"interval": 60,
 		"format": "{ifname}",
@@ -97,10 +116,10 @@
 	},
 	"bluetooth": {
 		"format": "",
-		"format-connected": " {device_alias}",
+		"format-off": "󰂲",
 		"format-disabled": "󰂲",
+		"format-connected": "󰂱",
 		"format-no-controller": "",
-		"format-connected-battery": " {device_alias} {device_battery_percentage}%",
 		"on-click": "foot -a float -w 980x620 bluetoothctl",
 		"tooltip-format": "{controller_alias}\t{controller_address}",
 		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
