@@ -16,7 +16,7 @@
 
 window#waybar {
 	color: @foreground;
-	background-color: @background;
+	background-color: transparent;
 }
 
 #mode,
@@ -68,6 +68,10 @@ window#waybar {
 
 #mode {
 	margin-left: 14px;
+}
+
+#mode.normal {
+	opacity: 0;
 }
 
 #tray,
