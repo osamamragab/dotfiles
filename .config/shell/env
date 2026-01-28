@@ -82,7 +82,7 @@ export MAVEN_OPTS="-Dmaven.repo.local=$XDG_DATA_HOME/maven/repository"
 export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
 
 export PATH="$HOME/.local/bin:$XDG_STATE_HOME/nix/profile/bin:$CARGO_HOME/bin:$GOPATH/bin:$NPM_CONFIG_PREFIX/bin:$PNPM_HOME:${PATH:-}"
-export MANPATH="$XDG_DATA_HOME/man:$XDG_STATE_HOME/nix/profile/share/man:${MANPATH:-}"
+export MANPATH="$XDG_DATA_HOME/man:$XDG_STATE_HOME/nix/profile/share/man:${MANPATH:+$MANPATH:}"
 
 export SSH_ASKPASS="fuzzel-ssh-askpass"
 export SUDO_ASKPASS="fuzzel-ssh-askpass"
