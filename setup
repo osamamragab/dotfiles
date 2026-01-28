@@ -8,6 +8,7 @@ HERE="$(dirname "$(readlink -f "$0")")"
 SETUP_PROGRAMS_DIR="${SETUP_PROGRAMS_DIR:-$HOME/programs}"
 SETUP_PKGS_FILE="${SETUP_PKGS_FILE:-$XDG_DATA_HOME/meta/pkgs.txt}"
 SETUP_PKGS_FLATPAKS_FILE="${SETUP_PKGS_FLATPAKS_FILE:-$XDG_DATA_HOME/meta/flatpaks.txt}"
+SETUP_PKGS_NIXPKGS_FILE="${SETUP_PKGS_NIXPKGS_FILE:-$XDG_DATA_HOME/meta/nixpkgs.txt}"
 SETUP_RUNIT_SVHOME="${SETUP_RUNIT_SVHOME:-/etc/sv}"
 SETUP_RUNIT_SVDIR="${SETUP_RUNIT_SVDIR:-/var/service}"
 SETUP_RUNIT_SVHOME_USER="${SETUP_RUNIT_SVHOME_USER:-${SVHOME_USER:-$XDG_CONFIG_HOME/runit/sv}}"
@@ -62,18 +63,22 @@ setup_pkgs() {
 		$sudocmd xbps-install -Sy
 	[ -r "$SETUP_PKGS_FILE" ] &&
 		xargs "$sudocmd" xbps-install -Sy <"$SETUP_PKGS_FILE"
-	[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
-		command -v flatpak >/dev/null 2>&1 &&
-		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo &&
-		xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
-	command -v mise >/dev/null 2>&1 &&
-		mise install -y
 	command -v nix >/dev/null 2>&1 && {
-		nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+		nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
 		nix-channel --update
+		nix registry pin nixpkgs
+		[ -r "$SETUP_PKGS_NIXPKGS_FILE" ] &&
+			xargs nix profile add <"$SETUP_PKGS_NIXPKGS_FILE"
+	}
+	command -v flatpak >/dev/null 2>&1 && {
+		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+		[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
+			xargs flatpak install -y <"$SETUP_PKGS_FLATPAKS_FILE"
 	}
 	command -v go >/dev/null 2>&1 &&
 		go telemetry off
+	command -v rustup >/dev/null 2>&1 &&
+		rustup default stable
 	return 0
 }
 

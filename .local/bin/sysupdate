@@ -9,16 +9,25 @@ updatepkgs() {
 	$sudocmd xbps-install -Sy &&
 		$sudocmd xbps-install -uy xbps &&
 		$sudocmd xbps-install -uy
-	command -v mise >/dev/null 2>&1 && mise upgrade -y
-	command -v flatpak >/dev/null 2>&1 && flatpak update -y
-	command -v xlocate >/dev/null 2>&1 && xlocate -S
-	command -v xcheckrestart >/dev/null 2>&1 && xcheckrestart
+	command -v nix >/dev/null 2>&1 &&
+		nix-channel --update &&
+		nix profile upgrade --all
+	command -v flatpak >/dev/null 2>&1 &&
+		flatpak update -y
+	command -v xlocate >/dev/null 2>&1 &&
+		xlocate -S
+	command -v xcheckrestart >/dev/null 2>&1 &&
+		xcheckrestart
 	return 0
 }
 
 clean() {
 	$sudocmd xbps-remove -Ooy
 	$sudocmd vkpurse rm all
+	command -v nix >/dev/null 2>&1 && {
+		nix-collect-garbage --delete-older-than 7d
+		nix-store --optimise
+	}
 }
 
 case "${1:-pkgs}" in

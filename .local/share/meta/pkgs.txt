@@ -45,7 +45,6 @@ dash
 dbus
 dejavu-fonts-ttf
 delta
-delve
 dhcpcd
 docker
 docker-buildx
@@ -141,7 +140,6 @@ mesa
 mesa-dri
 mesa-vaapi
 mesa-vdpau
-mise
 mosh
 mpc
 mpd
@@ -227,7 +225,6 @@ tor
 torsocks
 translate-shell
 transmission
-tree-sitter-devel
 typst
 udisks2
 ufw
