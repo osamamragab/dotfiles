@@ -22,6 +22,7 @@ bluez-alsa
 bluez-cups
 brightnessctl
 bsdtar
+btop
 btrfs-progs
 buku
 bzip2
