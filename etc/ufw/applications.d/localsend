@@ -1,0 +1,4 @@
+[localsend]
+title=LocalSend
+description=Share filrs to nearby devices
+ports=53317/tcp|53317/udp

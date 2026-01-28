@@ -18,5 +18,6 @@ org.inkscape.Inkscape
 org.kde.krita
 org.kicad.KiCad
 org.libreoffice.LibreOffice
+org.localsend.localsend_app
 org.telegram.desktop
 rest.insomnia.Insomnia
