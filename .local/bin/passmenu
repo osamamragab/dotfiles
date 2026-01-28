@@ -15,6 +15,7 @@ case "${1:-}" in
 esac
 
 export MENU_PROMPT="${MENU_PROMPT:-$app${otp:+ otp}}"
+export CLIPBOARD_STATE="sensitive"
 export PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/password-store}"
 
 sel="$(
@@ -23,11 +24,14 @@ sel="$(
 		menu
 )" || exit 1
 
-pass ${otp:+otp} -c "$sel" || {
+pass="$(pass ${otp:+otp} "$sel" | sed 1q)" || {
 	echo "$app: pass${otp:+ otp} command failed" >&2
 	notify-send -a "$app" -u critical error "pass${otp:+ otp} command failed"
 	exit 1
 }
+
+echo "$pass" | wl-copy --type text/plain --foreground --trim-newline
+cliphist delete-query "$pass"
 
 [ "${otp:-0}" -eq 1 ] && type="otp" || type="password"
 notify-send -a "$app" "$sel" "$type copied to clipboard"
