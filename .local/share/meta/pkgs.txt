@@ -17,6 +17,7 @@ bat
 bc
 bettercap
 binutils
+bluetui
 bluez
 bluez-alsa
 bluez-cups

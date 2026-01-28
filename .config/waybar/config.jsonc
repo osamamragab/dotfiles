@@ -120,7 +120,7 @@
 		"format-disabled": "󰂲",
 		"format-connected": "󰂱",
 		"format-no-controller": "",
-		"on-click": "foot -a float -w 980x620 bluetoothctl",
+		"on-click": "foot -a float -w 980x620 bluetui",
 		"tooltip-format": "{controller_alias}\t{controller_address}",
 		"tooltip-format-connected": "{controller_alias}\t{controller_address}\n{device_enumerate}",
 		"tooltip-format-enumerate-connected": "- {device_alias}\t[{device_address}]",

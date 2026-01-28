@@ -1,0 +1,15 @@
+width = "auto"
+layout = "SpaceAround"
+esc_quit = false
+toggle_scanning = "s"
+
+[adapter]
+toggle_pairing = "p"
+toggle_power = "o"
+toggle_discovery = "d"
+
+[paired_device]
+unpair = "u"
+toggle_trust = "t"
+toggle_favorite = "f"
+rename = "e"
