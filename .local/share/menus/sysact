@@ -2,7 +2,7 @@
 
 set -eu
 
-export MENU_PROMPT="${MENU_PROMPT:-Power Menu}"
+export MENU_PROMPT="${MENU_PROMPT:-System Actions}"
 
 sel="${1:-$(printf " Lock\n Exit\n Suspend\n Hibernate\n Reboot\n Power Off" | menu slug)}" || exit 1
 case "$sel" in
