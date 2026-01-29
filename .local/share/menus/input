@@ -8,7 +8,8 @@ input="$(menu input)" || exit 1
 action="${1:-$(printf " Copy\n Open\n Search\n Browser\n Translate" | menu slug)}" || exit 1
 case "$action" in
 	copy)
-		echo "$input" | exec wl-copy -t text/plain
+		echo "$input" | wl-copy --type text/plain --foreground --trim-newline
+		exit $?
 		;;
 	open)
 		exec open "$input" >/dev/null 2>&1

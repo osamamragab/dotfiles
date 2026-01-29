@@ -20,7 +20,7 @@ export PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-${XDG_DATA_HOME:-$HOME/.local/s
 
 sel="$(
 	find "$PASSWORD_STORE_DIR" -type f -name "*.gpg" -printf "%P\n" |
-		sed -e 's/\.gpg$//' |
+		sed 's/\.gpg$//' |
 		menu
 )" || exit 1
 
