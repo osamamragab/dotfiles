@@ -2,101 +2,105 @@
 
 set -eu
 
-riverctl map normal Super J focus-view next
-riverctl map normal Super K focus-view previous
-riverctl map normal Super+Alt J focus-view -skip-floating next
-riverctl map normal Super+Alt K focus-view -skip-floating previous
-riverctl map normal Super+Shift J swap next
-riverctl map normal Super+Shift K swap previous
+keymap() {
+	riverctl map -layout 0 "$@"
+}
 
-riverctl map normal Super Period focus-output next
-riverctl map normal Super Comma focus-output previous
-riverctl map normal Super+Shift Period send-to-output next
-riverctl map normal Super+Shift Comma send-to-output previous
+keymap normal Super J focus-view next
+keymap normal Super K focus-view previous
+keymap normal Super+Alt J focus-view -skip-floating next
+keymap normal Super+Alt K focus-view -skip-floating previous
+keymap normal Super+Shift J swap next
+keymap normal Super+Shift K swap previous
 
-riverctl map -repeat normal Super H send-layout-cmd rivertile "main-ratio -0.05"
-riverctl map -repeat normal Super L send-layout-cmd rivertile "main-ratio +0.05"
-riverctl map -repeat normal Super+Shift H send-layout-cmd rivertile "main-count +1"
-riverctl map -repeat normal Super+Shift L send-layout-cmd rivertile "main-count -1"
+keymap normal Super Period focus-output next
+keymap normal Super Comma focus-output previous
+keymap normal Super+Shift Period send-to-output next
+keymap normal Super+Shift Comma send-to-output previous
 
-riverctl map -repeat normal Super+Control H move left 100
-riverctl map -repeat normal Super+Control J move down 100
-riverctl map -repeat normal Super+Control K move up 100
-riverctl map -repeat normal Super+Control L move right 100
+keymap -repeat normal Super H send-layout-cmd rivertile "main-ratio -0.05"
+keymap -repeat normal Super L send-layout-cmd rivertile "main-ratio +0.05"
+keymap -repeat normal Super+Shift H send-layout-cmd rivertile "main-count +1"
+keymap -repeat normal Super+Shift L send-layout-cmd rivertile "main-count -1"
 
-riverctl map normal Super+Control+Shift H snap left
-riverctl map normal Super+Control+Shift J snap down
-riverctl map normal Super+Control+Shift K snap up
-riverctl map normal Super+Control+Shift L snap right
+keymap -repeat normal Super+Control H move left 100
+keymap -repeat normal Super+Control J move down 100
+keymap -repeat normal Super+Control K move up 100
+keymap -repeat normal Super+Control L move right 100
 
-riverctl map normal Super Space zoom
-riverctl map normal Super+Shift C close
-riverctl map normal Super F toggle-fullscreen
-riverctl map normal Super+Shift Space toggle-float
+keymap normal Super+Control+Shift H snap left
+keymap normal Super+Control+Shift J snap down
+keymap normal Super+Control+Shift K snap up
+keymap normal Super+Control+Shift L snap right
+
+keymap normal Super Space zoom
+keymap normal Super+Shift C close
+keymap normal Super F toggle-fullscreen
+keymap normal Super+Shift Space toggle-float
 
 riverctl map-pointer normal Super BTN_LEFT move-view
 riverctl map-pointer normal Super BTN_RIGHT resize-view
 
 riverctl declare-mode passthrough
-riverctl map normal Super+Shift Escape enter-mode passthrough
-riverctl map passthrough Super+Shift Escape enter-mode normal
+keymap normal Super+Shift Escape enter-mode passthrough
+keymap passthrough Super+Shift Escape enter-mode normal
 
 all_tags=$(((1 << 32) - 1))
 sticky_tag=$((1 << 31))
 scratch_tag=$((1 << 20))
-riverctl map normal Super 0 set-focused-tags $all_tags
-riverctl map normal Super+Shift 0 set-view-tags $all_tags
-riverctl map normal Super Tab focus-previous-tags
-riverctl map normal Super+Shift Tab send-to-previous-tags
-riverctl map normal Super+Shift S toggle-view-tags $sticky_tag
-riverctl map normal Super P spawn "$XDG_CONFIG_HOME/river/scratchpad $scratch_tag"
-riverctl map normal Super+Shift P set-view-tags $scratch_tag
+keymap normal Super 0 set-focused-tags $all_tags
+keymap normal Super+Shift 0 set-view-tags $all_tags
+keymap normal Super Tab focus-previous-tags
+keymap normal Super+Shift Tab send-to-previous-tags
+keymap normal Super+Shift S toggle-view-tags $sticky_tag
+keymap normal Super P spawn "$XDG_CONFIG_HOME/river/scratchpad $scratch_tag"
+keymap normal Super+Shift P set-view-tags $scratch_tag
 riverctl spawn-tagmask $((all_tags ^ sticky_tag ^ scratch_tag))
 for i in 1 2 3 4 5 6 7 8 9; do
 	tags=$((1 << (i - 1)))
-	riverctl map normal Super $i set-focused-tags $((sticky_tag + tags))
-	riverctl map normal Super+Shift $i set-view-tags $tags
-	riverctl map normal Super+Control $i toggle-focused-tags $tags
-	riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
+	keymap normal Super $i set-focused-tags $((sticky_tag + tags))
+	keymap normal Super+Shift $i set-view-tags $tags
+	keymap normal Super+Control $i toggle-focused-tags $tags
+	keymap normal Super+Shift+Control $i toggle-view-tags $tags
 done
 
-riverctl map normal Super Return spawn "$TERMINAL"
-riverctl map normal Super R spawn "fuzzel"
-riverctl map normal Super M spawn "menu-handler"
-riverctl map normal None Menu spawn "menu-handler"
-riverctl map normal Super Q spawn "menu-handler sysact"
-riverctl map normal None Print spawn "menu-handler screenshot"
-riverctl map normal Alt Print spawn "menu-handler screenrec"
-riverctl map normal Control+Alt Print spawn "menu-handler screenrec stop"
-riverctl map normal Super U spawn "menu-handler emojis"
-riverctl map normal Super I spawn "menu-handler input"
-riverctl map normal Super O spawn "menu-handler clipboard"
-riverctl map normal Super+Shift O spawn "menu-handler recents"
-riverctl map normal Super Backslash spawn "makoctl dismiss -a && pkill -RTMIN+7 waybar"
-riverctl map normal Super+Shift Backslash spawn "makoctl mode | grep -Fxq dnd || makoctl dismiss -a; makoctl mode -t dnd && pkill -RTMIN+7 waybar"
+keymap normal Super Return spawn "$TERMINAL"
+keymap normal Super R spawn "fuzzel"
+keymap normal Super M spawn "menu-handler"
+keymap normal None Menu spawn "menu-handler"
+keymap normal Super Q spawn "menu-handler sysact"
+keymap normal None Print spawn "menu-handler screenshot"
+keymap normal Alt Print spawn "menu-handler screenrec"
+keymap normal Control+Alt Print spawn "menu-handler screenrec stop"
+keymap normal Super U spawn "menu-handler emojis"
+keymap normal Super I spawn "menu-handler input"
+keymap normal Super O spawn "menu-handler clipboard"
+keymap normal Super+Shift O spawn "menu-handler recents"
+keymap normal Super Backslash spawn "makoctl dismiss -a && pkill -RTMIN+7 waybar"
+keymap normal Super+Shift Backslash spawn "makoctl mode | grep -Fxq dnd || makoctl dismiss -a; makoctl mode -t dnd && pkill -RTMIN+7 waybar"
 
 for mode in normal locked; do
-	riverctl map $mode None XF86Eject spawn "eject -T"
+	keymap $mode None XF86Eject spawn "eject -T"
 
-	riverctl map -repeat $mode None XF86AudioRaiseVolume spawn "volumectl 5%+"
-	riverctl map -repeat $mode None XF86AudioLowerVolume spawn "volumectl 5%-"
-	riverctl map $mode None XF86AudioMute spawn "volumectl toggle"
-	riverctl map $mode None XF86AudioMicMute spawn "amixer -q set Capture toggle"
-	riverctl map -repeat $mode Super Equal spawn "volumectl 5%+"
-	riverctl map -repeat $mode Super Minus spawn "volumectl 5%-"
-	riverctl map $mode Super Backspace spawn "volumectl toggle"
-	riverctl map $mode Super+Shift Backspace spawn "amixer -q set Capture toggle"
+	keymap -repeat $mode None XF86AudioRaiseVolume spawn "volumectl 5%+"
+	keymap -repeat $mode None XF86AudioLowerVolume spawn "volumectl 5%-"
+	keymap $mode None XF86AudioMute spawn "volumectl toggle"
+	keymap $mode None XF86AudioMicMute spawn "amixer -q set Capture toggle"
+	keymap -repeat $mode Super Equal spawn "volumectl 5%+"
+	keymap -repeat $mode Super Minus spawn "volumectl 5%-"
+	keymap $mode Super Backspace spawn "volumectl toggle"
+	keymap $mode Super+Shift Backspace spawn "amixer -q set Capture toggle"
 
-	riverctl map $mode None XF86AudioNext spawn "playerctl next"
-	riverctl map $mode None XF86AudioPrev spawn "playerctl previous"
-	riverctl map $mode None XF86AudioPlay spawn "playerctl play-pause"
-	riverctl map $mode None XF86AudioMedia spawn "playerctl play-pause"
-	riverctl map $mode Super+Shift Equal spawn "playerctl next"
-	riverctl map $mode Super+Shift Minus spawn "playerctl previous"
-	riverctl map $mode Super+Shift Backspace spawn "playerctl play-pause"
+	keymap $mode None XF86AudioNext spawn "playerctl next"
+	keymap $mode None XF86AudioPrev spawn "playerctl previous"
+	keymap $mode None XF86AudioPlay spawn "playerctl play-pause"
+	keymap $mode None XF86AudioMedia spawn "playerctl play-pause"
+	keymap $mode Super+Shift Equal spawn "playerctl next"
+	keymap $mode Super+Shift Minus spawn "playerctl previous"
+	keymap $mode Super+Shift Backspace spawn "playerctl play-pause"
 
-	riverctl map -repeat $mode None XF86MonBrightnessUp spawn "screenlightctl 10%+"
-	riverctl map -repeat $mode None XF86MonBrightnessDown spawn "screenlightctl 10%-"
+	keymap -repeat $mode None XF86MonBrightnessUp spawn "screenlightctl 10%+"
+	keymap -repeat $mode None XF86MonBrightnessDown spawn "screenlightctl 10%-"
 done
 
 riverctl background-color 0x2e3440
