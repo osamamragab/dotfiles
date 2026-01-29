@@ -4,14 +4,36 @@ set -eu
 
 export MENU_PROMPT="${MENU_PROMPT:-Clipboard History}"
 
-sel="$(cliphist list | menu -w 70 --counter --with-nth 2)" ||
+CLIPHIST_THUMBNAILS_DIR="${CLIPHIST_THUMBNAILS_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/cliphist/thumbnails}"
+[ -d "$CLIPHIST_THUMBNAILS_DIR" ] || mkdir -p "$CLIPHIST_THUMBNAILS_DIR"
+
+sed_regex="^\([0-9]\+\)\s\(\[\[\s\)\{0,1\}binary.*\(jpg\|jpeg\|png\|bmp\).*"
+history="$(cliphist list | grep -vE "^[0-9]+\s<meta http-equiv=")"
+
+echo "$history" |
+	sed -n "s/$sed_regex/\1.\3/p" |
+	while IFS= read -r thumbnail; do
+		file="$CLIPHIST_THUMBNAILS_DIR/$thumbnail"
+		[ -f "$file" ] ||
+			printf "%d\t\n" "${thumbnail%.*}" | cliphist decode >"$file"
+	done
+
+sel="$(
+	echo "$history" |
+		sed "s@$sed_regex@\0\x0icon\x1f$CLIPHIST_THUMBNAILS_DIR/\1.\3@" |
+		menu -w 70 --counter --with-nth 2
+)" ||
 	case $? in
 		19) # Alt+0: wipe clipboard
-			exec cliphist wipe
+			cliphist wipe
+			rm -rf "$CLIPHIST_THUMBNAILS_DIR"
+			exit 0
 			;;
 		10) # Alt+1: delete selected item
-			echo "$sel" | cut -f 1 | cliphist delete
-			exit $?
+			id="$(echo "$sel" | cut -f 1)"
+			echo "$id" | cliphist delete
+			find "$CLIPHIST_THUMBNAILS_DIR" -name "$id.*" -delete || true
+			exit 0
 			;;
 		*)
 			exit $?
