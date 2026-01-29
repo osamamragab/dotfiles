@@ -4,5 +4,18 @@ set -eu
 
 export MENU_PROMPT="${MENU_PROMPT:-Clipboard History}"
 
-sel="$(cliphist list | menu -w 70 --counter --with-nth 2)" || exit 1
-echo "$sel" | cliphist decode | exec wl-copy
+sel="$(cliphist list | menu -w 70 --counter --with-nth 2)" ||
+	case $? in
+		19) # Alt+0: wipe clipboard
+			exec cliphist wipe
+			;;
+		10) # Alt+1: delete selected item
+			echo "$sel" | cut -f 1 | cliphist delete
+			exit $?
+			;;
+		*)
+			exit $?
+			;;
+	esac
+
+echo "$sel" | cliphist decode | wl-copy --foreground
