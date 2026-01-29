@@ -10,7 +10,7 @@ wfpid="$(pidof -sx wf-recorder 2>/dev/null)" && {
 	sel="${1:-$(printf " Stop\n Cancel" | menu slug -p "$MENU_PROMPT> Stop recording?")}" || exit 1
 	case "$sel" in
 		stop)
-			while kill -INT "$wfpid" >/dev/null 2>&1; do sleep 0.1; done
+			while kill "$wfpid" >/dev/null 2>&1; do sleep 0.1; done
 			pkill -RTMIN+8 waybar
 			;;
 		cancel)
