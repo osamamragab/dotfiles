@@ -23,14 +23,26 @@ esac
 		set -- "$@" --prompt "$MENU_PROMPT> "
 }
 
-# TODO: remove tail pipe when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
-sel="$(fuzzel -dR --no-sort "$@")" || exit 1
+ec=0
+
+sel="$(fuzzel -dR --no-sort "$@" 2>/dev/null)" ||
+	case $? in
+		1[0-9]) # custom exit codes
+			ec=$?
+			;;
+		*)
+			exit $?
+			;;
+	esac
+
+# TODO: remove this when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
+sel="$(echo "$sel" | tail -1)"
+
 [ $slug -eq 1 ] && {
-	sel="$(echo "$sel" | tail -1 | tr -cd "[:print:]" | tr "[:upper:][:space:][:punct:]" "[:lower:]-" | sed "s/-\+/-/g")"
+	sel="$(echo "$sel" | tr -dc "[:print:]" | tr "[:upper:][:space:][:punct:]" "[:lower:]-" | sed "s/-\+/-/g")"
 	sel="${sel#-}"
 	sel="${sel%-}"
-	echo "$sel"
-	exit 0
 }
 
-echo "$sel" | tail -1
+echo "$sel"
+exit $ec

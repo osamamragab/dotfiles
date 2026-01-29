@@ -23,11 +23,10 @@ menus="$(
 	_EOF
 )"
 
-# TODO: remove tail pipe when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
-menu="${1:-$(echo "$menus" | menu --nth-delimiter "," --with-nth 2 | tail -1)}" || exit 1
+menu="${1:-$(echo "$menus" | menu --nth-delimiter "," --with-nth 2)}" || exit 1
 [ $# -gt 0 ] && {
 	shift
-	menu="$(echo "$menus" | grep "^$menu,")"
+	menu="$(echo "$menus" | grep -m 1 "^$menu,")"
 }
 
 prompt="${menu#*,* }"
