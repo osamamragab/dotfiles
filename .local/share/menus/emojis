@@ -7,4 +7,4 @@ export MENU_PROMPT="${MENU_PROMPT:-Emojis}"
 exec cat "${XDG_DATA_HOME:-$HOME/.local/share}/meta/emojis.txt" |
 	menu |
 	cut -d " " -f 1 |
-	wl-copy -n
+	wl-copy --type text/plain --foreground --trim-newline

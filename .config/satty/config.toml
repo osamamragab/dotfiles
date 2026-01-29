@@ -1,7 +1,7 @@
 [general]
 fullscreen = true
 early-exit = true
-copy-command = "wl-copy -t image/png"
+copy-command = "wl-copy --type image/png"
 
 [keybinds]
 pointer = "p"

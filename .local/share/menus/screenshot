@@ -15,8 +15,7 @@ dir="$(xdg-user-dir PICTURES)/screenshots"
 
 sel="${1:-$(printf " Select\n Fullscreen" | menu slug)}" || exit 1
 case "$sel" in
-	fullscreen)
-		;;
+	fullscreen) ;;
 	select)
 		g="$(slurp -d)" || exit 1
 		;;
@@ -29,7 +28,7 @@ esac
 sel="${2:-$(printf " Copy\n Save\n Edit" | menu slug)}" || exit 1
 case "$sel" in
 	copy)
-		grim ${g:+-g "$g"} - | wl-copy -t image/png
+		grim ${g:+-g "$g"} - | wl-copy --type image/png --foreground --trim-newline
 		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
 		;;
 	save)
