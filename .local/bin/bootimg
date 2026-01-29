@@ -67,7 +67,7 @@ done
 	imgext="${img##*.}"
 	[ "$imgfmt" != "$imgext" ] && {
 		printf "detected image format is \"%s\", [Y/n] or specify the format: " "$imgfmt"
-		read -r p
+		IFS= read -r p
 		case "$p" in
 			"" | Y | y | yes | Yes | YES) ;;
 			N | n | no | No | NO) exit 1 ;;

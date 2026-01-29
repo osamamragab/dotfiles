@@ -7,7 +7,7 @@ description="Type your password"
 
 echo "OK Pleased to meet you"
 
-while IFS= read -r cmd sub; do
+while read -r cmd sub; do
 	case "$cmd" in
 	SETPROMPT)
 		prompt="${sub%:}"
