@@ -4,7 +4,7 @@ set -eu
 
 export MENU_PROMPT="${MENU_PROMPT:-Recent Files}"
 
-OPEN_HISTORY_FILE="${OPEN_HISTORY_FILE:-${XDG_DATA_HOME:-$HOME/.local/share}/open_history.txt}"
+OPEN_HISTORY_FILE="${OPEN_HISTORY_FILE:-${XDG_CACHE_HOME:-$HOME/.cache}/open_history.txt}"
 [ -r "$OPEN_HISTORY_FILE" ] || exit 1
 
 sel="$(tac "$OPEN_HISTORY_FILE" | menu -w 70)" || exit 1
