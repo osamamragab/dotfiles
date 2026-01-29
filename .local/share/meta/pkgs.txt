@@ -269,7 +269,6 @@ zathura-djvu
 zathura-pdf-mupdf
 zathura-ps
 zbar
-zenity
 zip
 zk
 zr
