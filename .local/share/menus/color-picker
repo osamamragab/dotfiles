@@ -2,7 +2,9 @@
 
 set -eu
 
-CPICK_DIR="${CPICK_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/cpick}"
+export MENU_PROMPT="${MENU_PROMPT:-Color Picker}"
+
+export CPICK_DIR="${CPICK_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/cpick}"
 CPICK_HISTORY_FILE="$CPICK_DIR/history.txt"
 CPICK_THUMBNAILS_DIR="$CPICK_DIR/thumbnails"
 [ -d "$CPICK_THUMBNAILS_DIR" ] || mkdir -p "$CPICK_THUMBNAILS_DIR"
@@ -31,20 +33,9 @@ sel="$(
 	esac
 case "$sel" in
 	pick)
-		sel="$(cpick)" || exit 1
+		exec cpick -c -n -s
 		;;
 	*)
-		sel="#$sel"
+		exec cpick -c -n -s "$sel"
 		;;
 esac
-
-echo "$sel" | wl-copy --type text/plain --foreground --trim-newline
-notify-send -a "$(basename "$0")" "$sel" "color copied to clipboard"
-
-echo "$sel" >>"$CPICK_HISTORY_FILE"
-cat -n "$CPICK_HISTORY_FILE" |
-	sort -rk2 |
-	sort -uk2 |
-	sort -nk1 |
-	cut -f 2- >"$CPICK_HISTORY_FILE.tmp" &&
-	mv -f "$CPICK_HISTORY_FILE.tmp" "$CPICK_HISTORY_FILE"
