@@ -6,10 +6,10 @@ set -eu
 
 export MENU_PROMPT="${MENU_PROMPT:-Screenshot}"
 
-dir="$(xdg-user-dir PICTURES)/screenshots"
-[ -d "$dir" ] || mkdir -p "$dir" || {
-	echo "$(basename "$0"): cannot create directory $dir" >&2
-	notify-send -u critical -a "$(basename "$0")" "error" "cannot create directory $dir"
+SCREENSHOTS_DIR="${SCREENSHOTS_DIR:-$(xdg-user-dir PICTURES)/screenshots}"
+[ -d "$SCREENSHOTS_DIR" ] || mkdir -p "$SCREENSHOTS_DIR" || {
+	echo "$(basename "$0"): cannot create directory $SCREENSHOTS_DIR" >&2
+	notify-send -u critical -a "$(basename "$0")" "error" "cannot create directory $SCREENSHOTS_DIR"
 	exit 1
 }
 
@@ -32,11 +32,12 @@ case "$sel" in
 		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
 		;;
 	save)
-		out="$dir/$(date "+%Y%m%d-%H%M%S").png"
+		out="$SCREENSHOTS_DIR/$(date "+%Y%m%d-%H%M%S").png"
 		grim ${g:+-g "$g"} "$out"
 		notify-send -a "$(basename "$0")" "screenshot" "saved to $out"
 		;;
 	edit)
+		out="$SCREENSHOTS_DIR/$(date "+%Y%m%d-%H%M%S").png"
 		grim ${g:+-g "$g"} -t ppm - | satty -f - -o "$out"
 		;;
 	*)
