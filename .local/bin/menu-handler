@@ -13,6 +13,7 @@ menus="$(
 		clipboard, Clipboard History
 		bookmarks, Bookmarks
 		emojis, Emojis
+		color-picker, Color Picker
 		pass, Passwords
 		pass-otp, Passwords OTP
 		screenshot, Screenshot

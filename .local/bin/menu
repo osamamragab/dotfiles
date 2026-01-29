@@ -25,7 +25,7 @@ esac
 
 ec=0
 
-sel="$(fuzzel -dR --no-sort "$@" 2>/dev/null)" ||
+sel="$(fuzzel --dmenu --no-run-if-empty --no-sort "$@" 2>/dev/null)" ||
 	case $? in
 		1[0-9]) # custom exit codes
 			ec=$?
