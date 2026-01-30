@@ -35,9 +35,6 @@ sel="$(fuzzel --dmenu --no-run-if-empty --no-sort "$@" 2>/dev/null)" ||
 			;;
 	esac
 
-# TODO: remove this when https://codeberg.org/dnkl/fuzzel/issues/700 is fixed
-sel="$(echo "$sel" | tail -1)"
-
 [ $slug -eq 1 ] && {
 	sel="$(echo "$sel" | tr -dc "[:print:]" | tr "[:upper:][:space:][:punct:]" "[:lower:]-" | sed "s/-\+/-/g")"
 	sel="${sel#-}"
