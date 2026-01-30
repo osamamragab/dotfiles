@@ -4,4 +4,4 @@ exec 2>&1
 
 [ -r ./conf ] && . ./conf
 
-exec wl-clip-persist $OPTS --clipboard regular 2>&1
+exec wl-clip-persist --clipboard regular $OPTS 2>&1

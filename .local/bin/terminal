@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -eu
+
+[ -z "${TERMINAL:-}" ] && {
+	echo "$(basename "$0"): \$TERMINAL is not set" >&2
+	exit 1
+}
+
+[ "$TERMINAL" = "foot" ] && {
+	[ -n "${WAYLAND_DISPLAY:-}" ] &&
+		[ -n "${XDG_RUNTIME_DIR:-}" ] && {
+		[ -S "$XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock" ] ||
+			[ -S "$XDG_RUNTIME_DIR/foot.sock" ] &&
+			exec footclient "$@"
+	}
+	[ -S /tmp/foot.sock ] &&
+		exec footclient "$@"
+	exec foot "$@"
+}
+
+exec $TERMINAL "$@"

@@ -2,4 +2,4 @@
 Type=Application
 Name=Text Editor
 Icon=nvim
-Exec=foot nvim %u
+Exec=terminal nvim %u

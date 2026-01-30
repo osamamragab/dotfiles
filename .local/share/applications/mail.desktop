@@ -2,4 +2,4 @@
 Type=Application
 Name=Mail
 Icon=aerc
-Exec=foot aerc %u
+Exec=terminal aerc %u
