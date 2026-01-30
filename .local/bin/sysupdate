@@ -17,7 +17,7 @@ updatepkgs() {
 	command -v xlocate >/dev/null 2>&1 &&
 		xlocate -S
 	command -v makewhatis >/dev/null 2>&1 &&
-		man -w | tr -d "\n" | xargs makewhatis
+		man -w | tr -d "\n" | xargs -d ":" $sudocmd makewhatis
 	command -v xcheckrestart >/dev/null 2>&1 &&
 		xcheckrestart
 	return 0
