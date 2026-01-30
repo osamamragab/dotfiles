@@ -2,5 +2,11 @@
 
 set -eu
 
-[ -n "${1:-}" ] && notify-send -a "$(basename "$0")" "$@"
-exec fuzzel --dmenu --password --cache /dev/null --prompt-only "Password> " <&-
+msg="$(echo "$@" | sed 's/:\s\+$//')"
+
+exec fuzzel \
+	--dmenu \
+	--password \
+	--cache /dev/null \
+	--mesg "${msg:-$(basename "$0")}" \
+	--prompt-only "Password> " <&-

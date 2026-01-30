@@ -18,8 +18,8 @@ while read -r cmd sub; do
 		echo "OK"
 		;;
 	GETPIN)
-		notify-send -a "$(basneame "$0")" "$prompt" "$description"
-		pin=$(fuzzel --dmenu --password --cache /dev/null --prompt-only "$prompt> ") || exit 1
+		msg="$(echo "$description" | sed 's/%/\\x/g' | xargs -0 printf "%b")"
+		pin="$(fuzzel --dmenu --password --cache /dev/null --mesg "$msg" --prompt-only "$prompt> ")" || exit 1
 		[ -n "${pin:-}" ] && {
 			echo "D $pin"
 			echo "OK"
