@@ -67,13 +67,3 @@ on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
 
 [app-name=poweralertd category=power.critical]
 on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga
-
-[app-name=wpa_supplicant]
-history=0
-on-notify=none
-
-[app-name=wpa_supplicant category=network.connected]
-on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/service-login.oga
-
-[app-name=wpa_supplicant category=network.disconnected]
-on-notify=exec pw-play /usr/share/sounds/freedesktop/stereo/service-logout.oga
