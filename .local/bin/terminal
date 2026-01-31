@@ -19,4 +19,4 @@ set -eu
 	exec foot "$@"
 }
 
-exec $TERMINAL "$@"
+exec $TERMINAL -e "$@"
