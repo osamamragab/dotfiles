@@ -77,6 +77,7 @@ export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export TEXMFCONFIG="$XDG_CONFIG_HOME/texlive/texmf-config"
 export MAXIMA_USERDIR="$XDG_CONFIG_HOME/maxima"
 export DOTNET_CLI_HOME="$XDG_DATA_HOME/dotnet"
+export PRETTIERD_DEFAULT_CONFIG="$XDG_CONFIG_HOME/prettier/prettierrc.json"
 export _Z_DATA="$XDG_STATE_HOME/zdata"
 export MAVEN_OPTS="-Dmaven.repo.local=$XDG_DATA_HOME/maven/repository"
 export _JAVA_OPTIONS="-Djava.util.prefs.userRoot=$XDG_CONFIG_HOME/java"
@@ -89,6 +90,7 @@ export SUDO_ASKPASS="fuzzel-ssh-askpass"
 
 export SVHOME_USER="$XDG_CONFIG_HOME/runit/sv"
 export SVDIR_USER="$XDG_DATA_HOME/services"
+
 [ -n "${XDG_RUNTIME_DIR:-}" ] &&
 	export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
 
