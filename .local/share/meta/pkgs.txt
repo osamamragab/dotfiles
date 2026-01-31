@@ -25,6 +25,7 @@ brightnessctl
 bsdtar
 btop
 btrfs-progs
+bubblewrap
 buku
 bzip2
 bzip3
