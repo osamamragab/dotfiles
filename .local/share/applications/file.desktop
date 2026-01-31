@@ -1,5 +1,5 @@
 [Desktop Entry]
 Type=Application
 Name=File Manager
-Icon=nnn
-Exec=terminal nnn -Rr %u
+Icon=lf
+Exec=terminal lf %u

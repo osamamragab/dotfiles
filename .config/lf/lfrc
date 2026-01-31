@@ -1,0 +1,8 @@
+set shell "sh"
+set shellopts "-eu"
+set ifs "\n"
+set icons
+set period 1
+set scrolloff 10
+set autoquit true
+set previewer "~/.config/lf/previewer"

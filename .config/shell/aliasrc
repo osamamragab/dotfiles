@@ -27,7 +27,6 @@ command -v loginctl >/dev/null 2>&1 && {
 
 alias ip="ip -color=auto"
 alias bc="bc -ql"
-alias nnn="nnn -Rr"
 alias diff="diff --color=auto"
 alias info="info --vi-keys"
 alias ccat="highlight -O ansi"

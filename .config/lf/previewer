@@ -1,0 +1,81 @@
+#!/bin/sh
+
+set -eu
+
+LF_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf"
+[ -d "$LF_CACHE" ] || mkdir -p "$LF_CACHE"
+
+file="$1"
+width="$2"
+height="$3"
+posx="$4"
+#posy="$5"
+
+sixel() {
+	# shellcheck disable=SC2015
+	command -v chafa >/dev/null 2>&1 &&
+		chafa \
+			--format sixel \
+			--polite on \
+			--animate off \
+			--size "${width}x${height}" \
+			--bg "#2e3440" \
+			--threshold 0.95 \
+			"$1" ||
+		mediainfo "$1"
+}
+
+text() {
+	# shellcheck disable=SC2015
+	command -v bat >/dev/null 2>&1 &&
+		bat -pf --terminal-width $((width - 5)) "$1" ||
+		mediainfo "$1"
+}
+
+thumb=""
+thumbnailfile() {
+	hash="$(sha256sum "$(readlink -f "$file")" | cut -d ' ' -f 1)"
+	thumb="$LF_CACHE/thumb.$hash"
+	[ -f "$thumb" ]
+}
+
+mime="$(file -bL --mime-type -- "$file")"
+case "$mime" in
+	image/jpeg | image/png | image/gif | image/webp)
+		sixel "$file"
+		;;
+	image/*)
+		thumbnailfile || magick "$file" "$thumb.jpg"
+		sixel "$thumb.jpg"
+		;;
+	text/troff)
+		man ./ "$file" | col -b
+		;;
+	text/html)
+		w3m -t "$posx" -T "$mime" -I utf-8 -O utf-8 -dump "$file"
+		;;
+	text/* | */xml | application/json | application/x-ndjson)
+		text "$file"
+		;;
+	audio/* | application/octet-stream)
+		mediainfo "$file"
+		;;
+	video/*)
+		thumbnailfile || ffmpegthumbnailer -i "$file" -o "$thumb" -s 0
+		sixel "$thumb"
+		;;
+	*/pdf)
+		thumbnailfile || pdftoppm -jpeg -f 1 -singlefile "$file" "$thumb"
+		sixel "$thumb.jpg"
+		;;
+	*/epub+zip | */mobi*)
+		thumbnailfile || gnome-epub-thumbnailer "$file" "$thumb.jpg"
+		sixel "$thumb.jpg"
+		;;
+	application/*zip)
+		atool --list -- "$file"
+		;;
+	application/pgp-encrypted)
+		gpg -d -- "$file"
+		;;
+esac
