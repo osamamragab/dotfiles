@@ -7,19 +7,19 @@ export MENU_PROMPT="${MENU_PROMPT:-Menu}"
 MENUS_DIR="${MENUS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/menus}"
 menus="$(
 	cat <<-_EOF
-		apps, Apps
+		apps,󰀻 Apps
 		input, Input Handler
 		recents, Recent Files
-		clipboard, Clipboard History
+		clipboard, Clipboard History
 		bookmarks, Bookmarks
-		emojis, Emojis
+		emojis,󰞅 Emojis
 		color-picker, Color Picker
 		pass, Passwords
-		pass-otp, Passwords OTP
+		pass-otp,󰈷 Passwords OTP
 		screenshot, Screenshot
-		screenrec, Screen Recording
+		screenrec,󰻃 Screen Recording
 		power-profiles, Power Profiles
-		display-profiles, Display Profiles
+		display-profiles,󰹑 Display Profiles
 		sysact, System Actions
 	_EOF
 )"

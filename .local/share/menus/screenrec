@@ -29,7 +29,7 @@ wfpid="$(pidof -sx wf-recorder 2>/dev/null)" && {
 	exit 0
 }
 
-sel="${1:-$(printf " Fullscreen\n Fullscreen (Video Only)\n Select\n Select (Video Only)" | menu slug)}" || exit 1
+sel="${1:-$(printf " Fullscreen\n Fullscreen (Video Only)\n󱣴 Select\n󱣴 Select (Video Only)" | menu slug)}" || exit 1
 case "$sel" in
 	fullscreen)
 		set -- -a

@@ -70,7 +70,6 @@ ffmpeg
 ffmpegthumbnailer
 firejail
 flatpak
-font-awesome6
 font-hack-ttf
 fontconfig
 foot

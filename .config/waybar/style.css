@@ -31,11 +31,7 @@ window#waybar {
 #wireplumber,
 #bluetooth,
 #network,
-#memory,
-#cpu,
-#temperature,
 #battery,
-#upower,
 #custom-days {
 	background-color: @module;
 	padding: 7px 10px;

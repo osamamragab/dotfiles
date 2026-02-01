@@ -5,7 +5,7 @@ set -eu
 export MENU_PROMPT="${MENU_PROMPT:-Input Handler}"
 
 input="$(menu input)" || exit 1
-action="${1:-$(printf " Copy\n Open\n Search\n Browser\n Translate" | menu slug)}" || exit 1
+action="${1:-$(printf " Copy\n Open\n󰜏 Search\n Browser\n Translate" | menu slug)}" || exit 1
 case "$action" in
 	copy)
 		echo "$input" | wl-copy --type text/plain --foreground --trim-newline
