@@ -20,7 +20,7 @@ SETUP_RUNIT_SVDIR_USER="${SETUP_RUNIT_SVDIR_USER:-${SVDIR_USER:-$XDG_DATA_HOME/s
 	waterfox) SETUP_BROWSER_DIR="$HOME/.waterfox" ;;
 	firefox) SETUP_BROWSER_DIR="$HOME/.mozilla/firefox" ;;
 	*)
-		[ "$1" = "browser" ] || [ "$1" = "all" ] && {
+		[ "$1" = "browser" ] || [ "$1" = "install" ] && {
 			echo "$(basename "$0"): cannot determine SETUP_BROWSER_DIR" >&2
 			exit 1
 		}
@@ -158,6 +158,25 @@ setup_runit() {
 	return 0
 }
 
+setup_iw() {
+	[ -f /etc/conf.d/wireless-regdom ] && {
+		unset WIRELESS_REGDOM
+		# shellcheck disable=SC1091
+		. /etc/conf.d/wireless-regdom
+	}
+	[ -n "${WIRELESS_REGDOM:-}" ] && return 0
+	[ -e /etc/localtime ] || return 1
+	tz="$(readlink -f /etc/localtime)"
+	tz="${tz#/usr/share/zoneinfo/}"
+	reg="$(grep -m 1 "$tz" /usr/share/zoneinfo/zone.tab | cut -f 1)"
+	expr "$reg" : "^[A-Z]\{2\}$" >/dev/null 2>&1 || return 1
+	echo "WIRELESS_REGDOM=\"$reg\"" |
+		$sudocmd tee -a /etc/conf.d/wireless-regdom >/dev/null
+	command -v iw >/dev/null 2>&1 &&
+		$sudocmd iw reg set "$reg"
+
+}
+
 setup_ufw() {
 	$sudocmd ufw default deny incoming
 	$sudocmd ufw default allow outgoing
@@ -205,6 +224,7 @@ setup_install() {
 	setup_pkgs
 	setup_user
 	setup_runit
+	setup_iw
 	setup_ufw
 	setup_pam
 	setup_browser
@@ -236,6 +256,7 @@ case "${1:-dotfiles}" in
 	pkgs) setup_pkgs ;;
 	user) setup_user ;;
 	runit) setup_runit ;;
+	iw) setup_iw ;;
 	ufw) setup_ufw ;;
 	pam) setup_pam ;;
 	browser) setup_browser ;;
