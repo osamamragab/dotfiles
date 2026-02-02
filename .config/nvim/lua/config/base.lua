@@ -39,6 +39,7 @@ vim.g.netrw_winsize = 25
 vim.g.netrw_fastbrowse = false
 
 vim.g.zig_fmt_autosave = false
+vim.g.zig_recommended_style = false
 
 vim.g.python_host_skip_check = true
 vim.g.python3_host_skip_check = true
