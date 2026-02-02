@@ -38,6 +38,10 @@ alias adb='env HOME="$ANDROID_USER_HOME" adb'
 alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 
+lfcd() {
+	cd "$(command lf -print-last-dir "$@")" || return $?
+}
+
 pass() {
 	case "$EDITOR" in
 		vim | nvim) editor="$EDITOR --noplugin" ;;

@@ -79,7 +79,7 @@ autoload -Uz add-zsh-hook
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
 fzf_select_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return $?
 	BUFFER="$BUFFER $file"
 	zle redisplay
 	zle accept-line
@@ -88,7 +88,7 @@ zle -N fzf_select_widget
 bindkey "^s" fzf_select_widget
 
 fzf_editor_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return $?
 	BUFFER="$EDITOR $file"
 	zle redisplay
 	zle accept-line
@@ -96,8 +96,17 @@ fzf_editor_widget() {
 zle -N fzf_editor_widget
 bindkey "^f" fzf_editor_widget
 
+fzf_cd_widget() {
+	local dir="$(fd --type d --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return $?
+	BUFFER="cd $dir"
+	zle redisplay
+	zle accept-line
+}
+zle -N fzf_cd_widget
+bindkey "^g" fzf_cd_widget
+
 fzf_open_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
+	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return $?
 	opener="open"
 	command -v "$opener" >/dev/null 2>&1 || opener="xdg-open"
 	BUFFER="$opener $file"
@@ -107,15 +116,6 @@ fzf_open_widget() {
 zle -N fzf_open_widget
 bindkey "^o" fzf_open_widget
 
-fzf_cd_widget() {
-	local dir="$(fd --type d --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return
-	BUFFER="cd $dir"
-	zle redisplay
-	zle accept-line
-}
-zle -N fzf_cd_widget
-bindkey "^g" fzf_cd_widget
-
 todo_widget() {
 	BUFFER="notes todo"
 	[ -f TODO.md ] && BUFFER="$EDITOR TODO.md"
@@ -124,6 +124,8 @@ todo_widget() {
 }
 zle -N todo_widget
 bindkey "^t" todo_widget
+
+bindkey -s "^a" "^ulfcd\n"
 
 command -v zr >/dev/null 2>&1 &&
 	[ -r "$XDG_DATA_HOME/meta/zsh_plugins.txt" ] &&
