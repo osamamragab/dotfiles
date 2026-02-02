@@ -22,8 +22,12 @@ case "${1:--l}" in
 	exec grep -Hnr --color=auto "$@"
 	;;
 -l)
-	height="${2:-10}"
-	sel="$(find "$NOTES_DIR" -type f -not -path "$NOTES_DIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | fzf --height="~$height")" || exit $?
+	sel="$(
+		find "$NOTES_DIR" -type f ! -path "$NOTES_DIR/.*" -printf "%T@ %P\n" |
+			sort -nr |
+			cut -d " " -f 2- |
+			fzf --height="~${2:-10}"
+	)" || exit $?
 	[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
 	$EDITOR "$NOTES_DIR/${sel:-pad.txt}"
 	;;
