@@ -17,3 +17,5 @@ map X !$f
 
 cmd open &open $f
 map o open $f
+
+cmd extract $extract $f

@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -eu
+
+if [ $# -eq 0 ]; then
+	echo "usage: $(basename "$0")  [archives]" >&2
+	exit 1
+fi
+
+for file in "$@"; do
+	[ -r "$file" ] || {
+		echo "$(basename "$0"): $file: file not found or not readable" >&2
+		exit 1
+	}
+	case "$file" in
+		*.tar.gz | *.tgz) tar -xvzf "$file" ;;
+		*.tar.xz | *.tzst) tar -xvJf "$file" ;;
+		*.tar.bz2 | *.tbz2 | *.tz2 | *.tbz) tar -xvjf "$file" ;;
+		*.tar) tar -xvf "$file" ;;
+		*.bz2) bunzip2 "$file" ;;
+		*.bz3) bunzip3 "$file" ;;
+		*.gz) gunzip "$file" ;;
+		*.xz) unxz "$file" ;;
+		*.lzma) unlzma "$file" ;;
+		*.zst) unzstd "$file" ;;
+		*.zip) unzip -d "${file%.zip}" "$file" ;;
+		*.rar) unrar x -ad "$file" ;;
+		*.Z) uncompress "$file" ;;
+		*.7z) 7z x "$file" ;;
+		*)
+			echo "$file: unknown archive type" >&2
+			exit 1
+			;;
+	esac
+done
