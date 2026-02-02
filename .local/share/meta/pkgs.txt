@@ -173,6 +173,7 @@ translate-shell
 transmission
 udisks2
 ufw
+uni
 unzip
 vnstat
 void-live-audio

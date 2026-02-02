@@ -4,7 +4,7 @@ set -eu
 
 export MENU_PROMPT="${MENU_PROMPT:-Emojis}"
 
-exec cat "${XDG_DATA_HOME:-$HOME/.local/share}/meta/emojis.txt" |
-	menu |
+uni emoji all -raw -compact -format "%(emoji)%(tab)%(name)%(cldr_full Q:;[:])" |
+	menu --nth-delimiter ";" --with-nth 1 --accept-nth 1 |
 	cut -d " " -f 1 |
 	wl-copy --type text/plain --foreground --trim-newline
