@@ -195,6 +195,27 @@ setup_pam() {
 	}
 }
 
+setup_drivers() {
+	pkgs=""
+	cpu_model="$(grep -i -m 1 "^model name\s:" /proc/cpuinfo)"
+	echo "$cpu_model" | grep -iq "intel" && pkgs="$pkgs intel-ucode"
+	echo "$cpu_model" | grep -iq "amd" && pkgs="$pkgs linux-firmware-amd"
+	gpu_model="$(lspci | grep -i "vga\|3d\|display")"
+	echo "$gpu_model" | grep -iq "intel" && {
+		pkgs="$pkgs mesa-vulkan-intel"
+		echo "$gpu_model" | grep -iq "hd graphics\|xe\|iris" && pkgs="$pkgs intel-media-driver"
+		echo "$gpu_model" | grep -Fiq "gma" && pkgs="$pkgs libva-intel-driver"
+	}
+	echo "$gpu_model" | grep -iq "amd" && {
+		pkgs="$pkgs linux-firmware-amd amdvlk"
+		echo "$gpu_model" | grep -iq "radeon\|amd/ati" && pkgs="$pkgs mesa-vulkan-radeon"
+	}
+	echo "$pkgs" | xargs "$sudocmd" xbps-install -Sy
+	xbps-query --regex -p pkgname -s "linux[0-9]+.[0-9]+" |
+		cut -d " " -f 2 |
+		xargs "$sudocmd" xbps-reconfigure -f
+}
+
 setup_browser() {
 	[ -d "$SETUP_PROGRAMS_DIR/arkenfox-user.js" ] ||
 		git clone https://github.com/arkenfox/user.js.git "$SETUP_PROGRAMS_DIR/arkenfox-user.js"
@@ -227,6 +248,7 @@ setup_install() {
 	setup_iw
 	setup_ufw
 	setup_pam
+	setup_drivers
 	setup_browser
 }
 
@@ -259,6 +281,7 @@ case "${1:-dotfiles}" in
 	iw) setup_iw ;;
 	ufw) setup_ufw ;;
 	pam) setup_pam ;;
+	drivers) setup_drivers ;;
 	browser) setup_browser ;;
 	uninstall) setup_uninstall ;;
 	*)
