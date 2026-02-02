@@ -93,7 +93,10 @@ case "$cmd" in
 		;;
 	bootstrap | voidstrap) xpkg_bootstrap "$@" ;;
 	*)
-		echo "$(basename "$0"): unknown command: $cmd" >&2
-		exit 1
+		[ $# -eq 0 ] || {
+			echo "$(basename "$0"): unknown command: $cmd" >&2
+			exit 1
+		}
+		xbps-query -Rs "$cmd"
 		;;
 esac
