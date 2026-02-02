@@ -27,7 +27,7 @@ SETUP_RUNIT_SVDIR_USER="${SETUP_RUNIT_SVDIR_USER:-${SVDIR_USER:-$XDG_DATA_HOME/s
 		;;
 esac
 
-# shellcheck disable=2015
+# shellcheck disable=SC2015
 sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 
 [ "$(id -u)" -eq 0 ] && {
@@ -241,7 +241,7 @@ setup_uninstall() {
 		done
 	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
 		while IFS= read -r p; do
-			# shellcheck disable=2015
+			# shellcheck disable=SC2015
 			[ -r "$SETUP_BROWSER_DIR/$p/user.js" ] &&
 				cat "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" "$XDG_CONFIG_HOME/$BROWSER/user.js" |
 				cmp "$SETUP_BROWSER_DIR/$p/user.js" ||

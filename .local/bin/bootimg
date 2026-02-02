@@ -37,7 +37,7 @@ for arg; do
 		-c)
 			shift
 			conf="$(readlink -f "$1")"
-			# shellcheck disable=1090
+			# shellcheck disable=SC1090
 			[ -r "$conf" ] && . "$conf"
 			[ -r "$img" ] || img="$(dirname "$conf")/$img"
 			;;

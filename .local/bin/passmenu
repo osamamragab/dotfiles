@@ -30,6 +30,7 @@ pass="$(pass ${otp:+otp} "$sel" | sed 1q)" || {
 	exit 1
 }
 
+# TODO: add --sensitive option on new release
 echo "$pass" | wl-copy --type text/plain --foreground --trim-newline
 cliphist delete-query "$pass"
 

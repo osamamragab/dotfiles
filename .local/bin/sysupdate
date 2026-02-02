@@ -2,7 +2,7 @@
 
 set -eu
 
-# shellcheck disable=2015
+# shellcheck disable=SC2015
 sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 
 updatepkgs() {
@@ -16,6 +16,7 @@ updatepkgs() {
 		flatpak update -y
 	command -v xlocate >/dev/null 2>&1 &&
 		xlocate -S
+	# shellcheck disable=SC2086
 	command -v makewhatis >/dev/null 2>&1 &&
 		man -w | tr -d "\n" | xargs -d ":" $sudocmd makewhatis
 	command -v xcheckrestart >/dev/null 2>&1 &&

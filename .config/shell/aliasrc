@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# shellcheck disable=2153
+# shellcheck disable=SC2153
 alias e='${EDITOR:-vi}'
 alias q="exit"
 
@@ -38,17 +38,17 @@ alias adb='env HOME="$ANDROID_USER_HOME" adb'
 alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 
-lfcd() {
-	cd "$(command lf -print-last-dir "$@")" || return $?
-}
-
 pass() {
+	editor="${EDITOR:-vi}"
 	case "$EDITOR" in
-		vim | nvim) editor="$EDITOR --noplugin" ;;
-		*) editor="vi" ;;
+		vim | nvim) editor="$editor --noplugin" ;;
 	esac
 	env EDITOR="$editor" pass "$@"
 	unset editor
+}
+
+lfcd() {
+	cd "$(command lf -print-last-dir "$@")" || return $?
 }
 
 zk() {
@@ -63,10 +63,11 @@ zk() {
 [ -f "$XINITRC" ] && alias startx='startx "$XINITRC"'
 [ -f "$MBSYNCRC" ] && alias mbsync='mbsync -c "$MBSYNCRC"'
 
-# shellcheck disable=2015
+# shellcheck disable=SC2015
 sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
 for cmd in su mount umount sv vsv; do
-	# shellcheck disable=2139
-	alias $cmd="$sudocmd $(which "$cmd")"
+	cmdpath="$(which "$cmd")" || continue
+	# shellcheck disable=SC2139
+	alias $cmd="$sudocmd $cmdpath"
 done
-unset sudocmd cmd
+unset sudocmd cmd cmdpath

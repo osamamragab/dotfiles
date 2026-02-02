@@ -22,7 +22,7 @@ done
 }
 
 home="$(getent passwd "$user" | cut -d ":" -f 6)"
-# shellcheck disable=2015
+# shellcheck disable=SC2015
 [ -n "$home" ] && [ -d "$home" ] ||
 	{
 		echo "failed to find user $user home directory" >&2

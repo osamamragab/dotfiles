@@ -21,5 +21,5 @@ for p in $WTTR_PARAMS "$@"; do
 	args="$args --data-urlencode $p"
 done
 
-# shellcheck disable=2086
+# shellcheck disable=SC2086
 curl -fGsS -H "Accept-Language: ${LANG%_*}" ${args# } --compressed "https://wttr.in/$loc"
