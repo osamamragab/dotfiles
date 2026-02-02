@@ -2,10 +2,13 @@
 
 set -eu
 
-lswt -c a | grep -Fxq scratchpad ||
-	riverctl spawn "terminal -a scratchpad -w 920x680 && riverctl toggle-focused-tags $1"
+tag="$1"
+appid="scratchpad"
 
-riverctl toggle-focused-tags "$1"
+lswt -c a | grep -Fxq "$appid" ||
+	riverctl spawn "terminal -a $appid -w 920x680 && riverctl toggle-focused-tags $tag"
 
-wlrctl window waitfor app_id:scratchpad &&
-	wlrctl window focus app_id:scratchpad
+riverctl toggle-focused-tags "$tag"
+
+wlrctl window waitfor "app_id:$appid" &&
+	wlrctl window focus "app_id:$appid"
