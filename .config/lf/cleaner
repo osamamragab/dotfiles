@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -eu
+
+LF_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf"
+LF_THUMBNAILS_DIR="$LF_CACHE/thumbnails"
+
+file="$1"
+hash="$(sha256sum "$(readlink -f "$file")" | cut -d " " -f 1)"
+
+find "$LF_THUMBNAILS_DIR" -name "$hash*" -delete || true

@@ -3,13 +3,13 @@
 set -eu
 
 LF_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/lf"
-[ -d "$LF_CACHE" ] || mkdir -p "$LF_CACHE"
+LF_THUMBNAILS_DIR="$LF_CACHE/thumbnails"
 
 file="$1"
 width="$2"
 height="$3"
 posx="$4"
-#posy="$5"
+thumb=""
 
 sixel() {
 	# shellcheck disable=SC2015
@@ -32,10 +32,11 @@ text() {
 		mediainfo "$1"
 }
 
-thumb=""
 thumbnailfile() {
-	hash="$(sha256sum "$(readlink -f "$file")" | cut -d ' ' -f 1)"
-	thumb="$LF_CACHE/thumb.$hash"
+	hash="$(sha256sum "$(readlink -f "$file")" | cut -d " " -f 1)"
+	thumb="$LF_THUMBNAILS_DIR/$hash"
+	[ -d "$LF_THUMBNAILS_DIR" ] ||
+		mkdir -p "$LF_THUMBNAILS_DIR"
 	[ -f "$thumb" ]
 }
 
@@ -45,7 +46,8 @@ case "$mime" in
 		sixel "$file"
 		;;
 	image/*)
-		thumbnailfile || magick "$file" "$thumb.jpg"
+		thumbnailfile ||
+		magick "$file" "$thumb.jpg"
 		sixel "$thumb.jpg"
 		;;
 	text/troff)
@@ -61,15 +63,18 @@ case "$mime" in
 		mediainfo "$file"
 		;;
 	video/*)
-		thumbnailfile || ffmpegthumbnailer -i "$file" -o "$thumb" -s 0
-		sixel "$thumb"
+		thumbnailfile ||
+		ffmpegthumbnailer -i "$file" -o "$thumb.jpg" -s 0
+		sixel "$thumb.jpg"
 		;;
 	*/pdf)
-		thumbnailfile || pdftoppm -jpeg -f 1 -singlefile "$file" "$thumb"
+		thumbnailfile ||
+		pdftoppm -jpeg -f 1 -singlefile "$file" "$thumb"
 		sixel "$thumb.jpg"
 		;;
 	*/epub+zip | */mobi*)
-		thumbnailfile || gnome-epub-thumbnailer "$file" "$thumb.jpg"
+		thumbnailfile ||
+		gnome-epub-thumbnailer "$file" "$thumb.jpg"
 		sixel "$thumb.jpg"
 		;;
 	application/*zip)
@@ -79,3 +84,5 @@ case "$mime" in
 		gpg -d -- "$file"
 		;;
 esac
+
+exit 1
