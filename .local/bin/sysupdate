@@ -26,7 +26,7 @@ updatepkgs() {
 
 clean() {
 	$sudocmd xbps-remove -Ooy
-	$sudocmd vkpurse rm all
+	$sudocmd vkpurge rm all
 	command -v nix >/dev/null 2>&1 && {
 		nix-collect-garbage --delete-older-than 7d
 		nix-store --optimise
