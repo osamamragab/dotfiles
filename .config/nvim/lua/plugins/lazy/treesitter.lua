@@ -16,10 +16,16 @@ return {
 				"json",
 				"vimdoc",
 				"todotxt",
+				"tsx",
+				"jsx",
+				"typescript",
+				"javascript",
 			}
 			local filetypes = {
 				"sh",
-				table.unpack(langs),
+				"javascriptreact",
+				"typescriptreact",
+				(table.unpack or unpack)(langs),
 			}
 			require("nvim-treesitter").install(langs)
 			vim.api.nvim_create_autocmd({ "FileType" }, {
