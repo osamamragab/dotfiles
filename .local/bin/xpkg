@@ -1,0 +1,99 @@
+#!/bin/sh
+# XBPS wrapper script, inspired by xtools.
+
+set -eu
+
+XPKG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/xpkg"
+XPKG_XBPS_MIRROR="${XPKG_XBPS_MIRROR:-https://repo-default.voidlinux.org/current}"
+XPKG_LOCATE_REPO="${XPKG_XBPS_MIRROR%/current}/xlocate/xlocate.git"
+XPKG_LOCATE_CACHE="$XPKG_CACHE/locate"
+
+sudocmd() {
+	[ "$(id -u)" -eq 0 ] && {
+		"$@"
+		return $?
+	}
+	command -v doas >/dev/null 2>&1 && [ -f /etc/doas.conf ] && {
+		doas "$@"
+		return $?
+	}
+	sudo "$@"
+}
+
+xpkg_locate_sync() {
+	[ -d "$XPKG_LOCATE_CACHE" ] || {
+		[ -n "${XPKG_LOCATE_CACHE%/*}" ] && mkdir -p "${XPKG_LOCATE_CACHE%/*}"
+		git clone --bare "$XPKG_LOCATE_REPO" "$XPKG_LOCATE_CACHE"
+	}
+	git -C "$XPKG_LOCATE_CACHE" fetch -u -f "$XPKG_LOCATE_REPO" master:master
+}
+
+xpkg_locate() {
+	[ -d "$XPKG_LOCATE_CACHE" ] || xpkg_locate_sync
+	[ -f "$XPKG_LOCATE_CACHE/FETCH_HEAD" ] &&
+		base="$XPKG_LOCATE_CACHE/FETCH_HEAD"
+	[ -f "$XPKG_LOCATE_CACHE/refs/heads/master" ] &&
+		base="$XPKG_LOCATE_CACHE/refs/heads/master"
+	[ -z "$base" ] ||
+		find /var/db/xbps/ -name "*repodata" -newer "$base" |
+		grep -q . &&
+		echo "$(basename "$0"): database outdated, update with -s." >&2
+	git -c grep.lineNumber=false -c grep.column=false --git-dir="$XPKG_LOCATE_CACHE" grep "$@" @ |
+		sed "s/^@://" |
+		column -t -s ":" -l 2 |
+		grep .
+}
+
+xpkg_bootstrap() {
+	chroot="$1"
+	shift
+	umask 0022
+	[ -d "$chroot" ] || sudocmd mkdir -p "$chroot"
+	for dir in bin dev etc usr; do
+		[ -d "$chroot/$dir" ] && {
+			echo "directory contains /$dir, bailing out" >&2
+			exit 1
+		}
+	done
+	sudocmd chown root:root "$chroot"
+	sudocmd chmod 0755 "$chroot"
+	sudocmd mkdir -p "$chroot/boot" "$chroot/dev"
+	sudocmd mkdir -p -m 0555 "$chroot/proc" "$chroot/sys"
+	[ -d /var/db/xbps/keys ] && {
+		sudocmd mkdir -p "$chroot/var/db/xbps/keys"
+		sudocmd cp -a /var/db/xbps/keys/* "$chroot/var/db/xbps/keys"
+	}
+	sudocmd xbps-install \
+		-R "$XPKG_XBPS_MIRROR" \
+		-R "$XPKG_XBPS_MIRROR/musl" \
+		-R "$XPKG_XBPS_MIRROR/aarch64" \
+		-S \
+		-r "$chroot" \
+		"${@:-base-system}"
+}
+
+cmd="${1:-}"
+[ $# -gt 0 ] && shift
+
+case "$cmd" in
+	i | install) sudocmd xbps-install -S "$@" ;;
+	u | update | upgrade) sudocmd xbps-install -Su "$@" ;;
+	r | rm | remove) sudocmd xbps-remove -R "$@" ;;
+	q | query) xbps-query -R "$@" ;;
+	s | search) xbps-query -Rs "$@" ;;
+	l | locate)
+		command -v git >/dev/null 2>&1 || {
+			echo "$(basename "$0"): git: command not found" >&2
+			exit 1
+		}
+		case "${1:-}" in
+			-s | -S) xpkg_locate_sync ;;
+			*) xpkg_locate "$@" ;;
+		esac
+		;;
+	bootstrap | voidstrap) xpkg_bootstrap "$@" ;;
+	*)
+		echo "$(basename "$0"): unknown command: $cmd" >&2
+		exit 1
+		;;
+esac
