@@ -9,17 +9,17 @@ JOURNALDIR="${JOURNALDIR:-$(xdg-user-dir DOCUMENTS)/journal}"
 }
 
 case "${1:-new}" in
-	new)
-		f="$JOURNALDIR/$(date "+%Y-%m-%d").md"
-		[ -f "$f" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" >"$f"
-		exec "$EDITOR" +$ "$f"
-		;;
-	edit) cmd="$EDITOR" ;;
-	read) cmd="$EDITOR -R" ;;
-	*)
-		echo "$(basename "$0"): unknown command: $1" >&2
-		exit 1
-		;;
+new)
+	f="$JOURNALDIR/$(date "+%Y-%m-%d").md"
+	[ -f "$f" ] || printf "# %s\n\n" "$(date "+%Y %B %d")" >"$f"
+	exec "$EDITOR" +$ "$f"
+	;;
+edit) cmd="$EDITOR" ;;
+read) cmd="$EDITOR -R" ;;
+*)
+	echo "$(basename "$0"): unknown command: $1" >&2
+	exit 1
+	;;
 esac
 
 sel="${2:-$(find "$JOURNALDIR" -maxdepth 1 -type f -printf "%P\n" | sed 's/.md$//' | sort -r | fzf)}" || exit 1

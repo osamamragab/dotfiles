@@ -4,19 +4,19 @@ set -eu
 
 for arg; do
 	case "$arg" in
-		-a) format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio" ;;
-		-v) format="bestvideo[ext=mp4]/bestvideo" ;;
-		-pl) output="%(playlist_title)s/%(title)s.%(ext)s" ;;
-		-pls) output="%(playlist_title)s/%(playlist_index)s- %(title)s.%(ext)s" ;;
-		--)
-			shift
-			break
-			;;
-		-*)
-			echo "$(basename "$0"): unknown option: $arg" >&2
-			exit 1
-			;;
-		*) continue ;;
+	-a) format="bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio" ;;
+	-v) format="bestvideo[ext=mp4]/bestvideo" ;;
+	-pl) output="%(playlist_title)s/%(title)s.%(ext)s" ;;
+	-pls) output="%(playlist_title)s/%(playlist_index)s- %(title)s.%(ext)s" ;;
+	--)
+		shift
+		break
+		;;
+	-*)
+		echo "$(basename "$0"): unknown option: $arg" >&2
+		exit 1
+		;;
+	*) continue ;;
 	esac
 	shift
 done

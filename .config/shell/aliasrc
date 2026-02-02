@@ -41,7 +41,7 @@ alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 pass() {
 	editor="${EDITOR:-vi}"
 	case "$EDITOR" in
-		vim | nvim) editor="$editor --noplugin" ;;
+	vim | nvim) editor="$editor --noplugin" ;;
 	esac
 	env EDITOR="$editor" pass "$@"
 	unset editor

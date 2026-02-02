@@ -76,27 +76,27 @@ cmd="${1:-}"
 [ $# -gt 0 ] && shift
 
 case "$cmd" in
-	i | install) sudocmd xbps-install -S "$@" ;;
-	u | update | upgrade) sudocmd xbps-install -Su "$@" ;;
-	r | rm | remove) sudocmd xbps-remove -R "$@" ;;
-	q | query) xbps-query -R "$@" ;;
-	s | search) xbps-query -Rs "$@" ;;
-	l | locate)
-		command -v git >/dev/null 2>&1 || {
-			echo "$(basename "$0"): git: command not found" >&2
-			exit 1
-		}
-		case "${1:-}" in
-			-s | -S) xpkg_locate_sync ;;
-			*) xpkg_locate "$@" ;;
-		esac
-		;;
-	bootstrap | voidstrap) xpkg_bootstrap "$@" ;;
-	*)
-		[ $# -eq 0 ] || {
-			echo "$(basename "$0"): unknown command: $cmd" >&2
-			exit 1
-		}
-		xbps-query -Rs "$cmd"
-		;;
+i | install) sudocmd xbps-install -S "$@" ;;
+u | update | upgrade) sudocmd xbps-install -Su "$@" ;;
+r | rm | remove) sudocmd xbps-remove -R "$@" ;;
+q | query) xbps-query -R "$@" ;;
+s | search) xbps-query -Rs "$@" ;;
+l | locate)
+	command -v git >/dev/null 2>&1 || {
+		echo "$(basename "$0"): git: command not found" >&2
+		exit 1
+	}
+	case "${1:-}" in
+	-s | -S) xpkg_locate_sync ;;
+	*) xpkg_locate "$@" ;;
+	esac
+	;;
+bootstrap | voidstrap) xpkg_bootstrap "$@" ;;
+*)
+	[ $# -eq 0 ] || {
+		echo "$(basename "$0"): unknown command: $cmd" >&2
+		exit 1
+	}
+	xbps-query -Rs "$cmd"
+	;;
 esac

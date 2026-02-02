@@ -8,12 +8,12 @@ export PASSWORD_STORE_DIR="${PASSWORD_STORE_DIR:-${XDG_DATA_HOME:-$HOME/.local/s
 
 app="$(basename "$0")"
 case "${1:-}" in
-	"") ;;
-	otp) otp=1 ;;
-	*)
-		echo "$app: unknown command: $1" >&2
-		exit 1
-		;;
+"") ;;
+otp) otp=1 ;;
+*)
+	echo "$app: unknown command: $1" >&2
+	exit 1
+	;;
 esac
 
 export MENU_PROMPT="${MENU_PROMPT:-$app${otp:+ otp}}"

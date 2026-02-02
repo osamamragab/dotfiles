@@ -15,21 +15,21 @@ getvol() {
 }
 
 case "${1:-get}" in
-	get)
-		vol="$(getvol)" || exit $?
-		echo "$vol%"
-		;;
-	toggle)
-		wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-		;;
-	*+ | *- | *%)
-		wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
-		wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1" --limit "$VOLUMECTL_LIMIT"
-		;;
-	*)
-		echo "$(basename): invalid command: $1" >&2
-		exit 1
-		;;
+get)
+	vol="$(getvol)" || exit $?
+	echo "$vol%"
+	;;
+toggle)
+	wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+	;;
+*+ | *- | *%)
+	wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1" --limit "$VOLUMECTL_LIMIT"
+	;;
+*)
+	echo "$(basename): invalid command: $1" >&2
+	exit 1
+	;;
 esac
 
 vol="$(getvol)" || exit $?

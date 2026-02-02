@@ -7,24 +7,24 @@ export MENU_PROMPT="${MENU_PROMPT:-Input Handler}"
 input="$(menu input)" || exit 1
 action="${1:-$(printf " Copy\n Open\n󰜏 Search\n Browser\n Translate" | menu slug)}" || exit 1
 case "$action" in
-	copy)
-		echo "$input" | wl-copy --type text/plain --foreground --trim-newline
-		exit $?
-		;;
-	open)
-		exec open "$input" >/dev/null 2>&1
-		;;
-	search)
-		exec setsid -f "$BROWSER" --search "$input" >/dev/null 2>&1
-		;;
-	browser)
-		exec setsid -f "$BROWSER" "$input" >/dev/null 2>&1
-		;;
-	translate)
-		exec notify-send -a "$(basename "$0")" "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
-		;;
-	*)
-		echo "$(basename "$0"): invalid action: $action" >&2
-		exit 1
-		;;
+copy)
+	echo "$input" | wl-copy --type text/plain --foreground --trim-newline
+	exit $?
+	;;
+open)
+	exec open "$input" >/dev/null 2>&1
+	;;
+search)
+	exec setsid -f "$BROWSER" --search "$input" >/dev/null 2>&1
+	;;
+browser)
+	exec setsid -f "$BROWSER" "$input" >/dev/null 2>&1
+	;;
+translate)
+	exec notify-send -a "$(basename "$0")" "$action: $input" "$(trans -no-ansi -no-bidi "$input")"
+	;;
+*)
+	echo "$(basename "$0"): invalid action: $action" >&2
+	exit 1
+	;;
 esac

@@ -15,44 +15,44 @@ imgfmt=""
 
 for arg; do
 	case "$arg" in
-		-cpu)
-			shift
-			cpu="$1"
-			;;
-		-mem)
-			shift
-			mem="$1"
-			;;
-		-efi)
-			bios="/usr/share/OVMF/x64/OVMF.4m.fd"
-			;;
-		-bios)
-			shift
-			bios="$1"
-			;;
-		-f)
-			shift
-			imgfmt="$1"
-			;;
-		-c)
-			shift
-			conf="$(readlink -f "$1")"
-			# shellcheck disable=SC1090
-			[ -r "$conf" ] && . "$conf"
-			[ -r "$img" ] || img="$(dirname "$conf")/$img"
-			;;
-		--)
-			shift
-			break
-			;;
-		/dev/* | *.iso | *.img | *.qcow2 | *.qcow)
-			img="$arg"
-			;;
-		*)
-			echo "$(basename "$0"): invalid argument: $arg" >&2
-			echo "use -- to pass qemu's arguments" >&2
-			exit 1
-			;;
+	-cpu)
+		shift
+		cpu="$1"
+		;;
+	-mem)
+		shift
+		mem="$1"
+		;;
+	-efi)
+		bios="/usr/share/OVMF/x64/OVMF.4m.fd"
+		;;
+	-bios)
+		shift
+		bios="$1"
+		;;
+	-f)
+		shift
+		imgfmt="$1"
+		;;
+	-c)
+		shift
+		conf="$(readlink -f "$1")"
+		# shellcheck disable=SC1090
+		[ -r "$conf" ] && . "$conf"
+		[ -r "$img" ] || img="$(dirname "$conf")/$img"
+		;;
+	--)
+		shift
+		break
+		;;
+	/dev/* | *.iso | *.img | *.qcow2 | *.qcow)
+		img="$arg"
+		;;
+	*)
+		echo "$(basename "$0"): invalid argument: $arg" >&2
+		echo "use -- to pass qemu's arguments" >&2
+		exit 1
+		;;
 	esac
 	[ $# -ne 0 ] && shift
 done
@@ -69,9 +69,9 @@ done
 		printf "detected image format is \"%s\", [Y/n] or specify the format: " "$imgfmt"
 		IFS= read -r p
 		case "$p" in
-			"" | Y | y | yes | Yes | YES) ;;
-			N | n | no | No | NO) exit 1 ;;
-			*) imgfmt="$p" ;;
+		"" | Y | y | yes | Yes | YES) ;;
+		N | n | no | No | NO) exit 1 ;;
+		*) imgfmt="$p" ;;
 		esac
 	}
 }

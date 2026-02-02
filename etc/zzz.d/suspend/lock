@@ -9,10 +9,10 @@ for xrd in /run/user/*; do
 	}
 	for f in "$xrd"/*; do
 		case "$f" in
-			*/wayland-[0-9])
-				display="${f##*/}"
-				break
-				;;
+		*/wayland-[0-9])
+			display="${f##*/}"
+			break
+			;;
 		esac
 	done
 done

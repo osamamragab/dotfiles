@@ -4,10 +4,10 @@ set -eu
 
 [ -n "${BROWSER_DIR:-}" ] ||
 	case "${BROWSER:-firefox}" in
-		firefox) BROWSER_DIR="$HOME/.mozilla/firefox" ;;
-		waterfox) BROWSER_DIR="$HOME/.waterfox" ;;
-		librewolf) BROWSER_DIR="$HOME/.librewolf" ;;
-		zen-browser) BROWSER_DIR="$HOME/.zen" ;;
+	firefox) BROWSER_DIR="$HOME/.mozilla/firefox" ;;
+	waterfox) BROWSER_DIR="$HOME/.waterfox" ;;
+	librewolf) BROWSER_DIR="$HOME/.librewolf" ;;
+	zen-browser) BROWSER_DIR="$HOME/.zen" ;;
 	esac
 
 sed -n "/Default=.*\..*/s/.*=//p" "$BROWSER_DIR/profiles.ini" | while IFS= read -r p; do

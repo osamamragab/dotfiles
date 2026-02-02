@@ -12,18 +12,18 @@ dirsel() {
 }
 
 case "${1:--}" in
-	.)
-		dir="$(pwd)"
-		shift
-		;;
-	-)
-		dir="$SRCDIR/$(dirsel)" || exit $?
-		[ $# -gt 0 ] && shift
-		;;
-	*)
-		dir="$(readlink -f "$1")"
-		shift
-		;;
+.)
+	dir="$(pwd)"
+	shift
+	;;
+-)
+	dir="$SRCDIR/$(dirsel)" || exit $?
+	[ $# -gt 0 ] && shift
+	;;
+*)
+	dir="$(readlink -f "$1")"
+	shift
+	;;
 esac
 
 [ -d "$dir" ] || {

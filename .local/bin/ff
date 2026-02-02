@@ -4,16 +4,16 @@ set -eu
 
 for arg; do
 	case "$arg" in
-		-m[0-9])
-			maxdepth="${arg#-m}"
-			;;
-		-t[bcdpflsD])
-			[ -n "${type:-}" ] && type="$type,${arg#-t}" || type="${arg#-t}"
-			;;
-		*)
-			[ -n "${name:-}" ] && dir="$name"
-			name="$arg"
-			;;
+	-m[0-9])
+		maxdepth="${arg#-m}"
+		;;
+	-t[bcdpflsD])
+		[ -n "${type:-}" ] && type="$type,${arg#-t}" || type="${arg#-t}"
+		;;
+	*)
+		[ -n "${name:-}" ] && dir="$name"
+		name="$arg"
+		;;
 	esac
 done
 

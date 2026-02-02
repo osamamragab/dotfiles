@@ -13,42 +13,42 @@ cd "$NOTES_DIR" || {
 }
 
 case "${1:--l}" in
-	-s)
-		shift
-		[ $# -eq 0 ] && {
-			echo "$(basename "$0"): empty search term" >&2
-			exit 1
-		}
-		exec grep -Hnr --color=auto "$@"
-		;;
-	-l)
-		height="${2:-10}"
-		sel="$(find "$NOTES_DIR" -type f -not -path "$NOTES_DIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | fzf --height="~$height")" || exit $?
-		[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
-		$EDITOR "$NOTES_DIR/${sel:-pad.txt}"
-		;;
-	-*)
-		echo "$(basename "$0"): unknown option: $1" >&2
+-s)
+	shift
+	[ $# -eq 0 ] && {
+		echo "$(basename "$0"): empty search term" >&2
 		exit 1
-		;;
-	*)
-		for f; do
-			case "$f" in
-				*.*) $EDITOR "$NOTES_DIR/$f" ;;
-				*)
-					if [ -d "$NOTES_DIR/$f" ]; then
-						NOTES_DIR="$NOTES_DIR/$f" "$0"
-					elif [ -f "$NOTES_DIR/$f.md" ]; then
-						$EDITOR "$NOTES_DIR/$f.md"
-					elif [ -f "$NOTES_DIR/$f.txt" ]; then
-						$EDITOR "$NOTES_DIR/$f.txt"
-					elif [ -f "$NOTES_DIR/$f.todo.txt" ]; then
-						$EDITOR "$NOTES_DIR/$f.todo.txt"
-					else
-						$EDITOR "$NOTES_DIR/$f"
-					fi
-					;;
-			esac
-		done
-		;;
+	}
+	exec grep -Hnr --color=auto "$@"
+	;;
+-l)
+	height="${2:-10}"
+	sel="$(find "$NOTES_DIR" -type f -not -path "$NOTES_DIR/.*" -printf "%T@ %P\n" | sort -nr | cut -d " " -f 2- | fzf --height="~$height")" || exit $?
+	[ "$sel" != "${sel#+}" ] && sel="${sel#+}"
+	$EDITOR "$NOTES_DIR/${sel:-pad.txt}"
+	;;
+-*)
+	echo "$(basename "$0"): unknown option: $1" >&2
+	exit 1
+	;;
+*)
+	for f; do
+		case "$f" in
+		*.*) $EDITOR "$NOTES_DIR/$f" ;;
+		*)
+			if [ -d "$NOTES_DIR/$f" ]; then
+				NOTES_DIR="$NOTES_DIR/$f" "$0"
+			elif [ -f "$NOTES_DIR/$f.md" ]; then
+				$EDITOR "$NOTES_DIR/$f.md"
+			elif [ -f "$NOTES_DIR/$f.txt" ]; then
+				$EDITOR "$NOTES_DIR/$f.txt"
+			elif [ -f "$NOTES_DIR/$f.todo.txt" ]; then
+				$EDITOR "$NOTES_DIR/$f.todo.txt"
+			else
+				$EDITOR "$NOTES_DIR/$f"
+			fi
+			;;
+		esac
+	done
+	;;
 esac

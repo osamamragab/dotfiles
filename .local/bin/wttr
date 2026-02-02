@@ -6,8 +6,8 @@ set -eu
 	WTTR_PARAMS=""
 	[ -t 1 ] && [ "$(tput cols)" -lt 125 ] && WTTR_PARAMS="$WTTR_PARAMS n"
 	case "$(locale LC_MEASUREMENT 2>/dev/null | sed 1q)" in
-		1) WTTR_PARAMS="$WTTR_PARAMS m" ;;
-		2) WTTR_PARAMS="$WTTR_PARAMS u" ;;
+	1) WTTR_PARAMS="$WTTR_PARAMS m" ;;
+	2) WTTR_PARAMS="$WTTR_PARAMS u" ;;
 	esac
 }
 

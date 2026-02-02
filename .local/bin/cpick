@@ -12,28 +12,28 @@ color=""
 
 while [ $# -gt 0 ]; do
 	case "$1" in
-		-s | --store)
-			store=1
-			[ -n "${2:-}" ] && {
-				c="$(expr "$2" : '\(#\?[A-Fa-f0-9]\{6\}\|#\?[A-Fa-f0-9]\{3\}\)')" && {
-					color="#${c###}"
-					shift
-				}
+	-s | --store)
+		store=1
+		[ -n "${2:-}" ] && {
+			c="$(expr "$2" : '\(#\?[A-Fa-f0-9]\{6\}\|#\?[A-Fa-f0-9]\{3\}\)')" && {
+				color="#${c###}"
+				shift
 			}
-			;;
-		-S | --no-store)
-			store=0
-			;;
-		-c | --copy)
-			copy=1
-			;;
-		-n | --notify)
-			noti=1
-			;;
-		*)
-			echo "$(basename "$0"): unknown argument: $1" >&2
-			exit 1
-			;;
+		}
+		;;
+	-S | --no-store)
+		store=0
+		;;
+	-c | --copy)
+		copy=1
+		;;
+	-n | --notify)
+		noti=1
+		;;
+	*)
+		echo "$(basename "$0"): unknown argument: $1" >&2
+		exit 1
+		;;
 	esac
 	shift
 done

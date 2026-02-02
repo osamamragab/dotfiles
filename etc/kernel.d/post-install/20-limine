@@ -26,8 +26,8 @@ cryptsetup isLuks "$luks_device" && {
 }
 
 case "$(getconf LONG_BIT)" in
-	32) efi_file="BOOTIA32.EFI" ;;
-	64) efi_file="BOOTX64.EFI" ;;
+32) efi_file="BOOTIA32.EFI" ;;
+64) efi_file="BOOTX64.EFI" ;;
 esac
 
 cp -f "/usr/share/limine/$efi_file" "$EFI_BOOT_DIR"

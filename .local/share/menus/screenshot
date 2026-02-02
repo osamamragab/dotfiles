@@ -15,33 +15,33 @@ SCREENSHOTS_DIR="${SCREENSHOTS_DIR:-$(xdg-user-dir PICTURES)/screenshots}"
 
 sel="${1:-$(printf " Select\n Fullscreen" | menu slug)}" || exit 1
 case "$sel" in
-	fullscreen) ;;
-	select)
-		g="$(slurp -d)" || exit 1
-		;;
-	*)
-		echo "$(basename "$0"): invalid command: $sel" >&2
-		exit 1
-		;;
+fullscreen) ;;
+select)
+	g="$(slurp -d)" || exit 1
+	;;
+*)
+	echo "$(basename "$0"): invalid command: $sel" >&2
+	exit 1
+	;;
 esac
 
 sel="${2:-$(printf " Copy\n Save\n Edit" | menu slug)}" || exit 1
 case "$sel" in
-	copy)
-		grim ${g:+-g "$g"} - | wl-copy --type image/png --foreground --trim-newline
-		notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
-		;;
-	save)
-		out="$SCREENSHOTS_DIR/$(date "+%Y%m%d-%H%M%S").png"
-		grim ${g:+-g "$g"} "$out"
-		notify-send -a "$(basename "$0")" "screenshot" "saved to $out"
-		;;
-	edit)
-		out="$SCREENSHOTS_DIR/$(date "+%Y%m%d-%H%M%S").png"
-		grim ${g:+-g "$g"} -t ppm - | satty -f - -o "$out"
-		;;
-	*)
-		echo "$(basename "$0"): invalid subcommand: $sel" >&2
-		exit 1
-		;;
+copy)
+	grim ${g:+-g "$g"} - | wl-copy --type image/png --foreground --trim-newline
+	notify-send -a "$(basename "$0")" "screenshot" "saved to clipboard"
+	;;
+save)
+	out="$SCREENSHOTS_DIR/$(date "+%Y%m%d-%H%M%S").png"
+	grim ${g:+-g "$g"} "$out"
+	notify-send -a "$(basename "$0")" "screenshot" "saved to $out"
+	;;
+edit)
+	out="$SCREENSHOTS_DIR/$(date "+%Y%m%d-%H%M%S").png"
+	grim ${g:+-g "$g"} -t ppm - | satty -f - -o "$out"
+	;;
+*)
+	echo "$(basename "$0"): invalid subcommand: $sel" >&2
+	exit 1
+	;;
 esac

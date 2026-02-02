@@ -21,21 +21,21 @@ sel="$(
 	printf " Pick\n%s" "$history" |
 		sed "s@^#\(.*\)@\0\x0icon\x1f$CPICK_THUMBNAILS_DIR/\1.svg@" |
 		menu slug
-)" ||
-	case $? in
-		19)
-			rm -rf "$CPICK_DIR"
-			exit 0
-			;;
-		*)
-			exit $?
-			;;
-	esac
+)" || case $? in
+19)
+	rm -rf "$CPICK_DIR"
+	exit 0
+	;;
+*)
+	exit $?
+	;;
+esac
+
 case "$sel" in
-	pick)
-		exec cpick -c -n -s
-		;;
-	*)
-		exec cpick -c -n -s "$sel"
-		;;
+pick)
+	exec cpick -c -n -s
+	;;
+*)
+	exec cpick -c -n -s "$sel"
+	;;
 esac
