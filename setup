@@ -37,7 +37,6 @@ sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v su
 
 setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
-	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
 	[ -d "$HOME/.ssh" ] || mkdir -pv "$HOME/.ssh"
 	grep -Fxq "Include ~/.config/ssh/config" "$HOME/.ssh/config" ||
 		sed -i "1s@^@Include ~/.config/ssh/config\n\n@" "$HOME/.ssh/config"
@@ -93,7 +92,7 @@ setup_user() {
 		command -v xdg-user-dirs-update >/dev/null 2>&1 &&
 			xdg-user-dirs-update
 	}
-	chsh -s "$(which zsh)"
+	chsh -s "$(chsh -l | grep -F -m 1 /zsh)"
 	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner "$USER"
 	[ -c /dev/kvm ] &&
 		$sudocmd usermod -aG kvm "$USER"
@@ -105,6 +104,13 @@ setup_user() {
 		$sudocmd usermod -aG docker "$USER"
 	command -v nix >/dev/null 2>&1 &&
 		$sudocmd usermod -aG nixbld "$USER"
+	command -v zsh >/dev/null 2>&1 && {
+		[ -d /etc/zsh ] || $sudocmd mkdir -pv /etc/zsh
+		# shellcheck disable=SC2016
+		grep -Fxq 'export ZDOTDIR="$HOME/.config/zsh"' /etc/zsh/zshenv ||
+			echo 'export ZDOTDIR="$HOME/.config/zsh"' |
+			$sudocmd tee -a /etc/zsh/zshenv >/dev/null
+	}
 	return 0
 }
 
