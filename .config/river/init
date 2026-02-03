@@ -127,11 +127,12 @@ riverctl xcursor-theme Adwaita
 riverctl set-repeat 50 200
 riverctl keyboard-layout -options "caps:escape,grp:alt_space_toggle,grp_led:caps" "us,ara"
 
-riverctl list-inputs | grep -i touchpad | xargs -I{} riverctl input "{}" tap enabled
+riverctl list-inputs |
+	grep -Fi touchpad |
+	xargs -I{} riverctl input "{}" tap enabled
 
 riverctl default-layout rivertile
-pidof -sqx rivertile && pkill -x rivertile || true
-rivertile -view-padding 4 -outer-padding 2 &
+(rivertile -view-padding 4 -outer-padding 2 || true) &
 
 dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
