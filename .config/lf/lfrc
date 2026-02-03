@@ -9,6 +9,7 @@ set autoquit true
 set cleaner "~/.config/lf/cleaner"
 set previewer "~/.config/lf/previewer"
 
+map H set hidden!
 map <enter> shell
 map <esc> !true
 
@@ -18,4 +19,8 @@ map X !$f
 cmd open &open $f
 map o open $f
 
+map D delete
+map <delete> delete
+
+cmd q quit
 cmd extract $extract $f
