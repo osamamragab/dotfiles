@@ -198,13 +198,15 @@ setup_drivers() {
 		pkgs="$pkgs linux-firmware-intel mesa-vulkan-intel"
 		echo "$gpu_model" | grep -iq "hd graphics\|xe\|iris" && pkgs="$pkgs intel-media-driver"
 		echo "$gpu_model" | grep -Fiq "gma" && pkgs="$pkgs libva-intel-driver"
-		echo "options i915 enable_guc=2 enable_dc=4 enable_hangcheck=0 error_capture=0 enable_dp_mst=0 fastboot=1" |
+		[ -e /etc/modprobe.d/i915.conf ] ||
+			echo "options i915 enable_guc=2 enable_dc=4 enable_hangcheck=0 error_capture=0 enable_dp_mst=0 fastboot=1" |
 			$sudocmd tee /etc/modprobe.d/i915.conf >/dev/null
 	}
 	echo "$gpu_model" | grep -iq "amd" && {
 		pkgs="$pkgs linux-firmware-amd amdvlk ROCm-SMI"
 		echo "$gpu_model" | grep -iq "radeon\|amd/ati" && pkgs="$pkgs mesa-vulkan-radeon"
-		echo "options amdgpu gpu_recovery=1 lockup_timeout=10000 ppfeaturemask=0xffffffff" |
+		[ -e /etc/modprobe.d/amdgpu.conf ] ||
+			echo "options amdgpu gpu_recovery=1 lockup_timeout=10000 ppfeaturemask=0xffffffff" |
 			$sudocmd tee /etc/modprobe.d/amdgpu.conf >/dev/null
 	}
 	echo "$pkgs" | xargs "$sudocmd" xbps-install -Sy
