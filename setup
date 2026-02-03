@@ -15,16 +15,16 @@ SETUP_RUNIT_SVHOME_USER="${SETUP_RUNIT_SVHOME_USER:-${SVHOME_USER:-$XDG_CONFIG_H
 SETUP_RUNIT_SVDIR_USER="${SETUP_RUNIT_SVDIR_USER:-${SVDIR_USER:-$XDG_DATA_HOME/services}}"
 
 [ -n "${SETUP_BROWSER_DIR:-}" ] || case "$BROWSER" in
-	zen-browser) SETUP_BROWSER_DIR="$HOME/.zen" ;;
-	librewolf) SETUP_BROWSER_DIR="$HOME/.librewolf" ;;
-	waterfox) SETUP_BROWSER_DIR="$HOME/.waterfox" ;;
-	firefox) SETUP_BROWSER_DIR="$HOME/.mozilla/firefox" ;;
-	*)
-		[ "$1" = "browser" ] || [ "$1" = "install" ] && {
-			echo "$(basename "$0"): cannot determine SETUP_BROWSER_DIR" >&2
-			exit 1
-		}
-		;;
+zen-browser) SETUP_BROWSER_DIR="$HOME/.zen" ;;
+librewolf) SETUP_BROWSER_DIR="$HOME/.librewolf" ;;
+waterfox) SETUP_BROWSER_DIR="$HOME/.waterfox" ;;
+firefox) SETUP_BROWSER_DIR="$HOME/.mozilla/firefox" ;;
+*)
+	[ "$1" = "browser" ] || [ "$1" = "install" ] && {
+		echo "$(basename "$0"): cannot determine SETUP_BROWSER_DIR" >&2
+		exit 1
+	}
+	;;
 esac
 
 # shellcheck disable=SC2015
@@ -38,6 +38,9 @@ sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v su
 setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	ln -sfv "$XDG_CONFIG_HOME/shell/profile" "$HOME/.zprofile"
+	[ -d "$HOME/.ssh" ] || mkdir -pv "$HOME/.ssh"
+	grep -Fxq "Include ~/.config/ssh/config" "$HOME/.ssh/config" ||
+		sed -i "1s@^@Include ~/.config/ssh/config\n\n@" "$HOME/.ssh/config"
 	[ -d "$HERE/etc" ] &&
 		$sudocmd cp --preserve=mode,links,timestamp -rfvt /etc "$HERE/etc/."
 	[ -d "$HERE/usr" ] &&
@@ -185,16 +188,6 @@ setup_ufw() {
 	$sudocmd ufw --force enable
 }
 
-setup_pam() {
-	grep -Fq "pam_ssh.so" /etc/pam.d/login || {
-		cat <<-_EOF | $sudocmd tee -a /etc/pam.d/login >/dev/null
-
-			-auth optional pam_ssh.so try_first_pass
-			-session optional pam_ssh.so
-		_EOF
-	}
-}
-
 setup_drivers() {
 	pkgs=""
 	cpu_model="$(grep -i -m 1 "^model name\s:" /proc/cpuinfo)"
@@ -247,7 +240,6 @@ setup_install() {
 	setup_runit
 	setup_iw
 	setup_ufw
-	setup_pam
 	setup_drivers
 	setup_browser
 }
@@ -273,19 +265,18 @@ setup_uninstall() {
 }
 
 case "${1:-dotfiles}" in
-	install) setup_install ;;
-	dotfiles) setup_dotfiles ;;
-	pkgs) setup_pkgs ;;
-	user) setup_user ;;
-	runit) setup_runit ;;
-	iw) setup_iw ;;
-	ufw) setup_ufw ;;
-	pam) setup_pam ;;
-	drivers) setup_drivers ;;
-	browser) setup_browser ;;
-	uninstall) setup_uninstall ;;
-	*)
-		echo "$(basename "$0"): unknown command: $1" >&2
-		exit 1
-		;;
+install) setup_install ;;
+dotfiles) setup_dotfiles ;;
+pkgs) setup_pkgs ;;
+user) setup_user ;;
+runit) setup_runit ;;
+iw) setup_iw ;;
+ufw) setup_ufw ;;
+drivers) setup_drivers ;;
+browser) setup_browser ;;
+uninstall) setup_uninstall ;;
+*)
+	echo "$(basename "$0"): unknown command: $1" >&2
+	exit 1
+	;;
 esac

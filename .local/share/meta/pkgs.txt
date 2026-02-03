@@ -140,7 +140,6 @@ openbsd-netcat
 opendoas
 openresolv
 openssh
-pam_ssh
 pandoc
 parallel
 pass
