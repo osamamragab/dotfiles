@@ -94,9 +94,10 @@ export SVDIR_USER="$XDG_DATA_HOME/services"
 [ -n "${XDG_RUNTIME_DIR:-}" ] &&
 	export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
 
-export LESS="-R"
-export MANPAGER="nvim +Man!"
+MANPAGER="env MANPATH=$(man -w) nvim +Man!"
+export MANPAGER
 export MANROFFOPT="-P -c"
+export LESS="-R"
 export FZF_DEFAULT_OPTS="--layout=reverse --height=~40%"
 export FZF_DEFAULT_COMMAND="fd --type f --hidden --strip-cwd-prefix"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
