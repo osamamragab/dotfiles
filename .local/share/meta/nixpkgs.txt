@@ -3,7 +3,6 @@ nixpkgs#aircrack-ng
 nixpkgs#bettercap
 nixpkgs#bun
 nixpkgs#cmake
-nixpkgs#crun
 nixpkgs#delve
 nixpkgs#dive
 nixpkgs#gdb

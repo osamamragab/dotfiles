@@ -28,6 +28,7 @@ clang
 cliphist
 croc
 cronie
+crun
 cryptsetup
 cups
 cups-filters
