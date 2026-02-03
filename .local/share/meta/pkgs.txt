@@ -24,6 +24,7 @@ bzip2
 bzip3
 chafa
 chrony
+clang
 cliphist
 croc
 cronie
@@ -36,6 +37,10 @@ dbus
 dejavu-fonts-ttf
 delta
 dhcpcd
+direnv
+docker
+docker-buildx
+docker-compose
 dragon
 duf
 efibootmgr
@@ -60,7 +65,11 @@ fuse3
 fuzzel
 fwupd
 fzf
+gcc
 geoip
+git
+git-filter-repo
+git-lfs
 gnome-epub-thumbnailer
 gnupg
 grim
@@ -96,6 +105,7 @@ lsof
 lswt
 lz4jsoncat
 macchanger
+make
 mako
 man-db
 man-pages
@@ -116,6 +126,7 @@ mtpfs
 mupdf
 ncmpcpp
 ncurses-term
+neovim
 nerd-fonts-symbols-ttf
 newsboat
 nftables
@@ -134,10 +145,14 @@ pandoc
 parallel
 pass
 pass-otp
+patch
 pinentry
 pipewire
+pkgconf
 playerctl
 plocate
+podman
+podman-compose
 poppler
 power-profiles-daemon
 poweralertd
@@ -167,6 +182,7 @@ tar
 texinfo
 time
 tlp
+tmux
 tor
 torsocks
 translate-shell
