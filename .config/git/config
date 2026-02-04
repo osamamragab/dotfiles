@@ -41,6 +41,7 @@
 	tree = ls-tree --full-tree -r HEAD
 	logg = log --oneline --graph --decorate
 	undo = reset --soft HEAD^
+	root = rev-parse --show-toplevel
 
 [delta]
 	tabs = 4
