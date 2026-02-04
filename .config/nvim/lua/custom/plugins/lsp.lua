@@ -93,40 +93,27 @@ return {
 				},
 			})
 
-			local config_dir = vim.fn.stdpath("config")
-			local data_dir = vim.fn.stdpath("config")
 			vim.lsp.config("lua_ls", {
+				filetypes = { "lua" },
 				settings = {
 					Lua = {
-						codeLens = {
-							enable = true
-						},
-						hint = {
-							enable = true,
-							semicolon = "Disable"
-						},
+						telemetry = { enable = false },
+						codeLens = { enable = true },
+						hint = { enable = true },
 						runtime = {
-							path = { "?.lua", "?/init.lua" },
+							path = vim.split(package.path, ";"),
 							pathStrict = true,
-							version = "LuaJIT"
+							version = jit and "LuaJIT" or _VERSION or "Lua 5.1",
 						},
 						workspace = {
 							checkThirdParty = false,
-							ignoreDir = { "/lua" },
 							library = {
+								vim.env.VIMRUNTIME,
 								"${3rd}/luv/library",
-								"/usr/share/nvim/runtime/lua",
-								config_dir .. "/lua",
-								data_dir .. "/lazy/nvim-treesitter/lua",
-								data_dir .. "/lazy/nvim-treesitter-context/lua",
-								data_dir .. "/lazy/mason.nvim/lua",
-								data_dir .. "/lazy/mason-lspconfig.nvim/lua",
-								data_dir .. "/lazy/conform.nvim/lua",
-								data_dir .. "/lazy/lazy.nvim/lua",
-							}
-						}
-					}
-				}
+							},
+						},
+					},
+				},
 			})
 
 			vim.lsp.config("ts_ls", {
