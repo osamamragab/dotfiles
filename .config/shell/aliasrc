@@ -20,11 +20,6 @@ alias gph="git push"
 alias gpl="git pull"
 alias gdf="git diff"
 
-command -v loginctl >/dev/null 2>&1 && {
-	alias reboot="loginctl -i reboot"
-	alias poweroff="loginctl -i poweroff"
-}
-
 alias ip="ip -color=auto"
 alias bc="bc -ql"
 alias diff="diff --color=auto"
@@ -58,6 +53,15 @@ zk() {
 		return $?
 	}
 	command zk "$@"
+}
+
+case "${EDITOR:-}" in
+vim | nvim) alias vi='$EDITOR --noplugin' ;;
+esac
+
+command -v loginctl >/dev/null 2>&1 && {
+	alias reboot="loginctl -i reboot"
+	alias poweroff="loginctl -i poweroff"
 }
 
 [ -f "$XINITRC" ] && alias startx='startx "$XINITRC"'
