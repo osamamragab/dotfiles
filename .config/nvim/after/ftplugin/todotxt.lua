@@ -1,8 +1,6 @@
-local M = {}
-
 ---@param done_file string? done file name relative to current file
 ---@return nil
-function M.archive_done(done_file)
+local function archive_done(done_file)
 	if vim.bo.filetype ~= "todotxt" then
 		return
 	end
@@ -61,4 +59,4 @@ function M.archive_done(done_file)
 	end
 end
 
-return M
+vim.api.nvim_create_user_command("TodotxtArchiveDone", archive_done, {})
