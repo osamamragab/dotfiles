@@ -18,7 +18,7 @@ vim.keymap.set("n", "<leader>j", "<cmd>cprev<cr>zz")
 vim.keymap.set("n", "<leader>K", "<cmd>lnext<cr>zz")
 vim.keymap.set("n", "<leader>J", "<cmd>lprev<cr>zz")
 
-vim.keymap.set("n", "Q", ":Ex<cr>")
+vim.keymap.set("n", "Q", ":Oil<cr>")
 vim.keymap.set("i", "<C-c>", "<esc>")
 vim.keymap.set("n", "<C-t>", "<cmd>tabnew<cr>")
 
