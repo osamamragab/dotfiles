@@ -25,6 +25,7 @@ nixpkgs#mitmproxy
 nixpkgs#nasm
 nixpkgs#ninja
 nixpkgs#nodejs
+nixpkgs#odin
 nixpkgs#pipenv
 nixpkgs#pipx
 nixpkgs#pnpm
