@@ -17,7 +17,8 @@ return {
 						fg = palette.gray5,
 					}
 					highlights.StatusLine = {
-						fg = "none",
+						fg = palette.while3,
+						bg = palette.gray2,
 					}
 					highlights.LineNr = {
 						fg = palette.gray5,
