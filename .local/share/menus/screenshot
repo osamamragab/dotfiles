@@ -13,7 +13,7 @@ SCREENSHOTS_DIR="${SCREENSHOTS_DIR:-$(xdg-user-dir PICTURES)/screenshots}"
 	exit 1
 }
 
-sel="${1:-$(printf " Select\n Fullscreen" | menu slug)}" || exit 1
+sel="${1:-$(printf "󰒅 Select\n Fullscreen" | menu slug)}" || exit 1
 case "$sel" in
 fullscreen) ;;
 select)
