@@ -104,13 +104,6 @@ setup_user() {
 		$sudocmd usermod -aG docker "$USER"
 	command -v nix >/dev/null 2>&1 &&
 		$sudocmd usermod -aG nixbld "$USER"
-	command -v zsh >/dev/null 2>&1 && {
-		[ -d /etc/zsh ] || $sudocmd mkdir -pv /etc/zsh
-		# shellcheck disable=SC2016
-		grep -Fxq 'export ZDOTDIR="$HOME/.config/zsh"' /etc/zsh/zshenv ||
-			echo 'export ZDOTDIR="$HOME/.config/zsh"' |
-			$sudocmd tee -a /etc/zsh/zshenv >/dev/null
-	}
 	return 0
 }
 
