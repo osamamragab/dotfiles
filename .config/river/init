@@ -78,7 +78,7 @@ keymap normal Super I spawn "menu-handler input"
 keymap normal Super O spawn "menu-handler clipboard"
 keymap normal Super+Shift O spawn "menu-handler recents"
 keymap normal Super Backslash spawn "makoctl dismiss -a && pkill -RTMIN+7 waybar"
-keymap normal Super+Shift Backslash spawn "makoctl mode | grep -Fxq dnd || makoctl dismiss -a; makoctl mode -t dnd && pkill -RTMIN+7 waybar"
+keymap normal Super+Shift Backslash spawn "menu-handler notifications dnd"
 
 for mode in normal locked; do
 	keymap $mode None XF86Eject spawn "eject -T"

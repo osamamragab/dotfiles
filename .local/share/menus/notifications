@@ -1,0 +1,58 @@
+#!/bin/sh
+
+set -eu
+
+export MENU_PROMPT="${MENU_PROMPT:-Notifications}"
+
+parse_history() {
+	list=""
+	id=""
+	msg=""
+	desktop=""
+	appname=""
+	urgency=""
+	while IFS= read -r line; do
+		noti="${line#Notification }"
+		[ "$noti" != "$line" ] && {
+			[ -n "$id" ] &&
+				list="${list:+$list\n}$id\t$msg ($urgency)\0icon\x1f$desktop,$appname"
+			id="${noti%:*}"
+			msg="${line#*:}"
+			desktop=""
+			appname=""
+			urgency=""
+		}
+		[ "${line#  Desktop entry:}" != "$line" ] && desktop="${line#  Desktop entry: }"
+		[ "${line#  App name:}" != "$line" ] && appname="${line#  App name: }"
+		[ "${line#  Urgency:}" != "$line" ] && urgency="${line#  Urgency: }"
+	done
+	printf "%b" "$list"
+}
+
+mode="$(makoctl mode)"
+dnd="off"
+silent="off"
+echo "$mode" | grep -Fxq dnd && dnd="on"
+echo "$mode" | grep -Fxq silent && silent="on"
+
+action="${1:-$(
+	printf " History\n Silent (%s)\n Do Not Disturb (%s)\n󰎟 Clear" "$silent" "$dnd" |
+		menu slug
+)}" || exit 1
+case "$action" in
+history)
+	makoctl history | parse_history | menu --with-nth 2 --accept-nth 1
+	;;
+silent*) makoctl mode -t silent ;;
+dnd | do-not-disturb*)
+	[ "$dnd" = "off" ] && makoctl dismiss --all
+	makoctl mode -t dnd >/dev/null
+	;;
+clear) makoctl dismiss --all ;;
+*)
+	echo "$(basename "$0"): invalid action: $action" >&2
+	exit 1
+	;;
+esac
+
+pkill -RTMIN+7 waybar
