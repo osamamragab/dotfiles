@@ -89,8 +89,8 @@
 		"tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
 		"on-click": "menu-handler sysact",
 		"states": {
-			"warning": 20,
-			"critical": 10
+			"warning": 30,
+			"critical": 15,
 		},
 	},
 	"network": {
