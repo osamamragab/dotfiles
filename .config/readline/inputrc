@@ -24,4 +24,4 @@ set skip-completed-text on
 "\e[D": backward-char
 "\e[B": history-search-forward
 "\e[A": history-search-backward
-"Control-l": clear-screen
+"\C-L": clear-screen
