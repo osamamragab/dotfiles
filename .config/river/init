@@ -77,7 +77,7 @@ keymap normal Super U spawn "menu-handler emojis"
 keymap normal Super I spawn "menu-handler input-handler"
 keymap normal Super O spawn "menu-handler clipboard-history"
 keymap normal Super+Shift O spawn "menu-handler recent-files"
-keymap normal Super Backslash spawn "makoctl dismiss -a && pkill -RTMIN+7 waybar"
+keymap normal Super Backslash spawn "menu-handler notifications clear"
 keymap normal Super+Shift Backslash spawn "menu-handler notifications dnd"
 
 for mode in normal locked; do

@@ -43,12 +43,16 @@ case "$action" in
 history)
 	makoctl history | parse_history | menu --with-nth 2 --accept-nth 1
 	;;
-silent*) makoctl mode -t silent ;;
+silent*)
+	makoctl mode -t silent
+	;;
 dnd | do-not-disturb*)
 	[ "$dnd" = "off" ] && makoctl dismiss --all
 	makoctl mode -t dnd >/dev/null
 	;;
-clear) makoctl dismiss --all ;;
+clear)
+	makoctl dismiss --all
+	;;
 *)
 	echo "$(basename "$0"): invalid action: $action" >&2
 	exit 1
