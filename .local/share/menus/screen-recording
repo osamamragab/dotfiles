@@ -18,7 +18,7 @@ wfpid="$(pidof -sx wf-recorder 2>/dev/null)" && {
 	case "$sel" in
 	stop)
 		while kill "$wfpid" >/dev/null 2>&1; do sleep 0.1; done
-		pkill -RTMIN+8 waybar
+		pkill -x -RTMIN+8 waybar
 		;;
 	cancel) ;;
 	*)
@@ -50,4 +50,4 @@ select-video-only)
 esac
 
 setsid -f wf-recorder "$@" -f "$SCREENREC_DIR/$(date "+%Y%m%d-%H%M%S").mkv"
-pkill -RTMIN+8 waybar
+pkill -x -RTMIN+8 waybar

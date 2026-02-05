@@ -6,18 +6,18 @@ output HEADLESS-1 {
 profile laptop {
 	output eDP-1 enable
 	output $HEADLESS disable
-	exec pkill wayvnc
+	exec pkill -x wayvnc
 }
 
 profile dock {
 	output eDP-1 enable
 	output HDMI-A-1 enable
-	exec pkill wayvnc
+	exec pkill -x wayvnc
 }
 
 profile homelab {
 	output LVDS-1 enable
-	exec pkill wayvnc
+	exec pkill -x wayvnc
 }
 
 profile headless {

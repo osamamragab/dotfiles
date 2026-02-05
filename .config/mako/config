@@ -39,7 +39,7 @@ on-notify=none
 [mode=dnd]
 invisible=1
 default-timeout=0
-on-notify=exec pkill -RTMIN+7 waybar
+on-notify=exec pkill -x -RTMIN+7 waybar
 
 [mode=dnd urgency=low]
 on-notify=dismiss

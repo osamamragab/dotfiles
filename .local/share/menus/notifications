@@ -59,4 +59,4 @@ clear)
 	;;
 esac
 
-pkill -RTMIN+7 waybar
+pkill -x -RTMIN+7 waybar
