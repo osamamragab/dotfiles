@@ -122,7 +122,7 @@ riverctl rule-add -title Picture-in-Picture tags $sticky_tag
 riverctl hide-cursor timeout 5000
 riverctl hide-cursor when-typing enabled
 riverctl set-cursor-warp on-focus-change
-riverctl xcursor-theme Adwaita
+riverctl xcursor-theme Adwaita "${XCURSOR_SIZE:-24}"
 
 riverctl set-repeat 50 200
 riverctl keyboard-layout -options "caps:escape,grp:alt_space_toggle,grp_led:caps" "us,ara"
