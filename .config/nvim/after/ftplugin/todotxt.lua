@@ -59,4 +59,14 @@ local function archive_done(done_file)
 	end
 end
 
-vim.api.nvim_create_user_command("TodotxtArchiveDone", archive_done, {})
+vim.api.nvim_create_user_command("TodotxtArchiveDone", function()
+	archive_done()
+end, {})
+
+local augroup = vim.api.nvim_create_augroup("todotxt_format", { clear = true })
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	group = augroup,
+	pattern = { "todo.txt", "*.todo.txt" },
+	command = "TodotxtArchiveDone",
+})
