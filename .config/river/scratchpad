@@ -6,7 +6,7 @@ tag="$1"
 appid="scratchpad"
 
 lswt -c a | grep -Fxq "$appid" ||
-	riverctl spawn "terminal -a $appid -w 920x680 && riverctl toggle-focused-tags $tag"
+	riverctl spawn "terminal -a $appid -w 980x620 && riverctl toggle-focused-tags $tag"
 
 riverctl toggle-focused-tags "$tag"
 
