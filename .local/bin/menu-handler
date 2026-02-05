@@ -5,37 +5,16 @@ set -eu
 export MENU_PROMPT="${MENU_PROMPT:-Menu}"
 
 MENUS_DIR="${MENUS_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/menus}"
-menus="$(
-	cat <<-_EOF
-		apps,󰀻 Apps
-		input, Input Handler
-		recents, Recent Files
-		clipboard, Clipboard History
-		bookmarks, Bookmarks
-		emojis,󰞅 Emojis
-		color-picker, Color Picker
-		pass, Passwords
-		pass-otp,󰈷 Passwords OTP
-		screenshot, Screenshot
-		screenrec,󰻃 Screen Recording
-		power-profiles, Power Profiles
-		display-profiles,󰹑 Display Profiles
-		sysact, System Actions
-	_EOF
-)"
 
-menu="${1:-$(echo "$menus" | menu --nth-delimiter "," --with-nth 2)}" || exit 1
-[ $# -gt 0 ] && {
-	shift
-	menu="$(echo "$menus" | grep -m 1 "^$menu,")"
-}
+menu="${1:-$(
+	printf "󰀻 Apps\n Input Handler\n Recent Files\n Clipboard History\n Bookmarks\n󰞅 Emojis\n Color Picker\n Passwords\n󰈷 Passwords OTP\n Screenshot\n󰻃 Screen Recording\n Power Profiles\n󰹑 Display Profiles\n System Actions" |
+		menu slug
+)}" || exit 1
+[ $# -gt 0 ] && shift
 
-prompt="${menu#*,* }"
-script="${menu%,*}"
-
-[ -x "$MENUS_DIR/$script" ] || {
-	echo "$(basename "$0"): invalid menu: $prompt ($script)" >&2
+[ -x "$MENUS_DIR/$menu" ] || {
+	echo "$(basename "$0"): invalid menu: $menu" >&2
 	exit 1
 }
 
-MENU_PROMPT="$prompt" exec "$MENUS_DIR/$script" "$@"
+MENU_PROMPT="" exec "$MENUS_DIR/$menu" "$@"
