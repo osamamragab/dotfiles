@@ -22,12 +22,43 @@ get)
 toggle)
 	wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 	;;
+mute)
+	wpctl set-mute @DEFAULT_AUDIO_SINK@ 1
+	;;
+unmute)
+	wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+	;;
 *+ | *- | *%)
 	wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
 	wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1" --limit "$VOLUMECTL_LIMIT"
 	;;
+mic)
+	case "${2:-get}" in
+	get)
+		amixer get Capture
+		;;
+	mute)
+		amixer -q set Capture nocap
+		;;
+	unmute)
+		amixer -q set Capture cap
+		;;
+	toggle | cap | nocap)
+		amixer -q set Capture "$2"
+		;;
+	*+ | *- | *%)
+		amixer -q set Capture cap
+		amixer -q set Capture "$2"
+		;;
+	*)
+		echo "$(basename "$0"): $1: invalid subcommand: $2" >&2
+		exit 1
+		;;
+	esac
+	exit 0
+	;;
 *)
-	echo "$(basename): invalid command: $1" >&2
+	echo "$(basename "$0"): invalid command: $1" >&2
 	exit 1
 	;;
 esac

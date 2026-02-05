@@ -86,11 +86,11 @@ for mode in normal locked; do
 	keymap -repeat $mode None XF86AudioRaiseVolume spawn "volumectl 5%+"
 	keymap -repeat $mode None XF86AudioLowerVolume spawn "volumectl 5%-"
 	keymap $mode None XF86AudioMute spawn "volumectl toggle"
-	keymap $mode None XF86AudioMicMute spawn "amixer -q set Capture toggle"
+	keymap $mode None XF86AudioMicMute spawn "volumectl mic toggle"
 	keymap -repeat $mode Super Equal spawn "volumectl 5%+"
 	keymap -repeat $mode Super Minus spawn "volumectl 5%-"
 	keymap $mode Super Backspace spawn "volumectl toggle"
-	keymap $mode Super+Shift Backspace spawn "amixer -q set Capture toggle"
+	keymap $mode Super+Control Backspace spawn "volumectl mic toggle"
 
 	keymap $mode None XF86AudioNext spawn "playerctl next"
 	keymap $mode None XF86AudioPrev spawn "playerctl previous"
