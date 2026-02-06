@@ -2,12 +2,7 @@ lock "screenlocker || waylock"
 before-sleep "loginctl -i lock-session"
 idlehint 1200
 
-timeout 180 "makoctl mode -a away >/dev/null 2>&1; $XDG_CONFIG_HOME/swayidle/inhibit || screenlightctl dim" \
-	resume "makoctl mode -r away >/dev/null 2>&1; screenlightctl undim"
-
+timeout 180 "makoctl mode -a away >/dev/null 2>&1; $XDG_CONFIG_HOME/swayidle/inhibit || screenlightctl dim" resume "makoctl mode -r away >/dev/null 2>&1; screenlightctl undim"
 timeout 300 "$XDG_CONFIG_HOME/swayidle/inhibit || loginctl -i lock-session"
-
-timeout 330 "$XDG_CONFIG_HOME/swayidle/inhibit || wlopm --off '*'" \
-	resume "wlopm --on '*'"
-
+timeout 330 "$XDG_CONFIG_HOME/swayidle/inhibit || wlopm --off '*'" resume "wlopm --on '*'"
 timeout 1200 "$XDG_CONFIG_HOME/swayidle/inhibit || loginctl -i suspend"
