@@ -30,7 +30,7 @@ home="$(getent passwd "$user" | cut -d ":" -f 6)"
 	}
 
 lockcmd="waylock"
-[ -x "$home/.local/bin/screenlock" ] && lockcmd="$home/.local/bin/screenlock"
+[ -x "$home/.local/bin/screenlocker" ] && lockcmd="$home/.local/bin/screenlocker"
 
 exec chpst \
 	-u "$user" \

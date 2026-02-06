@@ -2,19 +2,26 @@
 
 set -eu
 
-[ $# -eq 0 ] && {
+case "${1:-}" in
+"" | info)
 	brightnessctl -m -c backlight info 2>/dev/null | cut -d "," -f 4
-	exit $?
-}
-
-brightnessctl -q -c backlight set "$@"
-
-bri="$(brightnessctl -m -c backlight info 2>/dev/null | cut -d "," -f 4)" || exit 1
-notify-send \
-	-u low \
-	-t 1000 \
-	-a "$(basename "$0")" \
-	-h "int:value:$bri" \
-	-h "string:x-canonical-private-synchronous:brightness" \
-	"brightness" \
-	"$bri"
+	;;
+dim)
+	brightnessctl -q -s -c backlight set "${2:-20%}"
+	;;
+undim)
+	brightnessctl -q -r >/dev/null
+	;;
+*)
+	brightnessctl -q -c backlight set "$@"
+	bri="$(brightnessctl -m -c backlight info 2>/dev/null | cut -d "," -f 4)" || exit 1
+	notify-send \
+		-u low \
+		-t 1000 \
+		-a "$(basename "$0")" \
+		-h "int:value:$bri" \
+		-h "string:x-canonical-private-synchronous:brightness" \
+		"brightness" \
+		"$bri"
+	;;
+esac
