@@ -121,6 +121,7 @@ mesa-vulkan-overlay-layer
 mosh
 mpc
 mpd
+mpdris2-rs
 mpv
 mpv-mpris
 mtpfs
