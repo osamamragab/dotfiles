@@ -4,4 +4,4 @@ exec 2>&1
 
 [ -r ./conf ] && . ./conf
 
-exec syncthing serve --no-browser $OPTS 2>&1
+exec syncthing serve --no-browser $OPTS

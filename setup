@@ -156,6 +156,7 @@ setup_runit() {
 			"$SETUP_RUNIT_SVHOME_USER/cliphist-image" \
 			"$SETUP_RUNIT_SVHOME_USER/wl-clip-persist" \
 			"$SETUP_RUNIT_SVHOME_USER/mpd" \
+			"$SETUP_RUNIT_SVHOME_USER/mpdris2-rs" \
 			"$SETUP_RUNIT_SVHOME_USER/mpris-proxy" \
 			"$SETUP_RUNIT_SVHOME_USER/playerctld" \
 			"$SETUP_RUNIT_SVHOME_USER/podman" \

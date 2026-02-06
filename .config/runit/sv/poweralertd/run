@@ -4,4 +4,4 @@ exec 2>&1
 
 [ -r ./conf ] && . ./conf
 
-exec poweralertd -s $OPTS 2>&1
+exec poweralertd -s $OPTS

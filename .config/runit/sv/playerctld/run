@@ -4,4 +4,4 @@ exec 2>&1
 
 [ -r ./conf ] && . ./conf
 
-exec playerctld $OPTS 2>&1
+exec playerctld $OPTS

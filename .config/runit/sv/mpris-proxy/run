@@ -4,4 +4,4 @@ exec 2>&1
 
 [ -r ./conf ] && . ./conf
 
-exec mpris-proxy $OPTS 2>&1
+exec mpris-proxy $OPTS

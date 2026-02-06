@@ -4,4 +4,4 @@ exec 2>&1
 
 [ -r ./conf ] && . ./conf
 
-exec pipewire $OPTS 2>&1
+exec pipewire $OPTS
