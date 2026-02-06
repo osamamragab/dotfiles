@@ -4,9 +4,13 @@ set -eu
 
 tag="$1"
 appid="scratchpad"
+state="$(lswt -c af)"
 
-lswt -c a | grep -Fxq "$appid" ||
-	riverctl spawn "terminal -a $appid -w 980x620 && riverctl toggle-focused-tags $tag"
+echo "$state" | grep -Fq ",true" &&
+	riverctl toggle-fullscreen
+
+echo "$state" | grep -Fq "$appid," ||
+	riverctl spawn "terminal -a $appid -w 840x560 && riverctl toggle-focused-tags $tag"
 
 riverctl toggle-focused-tags "$tag"
 
