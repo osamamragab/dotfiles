@@ -53,7 +53,7 @@ setup_dotfiles() {
 		gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 		gsettings set org.gnome.desktop.interface gtk-theme "${GTK_THEME:-Adwaita-dark}"
 		gsettings set org.gnome.desktop.interface icon-theme Adwaita
-		gsettings set org.gnome.desktop.interface cursor-theme Adwaita
+		gsettings set org.gnome.desktop.interface cursor-theme "${XCURSOR_THEME:-Adwaita}"
 		gsettings set org.gnome.desktop.interface cursor-size "${XCURSOR_SIZE:-24}"
 	}
 	return 0
