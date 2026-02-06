@@ -108,6 +108,7 @@ riverctl background-color 0x2e3440
 riverctl border-color-urgent 0xb74e58
 riverctl border-color-focused 0x5e81ac
 riverctl border-color-unfocused 0x4c566a
+riverctl border-width 2
 
 riverctl rule-add ssd
 riverctl rule-add -app-id bar csd
