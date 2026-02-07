@@ -99,7 +99,7 @@ MANPAGER="env MANPATH=$(man -w) nvim +Man!"
 export MANPAGER
 export MANROFFOPT="-P -c"
 export LESS="-R"
-export FZF_DEFAULT_OPTS="--layout=reverse --height=~40%"
+export FZF_DEFAULT_OPTS="--tiebreak=begin --layout=reverse --height=~40%"
 export FZF_DEFAULT_COMMAND="fd --type f --hidden --strip-cwd-prefix"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export PASSWORD_STORE_GPG_OPTS="--no-throw-keyids"
