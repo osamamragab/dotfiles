@@ -1,21 +1,19 @@
 {
 	"layer": "top",
 	"position": "top",
-	"height": 1,
+	"height": 26,
+	"spacing": 0,
 	"modules-left": [
 		"river/tags",
 		"river/mode",
 	],
 	"modules-center": [
-		"clock#date",
-		"clock#time",
+		"clock",
+		"group/indicators",
 	],
 	"modules-right": [
+		"group/expander",
 		"mpris",
-		"privacy",
-		"custom/recording",
-		"tray",
-		"custom/dnd",
 		"wireplumber",
 		"bluetooth",
 		"network",
@@ -26,14 +24,9 @@
 		"num-tags": 9,
 		"hide-vacant": true,
 	},
-	"clock#time": {
-		"interval": 10,
-		"format": "{:%H:%M}",
-		"tooltip": false,
-	},
-	"clock#date": {
+	"clock": {
 		"interval": 60,
-		"format": "{:%a}",
+		"format": "{:%a %H:%M}",
 		"tooltip-format": "<span size='10pt'>{calendar}</span>",
 		"calendar": {
 			"mode": "month",
@@ -57,7 +50,7 @@
 	},
 	"wireplumber": {
 		"format": "{icon}",
-		"format-muted": "󰝟",
+		"format-muted": "",
 		"tooltip-format": "{volume}% - {node_name}",
 		"on-click": "terminal -a float wiremix",
 		"on-click-right": "helvum",
@@ -87,7 +80,7 @@
 		"format-full": "󰂅",
 		"tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
 		"tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
-		"on-click": "menu-handler sysact",
+		"on-click": "menu-handler power-profiles",
 		"states": {
 			"warning": 30,
 			"critical": 15,
@@ -118,9 +111,52 @@
 		"tooltip-format-enumerate-connected": "- {device_alias}\t[{device_address}]",
 		"tooltip-format-enumerate-connected-battery": "- {device_alias}\t[{device_address}]\t({device_battery_percentage}%)",
 	},
+	"group/expander": {
+		"orientation": "inherit",
+		"drawer": {
+			"transition-duration": 500,
+			"children-class": "expander-group-item",
+		},
+		"modules": [
+			"custom/expand-icon",
+			"tray",
+		],
+	},
+	"group/indicators": {
+		"orientation": "inherit",
+		"modules": [
+			"custom/dnd",
+			"custom/recording",
+			"privacy",
+		],
+	},
+	"custom/expand-icon": {
+		"format": "",
+		"tooltip": false,
+		"on-scroll-up": "",
+		"on-scroll-down": "",
+		"on-scroll-left": "",
+		"on-scroll-right": "",
+	},
+	"tray": {
+		"icon-size": 16,
+		"spacing": 8,
+	},
+	"mpris": {
+		"player": "playerctld",
+		"format": "{status_icon}",
+		"tooltip-format": "{title} • {artist}",
+		"title-len": 10,
+		"artist-len": 10,
+		"status-icons": {
+			"paused": "",
+			"stopped": "",
+			"playing": "",
+		},
+	},
 	"privacy": {
-		"icon-spacing": 4,
-		"icon-size": 18,
+		"icon-size": 14,
+		"icon-spacing": 0,
 		"transition-duration": 250,
 		"ignore-monitor": true,
 		"ignore": [
@@ -142,45 +178,25 @@
 			},
 		],
 	},
-	"tray": {
-		"icon-size": 18,
-		"spacing": 12,
-	},
-	"mpris": {
-		"player": "playerctld",
-		"format": "{status_icon}",
-		"tooltip-format": "{title} • {artist}",
-		"title-len": 10,
-		"artist-len": 10,
-		"status-icons": {
-			"paused": "",
-			"stopped": "",
-			"playing": "",
-		},
-	},
 	"custom/dnd": {
 		"format": "{}",
 		"interval": "once",
 		"exec": "$XDG_CONFIG_HOME/waybar/scripts/dnd",
 		"on-click": "makoctl mode -r dnd >/dev/null 2>&1",
 		"tooltip": false,
-		"hide-empty-text": true,
 		"signal": 7,
 	},
 	"custom/recording": {
 		"format": "{}",
 		"interval": "once",
-		"exec": "echo ''",
-		"exec-if": "pidof -sqx wf-recorder",
-		"on-click": "menu-handler screenrec stop",
-		"tooltip": false,
+		"exec": "$XDG_CONFIG_HOME/waybar/scripts/screen-recording",
+		"on-click": "menu-handler screen-recording stop",
 		"signal": 8,
 	},
 	"custom/days": {
 		"format": "{}",
-		"tooltip": false,
 		"interval": 1800,
-		"exec": "echo $(( ($(date +%s) - $(date -d 2004-06-09 +%s)) / 86400 ))",
-		"on-click": "terminal -a float -w 980x620 notes todo",
+		"exec": "$XDG_CONFIG_HOME/waybar/scripts/days",
+		"on-click": "terminal -a float -w 840x560 notes todo",
 	},
 }

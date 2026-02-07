@@ -3,6 +3,12 @@
 set -eu
 
 makoctl mode 2>/dev/null | grep -Fxq dnd || exit 1
-count="$(makoctl list 2>/dev/null | grep -c "^Notification")" &&
-	echo " $count" ||
-	echo ""
+
+count="$(makoctl list 2>/dev/null | grep -c "^Notification")" || true
+case "$count" in
+0) count="" ;;
+[1-9]) ;;
+*) count="9+" ;;
+esac
+
+printf "%s\nDisable DnD" "${count:+ $count}"
