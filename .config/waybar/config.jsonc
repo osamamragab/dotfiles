@@ -54,7 +54,7 @@
 		"tooltip-format": "{volume}% - {node_name}",
 		"on-click": "terminal -a float wiremix",
 		"on-click-right": "helvum",
-		"on-click-middle": "volumectl toggle",
+		"on-click-middle": "audioctl toggle",
 		"max-volume": 200,
 		"scroll-step": 5,
 		"format-icons": {

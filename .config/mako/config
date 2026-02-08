@@ -53,7 +53,7 @@ on-notify=dismiss
 [mode=dnd urgency=critical]
 invisible=0
 
-[app-name=volumectl]
+[app-name=audioctl]
 history=0
 on-notify=none
 
