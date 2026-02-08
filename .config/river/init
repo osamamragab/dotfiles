@@ -139,7 +139,7 @@ wlopm |
 	xargs -I{} riverctl spawn "wlr-randr --output {} --scale 1.25"
 
 riverctl default-layout rivertile
-(rivertile -view-padding 4 -outer-padding 2 || true) &
+(rivertile -view-padding 3 -outer-padding 0 || true) &
 
 dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
