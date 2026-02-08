@@ -9,9 +9,6 @@ return {
 					bg = true,
 					float = false,
 				},
-				telescope = {
-					style = "classic",
-				},
 				on_highlight = function(highlights, palette)
 					highlights.Comment = {
 						fg = palette.gray5,
