@@ -12,6 +12,7 @@ alias rm="rm -Iv"
 alias ls="ls -hF --color=auto --group-directories-first"
 alias ll="ls -lA"
 alias grep="grep --color=auto"
+alias gr="grep -Hnr"
 
 alias g="git"
 alias gst="git status -sb"
@@ -31,15 +32,6 @@ alias drag="dragon-drop -a -x"
 alias adb='env HOME="$ANDROID_USER_HOME" adb'
 alias mitmproxy='mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
 alias mitmweb='mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'
-
-gr() {
-	sed -n "s@^/\|/\$@@gp" "$XDG_CONFIG_HOME/git/ignore" 2>/dev/null |
-		while IFS= read -r dir; do
-		echo "ignoring $dir"
-			set -- --exclude-dir="$dir" "$@"
-		done
-	grep -Hnr "$@"
-}
 
 lfcd() {
 	cd "$(command lf -print-last-dir "$@")" || return $?
