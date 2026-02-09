@@ -83,6 +83,8 @@ setup_pkgs() {
 		go telemetry off
 	command -v rustup >/dev/null 2>&1 &&
 		rustup default stable
+	command -v tldr >/dev/null 2>&1 &&
+		tldr --update
 	command -v mpv >/dev/null 2>&1 && [ -f /usr/lib/mpv-mpris/mpris.so ] && {
 		[ -d /etc/mpv/scripts ] || $sudocmd mkdir -pv /etc/mpv/scripts
 		$sudocmd ln -sfvt /etc/mpv/scripts /usr/lib/mpv-mpris/mpris.so
