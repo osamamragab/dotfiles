@@ -1,4 +1,5 @@
 nixpkgs#aardvark-dns
+nixpkgs#act
 nixpkgs#aircrack-ng
 nixpkgs#bettercap
 nixpkgs#bun
