@@ -1,0 +1,6 @@
+--tiebreak=begin
+--layout=reverse
+--height=~40%
+--ansi
+--highlight-line
+--expect=ctrl-y
