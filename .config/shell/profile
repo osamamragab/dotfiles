@@ -2,6 +2,10 @@
 
 . "$HOME/.config/shell/env"
 
+login_file="/tmp/.displaylogin-$USER"
 [ -z "${WAYLAND_DISPLAY:-}" ] &&
 	[ "${XDG_VTNR:-0}" -eq 1 ] &&
+	[ ! -f "$login_file" ] && {
+	touch "$login_file"
 	exec ssh-agent "$XDG_CONFIG_HOME/river/run"
+}
