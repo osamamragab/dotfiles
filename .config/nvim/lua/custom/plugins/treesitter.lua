@@ -16,6 +16,7 @@ return {
 				"json",
 				"vimdoc",
 				"todotxt",
+				"nix",
 				"tsx",
 				"jsx",
 				"typescript",
