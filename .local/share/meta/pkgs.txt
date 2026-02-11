@@ -186,6 +186,7 @@ tlp
 tmux
 tor
 torsocks
+traceroute
 translate-shell
 transmission
 udisks2
