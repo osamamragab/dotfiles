@@ -7,6 +7,7 @@ max-visible=5
 max-history=20
 default-timeout=5000
 font=monospace 12
+format=<b>%a: %s</b>\n%b
 outer-margin=2
 margin=0,0,5,0
 padding=5
