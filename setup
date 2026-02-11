@@ -112,6 +112,8 @@ setup_user() {
 		$sudocmd usermod -aG docker "$USER"
 	command -v nix >/dev/null 2>&1 &&
 		$sudocmd usermod -aG nixbld "$USER"
+	command -v keyd >/dev/null 2>&1 &&
+		$sudocmd usermod -aG keyd "$USER"
 	return 0
 }
 
