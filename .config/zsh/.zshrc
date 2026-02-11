@@ -107,9 +107,19 @@ command -v zr >/dev/null 2>&1 &&
 command -v fzf >/dev/null 2>&1 && {
 	. <(fzf --zsh)
 
+	__fzf_file() {
+		local buf="$LBUFFER"
+		LBUFFER=""
+		zle fzf-file-widget || {
+			local ec=$?
+			LBUFFER="$buf"
+			return $ec
+		}
+	}
+
 	fzf-editor-widget() {
-		LBUFFER="$EDITOR "
-		zle fzf-file-widget
+		__fzf_file || return $?
+		LBUFFER="$EDITOR $LBUFFER"
 		zle accept-line
 	}
 	zle -N fzf-editor-widget
@@ -118,9 +128,10 @@ command -v fzf >/dev/null 2>&1 && {
 	bindkey -M emacs "^F" fzf-editor-widget
 
 	fzf-open-widget() {
-		LBUFFER="xdg-open "
-		command -v open >/dev/null 2>&1 && LBUFFER="open "
-		zle fzf-file-widget
+		__fzf_file || return $?
+		command -v open >/dev/null 2>&1 &&
+			LBUFFER="open $LBUFFER" ||
+			LBUFFER="xdg-open $LBUFFER"
 		zle accept-line
 	}
 	zle -N fzf-open-widget
