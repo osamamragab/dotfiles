@@ -78,54 +78,18 @@ chpwd-osc7-pwd() {
 autoload -Uz add-zsh-hook
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
-fzf_select_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return $?
-	BUFFER="$BUFFER $file"
-	zle redisplay
+bindkey -s "^A" "^ulfcd\n"
+
+open-todo-widget() {
+	command -v notes >/dev/null 2>&1 && LBUFFER="notes todo"
+	[ -f TODO.md ] && LBUFFER="$EDITOR TODO.md"
+	zle reset-prompt
 	zle accept-line
 }
-zle -N fzf_select_widget
-bindkey "^s" fzf_select_widget
-
-fzf_editor_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return $?
-	BUFFER="$EDITOR $file"
-	zle redisplay
-	zle accept-line
-}
-zle -N fzf_editor_widget
-bindkey "^f" fzf_editor_widget
-
-fzf_cd_widget() {
-	local dir="$(fd --type d --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return $?
-	BUFFER="cd $dir"
-	zle redisplay
-	zle accept-line
-}
-zle -N fzf_cd_widget
-bindkey "^g" fzf_cd_widget
-
-fzf_open_widget() {
-	local file="$(fd --type f --hidden --strip-cwd-prefix | fzf | xargs printf "%q")" || return $?
-	opener="open"
-	command -v "$opener" >/dev/null 2>&1 || opener="xdg-open"
-	BUFFER="$opener $file"
-	zle redisplay
-	zle accept-line
-}
-zle -N fzf_open_widget
-bindkey "^o" fzf_open_widget
-
-todo_widget() {
-	BUFFER="notes todo"
-	[ -f TODO.md ] && BUFFER="$EDITOR TODO.md"
-	zle redisplay
-	zle accept-line
-}
-zle -N todo_widget
-bindkey "^t" todo_widget
-
-bindkey -s "^a" "^ulfcd\n"
+zle -N open-todo-widget
+bindkey -M vicmd "^[t" open-todo-widget
+bindkey -M viins "^[t" open-todo-widget
+bindkey -M emacs "^[t" open-todo-widget
 
 command -v zr >/dev/null 2>&1 &&
 	[ -r "$XDG_DATA_HOME/meta/zsh_plugins.txt" ] &&
@@ -140,8 +104,29 @@ command -v zr >/dev/null 2>&1 &&
 			fast-theme XDG:overlay >/dev/null 2>&1
 }
 
-command -v direnv >/dev/null 2>&1 && eval "$(direnv hook zsh)"
 command -v fzf >/dev/null 2>&1 && {
-	[ -r /usr/share/fzf/completion.zsh ] && . /usr/share/fzf/completion.zsh
-	[ -r /usr/share/fzf/key-bindings.zsh ] && . /usr/share/fzf/key-bindings.zsh
+	. <(fzf --zsh)
+
+	fzf-editor-widget() {
+		LBUFFER="$EDITOR "
+		zle fzf-file-widget
+		zle accept-line
+	}
+	zle -N fzf-editor-widget
+	bindkey -M vicmd "^F" fzf-editor-widget
+	bindkey -M viins "^F" fzf-editor-widget
+	bindkey -M emacs "^F" fzf-editor-widget
+
+	fzf-open-widget() {
+		LBUFFER="xdg-open "
+		command -v open >/dev/null 2>&1 && LBUFFER="open "
+		zle fzf-file-widget
+		zle accept-line
+	}
+	zle -N fzf-open-widget
+	bindkey -M vicmd "^O" fzf-open-widget
+	bindkey -M viins "^O" fzf-open-widget
+	bindkey -M emacs "^O" fzf-open-widget
 }
+
+command -v direnv >/dev/null 2>&1 && . <(direnv hook zsh)

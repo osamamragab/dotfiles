@@ -102,6 +102,8 @@ export MANPAGER
 export MANROFFOPT="-P -c"
 export LESS="-R"
 export FZF_DEFAULT_COMMAND="fd --type f --type symlink --hidden --strip-cwd-prefix"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type d --hidden --strip-cwd-prefix"
 export PASSWORD_STORE_GPG_OPTS="--no-throw-keyids"
 export MIX_XDG="true"
 export NIX_REMOTE="daemon"
