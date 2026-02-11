@@ -101,6 +101,7 @@ libspa-bluetooth
 libvirt
 limine
 linux-firmware
+linux-tools
 lm_sensors
 lsof
 lswt
