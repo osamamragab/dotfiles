@@ -1,0 +1,9 @@
+--vimgrep
+--smart-case
+--hidden
+--follow
+--glob=!.git/
+--column
+--line-number
+--no-heading
+--max-columns=4096
