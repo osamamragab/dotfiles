@@ -247,7 +247,8 @@ setup_browser() {
 					cp -rvL "$XDG_CONFIG_HOME/$b/chrome" "$SETUP_BROWSER_DIR/$p"
 			done
 		done
-	[ -n "${ffpid:-}" ] && kill "$ffpid" || true
+	[ -n "${ffpid:-}" ] && kill "$ffpid"
+	return 0
 }
 
 setup_install() {
