@@ -12,6 +12,7 @@ nixpkgs#gf
 nixpkgs#gh
 nixpkgs#go
 nixpkgs#go-tools
+nixpkgs#gotraceui
 nixpkgs#grex
 nixpkgs#hashcat
 nixpkgs#hurl
