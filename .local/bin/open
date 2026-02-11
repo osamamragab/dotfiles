@@ -4,6 +4,11 @@ set -eu
 
 OPEN_HISTORY_FILE="${OPEN_HISTORY_FILE:-${XDG_CACHE_HOME:-$HOME/.cache}/open_history.txt}"
 
+[ $# -eq 0 ] && {
+	echo "usage: $(basename "$0") <file | url>..." >&2
+	exit 1
+}
+
 for arg; do
 	setsid -f xdg-open "$arg"
 	[ -e "$arg" ] && arg="$(readlink -f "$arg")"
