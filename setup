@@ -163,6 +163,7 @@ setup_runit() {
 			"$SETUP_RUNIT_SVHOME_USER/mpdris2-rs" \
 			"$SETUP_RUNIT_SVHOME_USER/mpris-proxy" \
 			"$SETUP_RUNIT_SVHOME_USER/playerctld" \
+			"$SETUP_RUNIT_SVHOME_USER/keyd-application-mapper" \
 			"$SETUP_RUNIT_SVHOME_USER/podman" \
 			"$SETUP_RUNIT_SVHOME_USER/syncthing" \
 			"$SETUP_RUNIT_SVHOME_USER/waybar" \
