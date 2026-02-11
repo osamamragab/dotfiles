@@ -3,4 +3,4 @@
 --height=~40%
 --ansi
 --highlight-line
---expect=ctrl-y
+--bind=ctrl-y:accept
