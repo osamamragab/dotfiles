@@ -13,6 +13,9 @@
 [gpg]
 	format = ssh
 
+[gpg "ssh"]
+	program = ~/.config/git/ssh-signkey
+
 [commit]
 	gpgSign = true
 

@@ -1,0 +1,18 @@
+#!/bin/sh
+# A workaround to stop git from being annoying when using ssh signing keys.
+# By default, git uses ssh-keygen to sign commits. ssh-keygen does not honor
+# AddKeysToAgent in ssh config. So here you go.
+
+set -eu
+
+while getopts "Y:n:f:" opt; do
+	case "$opt" in
+	f)
+		key="${OPTARG%.pub}"
+		ssh-add -T "$key.pub" 2>&- || ssh-add "$key"
+		;;
+	*) ;;
+	esac
+done
+
+exec ssh-keygen "$@"
