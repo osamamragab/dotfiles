@@ -101,9 +101,12 @@ return {
 						codeLens = { enable = true },
 						hint = { enable = true },
 						runtime = {
-							path = vim.split(package.path, ";"),
-							pathStrict = true,
 							version = jit and "LuaJIT" or _VERSION or "Lua 5.1",
+							pathStrict = true,
+							path = {
+								"lua/?.lua",
+								"lua/?/init.lua",
+							},
 						},
 						workspace = {
 							checkThirdParty = false,
