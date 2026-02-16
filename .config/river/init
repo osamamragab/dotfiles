@@ -134,10 +134,6 @@ riverctl list-inputs |
 	grep -Fi touchpad |
 	xargs -I{} riverctl input "{}" tap enabled
 
-wlopm |
-	cut -d " " -f 1 |
-	xargs -I{} riverctl spawn "wlr-randr --output {} --scale 1.25"
-
 riverctl default-layout rivertile
 (rivertile -view-padding 2 -outer-padding 0 || true) &
 
