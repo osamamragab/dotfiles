@@ -21,6 +21,8 @@ return {
 				"jsx",
 				"typescript",
 				"javascript",
+				"vue",
+				"svelte",
 			}
 			local filetypes = {
 				"sh",
