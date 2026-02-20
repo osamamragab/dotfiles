@@ -2,6 +2,11 @@
 
 set -eu
 
+[ "$(id -u)" -eq 0 ] && {
+	echo "$(basename "$0"): this script should not run as root" >&2
+	exit 1
+}
+
 HERE="$(dirname "$(readlink -f "$0")")"
 . "$HERE/.config/shell/env"
 
@@ -14,11 +19,15 @@ SETUP_RUNIT_SVDIR="${SETUP_RUNIT_SVDIR:-/var/service}"
 SETUP_RUNIT_SVHOME_USER="${SETUP_RUNIT_SVHOME_USER:-${SVHOME_USER:-$XDG_CONFIG_HOME/runit/sv}}"
 SETUP_RUNIT_SVDIR_USER="${SETUP_RUNIT_SVDIR_USER:-${SVDIR_USER:-$XDG_DATA_HOME/services}}"
 
+browser_dir() {
+	[ -d "$HOME/.$1" ] && echo "$HOME/.$1" || echo "$XDG_CONFIG_HOME/$1"
+}
+
 [ -n "${SETUP_BROWSER_DIR:-}" ] || case "$BROWSER" in
-zen-browser) SETUP_BROWSER_DIR="$HOME/.zen" ;;
-librewolf) SETUP_BROWSER_DIR="$HOME/.librewolf" ;;
-waterfox) SETUP_BROWSER_DIR="$HOME/.waterfox" ;;
-firefox) SETUP_BROWSER_DIR="$HOME/.mozilla/firefox" ;;
+firefox) SETUP_BROWSER_DIR="$(browser_dir mozilla/firefox)" ;;
+waterfox) SETUP_BROWSER_DIR="$(browser_dir waterfox)" ;;
+librewolf) SETUP_BROWSER_DIR="$(browser_dir librewolf)" ;;
+zen | zen-browser) SETUP_BROWSER_DIR="$(borwser_dir zen)" ;;
 *)
 	[ "$1" = "browser" ] || [ "$1" = "install" ] && {
 		echo "$(basename "$0"): cannot determine SETUP_BROWSER_DIR" >&2
@@ -29,11 +38,6 @@ esac
 
 # shellcheck disable=SC2015
 sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
-
-[ "$(id -u)" -eq 0 ] && {
-	echo "$(basename "$0"): this script should not run as root" >&2
-	exit 1
-}
 
 setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
@@ -241,10 +245,11 @@ setup_browser() {
 			browsers="firefox"
 			[ "$BROWSER" != "$browsers" ] && browsers="$browsers $BROWSER"
 			for b in $browsers; do
-				[ -r "$XDG_CONFIG_HOME/$b/user.js" ] &&
-					cat "$XDG_CONFIG_HOME/$b/user.js" >>"$SETUP_BROWSER_DIR/$p/user.js"
-				[ -d "$XDG_CONFIG_HOME/$b/chrome" ] &&
-					cp -rvL "$XDG_CONFIG_HOME/$b/chrome" "$SETUP_BROWSER_DIR/$p"
+				dir="$XDG_DATA_HOME/meta/browsers/$b"
+				[ -r "$dir/user.js" ] &&
+					cat "$dir/user.js" >>"$SETUP_BROWSER_DIR/$p/user.js"
+				[ -d "$dir/chrome" ] &&
+					cp -rvL "$dir/chrome" "$SETUP_BROWSER_DIR/$p"
 			done
 		done
 	[ -n "${ffpid:-}" ] && kill "$ffpid"

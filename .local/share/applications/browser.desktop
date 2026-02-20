@@ -1,5 +1,5 @@
 [Desktop Entry]
 Type=Application
 Name=Web Browser
-Icon=zen-browser
-Exec=zen-browser %u
+Icon=zen
+Exec=zen %u
