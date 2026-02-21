@@ -18,23 +18,11 @@ SETUP_RUNIT_SVHOME="${SETUP_RUNIT_SVHOME:-/etc/sv}"
 SETUP_RUNIT_SVDIR="${SETUP_RUNIT_SVDIR:-/var/service}"
 SETUP_RUNIT_SVHOME_USER="${SETUP_RUNIT_SVHOME_USER:-${SVHOME_USER:-$XDG_CONFIG_HOME/runit/sv}}"
 SETUP_RUNIT_SVDIR_USER="${SETUP_RUNIT_SVDIR_USER:-${SVDIR_USER:-$XDG_DATA_HOME/services}}"
+SETUP_FIREFOX_DIR="${SETUP_FIREFOX_DIR:-$XDG_CONFIG_HOME/mozilla/firefox}"
+SETUP_FIREFOX_ARKENFOX_DIR="${SETUP_FIREFOX_ARKENFOX_DIR:-$SETUP_PROGRAMS_DIR/arkenfox-user.js}"
+SETUP_FIREFOX_USERSCRIPT_FILE="${SETUP_FIREFOX_USERSCRIPT_FILE:-$XDG_DATA_HOME/meta/firefox_user.js}"
 
-browser_dir() {
-	[ -d "$HOME/.$1" ] && echo "$HOME/.$1" || echo "$XDG_CONFIG_HOME/$1"
-}
-
-[ -n "${SETUP_BROWSER_DIR:-}" ] || case "$BROWSER" in
-firefox) SETUP_BROWSER_DIR="$(browser_dir mozilla/firefox)" ;;
-waterfox) SETUP_BROWSER_DIR="$(browser_dir waterfox)" ;;
-librewolf) SETUP_BROWSER_DIR="$(browser_dir librewolf)" ;;
-zen | zen-browser) SETUP_BROWSER_DIR="$(borwser_dir zen)" ;;
-*)
-	[ "$1" = "browser" ] || [ "$1" = "install" ] && {
-		echo "$(basename "$0"): cannot determine SETUP_BROWSER_DIR" >&2
-		exit 1
-	}
-	;;
-esac
+[ -d "$HOME/.mozilla/firefox" ] && SETUP_FIREFOX_DIR="$HOME/.mozilla/firefox"
 
 # shellcheck disable=SC2015
 sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v sudo 2>/dev/null)"
@@ -230,27 +218,20 @@ setup_drivers() {
 		xargs "$sudocmd" xbps-reconfigure -f
 }
 
-setup_browser() {
-	[ -d "$SETUP_PROGRAMS_DIR/arkenfox-user.js" ] ||
-		git clone https://github.com/arkenfox/user.js.git "$SETUP_PROGRAMS_DIR/arkenfox-user.js"
-	git -C "$SETUP_PROGRAMS_DIR/arkenfox-user.js" pull --rebase
-	[ -d "$SETUP_BROWSER_DIR" ] || {
+setup_firefox() {
+	[ -d "$SETUP_FIREFOX_ARKENFOX_DIR" ] ||
+		git clone https://github.com/arkenfox/user.js.git "$SETUP_FIREFOX_ARKENFOX_DIR"
+	git -C "$SETUP_FIREFOX_ARKENFOX_DIR" pull --rebase
+	[ -d "$SETUP_FIREFOX_DIR" ] || {
 		$BROWSER --headless >/dev/null 2>&1 &
 		ffpid=$!
 		sleep 1
 	}
-	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
+	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_FIREFOX_DIR/profiles.ini" |
 		while IFS= read -r p; do
-			cp -vf "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$SETUP_BROWSER_DIR/$p/user.js"
-			browsers="firefox"
-			[ "$BROWSER" != "$browsers" ] && browsers="$browsers $BROWSER"
-			for b in $browsers; do
-				dir="$XDG_DATA_HOME/meta/browsers/$b"
-				[ -r "$dir/user.js" ] &&
-					cat "$dir/user.js" >>"$SETUP_BROWSER_DIR/$p/user.js"
-				[ -d "$dir/chrome" ] &&
-					cp -rvL "$dir/chrome" "$SETUP_BROWSER_DIR/$p"
-			done
+			cp -vf "$SETUP_FIREFOX_ARKENFOX_DIR/user.js" "$SETUP_FIREFOX_DIR/$p/user.js"
+			[ -r "$SETUP_FIREFOX_USERSCRIPT_FILE" ] &&
+				cat "$SETUP_FIREFOX_USERSCRIPT_FILE" >>"$SETUP_FIREFOX_DIR/$p/user.js"
 		done
 	[ -n "${ffpid:-}" ] && kill "$ffpid"
 	return 0
@@ -264,7 +245,7 @@ setup_install() {
 	setup_iw
 	setup_ufw
 	setup_drivers
-	setup_browser
+	setup_firefox
 }
 
 setup_uninstall() {
@@ -276,14 +257,14 @@ setup_uninstall() {
 				continue
 			rm -vf "$HOME/$f"
 		done
-	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_BROWSER_DIR/profiles.ini" |
+	sed -n "/Default=.*\..*/s/.*=//p" "$SETUP_FIREFOX_DIR/profiles.ini" |
 		while IFS= read -r p; do
 			# shellcheck disable=SC2015
-			[ -r "$SETUP_BROWSER_DIR/$p/user.js" ] &&
-				cat "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$XDG_CONFIG_HOME/firefox/user.js" "$XDG_CONFIG_HOME/$BROWSER/user.js" |
-				cmp "$SETUP_BROWSER_DIR/$p/user.js" ||
+			[ -r "$SETUP_FIREFOX_DIR/$p/user.js" ] &&
+				cat "$SETUP_PROGRAMS_DIR/arkenfox-user.js/user.js" "$XDG_DATA_HOME/meta/firefox_user.js" |
+				cmp "$SETUP_FIREFOX_DIR/$p/user.js" ||
 				continue
-			rm -vf "$SETUP_BROWSER_DIR/$p/user.js"
+			rm -vf "$SETUP_FIREFOX_DIR/$p/user.js"
 		done
 }
 
@@ -296,7 +277,7 @@ runit) setup_runit ;;
 iw) setup_iw ;;
 ufw) setup_ufw ;;
 drivers) setup_drivers ;;
-browser) setup_browser ;;
+firefox) setup_firefox ;;
 uninstall) setup_uninstall ;;
 *)
 	echo "$(basename "$0"): unknown command: $1" >&2

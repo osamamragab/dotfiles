@@ -23,6 +23,7 @@ buku
 bzip2
 bzip3
 chafa
+chromium
 chrony
 clang
 cliphist
@@ -55,6 +56,7 @@ fd
 fdupes
 ffmpeg
 ffmpegthumbnailer
+firefox
 firejail
 flatpak
 font-hack-ttf
