@@ -16,7 +16,7 @@
 }
 
 window#waybar {
-	background-color: transparent;
+	background-color: @background;
 }
 
 tooltip {
