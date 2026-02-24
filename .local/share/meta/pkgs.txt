@@ -158,6 +158,7 @@ plocate
 podman
 podman-compose
 poppler
+potrace
 power-profiles-daemon
 poweralertd
 qrencode
