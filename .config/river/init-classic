@@ -1,0 +1,138 @@
+#!/bin/sh
+
+set -eu
+
+keymap() {
+	riverctl map -layout 0 "$@"
+}
+
+keymap normal Super J focus-view next
+keymap normal Super K focus-view previous
+keymap normal Super+Alt J focus-view -skip-floating next
+keymap normal Super+Alt K focus-view -skip-floating previous
+keymap normal Super+Shift J swap next
+keymap normal Super+Shift K swap previous
+
+keymap normal Super Period focus-output next
+keymap normal Super Comma focus-output previous
+keymap normal Super+Shift Period send-to-output next
+keymap normal Super+Shift Comma send-to-output previous
+
+keymap -repeat normal Super H send-layout-cmd rivertile "main-ratio -0.05"
+keymap -repeat normal Super L send-layout-cmd rivertile "main-ratio +0.05"
+keymap -repeat normal Super+Shift H send-layout-cmd rivertile "main-count +1"
+keymap -repeat normal Super+Shift L send-layout-cmd rivertile "main-count -1"
+
+keymap -repeat normal Super+Control H move left 100
+keymap -repeat normal Super+Control J move down 100
+keymap -repeat normal Super+Control K move up 100
+keymap -repeat normal Super+Control L move right 100
+
+keymap normal Super+Control+Shift H snap left
+keymap normal Super+Control+Shift J snap down
+keymap normal Super+Control+Shift K snap up
+keymap normal Super+Control+Shift L snap right
+
+keymap normal Super Space zoom
+keymap normal Super+Shift C close
+keymap normal Super F toggle-fullscreen
+keymap normal Super+Shift Space toggle-float
+
+riverctl map-pointer normal Super BTN_LEFT move-view
+riverctl map-pointer normal Super BTN_RIGHT resize-view
+
+riverctl declare-mode passthrough
+keymap normal Super+Shift Escape enter-mode passthrough
+keymap passthrough Super+Shift Escape enter-mode normal
+
+all_tags=$(((1 << 32) - 1))
+sticky_tag=$((1 << 31))
+scratch_tag=$((1 << 20))
+keymap normal Super 0 set-focused-tags $all_tags
+keymap normal Super+Shift 0 set-view-tags $all_tags
+keymap normal Super Tab focus-previous-tags
+keymap normal Super+Shift Tab send-to-previous-tags
+keymap normal Super+Shift S toggle-view-tags $sticky_tag
+keymap normal Super P spawn "$XDG_CONFIG_HOME/river/scratchpad $scratch_tag"
+keymap normal Super+Shift P set-view-tags $scratch_tag
+riverctl spawn-tagmask $((all_tags ^ sticky_tag ^ scratch_tag))
+for i in 1 2 3 4 5 6 7 8 9; do
+	tags=$((1 << (i - 1)))
+	keymap normal Super $i set-focused-tags $((sticky_tag + tags))
+	keymap normal Super+Shift $i set-view-tags $tags
+	keymap normal Super+Control $i toggle-focused-tags $tags
+	keymap normal Super+Shift+Control $i toggle-view-tags $tags
+done
+
+keymap normal Super Return spawn "terminal"
+keymap normal None Menu spawn "menu-handler"
+keymap normal Super M spawn "menu-handler"
+keymap normal Super R spawn "menu-handler apps"
+keymap normal Super Q spawn "menu-handler system-actions"
+keymap normal None XF86PowerOff spawn "menu-handler system-actions"
+keymap normal None Print spawn "menu-handler screenshot"
+keymap normal Alt Print spawn "menu-handler screen-recording"
+keymap normal Control+Alt Print spawn "menu-handler screen-recording stop"
+keymap normal Super U spawn "menu-handler emojis"
+keymap normal Super I spawn "menu-handler input-handler"
+keymap normal Super O spawn "menu-handler clipboard-history"
+keymap normal Super+Shift O spawn "menu-handler recent-files"
+keymap normal Super Backslash spawn "menu-handler notifications clear"
+keymap normal Super+Shift Backslash spawn "menu-handler notifications dnd"
+
+for mode in normal locked; do
+	keymap $mode None XF86Eject spawn "eject -T"
+
+	keymap -repeat $mode None XF86AudioRaiseVolume spawn "audioctl 5%+"
+	keymap -repeat $mode None XF86AudioLowerVolume spawn "audioctl 5%-"
+	keymap $mode None XF86AudioMute spawn "audioctl toggle"
+	keymap $mode None XF86AudioMicMute spawn "audioctl mic toggle"
+	keymap -repeat $mode Super Equal spawn "audioctl 5%+"
+	keymap -repeat $mode Super Minus spawn "audioctl 5%-"
+	keymap $mode Super Backspace spawn "audioctl toggle"
+	keymap $mode Super+Control Backspace spawn "audioctl mic toggle"
+
+	keymap $mode None XF86AudioNext spawn "playerctl next"
+	keymap $mode None XF86AudioPrev spawn "playerctl previous"
+	keymap $mode None XF86AudioPlay spawn "playerctl play-pause"
+	keymap $mode None XF86AudioMedia spawn "playerctl play-pause"
+	keymap $mode Super+Shift Equal spawn "playerctl next"
+	keymap $mode Super+Shift Minus spawn "playerctl previous"
+	keymap $mode Super+Shift Backspace spawn "playerctl play-pause"
+
+	keymap -repeat $mode None XF86MonBrightnessUp spawn "screenlightctl 10%+"
+	keymap -repeat $mode None XF86MonBrightnessDown spawn "screenlightctl 10%-"
+done
+
+riverctl background-color 0x2e3440
+riverctl border-color-urgent 0xb74e58
+riverctl border-color-focused 0x5e81ac
+riverctl border-color-unfocused 0x4c566a
+riverctl border-width 2
+
+riverctl rule-add ssd
+riverctl rule-add -app-id bar csd
+riverctl rule-add -app-id float float
+riverctl rule-add -app-id scratchpad float
+riverctl rule-add -app-id scratchpad tags $scratch_tag
+riverctl rule-add -app-id dragon-drop float
+riverctl rule-add -app-id dragon-drop tags $sticky_tag
+riverctl rule-add -title Picture-in-Picture float
+riverctl rule-add -title Picture-in-Picture tags $sticky_tag
+
+riverctl hide-cursor timeout 5000
+riverctl hide-cursor when-typing enabled
+riverctl set-cursor-warp on-focus-change
+riverctl xcursor-theme "${XCURSOR_THEME:-Adwaita}" "${XCURSOR_SIZE:-24}"
+
+riverctl set-repeat 50 200
+riverctl keyboard-layout \
+	${XKB_DEFAULT_OPTIONS:+-options "$XKB_DEFAULT_OPTIONS"} \
+	"${XKB_DEFAULT_LAYOUT:-us}"
+
+riverctl list-inputs |
+	grep -Fi touchpad |
+	xargs -I{} riverctl input "{}" tap enabled
+
+riverctl default-layout rivertile
+(rivertile -view-padding 2 -outer-padding 0 || true) &
