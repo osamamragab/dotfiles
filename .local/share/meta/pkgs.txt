@@ -150,6 +150,7 @@ parallel
 pass
 pass-otp
 patch
+patchelf
 pinentry
 pipewire
 pkgconf
