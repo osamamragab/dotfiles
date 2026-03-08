@@ -1,4 +1,3 @@
-com.discordapp.Discord
 com.getpostman.Postman
 com.github.tchx84.Flatseal
 com.github.xournalpp.xournalpp
@@ -7,6 +6,7 @@ com.ktechpit.whatsie
 com.obsproject.Studio
 com.rustdesk.RustDesk
 com.slack.Slack
+dev.vencord.Vesktop
 io.lmms.LMMS
 org.blender.Blender
 org.freecad.FreeCAD
