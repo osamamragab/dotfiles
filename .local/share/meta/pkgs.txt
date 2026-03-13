@@ -119,7 +119,6 @@ mediainfo
 mesa
 mesa-dri
 mesa-vaapi
-mesa-vdpau
 mesa-vulkan-overlay-layer
 mosh
 mpc
