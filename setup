@@ -30,6 +30,10 @@ sudocmd="$([ -f /etc/doas.conf ] && command -v doas 2>/dev/null || command -v su
 setup_dotfiles() {
 	cp -srfvt "$HOME" "$HERE/.config" "$HERE/.local"
 	[ -d "$HOME/.ssh" ] || mkdir -pv "$HOME/.ssh"
+	[ -f "$HOME/.ssh/config" ] || {
+		touch "$HOME/.ssh/config"
+		chmod 600 "$HOME/.ssh/config"
+	}
 	grep -Fxq "Include ~/.config/ssh/config" "$HOME/.ssh/config" ||
 		sed -i "1s@^@Include ~/.config/ssh/config\n\n@" "$HOME/.ssh/config"
 	[ -d "$HERE/etc" ] &&
@@ -194,10 +198,10 @@ setup_ufw() {
 setup_drivers() {
 	pkgs=""
 	cpu_model="$(grep -i -m 1 "^model name\s:" /proc/cpuinfo)"
-	echo "$cpu_model" | grep -iq "intel" && pkgs="$pkgs linux-firmware-intel intel-ucode"
-	echo "$cpu_model" | grep -iq "amd" && pkgs="$pkgs linux-firmware-amd"
+	echo "$cpu_model" | grep -Fiq "intel" && pkgs="$pkgs linux-firmware-intel intel-ucode"
+	echo "$cpu_model" | grep -Fiq "amd" && pkgs="$pkgs linux-firmware-amd"
 	gpu_model="$(lspci | grep -i "vga\|3d\|display")"
-	echo "$gpu_model" | grep -iq "intel" && {
+	echo "$gpu_model" | grep -Fiq "intel" && {
 		pkgs="$pkgs linux-firmware-intel mesa-vulkan-intel"
 		echo "$gpu_model" | grep -iq "hd graphics\|xe\|iris" && pkgs="$pkgs intel-media-driver"
 		echo "$gpu_model" | grep -Fiq "gma" && pkgs="$pkgs libva-intel-driver"
@@ -205,7 +209,7 @@ setup_drivers() {
 			echo "options i915 enable_guc=2 enable_dc=4 enable_hangcheck=0 error_capture=0 enable_dp_mst=0 fastboot=1" |
 			$sudocmd tee /etc/modprobe.d/i915.conf >/dev/null
 	}
-	echo "$gpu_model" | grep -iq "amd" && {
+	echo "$gpu_model" | grep -Fiq "amd" && {
 		pkgs="$pkgs linux-firmware-amd amdvlk ROCm-SMI"
 		echo "$gpu_model" | grep -iq "radeon\|amd/ati" && pkgs="$pkgs mesa-vulkan-radeon"
 		[ -e /etc/modprobe.d/amdgpu.conf ] ||
