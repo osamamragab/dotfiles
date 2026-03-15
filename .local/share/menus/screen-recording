@@ -49,5 +49,9 @@ select-video-only)
 	;;
 esac
 
-setsid -f wf-recorder "$@" -f "$SCREENREC_DIR/$(date "+%Y%m%d-%H%M%S").mkv"
+output="$(wf-recorder --list-output | sed -n "s/.*\sName:\s\(.*\)\sDescription:.*/\1/p")" || exit 1
+[ "$(echo "$output" | wc -l)" -eq 1 ] ||
+	output="$(echo "$output" | menu -p "$MENU_PROMPT> Select output")" || exit 1
+
+setsid -f wf-recorder "$@" --output "$output" --file "$SCREENREC_DIR/$(date "+%Y%m%d-%H%M%S").mkv"
 pkill -x -RTMIN+8 waybar
