@@ -60,7 +60,7 @@ return {
 				},
 			},
 			sources = {
-				default = { "lsp", "path", "buffer" },
+				default = { "lsp", "snippets", "path", "buffer" },
 			},
 			signature = {
 				enabled = true,
