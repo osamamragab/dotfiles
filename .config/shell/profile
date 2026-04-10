@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# shellcheck disable=SC1091
+# shellcheck source=./env
 . "${XDG_CONFIG_HOME:-$HOME/.config}/shell/env"
 
 login_file="/tmp/.displaylogin-$USER"

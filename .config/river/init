@@ -4,7 +4,7 @@ set -eu
 
 case "$(river -version)" in
 0.[0-3].*)
-	# shellcheck disable=SC1091
+	# shellcheck source=./init-classic
 	. "$XDG_CONFIG_HOME/river/init-classic"
 	;;
 *)

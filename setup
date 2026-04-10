@@ -171,7 +171,6 @@ setup_runit() {
 setup_iw() {
 	[ -f /etc/conf.d/wireless-regdom ] && {
 		unset WIRELESS_REGDOM
-		# shellcheck disable=SC1091
 		. /etc/conf.d/wireless-regdom
 	}
 	[ -n "${WIRELESS_REGDOM:-}" ] && return 0
