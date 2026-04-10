@@ -51,6 +51,7 @@ return {
 					python = get_formatters({
 						{ "ruff_format", fallback = { "isort", "black" } },
 					}),
+					cs = { "omnisharp", lsp_format = "fallback" },
 					proto = { "buf", "clang-format", stop_after_first = true },
 					javascript = prettier_fmt,
 					typescript = prettier_fmt,
