@@ -1,3 +1,5 @@
+vim.g.mapleader = " "
+
 vim.opt.exrc = true
 vim.opt.mouse = ""
 vim.opt.guicursor = ""
@@ -32,3 +34,36 @@ vim.opt.wrap = false
 vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.undofile = true
+
+vim.g.netrw_banner = false
+vim.g.netrw_browse_split = false
+vim.g.netrw_altv = true
+vim.g.netrw_winsize = 25
+vim.g.netrw_fastbrowse = false
+
+vim.g.python_host_skip_check = true
+vim.g.python3_host_skip_check = true
+vim.g.loaded_node_provider = false
+vim.g.loaded_ruby_provider = false
+vim.g.loaded_perl_provider = false
+vim.g.loaded_python3_provider = false
+
+vim.filetype.add({
+	extension = {
+		h = "c",
+		pcss = "css",
+	},
+	pattern = {
+		["todo.txt"] = "todotxt",
+		[".*.todo.txt"] = "todotxt",
+	},
+})
+
+vim.diagnostic.config({
+	virtual_text = true,
+	update_in_insert = true,
+	float = {
+		border = "rounded",
+		source = true,
+	},
+})
