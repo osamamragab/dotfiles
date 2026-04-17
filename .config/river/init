@@ -13,7 +13,3 @@ case "$(river -version)" in
 esac
 
 dbus-update-activation-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-
-command -v runsvdir >/dev/null 2>&1 &&
-	! pgrep -x -u "$USER" runsvdir >/dev/null 2>&1 &&
-	runsvdir "${SVDIR_USER:-$XDG_DATA_HOME/services}" &

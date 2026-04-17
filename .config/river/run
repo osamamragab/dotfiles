@@ -15,4 +15,4 @@ export XDG_SESSION_TYPE="wayland"
 export XDG_SESSION_DESKTOP="river"
 export XDG_CURRENT_DESKTOP="river"
 
-exec dbus-run-session river
+exec dbus-run-session river >"/tmp/river-$(date "+%F_%T").log" 2>&1

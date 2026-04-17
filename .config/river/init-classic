@@ -136,3 +136,22 @@ riverctl list-inputs |
 
 riverctl default-layout rivertile
 (rivertile -view-padding 2 -outer-padding 0 || true) &
+
+kanshi &
+pipewire &
+swayidle -w &
+foot --server &
+waybar &
+mako &
+poweralertd -s &
+wl-clip-persist --clipboard regular &
+wl-paste --type text --watch cliphist store &
+wl-paste --type image --watch cliphist store &
+keyd-application-mapper &
+wbg --stretch "${XDG_DATA_HOME:-$HOME/.local/share}/bg" &
+mpd &
+mpris-proxy &
+mpdris2-rs --no-notification &
+playerctld &
+podman --log-level info system service --time 0 &
+syncthing serve --no-browser &

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-exec vlogger -t mpris-proxy -p daemon
