@@ -95,7 +95,7 @@ setup_user() {
 			xdg-user-dirs-update
 	}
 	chsh -s "$(chsh -l | grep -F -m 1 /zsh)"
-	$sudocmd usermod -aG video,audio,input,storage,optical,network,lp,scanner "$USER"
+	$sudocmd usermod -aG video,audio,input,dialout,storage,optical,network,lp,scanner "$USER"
 	[ -c /dev/kvm ] &&
 		$sudocmd usermod -aG kvm "$USER"
 	command -v dbus-daemon >/dev/null 2>&1 &&
