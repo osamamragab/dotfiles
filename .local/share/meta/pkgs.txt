@@ -1,6 +1,7 @@
 7zip
 ImageMagick
 Waybar
+aardvark-dns
 aerc
 alsa-firmware
 alsa-utils
@@ -136,6 +137,7 @@ ncmpcpp
 ncurses-term
 neovim
 nerd-fonts-symbols-ttf
+netavark
 newsboat
 nftables
 nix
