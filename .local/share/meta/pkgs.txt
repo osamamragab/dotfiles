@@ -9,6 +9,7 @@ android-tools
 apparmor
 atool
 autofs
+b3sum
 bat
 bc
 bind-utils
