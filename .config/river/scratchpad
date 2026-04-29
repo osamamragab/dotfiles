@@ -4,9 +4,9 @@ set -eu
 
 tag="$1"
 appid="scratchpad"
-state="$(lswt -c af)"
+state="$(lswt -c aAf)"
 
-echo "$state" | grep -Fq ",true" &&
+echo "$state" | grep -Fq ",true,true" &&
 	riverctl toggle-fullscreen
 
 echo "$state" | grep -Fq "$appid," ||
