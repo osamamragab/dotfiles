@@ -83,6 +83,10 @@ setup_pkgs() {
 		[ -d /etc/mpv/scripts ] || $sudocmd mkdir -pv /etc/mpv/scripts
 		$sudocmd ln -sfvt /etc/mpv/scripts /usr/lib/mpv-mpris/mpris.so
 	}
+	command -v gh >/dev/null 2>&1 &&
+		gh config set telemetry disabled
+	command -v glab >/dev/null 2>&1 &&
+		glab config set telemetry false
 	return 0
 }
 

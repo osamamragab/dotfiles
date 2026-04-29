@@ -10,6 +10,8 @@ nixpkgs#gdb
 nixpkgs#gef
 nixpkgs#gf
 nixpkgs#gh
+nixpkgs#github-cli
+nixpkgs#glab
 nixpkgs#go
 nixpkgs#go-tools
 nixpkgs#gotraceui
