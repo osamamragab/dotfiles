@@ -120,6 +120,36 @@ pack_add({
 					]]
 				end,
 			})
+		end,
+	},
+	{
+		src = "https://github.com/williamboman/mason.nvim",
+		version = vim.version.range("2.*"),
+		build = "MasonUpdate",
+		config = function()
+			require("mason").setup({})
+		end,
+	},
+	{
+		src = "https://github.com/williamboman/mason-lspconfig.nvim",
+		version = vim.version.range("2.*"),
+		build = "MasonUpdate",
+		config = function()
+			require("mason-lspconfig").setup({
+				automatic_enable = true,
+				ensure_installed = {
+					"clangd",
+					"zls",
+					"efm",
+					"gopls",
+					"rust_analyzer",
+					"basedpyright",
+					"ruff",
+					"ts_ls",
+					"lua_ls",
+					"phpactor",
+				},
+			})
 
 			vim.lsp.config("clangd", {
 				cmd = {
@@ -188,44 +218,6 @@ pack_add({
 					},
 				},
 				filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
-			})
-
-			vim.lsp.config("arduino_language_server", {
-				cmd = {
-					"arduino-language-server",
-					"-cli-config",
-					vim.fn.expand("$ARDUINO_DIRECTORIES_DATA/arduino-cli.yaml"),
-				},
-			})
-		end,
-	},
-	{
-		src = "https://github.com/williamboman/mason.nvim",
-		version = vim.version.range("2.*"),
-		build = "MasonUpdate",
-		config = function()
-			require("mason").setup({})
-		end,
-	},
-	{
-		src = "https://github.com/williamboman/mason-lspconfig.nvim",
-		version = vim.version.range("2.*"),
-		build = "MasonUpdate",
-		config = function()
-			require("mason-lspconfig").setup({
-				automatic_enable = true,
-				ensure_installed = {
-					"clangd",
-					"zls",
-					"efm",
-					"gopls",
-					"rust_analyzer",
-					"basedpyright",
-					"ruff",
-					"ts_ls",
-					"lua_ls",
-					"phpactor",
-				},
 			})
 		end,
 	},
