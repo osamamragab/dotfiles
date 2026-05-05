@@ -227,6 +227,7 @@ xdg-desktop-portal-gtk
 xdg-desktop-portal-wlr
 xdg-user-dirs
 xdg-utils
+xmirror
 xz
 yt-dlp
 zathura
