@@ -26,6 +26,7 @@ bubblewrap
 buku
 bzip2
 bzip3
+catatonit
 chafa
 chromium
 chrony
