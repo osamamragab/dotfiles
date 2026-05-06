@@ -8,14 +8,16 @@ set -eu
 CMDLINE="rw quiet splash apparmor=1 security=apparmor zswap.enabled=0"
 BOOT_DIR="/boot"
 BOOT_EFI="EFI/BOOT"
+SWAP_FILE="/var/swap/swapfile"
 
 EFI_BOOT_DIR="$BOOT_DIR/$BOOT_EFI"
 [ -d "$EFI_BOOT_DIR" ] || mkdir -p "$EFI_BOOT_DIR"
 
-root_info="$(findmnt -nvo SOURCE,FSTYPE /)"
-root_device="${root_info% *}"
-root_fstype="${root_info#* }"
-root_uuid="$(blkid -o value -s UUID "$root_device")"
+root_info="$(findmnt -nvo UUID,SOURCE,FSTYPE -M /)"
+root_uuid="${root_info% *}"
+root_device="${root_uuid#* }"
+root_uuid="${root_uuid% *}"
+root_fstype="${root_info##* }"
 
 CMDLINE="$CMDLINE root=UUID=$root_uuid rootfstype=$root_fstype"
 
@@ -23,6 +25,15 @@ luks_device="$(lsblk -spJ | jq -r --arg dev "$root_device" '.blockdevices | .[] 
 cryptsetup isLuks "$luks_device" && {
 	luks_uuid="$(blkid -o value -s UUID "$luks_device")"
 	CMDLINE="$CMDLINE rd.auto rd.luks.allow-discards rd.luks.uuid=luks-$luks_uuid rd.luks.name=$luks_uuid=${root_device##*/}"
+}
+
+[ -f "$SWAP_FILE" ] && {
+	swapfile_uuid="$(findmnt -no UUID -T "$SWAP_FILE")"
+	case "$root_fstype" in
+	btrfs) swapfile_offset="$(btrfs inspect-internal map-swapfile -r "$SWAP_FILE")" ;;
+	*) swapfile_offset="$(filefrag -v "$SWAP_FILE" | sed -n "4s/\s\+0:.*0:\s\+\([0-9]\+\).*/\1/p")" ;;
+	esac
+	CMDLINE="$CMDLINE resume=UUID=$swapfile_uuid resume_offset=$swapfile_offset"
 }
 
 case "$(getconf LONG_BIT)" in
