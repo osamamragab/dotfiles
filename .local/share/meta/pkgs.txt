@@ -51,7 +51,6 @@ docker-buildx
 docker-compose
 dragon
 duf
-efibootmgr
 elogind
 entr
 ethtool
@@ -83,6 +82,9 @@ gnome-epub-thumbnailer
 gnupg
 grim
 groff
+grub
+grub-btrfs
+grub-x86_64-efi
 gutenprint
 gzip
 hdparm
@@ -108,7 +110,6 @@ lftp
 libnotify
 libspa-bluetooth
 libvirt
-limine
 linux-firmware
 linux-tools
 lm_sensors
