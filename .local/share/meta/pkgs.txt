@@ -128,6 +128,7 @@ mesa
 mesa-dri
 mesa-vaapi
 mesa-vulkan-overlay-layer
+minisign
 mosh
 mpc
 mpd
