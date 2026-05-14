@@ -169,8 +169,13 @@ setup_iw() {
 setup_ufw() {
 	$sudocmd ufw default deny incoming
 	$sudocmd ufw default allow outgoing
-	$sudocmd ufw limit ssh
-	$sudocmd ufw allow in proto udp from 172.16.0.0/12 to 172.17.0.1 port 53 comment "allow-docker-dns"
+	$sudocmd ufw limit ssh comment "ssh"
+	$sudocmd ufw allow in proto udp from 172.16.0.0/12 to 172.17.0.1 port 53 comment "docker_dns"
+	$sudocmd ufw allow in proto tcp to any port 22000 comment "syncthing_tcp_sync"
+	$sudocmd ufw allow in proto udp to any port 22000 comment "syncthing_quic_sync"
+	$sudocmd ufw allow in proto udp to any port 21027 comment "syncthing_discovery"
+	$sudocmd ufw allow in proto tcp to any port 53317 comment "localsend_transfer"
+	$sudocmd ufw allow in proto udp to any port 53317 comment "localsend_discovery"
 	$sudocmd ufw --force enable
 }
 
