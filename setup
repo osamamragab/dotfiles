@@ -225,6 +225,20 @@ setup_firefox() {
 	return 0
 }
 
+setup_syncthing() {
+	command -v syncthing >/dev/null 2>&1 || {
+		echo "$(basename "$0"): syncthing is not installed" >&2
+		exit 1
+	}
+	syncthing cli config options crenabled set false
+	syncthing cli config options natenabled set false
+	syncthing cli config options start-browser set false
+	syncthing cli config options relays-enabled set false
+	syncthing cli config options local-ann-enabled set true
+	syncthing cli config options global-ann-enabled set false
+	syncthing cli config options limit-bandwidth-in-lan set false
+}
+
 setup_install() {
 	setup_dotfiles
 	setup_pkgs
@@ -234,6 +248,7 @@ setup_install() {
 	setup_ufw
 	setup_drivers
 	setup_firefox
+	setup_syncthing
 }
 
 setup_uninstall() {
@@ -266,6 +281,7 @@ iw) setup_iw ;;
 ufw) setup_ufw ;;
 drivers) setup_drivers ;;
 firefox) setup_firefox ;;
+syncthing) setup_syncthing ;;
 uninstall) setup_uninstall ;;
 *)
 	echo "$(basename "$0"): unknown command: $1" >&2
