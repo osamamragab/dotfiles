@@ -26,7 +26,7 @@ field="$(
 case "$field" in
 password) pass="$(echo "$content" | sed 1q)" ;;
 otp) pass="$(pass otp code "$sel")" ;;
-*) pass="$(echo "$content" | sed -n "s/$field\s\+\?:\s\+\?\(.*\)/\1/p")" ;;
+*) pass="$(echo "$content" | sed -n "s/^$field\s\+\?:\s\+\?\(.*\)/\1/p")" ;;
 esac
 
 echo "$pass" | wl-copy --sensitive --type text/plain --foreground --trim-newline
