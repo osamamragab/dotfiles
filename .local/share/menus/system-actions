@@ -10,7 +10,7 @@ lock)
 	loginctl -i lock-session
 	;;
 exit)
-	riverctl exit
+	mmsg -q
 	;;
 suspend)
 	loginctl -i suspend

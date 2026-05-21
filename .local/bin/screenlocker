@@ -4,8 +4,6 @@ set -eu
 
 pidof -sqx gpg-agent && pkill -x -HUP gpg-agent || true
 
-riverctl keyboard-layout "${XKB_DEFAULT_LAYOUT:-us}" || true
-
 exec waylock \
 	-fork-on-lock \
 	-log-level info \

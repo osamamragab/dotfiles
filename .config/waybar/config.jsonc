@@ -4,8 +4,7 @@
 	"height": 26,
 	"spacing": 0,
 	"modules-left": [
-		"river/tags",
-		"river/mode",
+		"dwl/tags",
 	],
 	"modules-center": [
 		"clock",
@@ -23,6 +22,9 @@
 	"river/tags": {
 		"num-tags": 9,
 		"hide-vacant": true,
+	},
+	"dwl/tags": {
+		"num-tags": 9,
 	},
 	"clock": {
 		"interval": 60,

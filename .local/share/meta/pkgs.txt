@@ -123,6 +123,7 @@ man-db
 man-pages
 man-pages-devel
 man-pages-posix
+mangowc
 mediainfo
 mesa
 mesa-dri
@@ -173,7 +174,6 @@ power-profiles-daemon
 poweralertd
 qrencode
 ripgrep
-river
 rsync
 rtkit
 runit-void-apparmor
@@ -224,7 +224,6 @@ wl-clipboard
 wl-mirror
 wlopm
 wlr-randr
-wlrctl
 xdg-desktop-portal
 xdg-desktop-portal-gtk
 xdg-desktop-portal-wlr
