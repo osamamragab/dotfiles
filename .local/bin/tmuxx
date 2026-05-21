@@ -32,9 +32,13 @@ esac
 }
 name="$(basename "$dir")"
 
-[ $# -gt 1 ] && tmux new -d -c "$dir" -s "$name" -n "$1" && shift
+[ $# -gt 1 ] && {
+	tmux new -d -c "$dir" -s "$name" -n "$1"
+	shift
+}
+
 for win; do
-	tmux neww -d -t "$name" -c "$dir" -n "$win"
+	tmux new-window -d -t "$name" -c "$dir" -n "$win"
 done
 
 exec tmux new -A -c "$dir" -s "$name"
