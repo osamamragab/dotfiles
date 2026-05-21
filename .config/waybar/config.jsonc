@@ -4,7 +4,7 @@
 	"height": 26,
 	"spacing": 0,
 	"modules-left": [
-		"dwl/tags",
+		"ext/workspaces",
 	],
 	"modules-center": [
 		"clock",
@@ -19,12 +19,12 @@
 		"battery",
 		"custom/days",
 	],
-	"river/tags": {
-		"num-tags": 9,
-		"hide-vacant": true,
-	},
-	"dwl/tags": {
-		"num-tags": 9,
+	"ext/workspaces": {
+		"format": "{icon}",
+		"sort-by-id": true,
+		"ignore-hidden": true,
+		"on-click": "activate",
+		"on-click-right": "deactivate",
 	},
 	"clock": {
 		"interval": 60,
