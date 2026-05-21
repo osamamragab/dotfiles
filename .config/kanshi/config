@@ -1,8 +1,10 @@
 output eDP-1 {
+	mode preferred
 	scale 1.25
 }
 
 output HDMI-A-1 {
+	mode preferred
 	scale 1.25
 }
 
