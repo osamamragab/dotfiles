@@ -26,7 +26,7 @@ run syncthing serve --no-browser
 	run waybar
 	run mako
 	run poweralertd -s
-	run wl-clip-persist --clipboard regular
+	run wl-clip-persist --clipboard regular --reconnect-tries 0
 	run wl-paste --type text --watch cliphist store
 	run wl-paste --type image --watch cliphist store
 	run wbg --stretch "${XDG_DATA_HOME:-$HOME/.local/share}/bg"
