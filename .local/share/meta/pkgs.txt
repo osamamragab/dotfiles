@@ -79,6 +79,7 @@ git
 git-filter-repo
 git-lfs
 gnome-epub-thumbnailer
+gnome-keyring
 gnupg
 grim
 groff
