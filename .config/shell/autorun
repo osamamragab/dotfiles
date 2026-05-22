@@ -11,7 +11,6 @@ run() {
 }
 
 run pipewire
-run poweralertd -s
 run keyd-application-mapper
 run mpd
 run mpris-proxy
@@ -26,6 +25,7 @@ run syncthing serve --no-browser
 	run foot --server
 	run waybar
 	run mako
+	run poweralertd -s
 	run wl-clip-persist --clipboard regular
 	run wl-paste --type text --watch cliphist store
 	run wl-paste --type image --watch cliphist store
