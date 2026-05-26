@@ -3,10 +3,10 @@
 
 set -eu
 
-XPKG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/xpkg"
-XPKG_XBPS_MIRROR="${XPKG_XBPS_MIRROR:-https://repo-default.voidlinux.org/current}"
-XPKG_LOCATE_REPO="${XPKG_XBPS_MIRROR%/current}/xlocate/xlocate.git"
-XPKG_LOCATE_CACHE="$XPKG_CACHE/locate"
+PKG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/pkg"
+PKG_XBPS_MIRROR="${PKG_XBPS_MIRROR:-https://repo-default.voidlinux.org/current}"
+PKG_LOCATE_REPO="${PKG_XBPS_MIRROR%/current}/xlocate/xlocate.git"
+PKG_LOCATE_CACHE="$PKG_CACHE/locate"
 
 sudocmd() {
 	[ "$(id -u)" -eq 0 ] && {
@@ -20,31 +20,31 @@ sudocmd() {
 	sudo "$@"
 }
 
-xpkg_locate_sync() {
-	[ -d "$XPKG_LOCATE_CACHE" ] || {
-		[ -n "${XPKG_LOCATE_CACHE%/*}" ] && mkdir -p "${XPKG_LOCATE_CACHE%/*}"
-		git clone --bare "$XPKG_LOCATE_REPO" "$XPKG_LOCATE_CACHE"
+pkg_locate_sync() {
+	[ -d "$PKG_LOCATE_CACHE" ] || {
+		[ -n "${PKG_LOCATE_CACHE%/*}" ] && mkdir -p "${PKG_LOCATE_CACHE%/*}"
+		git clone --bare "$PKG_LOCATE_REPO" "$PKG_LOCATE_CACHE"
 	}
-	git -C "$XPKG_LOCATE_CACHE" fetch -u -f "$XPKG_LOCATE_REPO" master:master
+	git -C "$PKG_LOCATE_CACHE" fetch -u -f "$PKG_LOCATE_REPO" master:master
 }
 
-xpkg_locate() {
-	[ -d "$XPKG_LOCATE_CACHE" ] || xpkg_locate_sync
-	[ -f "$XPKG_LOCATE_CACHE/FETCH_HEAD" ] &&
-		base="$XPKG_LOCATE_CACHE/FETCH_HEAD"
-	[ -f "$XPKG_LOCATE_CACHE/refs/heads/master" ] &&
-		base="$XPKG_LOCATE_CACHE/refs/heads/master"
+pkg_locate() {
+	[ -d "$PKG_LOCATE_CACHE" ] || pkg_locate_sync
+	[ -f "$PKG_LOCATE_CACHE/FETCH_HEAD" ] &&
+		base="$PKG_LOCATE_CACHE/FETCH_HEAD"
+	[ -f "$PKG_LOCATE_CACHE/refs/heads/master" ] &&
+		base="$PKG_LOCATE_CACHE/refs/heads/master"
 	[ -z "$base" ] ||
 		find /var/db/xbps/ -name "*repodata" -newer "$base" |
 		grep -q . &&
 		echo "$(basename "$0"): database outdated, update with -s." >&2
-	git -c grep.lineNumber=false -c grep.column=false --git-dir="$XPKG_LOCATE_CACHE" grep "$@" @ |
+	git -c grep.lineNumber=false -c grep.column=false --git-dir="$PKG_LOCATE_CACHE" grep "$@" @ |
 		sed "s/^@://" |
 		column -t -s ":" -l 2 |
 		grep .
 }
 
-xpkg_bootstrap() {
+pkg_bootstrap() {
 	chroot="$1"
 	shift
 	umask 0022
@@ -64,9 +64,9 @@ xpkg_bootstrap() {
 		sudocmd cp -a /var/db/xbps/keys/* "$chroot/var/db/xbps/keys"
 	}
 	sudocmd xbps-install \
-		-R "$XPKG_XBPS_MIRROR" \
-		-R "$XPKG_XBPS_MIRROR/musl" \
-		-R "$XPKG_XBPS_MIRROR/aarch64" \
+		-R "$PKG_XBPS_MIRROR" \
+		-R "$PKG_XBPS_MIRROR/musl" \
+		-R "$PKG_XBPS_MIRROR/aarch64" \
 		-S \
 		-r "$chroot" \
 		"${@:-base-system}"
@@ -98,15 +98,15 @@ l | locate)
 	}
 	case "${1:-}" in
 	-s | -S)
-		xpkg_locate_sync
+		pkg_locate_sync
 		;;
 	*)
-		xpkg_locate "$@"
+		pkg_locate "$@"
 		;;
 	esac
 	;;
 bootstrap | voidstrap)
-	xpkg_bootstrap "$@"
+	pkg_bootstrap "$@"
 	;;
 *)
 	set -- "$cmd" "$@"
