@@ -5,7 +5,7 @@ output eDP-1 {
 
 output HDMI-A-1 {
 	mode preferred
-	scale 1.25
+	scale 1
 }
 
 profile laptop {
@@ -15,4 +15,14 @@ profile laptop {
 profile dock {
 	output eDP-1 enable
 	output HDMI-A-1 enable
+}
+
+profile dock-monitor-only {
+	output eDP-1 disable
+	output HDMI-A-1 enable
+}
+
+profile dock-laptop-only {
+	output eDP-1 enable
+	output HDMI-A-1 disable
 }
