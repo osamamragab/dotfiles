@@ -20,8 +20,8 @@ border-radius=10,0,0,10
 progress-color=over #5e81ac
 on-touch=invoke-default-action
 on-button-left=invoke-default-action
-on-button-right=exec makoctl menu -n "$id" menu -p "Action> "
-on-button-middle=dismiss
+on-button-right=dismiss
+on-button-middle=exec makoctl menu -n "$id" menu -p "Action> "
 on-notify=exec [ "$(makoctl list | grep -c "^Notification")" -eq 1 ] && pw-play /usr/share/sounds/freedesktop/stereo/message.oga
 
 [hidden]
