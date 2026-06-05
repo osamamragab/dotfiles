@@ -13,7 +13,7 @@ output HDMI-A-1 {
 output DP-2 {
 	mode 1600x1200
 	position 3456,0
-	scale 1.25
+	scale 1
 }
 
 profile laptop {
