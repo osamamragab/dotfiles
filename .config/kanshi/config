@@ -1,28 +1,32 @@
 output eDP-1 {
-	mode preferred
+	mode 1920x1080
+	position 0,0
 	scale 1.25
 }
 
 output HDMI-A-1 {
-	mode preferred
+	mode 1920x1200
+	position 1536,0
 	scale 1
+}
+
+output DP-2 {
+	mode 1600x1200
+	position 3456,0
+	scale 1.25
 }
 
 profile laptop {
 	output eDP-1 enable
 }
 
+profile monitor {
+	output eDP-1 enable
+	output HDMI-A-1 enable
+}
+
 profile dock {
 	output eDP-1 enable
 	output HDMI-A-1 enable
-}
-
-profile dock-monitor-only {
-	output eDP-1 disable
-	output HDMI-A-1 enable
-}
-
-profile dock-laptop-only {
-	output eDP-1 enable
-	output HDMI-A-1 disable
+	output DP-2 enable
 }
