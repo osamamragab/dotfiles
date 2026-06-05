@@ -6,4 +6,5 @@
 --line-number
 --no-heading
 --max-columns=4096
---glob="!**/.git/*"
+--glob=!**/.git/*
+--regexp
