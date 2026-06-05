@@ -3,7 +3,7 @@
 set -eu
 
 run() {
-	pgrep --quiet --exact --full --euid "$USER" -- "$*" && {
+	pgrep --quiet --full --euid "$USER" -- "$*" && {
 		echo "$(basename "$0"): already running: $*" >&2
 		return 0
 	}
