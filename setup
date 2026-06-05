@@ -197,7 +197,8 @@ setup_drivers() {
 		pkgs="$pkgs linux-firmware-amd amdvlk ROCm-SMI"
 		echo "$gpu_model" | grep -iq "radeon\|amd/ati" && pkgs="$pkgs mesa-vulkan-radeon"
 		[ -e /etc/modprobe.d/amdgpu.conf ] ||
-			echo "options amdgpu gpu_recovery=1 lockup_timeout=10000 ppfeaturemask=0xffffffff" |
+			printf "options amdgpu runpm=0 abmlevel=0 gpu_recovery=1 lockup_timeout=10000 ppfeaturemask=0x%x\n" \
+				"$(($(cat /sys/module/amdgpu/parameters/ppfeaturemask) | 0x4000))" |
 			$sudocmd tee /etc/modprobe.d/amdgpu.conf >/dev/null
 	}
 	echo "$pkgs" | xargs "$sudocmd" xbps-install -Sy
