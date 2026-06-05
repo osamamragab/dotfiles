@@ -29,5 +29,5 @@ otp) pass="$(pass otp code "$sel")" ;;
 *) pass="$(echo "$content" | sed -n "s/^$field\s\+\?:\s\+\?\(.*\)/\1/p")" ;;
 esac
 
-echo "$pass" | wl-copy --sensitive --type text/plain --foreground --trim-newline
+printf "%s" "$pass" | wl-copy --sensitive --type text/plain --foreground --trim-newline
 notify-send -a "$app" "$sel" "$field copied to clipboard"
