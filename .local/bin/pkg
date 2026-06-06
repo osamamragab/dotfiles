@@ -67,9 +67,6 @@ pkg_update() {
 	$sudocmd xbps-install -Sy &&
 		$sudocmd xbps-install -uy xbps &&
 		$sudocmd xbps-install -uy
-	command -v nix >/dev/null 2>&1 &&
-		nix-channel --update &&
-		nix profile upgrade --all
 	command -v flatpak >/dev/null 2>&1 &&
 		flatpak update -y
 	# shellcheck disable=SC2086
@@ -83,10 +80,6 @@ pkg_clean() {
 	$sudocmd xbps-remove -Ooy
 	command -v vkpurge >/dev/null 2>&1 &&
 		$sudocmd vkpurge rm all
-	command -v nix >/dev/null 2>&1 && {
-		nix-collect-garbage --delete-older-than 7d
-		nix-store --optimise
-	}
 }
 
 pkg_search() {
