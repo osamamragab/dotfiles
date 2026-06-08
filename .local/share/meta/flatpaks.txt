@@ -6,6 +6,7 @@ com.ktechpit.whatsie
 com.obsproject.Studio
 com.rustdesk.RustDesk
 com.slack.Slack
+com.usebruno.Bruno
 dev.vencord.Vesktop
 io.lmms.LMMS
 org.blender.Blender
