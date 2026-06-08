@@ -59,6 +59,8 @@
 		"on-click-middle": "audioctl toggle",
 		"max-volume": 200,
 		"scroll-step": 5,
+		"on-scroll-up": "audioctl 5%+",
+		"on-scroll-down": "audioctl 5%-",
 		"format-icons": {
 			"headphone": "",
 			"hands-free": "",
