@@ -32,6 +32,7 @@ HISTFILE="${HISTFILE:-$XDG_STATE_HOME/history}"
 
 export GPG_TTY="$(tty)"
 
+[ -r "$XDG_CONFIG_HOME/shell/env" ] && . "$XDG_CONFIG_HOME/shell/env"
 [ -r "$XDG_CONFIG_HOME/shell/aliasrc" ] && . "$XDG_CONFIG_HOME/shell/aliasrc"
 alias doas="doas "
 
