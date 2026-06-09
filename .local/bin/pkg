@@ -36,7 +36,11 @@ pkg_locate() {
 }
 
 pkg_bootstrap() {
-	chroot="$1"
+	chroot="${1:-}"
+	[ -n "$chroot" ] || {
+		echo "$(basename "$0"): bootstrap: missing chroot argument" >&2
+		exit 1
+	}
 	shift
 	umask 0022
 	[ -d "$chroot" ] || $sudocmd mkdir -p "$chroot"
@@ -99,7 +103,7 @@ i | install)
 	$sudocmd xbps-install -S "$@"
 	;;
 u | update)
-	case "$1" in
+	case "${1:-}" in
 	-a | -all | --all)
 		pkg_update
 		;;
