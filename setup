@@ -60,6 +60,11 @@ setup_pkgs() {
 		$sudocmd xbps-install -Sy
 	[ -r "$SETUP_PKGS_FILE" ] &&
 		xargs "$sudocmd" xbps-install -Sy <"$SETUP_PKGS_FILE"
+	command -v nix >/dev/null 2>&1 && {
+		nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs
+		nix-channel --update
+		nix registery pin nixpkgs
+	}
 	command -v flatpak >/dev/null 2>&1 && {
 		flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 		[ -r "$SETUP_PKGS_FLATPAKS_FILE" ] &&
@@ -100,6 +105,8 @@ setup_user() {
 		$sudocmd usermod -aG socklog "$USER"
 	command -v docker >/dev/null 2>&1 &&
 		$sudocmd usermod -aG docker "$USER"
+	command -v nix >/dev/null 2>&1 &&
+		$sudocmd usermod -aG nixbld "$USER"
 	command -v keyd >/dev/null 2>&1 &&
 		$sudocmd usermod -aG keyd "$USER"
 	return 0
@@ -130,6 +137,7 @@ setup_runit() {
 		"$SETUP_RUNIT_SVHOME/keyd" \
 		"$SETUP_RUNIT_SVHOME/cupsd" \
 		"$SETUP_RUNIT_SVHOME/zramen" \
+		"$SETUP_RUNIT_SVHOME/nix-daemon" \
 		"$SETUP_RUNIT_SVHOME/power-profiles-daemon" \
 		"$SETUP_RUNIT_SVHOME/vnstatd"
 	[ -d "$SETUP_RUNIT_SVDIR/sshd" ] &&

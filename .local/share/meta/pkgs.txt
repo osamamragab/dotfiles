@@ -179,6 +179,7 @@ netavark
 newsboat
 nftables
 ninja
+nix
 nodejs
 noto-fonts-cjk
 noto-fonts-emoji
