@@ -11,7 +11,7 @@ output HDMI-A-1 {
 }
 
 output DP-2 {
-	mode 1600x1200
+	mode 1680x1050
 	position 3456,0
 	scale 1
 }
@@ -25,8 +25,19 @@ profile monitor {
 	output HDMI-A-1 enable
 }
 
+profile monitor-only {
+	output eDP-1 disable
+	output HDMI-A-1 enable
+}
+
 profile dock {
 	output eDP-1 enable
+	output HDMI-A-1 enable
+	output DP-2 enable
+}
+
+profile dock-only {
+	output eDP-1 disable
 	output HDMI-A-1 enable
 	output DP-2 enable
 }
