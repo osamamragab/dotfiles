@@ -277,6 +277,7 @@ wf-recorder
 wget
 wiremix
 wireplumber
+wireplumber-elogind
 wireshark
 wl-clip-persist
 wl-clipboard
