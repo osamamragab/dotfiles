@@ -16,6 +16,7 @@ bat
 bc
 bettercap
 bind-utils
+blender
 bluetui
 bluez
 bluez-alsa
@@ -73,6 +74,7 @@ flatpak
 font-hack-ttf
 fontconfig
 foot
+freecad
 fribidi
 fuse-sshfs
 fuse3
@@ -83,6 +85,7 @@ gcc
 gdb
 gef
 geoip
+gimp
 git
 git-filter-repo
 git-lfs
@@ -111,6 +114,7 @@ hyperfine
 ifuse
 impala
 imv
+inkscape
 iptables-nft
 isync
 iwd
@@ -120,6 +124,8 @@ jujutsu
 just
 kanshi
 keyd
+kicad
+krita
 kvantum
 ldns
 less
@@ -127,11 +133,13 @@ lesspipe
 lf
 lftp
 libnotify
+libreoffice
 libspa-bluetooth
 libvirt
 linux-firmware
 linux-tools
 lm_sensors
+lmms
 lsof
 lswt
 lua
@@ -177,6 +185,7 @@ noto-fonts-emoji
 noto-fonts-ttf
 ntfs-3g
 nvtop
+obs
 openbsd-netcat
 opendoas
 openresolv
@@ -234,6 +243,7 @@ swayidle
 syncthing
 tar
 tealdeer
+telegram-desktop
 termshark
 texinfo
 time
@@ -280,6 +290,7 @@ xdg-desktop-portal-wlr
 xdg-user-dirs
 xdg-utils
 xmirror
+xournalpp
 xxd
 xz
 yt-dlp
