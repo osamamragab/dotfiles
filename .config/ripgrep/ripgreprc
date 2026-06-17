@@ -7,4 +7,3 @@
 --no-heading
 --max-columns=4096
 --glob=!**/.git/*
---regexp
