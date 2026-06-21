@@ -1,33 +1,33 @@
+---@param formatters { [1]: string, fallback?: string|string[] }[]
+---@return fun(bufnr: integer): string[]
+local function get_formatters(formatters)
+	local conform = require("conform")
+	return function(bufnr)
+		---@type string[]
+		local results = {}
+		for _, f in ipairs(formatters) do
+			if conform.get_formatter_info(f[1], bufnr).available then
+				table.insert(results, f[1])
+			elseif f.fallback ~= nil then
+				if type(f.fallback) == "string" then
+					table.insert(results, f.fallback)
+				elseif type(f.fallback) == "table" then
+					local fallback = f.fallback --[[@as string[]=]]
+					for _, v in ipairs(fallback) do
+						table.insert(results, v)
+					end
+				end
+			end
+		end
+		return results
+	end
+end
+
 require("utils.pack").add({
 	{
 		src = "https://github.com/stevearc/conform.nvim",
 		version = vim.version.range("9.*"),
 		config = function()
-			---@param formatters { [1]: string, fallback?: string|string[] }[]
-			---@return fun(bufnr: integer): string[]
-			local function get_formatters(formatters)
-				local conform = require("conform")
-				return function(bufnr)
-					---@type string[]
-					local results = {}
-					for _, f in ipairs(formatters) do
-						if conform.get_formatter_info(f[1], bufnr).available then
-							table.insert(results, f[1])
-						elseif f.fallback ~= nil then
-							if type(f.fallback) == "string" then
-								table.insert(results, f.fallback)
-							elseif type(f.fallback) == "table" then
-								local fallback = f.fallback --[[@as string[]=]]
-								for _, v in ipairs(fallback) do
-									table.insert(results, v)
-								end
-							end
-						end
-					end
-					return results
-				end
-			end
-			vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
 			local conform = require("conform")
 			local prettier_fmt = { "prettierd", "prettier", stop_after_first = true }
 			conform.setup({
@@ -65,6 +65,13 @@ require("utils.pack").add({
 					["_"] = { "trim_whitespace" },
 				},
 			})
+			vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+			vim.keymap.set({ "n", "v" }, "<leader>bf", function()
+				require("conform").format({
+					async = true,
+					lsp_format = "fallback",
+				})
+			end)
 		end,
 	},
 })

@@ -5,8 +5,8 @@ require("utils.pack").add({
 		config = function()
 			vim.lsp.config("*", {
 				capabilities = vim.lsp.protocol.make_client_capabilities(),
-				on_attach = function(client, bufnr)
-					local opts = { buffer = bufnr, remap = false }
+				on_attach = function(_, bufnr)
+					local opts = { buf = bufnr, remap = false }
 					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
@@ -21,12 +21,6 @@ require("utils.pack").add({
 					end, opts)
 					vim.keymap.set("n", "<leader>aj", function()
 						vim.diagnostic.jump({ count = -1, float = true })
-					end, opts)
-					vim.keymap.set("n", "<leader>bf", function()
-						require("conform").format({
-							async = true,
-							lsp_format = "fallback",
-						})
 					end, opts)
 					--[[
 					vim.keymap.set("n", "<leader>bf", vim.lsp.buf.format, opts)

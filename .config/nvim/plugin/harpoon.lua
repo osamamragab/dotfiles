@@ -15,7 +15,6 @@ require("utils.pack").add({
 			vim.keymap.set("n", "<leader>E", function()
 				harpoon.ui:toggle_quick_menu(harpoon:list())
 			end)
-
 			vim.keymap.set("n", "<C-h>", function()
 				harpoon:list():select(1)
 			end)

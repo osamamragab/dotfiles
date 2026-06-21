@@ -1,6 +1,5 @@
-local build_map = {}
-
 local M = {}
+local _build_map = {}
 
 vim.api.nvim_create_autocmd("PackChanged", {
 	group = vim.api.nvim_create_augroup("pack", { clear = true }),
@@ -12,11 +11,11 @@ vim.api.nvim_create_autocmd("PackChanged", {
 		if not ev.data.active then
 			vim.cmd.packadd(name)
 		end
-		if build_map[src] ~= nil then
-			if type(build_map[src]) == "function" then
-				build_map[src]()
-			elseif type(build_map[src]) == "string" then
-				vim.cmd(build_map[src])
+		if _build_map[src] ~= nil then
+			if type(_build_map[src]) == "function" then
+				_build_map[src]()
+			elseif type(_build_map[src]) == "string" then
+				vim.cmd(_build_map[src])
 			end
 		end
 	end,
@@ -30,7 +29,7 @@ function M.add(specs, opts)
 				s.config()
 			end
 			if s.build ~= nil then
-				build_map[s.src] = s.build
+				_build_map[s.src] = s.build
 			end
 		end
 	end
