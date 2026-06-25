@@ -10,6 +10,7 @@ run() {
 	"$@" &
 }
 
+run emacs --daemon
 run pipewire
 run keyd-application-mapper
 run mpd
