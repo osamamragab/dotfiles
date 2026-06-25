@@ -59,6 +59,7 @@ docker-compose
 dragon
 duf
 elogind
+emacs-pgtk
 entr
 ethtool
 exfatprogs
