@@ -1,2 +1,2 @@
 [main]
-capslock = esc
+capslock = overload(control, esc)
