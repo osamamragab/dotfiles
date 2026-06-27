@@ -7,14 +7,17 @@
     inhibit-startup-screen t
     inhibit-startup-message t
     initial-scratch-message nil
+    initial-buffer-choice t
     menu-bar-mode nil
     tool-bar-mode nil
     scroll-bar-mode nil
     use-dialog-box nil
-    ring-bell-function #'ignore
     cursor-type 'box
     tab-bar-show nil
     tab-bar-close-button-show nil
+	use-short-answer t
+	visible-bell nil
+	ring-bell-function 'ignore
     indicate-empty-lines t
     show-trailing-whitespace t
     indent-tabs-mode nil
