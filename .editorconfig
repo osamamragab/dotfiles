@@ -11,5 +11,5 @@ trim_trailing_whitespace = true
 [*.diff]
 trim_trailing_whitespace = false
 
-[{*.yml,*.yaml,*.md,*.py,*.rb}]
+[{*.yml,*.yaml,*.md,*.py,*.rb,*.nix}]
 indent_style = space
