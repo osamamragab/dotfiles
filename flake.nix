@@ -18,12 +18,11 @@
 
 	outputs = { self, nixpkgs, home-manager, disko, mangowm, ... }@inputs:
 		let
-			mkSystem = { host, user, system ? "x86_64-linux" }: nixpkgs.lib.nixosSystem {
-				system = system;
+			mkSystem = { host, user }: nixpkgs.lib.nixosSystem {
 				specialArgs = {
 					inherit inputs;
 					systemInfo = {
-						inherit host user system;
+						inherit host user;
 						stateVersion = "26.11";
 					};
 				};
