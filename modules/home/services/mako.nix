@@ -1,0 +1,86 @@
+{ lib, pkgs, config, ... }:
+{
+    services.mako = {
+        enable = true;
+        package = pkgs.mako;
+        settings = {
+            sort = "-time";
+            layer = "overlay";
+            anchor = "top-right";
+            max-visible = "5";
+            max-history = "20";
+            default-timeout = "5000";
+            font = "monospace 12";
+            format = "<b>%a: %s</b>\\n%b";
+            outer-margin = "2";
+            margin = "0,0,5,0";
+            padding = "5";
+            text-alignment = "left";
+            text-color = "#eceff4";
+            background-color = "#2e3440";
+            border-color = "#4c566a";
+            border-size = "2";
+            border-radius = "10,0,0,10";
+            progress-color = "over #5e81ac";
+            on-touch = "invoke-default-action";
+            on-button-left = "invoke-default-action";
+            on-button-right = "dismiss";
+            on-button-middle=''exec makoctl menu -n "$id" menu -p "Action> "'';
+            on-notify=''exec [ "$(makoctl list | grep -c "^Notification")" -eq 1 ] && pw-play /usr/share/sounds/freedesktop/stereo/message.oga'';
+            hidden = {
+                format ="(and %h more)";
+                text-color = "#bbc3d4";
+            };
+            "urgency=low" = {
+                on-notify = "none";
+            };
+            "urgency=critical" = {
+                default-timeout = 0;
+                border-color = "#b74e58";
+            };
+            "mode=away" = {
+                on-notify = "none";
+                ignore-timeout = 1;
+                default-timeout = 0;
+            };
+            "mode=silent" = {
+                on-notify = "none";
+            };
+            "mode=dnd" = {
+                invisible = 1;
+                default-timeout = 0;
+                on-notify = lib.mkIf config.programs.waybar.enable "exec pkill -x -RTMIN+7 waybar";
+            };
+            "mode=dnd urgency=low" = {
+                on-notify = "dismiss";
+            };
+            "mode=dnd urgency=critical" = {
+                invisible = 0;
+            };
+            "app-name=audioctl" = {
+                history = 0;
+                on-notify = "none";
+            };
+            "app-name=screenlightctl" = {
+                history = 0;
+                on-notify = "none";
+            };
+            "app-name=poweralertd" = {
+                history = 0;
+                on-notify = "none";
+            };
+            "app-name=poweralertd category=power.online" = {
+                on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/power-plug.oga";
+            };
+            "app-name=poweralertd category=power.offline" = {
+                on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/power-unplug.oga";
+            };
+            "app-name=poweralertd category=power.low" = {
+                on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga";
+            };
+            "app-name=poweralertd category=power.critical" = {
+                on-notify="exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga";
+            };
+        };
+    };
+}

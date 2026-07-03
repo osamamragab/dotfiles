@@ -1,0 +1,32 @@
+{ pkgs, lib, config, ... }:
+{
+    programs.wayprompt = {
+        enable = true;
+        package = pkgs.wayprompt;
+        settings = {
+            colours = {
+                background = "0x2e3440dd";
+                border = "0x5e81acff";
+                text = "0xeceff4ff";
+                error-text = "0xb74e58ff";
+                pin-background = "0x4c566aff";
+                pin-border = "0x4c566aff";
+                pin-square = "0x5e81acff";
+                ok-button = "0x97b67cff";
+                ok-button-text = "0xeceff4ff";
+                ok-button-border = "0x97b67cff";
+                not-ok-button = "0xb74e58ff";
+                not-ok-button-text = "0xeceff4ff";
+                not-ok-button-border = "0xb74e58ff";
+                cancel-button = "0xb74e58ff";
+                cancel-button-text = "0xeceff4ff";
+                cancel-button-border = "0xb74e58ff";
+            };
+        };
+    };
+
+    services.gpg-agent.pinentry = lib.mkIf config.services.gpg-agent.enable {
+        package = pkgs.wayprompt;
+        program = "pinentry-wayprompt";
+    };
+}

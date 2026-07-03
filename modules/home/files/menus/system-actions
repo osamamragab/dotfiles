@@ -1,0 +1,36 @@
+#!/bin/sh
+
+set -eu
+
+export MENU_PROMPT="${MENU_PROMPT:-System Actions}"
+
+case "$(readlink -f "$(which init)")" in
+	*systemd*) ctl="systemctl" ;;
+	*) ctl="loginctl" ;;
+esac
+
+sel="${1:-$(printf " Lock\n Exit\n Suspend\n Hibernate\n Reboot\n Power Off" | menu slug)}" || exit 1
+case "$sel" in
+lock)
+	loginctl lock-session
+	;;
+exit)
+	mmsg -q
+	;;
+suspend)
+	$ctl -i suspend
+	;;
+hibernate)
+	$ctl -i hibernate
+	;;
+reboot)
+	$ctl -i reboot
+	;;
+power-off)
+	$ctl -i poweroff
+	;;
+*)
+	echo "$(basename "$0"): invalid command: $sel" >&2
+	exit 1
+	;;
+esac

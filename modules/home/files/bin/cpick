@@ -1,0 +1,68 @@
+#!/bin/sh
+
+set -eu
+
+CPICK_DIR="${CPICK_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/cpick}"
+CPICK_HISTORY_FILE="$CPICK_DIR/history.txt"
+
+copy=0
+noti=0
+store=1
+color=""
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	-s | --store)
+		store=1
+		[ -n "${2:-}" ] && {
+			c="$(expr "$2" : '\(#\?[A-Fa-f0-9]\{6\}\|#\?[A-Fa-f0-9]\{3\}\)')" && {
+				color="#${c###}"
+				shift
+			}
+		}
+		;;
+	-S | --no-store)
+		store=0
+		;;
+	-c | --copy)
+		copy=1
+		;;
+	-n | --notify)
+		noti=1
+		;;
+	*)
+		echo "$(basename "$0"): unknown argument: $1" >&2
+		exit 1
+		;;
+	esac
+	shift
+done
+
+[ -z "$color" ] && {
+	pos="$(slurp -b 00000000 -p 2>/dev/null)" || exit 1
+	color="$(
+		grim -g "$pos" -t png - |
+			magick - -format "%[pixel:p{0,0}]" txt:- |
+			grep -Eom1 "#[0-9A-F]+" |
+			tr "[:upper:]" "[:lower:]"
+	)" || exit 1
+}
+
+[ $store -eq 1 ] && {
+	echo "$color" >>"$CPICK_HISTORY_FILE"
+	cat -n "$CPICK_HISTORY_FILE" |
+		sort -rk2 |
+		sort -uk2 |
+		sort -nk1 |
+		cut -f 2- >"$CPICK_HISTORY_FILE.tmp" &&
+		mv -f "$CPICK_HISTORY_FILE.tmp" "$CPICK_HISTORY_FILE"
+}
+
+[ $copy -eq 1 ] && {
+	echo "$color" | wl-copy --type text/plain --foreground --trim-newline
+	[ $noti -eq 1 ] &&
+		notify-send -a "$(basename "$0")" "$color" "color copied to clipboard"
+	exit 0
+}
+
+echo "$color"

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -eu
+
+YT_DIR="${YT_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/yt}"
+CONFIG_FILE="$YT_DIR/config"
+HISTORY_FILE="$YT_DIR/history.txt"
+[ -d "$YT_DIR" ] || mkdir -p "$YT_DIR"
+
+command -v mpv >/dev/null 2>&1 || {
+	echo "$(basename "$0"): mpv is not installed" >&2
+	exit 1
+}
+
+# shellcheck disable=SC1090
+[ -r "$CONFIG_FILE" ] && . "$CONFIG_FILE"
+
+for arg; do
+	case "$arg" in
+	*)
+		echo "$arg" >>"$HISTORY_FILE"
+		exec mpv "$arg"
+		;;
+	esac
+done

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -eu
+
+export MENU_PROMPT="${MENU_PROMPT:-Power Profiles}"
+
+sel="$(powerprofilesctl list | sed -n 's/^\(\s\|\*\)\s\(.*\):$/\2/p' | menu)" || exit 1
+powerprofilesctl set "$sel"

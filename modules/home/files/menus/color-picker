@@ -1,0 +1,41 @@
+#!/bin/sh
+
+set -eu
+
+export MENU_PROMPT="${MENU_PROMPT:-Color Picker}"
+
+export CPICK_DIR="${CPICK_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/cpick}"
+CPICK_HISTORY_FILE="$CPICK_DIR/history.txt"
+CPICK_THUMBNAILS_DIR="$CPICK_DIR/thumbnails"
+[ -d "$CPICK_THUMBNAILS_DIR" ] || mkdir -p "$CPICK_THUMBNAILS_DIR"
+
+history="$(tac "$CPICK_HISTORY_FILE" 2>/dev/null || true)"
+
+echo "$history" | while IFS= read -r color; do
+	file="$CPICK_THUMBNAILS_DIR/${color###}.svg"
+	[ -f "$file" ] ||
+		printf '<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="%s"/></svg>' "$color" >"$file"
+done
+
+sel="$(
+	printf " Pick\n%s" "$history" |
+		sed "s@^#\(.*\)@\0\x0icon\x1f$CPICK_THUMBNAILS_DIR/\1.svg@" |
+		menu slug
+)" || case $? in
+19)
+	rm -rf "$CPICK_DIR"
+	exit 0
+	;;
+*)
+	exit $?
+	;;
+esac
+
+case "$sel" in
+pick)
+	exec cpick -c -n -s
+	;;
+*)
+	exec cpick -c -n -s "$sel"
+	;;
+esac

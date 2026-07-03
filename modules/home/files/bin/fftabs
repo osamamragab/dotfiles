@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -eu
+
+BROWSER_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/mozilla/firefox"
+[ -d "$HOME/.mozilla/firefox" ] && BROWSER_DIR="$HOME/.mozilla/firefox"
+
+sed -n "/Default=.*\..*/s/.*=//p" "$BROWSER_DIR/profiles.ini" | while IFS= read -r p; do
+	lz4jsoncat "$BROWSER_DIR/$p/sessionstore-backups/recovery.jsonlz4" |
+		jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
+done

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -eu
+
+if [ $# -lt 2 ]; then
+	printf "usage:\n  %s files... message\n" "$(basename "$0")"
+	exit 1
+fi
+
+for msg; do :; done
+
+for f; do
+	[ "$f" = "$msg" ] && break
+	[ -n "${files:-}" ] && files="$files $f" || files="$f"
+done
+
+# shellcheck disable=SC2086
+git add $files && git commit -m "$msg"

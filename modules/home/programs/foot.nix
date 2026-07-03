@@ -1,0 +1,74 @@
+{ pkgs, config, ... }:
+{
+    home.sessionVariables.TERMINAL = "foot";
+    programs.foot = {
+        enable = true;
+        package = pkgs.foot;
+        server = {
+            enable = true;
+            systemdTarget = config.wayland.systemd.target;
+        };
+        settings = {
+            main = {
+                font = "monospace:size=14:antialias=true:autohint=true";
+                dpi-aware = "no";
+            };
+            key-bindings = {
+                unicode-input = "none";
+                spawn-terminal = "Control+Shift+Return";
+                clipboard-copy = "Control+Shift+y";
+                clipboard-paste = "Control+Shift+p";
+                scrollback-up-line = "Control+Shift+k";
+                scrollback-down-line = "Control+Shift+j";
+                scrollback-up-half-page = "Control+Shift+u";
+                scrollback-down-half-page = "Control+Shift+d";
+                show-urls-launch = "Control+Shift+o";
+                show-urls-copy = "Control+Shift+i";
+                pipe-command-output = "[wl-copy] Control+Shift+c";
+            };
+            search-bindings = {
+                clipboard-paste = "Control+Shift+p";
+                scrollback-up-line = "Control+Shift+k";
+                scrollback-down-line = "Control+Shift+j";
+                scrollback-up-half-page = "Control+Shift+u";
+                scrollback-down-half-page = "Control+Shift+d";
+            };
+            cursor = {
+                style = "block";
+                unfocused-style = "hollow";
+                blink = "no";
+                blink-rate = 0;
+            };
+            colors-dark = {
+                alpha = 0.95;
+                cursor = "2e3440 d8dee9";
+                foreground = "eceff4";
+                background = "2e3440";
+                regular0 = "2e3440";
+                regular1 = "b74e58";
+                regular2 = "97b67c";
+                regular3 = "e7c173";
+                regular4 = "5e81ac";
+                regular5 = "a97ea1";
+                regular6 = "80b3b2";
+                regular7 = "bbc3d4";
+                bright0 = "4c566a";
+                bright1 = "bf616a";
+                bright2 = "a3be8c";
+                bright3 = "ebcb8b";
+                bright4 = "81a1c1";
+                bright5 = "b48ead";
+                bright6 = "8fbcbb";
+                bright7 = "eceff4";
+                dim0 = "373e4d";
+                dim1 = "94545d";
+                dim2 = "809575";
+                dim3 = "b29e75";
+                dim4 = "68809a";
+                dim5 = "8c738c";
+                dim6 = "6d96a5";
+                dim7 = "aeb3bb";
+            };
+        };
+    };
+}

@@ -1,0 +1,73 @@
+#!/bin/sh
+
+set -eu
+
+app="$(basename "$0")"
+
+getvol() {
+	[ "$1" ] || return 1
+	vol="$(wpctl get-volume "$1")"
+	[ "$vol" ] || return 1
+	[ "$vol" != "${vol%\[MUTED\]}" ] && {
+		echo "muted"
+		return 0
+	}
+	numfmt --from-unit=100 --format="%.0f" "${vol#Volume: }"
+}
+
+case "${1:-output}" in
+out | output | sink)
+	id="@DEFAULT_AUDIO_SINK@"
+	title="output"
+	limit="2.0"
+	;;
+in | input | source)
+	id="@DEFAULT_AUDIO_SOURCE@"
+	title="input"
+	limit="1.0"
+	;;
+*)
+	echo "$app: invalid command: $1" >&2
+	exit 1
+	;;
+esac
+
+case "${2:-get}" in
+get)
+	vol="$(getvol "$id")" || exit $?
+	echo "$vol%"
+	;;
+toggle)
+	wpctl set-mute "$id" toggle
+	;;
+mute)
+	wpctl set-mute "$id" 1
+	;;
+unmute)
+	wpctl set-mute "$id" 0
+	;;
+*+ | *- | *%)
+	wpctl set-mute "$id" 0
+	wpctl set-volume "$id" "$2" --limit "${AUDIOCTL_LIMIT:-$limit}"
+	;;
+*)
+	echo "$app: invalid subcommand: $2" >&2
+	exit 1
+	;;
+esac
+
+vol="$(getvol "$id")" || exit $?
+text="$vol%"
+[ "$vol" = "muted" ] && {
+	vol=0
+	text="muted"
+}
+
+notify-send \
+	-u low \
+	-t 1000 \
+	-a "$app" \
+	-h "int:value:$vol" \
+	-h "string:x-canonical-private-synchronous:$app-volume" \
+	"$title" \
+	"$text"

@@ -1,0 +1,44 @@
+{ pkgs, ... }:
+{
+    programs.fuzzel = {
+        enable = true;
+        package = pkgs.fuzzel;
+        settings = {
+            main = {
+                font = "monospace:size=14";
+                dpi-aware = "no";
+                show-actions = true;
+                fields = "name,filename,generic,keywords,categories,comment,exec";
+                layer = "overlay";
+                lines = 15;
+                width = 40;
+                inner-pad = 15;
+                vertical-pad = 20;
+                horizontal-pad = 20;
+                line-height = "45px";
+            };
+            key-bindings = {
+                clipboard-paste = "Control+Shift+p";
+                custom-1 = "Mod1+1";
+            };
+            border = {
+                width = 2;
+                radius = 24;
+            };
+            colors = {
+                background = "2e3440ff";
+                prompt = "4c566aff";
+                message = "d8dee9ff";
+                placeholder = "4c566aff";
+                input = "eceff4ff";
+                text = "d8dee9ff";
+                match = "ebcb8bff";
+                selection = "3b4252ff";
+                selection-text = "eceff4ff";
+                selection-match = "5e81acff";
+                counter = "4c566aff";
+                border = "4c566aff";
+            };
+        };
+    };
+}
