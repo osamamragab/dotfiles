@@ -326,6 +326,7 @@
                 "isterm:1,appid:footclient"
                 "isterm:1,isnamedscratchpad:1,width:840,height:560,appid:terminal-scratchpad"
                 "isterm:1,isfloating:1,width:840,height:560,appid:terminal-floating"
+                "noswallow:1,appid:wev"
             ];
 
             # layer rule
