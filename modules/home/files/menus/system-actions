@@ -15,7 +15,7 @@ lock)
 	loginctl lock-session
 	;;
 exit)
-	mmsg -q
+	mmsg dispatch quit
 	;;
 suspend)
 	$ctl -i suspend
