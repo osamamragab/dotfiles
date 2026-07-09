@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ lib, config, ... }:
 let
     importDir = dir:
         lib.filter
@@ -9,7 +9,8 @@ in
     imports =
         importDir ./config
         ++ importDir ./programs
-        ++ importDir ./services;
+        ++ importDir ./services
+        ++ importDir ./extras;
 
     programs.home-manager.enable = true;
     home = {
