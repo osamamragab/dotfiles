@@ -1,6 +1,35 @@
 { inputs, pkgs, lib, config, ... }:
+let
+    firefox-addons = pkgs.nur.repos.rycee.firefox-addons;
+    addonPackages = with firefox-addons; [
+        multi-account-containers
+        ublock-origin
+        sponsorblock
+        dearrow
+        chrome-mask
+        clearurls
+        decentraleyes
+        istilldontcareaboutcookies
+        darkreader
+        vimium-c
+        imagus-mod
+        wayback-machine
+        search-by-image
+        youtube-nonstop
+        cookie-editor
+        header-editor
+        visbug
+    ];
+    mkAddonSettings = addon: extraSettings: {
+        ${addon.addonId}.settings = {
+            default_area = "menupanel";
+            private_browsing = true;
+        } // extraSettings;
+    };
+in
 {
     imports = [ inputs.arkenfox.hmModules.arkenfox ];
+
     programs.firefox = {
         enable = true;
         package = pkgs.firefox;
@@ -10,6 +39,45 @@
             id = 0;
             name = "default";
             isDefault = true;
+            search = {
+                force = true;
+                default = "ddg";
+                privateDefault = "ddg";
+                order = [
+                    "ddg"
+                    "google"
+                    "wikipedia"
+                    "youtube"
+                ];
+                engines = {
+                    bing.metaData.hidden = true;
+                    google.metaData.alias = "@g";
+                    youtube = {
+                        name = "YouTube";
+                        urls = [
+                            {
+                                template = "https://www.youtube.com/results";
+                                params = [
+                                    {
+                                        name = "search_query";
+                                        value = "{searchTerms}";
+                                    }
+                                ];
+                            }
+                        ];
+                        icon = "https://youtube.com/favicon.ico";
+                        definedAliases = [ "@yt" ];
+                    };
+                };
+            };
+            extensions = {
+                force = true;
+                packages = addonPackages;
+                settings = builtins.foldl'
+                    (acc: addon: acc // mkAddonSettings addon {})
+                    {}
+                    addonPackages;
+            };
             arkenfox = {
                 enable = true;
                 enableAllSections = true;
@@ -60,6 +128,7 @@
                 "privacy.resistFingerprinting" = false;
                 "privacy.resistFingerprinting.letterboxing" = false;
                 "identity.fxaccounts.enabled" = true;
+                "extensions.autoDisableScopes" = 0;
                 "extensions.pocket.enabled" = false;
                 "extensions.ml.enabled" = false;
                 "layout.css.prefers-color-scheme.content-override" = 0;
