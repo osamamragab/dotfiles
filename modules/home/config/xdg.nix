@@ -3,6 +3,11 @@
     xdg = {
         enable = true;
         localBinInPath = true;
+        configHome = "${config.home.homeDirectory}/.config";
+        dataHome = "${config.home.homeDirectory}/.local/share";
+        stateHome = "${config.home.homeDirectory}/.local/state";
+        binHome = "${config.home.homeDirectory}/.local/bin";
+        cacheHome = "${config.home.homeDirectory}/.cache";
         portal = {
             enable = true;
             extraPortals = with pkgs; [
@@ -49,5 +54,5 @@
             };
         };
     };
-	home.sessionPath = lib.mkIf config.xdg.localBinInPath [ "$HOME/.local/bin" ];
+    home.sessionPath = lib.mkIf config.xdg.localBinInPath [ "$XDG_BIN_HOME" ];
 }

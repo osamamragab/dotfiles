@@ -7,6 +7,7 @@
             enableFishIntegration = config.programs.fish.enable;
             enableNushellIntegration = config.programs.nushell.enable;
         };
+        # TODO: add functions.
         shellAliases = {
             e="\${EDITOR:-vi}";
             q="exit";
@@ -19,13 +20,13 @@
             ll="ls -lA";
             grep="grep --color=auto";
             gr="grep -Hnr";
+            urls="grep -aohE '(((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-zA-Z0-9.]*[:;a-zA-Z0-9./+@$&%?$\#=_~-]*)|((magnet:\\?xt=urn:btih:)[a-zA-Z0-9]*)'";
             ip="ip -color=auto";
             bc="bc -ql";
             diff="diff --color=auto";
             info="info --vi-keys";
             rsync="rsync -vrPlu";
             ffmpeg="ffmpeg -hide_banner";
-            urls="grep -aohE '(((http|https|gopher|gemini|ftp|ftps|git)://|www\\.)[a-zA-Z0-9.]*[:;a-zA-Z0-9./+@$&%?$\#=_~-]*)|((magnet:\\?xt=urn:btih:)[a-zA-Z0-9]*)'";
             drag="dragon-drop -a -x";
             adb=''env HOME="$ANDROID_USER_HOME" adb'';
             mitmproxy=''mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'';
