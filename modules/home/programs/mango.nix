@@ -1,11 +1,23 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, config, ... }:
 {
     imports = [
         inputs.mangowm.hmModules.mango
     ];
+
     wayland.windowManager.mango = {
         enable = true;
-        systemd.enable = true;
+        systemd = {
+            enable = true;
+            xdgAutostart = false;
+            # TODO: add required variables only.
+            variables = [ "--all" ];
+            extraCommands = [
+                "systemctl --user reset-failed"
+                "systemctl --user start mango-session.target"
+            ];
+        };
+        topPrefixes = [ "source" ];
+        bottomPrefixes = [ "exec" "exec-once" ];
         settings = {
             # Window effect
             blur = 0;
@@ -85,7 +97,6 @@
             default_nmaster = 1;
             smartgaps = 1;
 
-
             # Dwindle Layout Setting
             dwindle = {
                 smart_split = 0;
@@ -133,7 +144,6 @@
                 layout = "us,ara";
                 options = "grp:alt_space_toggle,grp_led:caps";
             };
-
 
             # Trackpad
             # need relogin to make it apply
@@ -358,6 +368,14 @@
                 "NO_AT_BRIDGE,1"
                 "_JAVA_AWT_WM_NONREPARENTING,1"
                 "AWT_TOOLKIT,MToolkit wmname LG3D"
+            ];
+
+            exec-once = [
+                # For some reason it does not start correctly when enabling the
+                # systemd integration.
+                "systemctl --user start mango-session.target"
+                "${pkgs.keyd}/bin/keyd-application-mapper"
+                "${pkgs.wbg}/bin/wbg --stretch ${config.xdg.dataHome}/bg"
             ];
         };
     };
