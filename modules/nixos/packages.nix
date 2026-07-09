@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
     environment.systemPackages = with pkgs; [
-		git
+        git
         file
         which
         tree
