@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
-	services.mpris-proxy = {
-		enable = true;
-		package = pkgs.bluez;
-	};
+    services.mpris-proxy = {
+        enable = true;
+        package = pkgs.bluez;
+    };
 }

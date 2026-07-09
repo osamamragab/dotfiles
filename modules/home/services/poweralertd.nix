@@ -1,8 +1,8 @@
 { pkgs, ... }:
 {
-	services.poweralertd = {
-		enable = true;
-		package = pkgs.poweralertd;
-		extraArgs = [ "-s" ];
-	};
+    services.poweralertd = {
+        enable = true;
+        package = pkgs.poweralertd;
+        extraArgs = [ "-s" ];
+    };
 }
