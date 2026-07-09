@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Mail
-Icon=aerc
-Exec=terminal aerc %u

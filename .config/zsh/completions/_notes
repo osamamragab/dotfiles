@@ -1,7 +1,0 @@
-#compdef notes
-
-_notes() {
-	_files -W "${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
-}
-
-compdef _notes notes

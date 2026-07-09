@@ -1,8 +1,0 @@
-com.discordapp.Discord
-com.getpostman.Postman
-com.github.tchx84.Flatseal
-com.rustdesk.RustDesk
-com.slack.Slack
-com.usebruno.Bruno
-org.localsend.localsend_app
-rest.insomnia.Insomnia

@@ -1,6 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-pgrep -x -u "$USER" wf-recorder >/dev/null 2>&1 &&
-	printf "\nStop recording\nactive"

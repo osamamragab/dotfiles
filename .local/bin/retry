@@ -1,7 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-while ! "$@"; do
-	sleep 0.5
-done

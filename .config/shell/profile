@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# shellcheck source=./env
-. "${XDG_CONFIG_HOME:-$HOME/.config}/shell/env"
-
-[ -z "${DISPLAY:-${WAYLAND_DISPLAY:-}}" ] &&
-	[ "$(tty)" = "/dev/tty1" ] &&
-	exec ssh-agent dbus-run-session mango >"/tmp/mango-$(date "+%F_%T").log" 2>&1

@@ -1,8 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-exec >/dev/null 2>&1
-
-grep -Fxq 1 /sys/class/power_supply/AC*/online ||
-	playerctl -a status | grep -Fxq Playing

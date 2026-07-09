@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Audio Player
-Icon=mpv
-Exec=mpv --no-video %u
