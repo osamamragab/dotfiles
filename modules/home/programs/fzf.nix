@@ -8,8 +8,6 @@
         enableFishIntegration = config.programs.fish.enable;
         enableNushellIntegration = config.programs.nushell.enable;
         defaultCommand = lib.mkIf config.programs.fd.enable "fd --type f --type symlink --hidden --strip-cwd-prefix";
-        fileWidgetCommand = config.programs.fzf.defaultCommand;
-        changeDirWidgetCommand = lib.mkIf config.programs.fd.enable "fd --type d --hidden --strip-cwd-prefix";
         defaultOptions = [
             "--tiebreak=begin"
             "--layout reverse"
@@ -19,7 +17,9 @@
             "--highlight-line"
             "--bind=ctrl-y:accept"
         ];
-        historyWidgetOptions = [
+        fileWidget.command = config.programs.fzf.defaultCommand;
+        changeDirWidget.command = lib.mkIf config.programs.fd.enable "fd --type d --hidden --strip-cwd-prefix";
+        historyWidget.options = [
             "--sort"
             "--exact"
         ];

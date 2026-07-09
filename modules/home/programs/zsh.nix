@@ -137,4 +137,8 @@
             compdef _notes notes
         '';
     };
+
+    home.sessionVariables._Z_DATA = lib.mkIf
+        (lib.lists.any (p: p.src == pkgs.zsh-z) config.programs.zsh.plugins)
+        "${config.xdg.cacheHome}/zdata";
 }

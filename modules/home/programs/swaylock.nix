@@ -1,9 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
     programs.swaylock = {
         enable = true;
         package = pkgs.swaylock;
         settings = {
+            image = "${config.xdg.dataHome}/bg";
+            scaling = "stretch";
             font-size = 24;
             daemonize = true;
             ignore-empty-password = true;

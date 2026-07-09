@@ -14,7 +14,7 @@
                 toggle_power = "o";
                 toggle_discovery = "d";
             };
-            paired_device= {
+            paired_device = {
                 unpair = "u";
                 toggle_trust = "t";
                 toggle_favorite = "f";

@@ -119,7 +119,9 @@ in
         useUserPackages = true;
         extraSpecialArgs = { inherit inputs systemInfo; };
         users.${systemInfo.user} = { ... }: {
-            imports = [ ./../../modules/home ];
+            imports = [
+                ./../../modules/home
+            ];
             home = {
                 username = systemInfo.user;
                 homeDirectory = "/home/${systemInfo.user}";
