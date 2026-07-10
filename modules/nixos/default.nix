@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
     imports = [
         ./boot.nix
@@ -10,5 +10,22 @@
         ./virtualisation.nix
     ];
 
-    nix.settings.experimental-features = [ "nix-command" "flakes" ];
+    nix = {
+        package = pkgs.nixVersions.latest;
+        checkConfig = true;
+        gc = {
+            automatic = true;
+            dates = "weekly";
+            options = "--delete-older-than 7d";
+        };
+        settings = {
+            trusted-users = [ "@wheel" ];
+            experimental-features = [ "nix-command" "flakes" ];
+            use-xdg-base-directories = true;
+            cores = 0; # use all cores
+            max-jobs = "auto";
+            http-connections = 25;
+            auto-optimise-store = true;
+        };
+    };
 }

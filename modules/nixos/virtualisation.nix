@@ -6,7 +6,7 @@
             package = pkgs.docker;
             rootless = {
                 enable = true;
-                setSocketVariable =true;
+                setSocketVariable = true;
             };
         };
         podman = {
