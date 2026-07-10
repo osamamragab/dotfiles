@@ -80,7 +80,11 @@
                         phone = "";
                         portable = "";
                         car = "";
-                        default = ["" "" ""];
+                        default = [
+                            ""
+                            ""
+                            ""
+                        ];
                     };
                 };
                 battery = {
@@ -90,8 +94,30 @@
                     format-charging = "{icon}";
                     format-plugged = "";
                     format-icons = {
-                        charging = ["󰢜" "󰂆" "󰂇" "󰂈" "󰢝" "󰂉" "󰢞" "󰂊" "󰂋" "󰂅"];
-                        default = ["󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹"];
+                        charging = [
+                            "󰢜"
+                            "󰂆"
+                            "󰂇"
+                            "󰂈"
+                            "󰢝"
+                            "󰂉"
+                            "󰢞"
+                            "󰂊"
+                            "󰂋"
+                            "󰂅"
+                        ];
+                        default = [
+                            "󰁺"
+                            "󰁻"
+                            "󰁼"
+                            "󰁽"
+                            "󰁾"
+                            "󰁿"
+                            "󰂀"
+                            "󰂁"
+                            "󰂂"
+                            "󰁹"
+                        ];
                     };
                     format-full = "󰂅";
                     tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}%";
@@ -108,7 +134,13 @@
                     format-wifi = "{icon}";
                     format-ethernet = "";
                     format-disconnected = "";
-                    format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
+                    format-icons = [
+                        "󰤯"
+                        "󰤟"
+                        "󰤢"
+                        "󰤥"
+                        "󰤨"
+                    ];
                     on-click = "${config.xdg.binHome}/terminal -a terminal-floating nmtui";
                     tooltip-format = "{ifname} via {gwaddr}";
                     tooltip-format-wifi = "{essid} ({frequency}GHz) {signalStrength}% \n{ifname}: {ipaddr}/{cidr}";
@@ -198,31 +230,31 @@
                             *) count="9+" ;;
                         esac
                         printf "%s\nDisable DnD" "$\{count:+ $count\}"
-                        '';
-                        };
-                        "custom/recording" = {
-                        format = "{}";
-                        interval = "once";
-                        on-click = "${config.xdg.binHome}/menu-handler screen-recording stop";
-                        signal = 8;
-                        exec = pkgs.writeShellScript "screen-recording" ''
+                    '';
+                };
+                "custom/recording" = {
+                    format = "{}";
+                    interval = "once";
+                    on-click = "${config.xdg.binHome}/menu-handler screen-recording stop";
+                    signal = 8;
+                    exec = pkgs.writeShellScript "screen-recording" ''
                         set -eu
                         pgrep -x -u "$USER" wf-recorder >/dev/null 2>&1 &&
                         printf "\nStop recording\nactive"
-                        '';
-                        };
-                        "custom/days" = {
-                        format = "{}";
-                        interval = 1800;
-                        on-click = "${config.xdg.binHome}/terminal -a terminal-floating notes todo";
-                        exec = pkgs.writeShellScript "days" ''
-                            set -eu
-                            # TODO: add birthdate to some variable.
-                            dob="$(date -d "2004-06-09"  "+%s")"
-                            now="$(date "+%s")"
-                            days=$(( (now - dob) / 86400 ))
-                            printf "%d\n" "$days"
-                        '';
+                    '';
+                };
+                "custom/days" = {
+                    format = "{}";
+                    interval = 1800;
+                    on-click = "${config.xdg.binHome}/terminal -a terminal-floating notes todo";
+                    exec = pkgs.writeShellScript "days" ''
+                        set -eu
+                        # TODO: add birthdate to some variable.
+                        dob="$(date -d "2004-06-09"  "+%s")"
+                        now="$(date "+%s")"
+                        days=$(( (now - dob) / 86400 ))
+                        printf "%d\n" "$days"
+                    '';
                 };
             };
         };

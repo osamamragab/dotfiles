@@ -20,7 +20,10 @@
         };
         settings = {
             trusted-users = [ "@wheel" ];
-            experimental-features = [ "nix-command" "flakes" ];
+            experimental-features = [
+                "nix-command"
+                "flakes"
+            ];
             use-xdg-base-directories = true;
             cores = 0; # use all cores
             max-jobs = "auto";

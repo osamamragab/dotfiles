@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 {
     home.packages = [ pkgs.keyd ];
 
@@ -22,7 +27,7 @@
 
     wayland.windowManager.mango.settings.exec-once =
         lib.mkIf config.wayland.windowManager.mango.enable
-        [
-            "${pkgs.keyd}/bin/keyd-application-mapper"
-        ];
+            [
+                "${pkgs.keyd}/bin/keyd-application-mapper"
+            ];
 }

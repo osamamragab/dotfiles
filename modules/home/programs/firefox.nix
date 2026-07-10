@@ -1,4 +1,10 @@
-{ inputs, pkgs, lib, config, ... }:
+{
+    inputs,
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 let
     firefox-addons = pkgs.nur.repos.rycee.firefox-addons;
     addonPackages = with firefox-addons; [
@@ -24,7 +30,8 @@ let
         ${addon.addonId}.settings = {
             default_area = "menupanel";
             private_browsing = true;
-        } // extraSettings;
+        }
+        // extraSettings;
     };
 in
 {
@@ -75,10 +82,7 @@ in
             extensions = {
                 force = true;
                 packages = addonPackages;
-                settings = builtins.foldl'
-                    (acc: addon: acc // mkAddonSettings addon {})
-                    {}
-                    addonPackages;
+                settings = builtins.foldl' (acc: addon: acc // mkAddonSettings addon { }) { } addonPackages;
             };
             arkenfox = {
                 enable = true;

@@ -17,9 +17,18 @@
     fonts.fontconfig = {
         enable = true;
         defaultFonts = {
-            serif = [ "DejaVu Serif" "Noto Serif" ];
-            sansSerif = [ "DejaVu Sans" "Noto Sans" ];
-            monospace = [ "Hack" "DejaVu Sans Mono" ];
+            serif = [
+                "DejaVu Serif"
+                "Noto Serif"
+            ];
+            sansSerif = [
+                "DejaVu Sans"
+                "Noto Sans"
+            ];
+            monospace = [
+                "Hack"
+                "DejaVu Sans Mono"
+            ];
             emoji = [ "Noto Color Emoji" ];
         };
         configFile = {

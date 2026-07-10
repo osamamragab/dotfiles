@@ -50,87 +50,159 @@
         '';
         urls = [
             {
-                tags = [ "tech" "news" "hackernews" "hnnews" ];
+                tags = [
+                    "tech"
+                    "news"
+                    "hackernews"
+                    "hnnews"
+                ];
                 url = "https://news.ycombinator.com/rss";
             }
             {
-                tags = [ "tech" "news" "hackernews" "hnnews" ];
+                tags = [
+                    "tech"
+                    "news"
+                    "hackernews"
+                    "hnnews"
+                ];
                 url = "https://hnrss.org/best";
             }
             {
-                tags = [ "tech" "news" "hackernews" "hnnews" ];
+                tags = [
+                    "tech"
+                    "news"
+                    "hackernews"
+                    "hnnews"
+                ];
                 url = "https://hnrss.org/frontpage";
             }
             {
-                tags = [ "tech" "news" "lobsters" ];
+                tags = [
+                    "tech"
+                    "news"
+                    "lobsters"
+                ];
                 url = "https://lobste.rs/rss";
             }
             {
-                tags = [ "linux" "debian" ];
+                tags = [
+                    "linux"
+                    "debian"
+                ];
                 url = "https://www.debian.org/News/news";
             }
             {
-                tags = [ "linux" "voidlinux" ];
+                tags = [
+                    "linux"
+                    "voidlinux"
+                ];
                 url = "https://voidlinux.org/atom.xml";
             }
             {
-                tags = [ "linux" "archlinux" ];
+                tags = [
+                    "linux"
+                    "archlinux"
+                ];
                 url = "https://archlinux.org/feeds/news/";
             }
             {
-                tags = [ "linux" "suckless" ];
+                tags = [
+                    "linux"
+                    "suckless"
+                ];
                 url = "https://suckless.org/atom.xml";
             }
             {
-                tags = [ "bsd" "freebsd" ];
+                tags = [
+                    "bsd"
+                    "freebsd"
+                ];
                 url = "https://www.freebsd.org/news/feed.xml";
             }
             {
-                tags = [ "bsd" "bsdnow" ];
+                tags = [
+                    "bsd"
+                    "bsdnow"
+                ];
                 url = "https://www.bsdnow.tv/rss";
             }
             {
-                tags = [ "bsd"  "undeadly" ];
+                tags = [
+                    "bsd"
+                    "undeadly"
+                ];
                 url = "https://undeadly.org/cgi?action=rss&full=1";
             }
             {
-                tags = [ "rfc" "rfc-editor" ];
+                tags = [
+                    "rfc"
+                    "rfc-editor"
+                ];
                 url = "https://www.rfc-editor.org/rfcatom.xml";
             }
             {
-                tags = [ "tools" "neovim" ];
+                tags = [
+                    "tools"
+                    "neovim"
+                ];
                 url = "http://neovim.io/news.xml";
             }
             {
-                tags = [ "tech" "news" "hackaday" ];
+                tags = [
+                    "tech"
+                    "news"
+                    "hackaday"
+                ];
                 url = "https://hackaday.com/blog/feed/";
             }
             {
-                tags = [ "tech" "news" "lxer" ];
+                tags = [
+                    "tech"
+                    "news"
+                    "lxer"
+                ];
                 url = "https://lxer.com/module/newswire/headlines.rss";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://beej.us/blog/rss.xml";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://unixsheikh.com/feed.rss";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "http://www.aaronsw.com/2002/feeds/pgessays.rss";
             }
             {
-                tags = [ "blog" "go" ];
+                tags = [
+                    "blog"
+                    "go"
+                ];
                 url = "https://research.swtch.com/feed.atom";
             }
             {
-                tags = [ "blog" "rust" ];
+                tags = [
+                    "blog"
+                    "rust"
+                ];
                 url = "https://readrust.net/all/feed.rss";
             }
             {
-                tags = [ "blog" "rust" ];
+                tags = [
+                    "blog"
+                    "rust"
+                ];
                 url = "https://fasterthanli.me/index.xml";
             }
             {
@@ -138,7 +210,10 @@
                 url = "https://without.boats/index.xml";
             }
             {
-                tags = [ "blog" "rust" ];
+                tags = [
+                    "blog"
+                    "rust"
+                ];
                 url = "https://readrust.net/all/feed.rss";
             }
             {
@@ -202,7 +277,10 @@
                 url = "https://www.htmhell.dev/feed.xml";
             }
             {
-                tags = [ "tech" "blog" ];
+                tags = [
+                    "tech"
+                    "blog"
+                ];
                 url = "https://robertmelton.com/index.xml";
             }
             {
@@ -210,39 +288,66 @@
                 url = "https://onethingwell.org/rss";
             }
             {
-                tags = [ "tech" "blog" ];
+                tags = [
+                    "tech"
+                    "blog"
+                ];
                 url = "https://www.computerenhance.com/feed";
             }
             {
-                tags = [ "tech" "blog" ];
+                tags = [
+                    "tech"
+                    "blog"
+                ];
                 url = "https://www.rfleury.com/feed";
             }
             {
-                tags = [ "tech" "blog" ];
+                tags = [
+                    "tech"
+                    "blog"
+                ];
                 url = "https://www.developing.dev/feed";
             }
             {
-                tags = [ "tech" "blog" ];
+                tags = [
+                    "tech"
+                    "blog"
+                ];
                 url = "https://blog.bytebytego.com/feed";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://youssefh.substack.com/feed";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://gomakethings.com/feed/index.xml";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://buttondown.email/cassidoo/rss";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://hasen.substack.com/feed";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://frontendmasters.com/blog/feed";
             }
             {
@@ -250,35 +355,60 @@
                 url = "https://golangweekly.com/rss/";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "http://ithare.com/rssfeed/";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://www.openmymind.net/atom.xml";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://www.techhut.tv/rss/";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://chomsky.info/feed/";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://syndication.thedailywtf.com/TheDailyWtf";
             }
             {
-                tags = [ "blog" "tech" ];
+                tags = [
+                    "blog"
+                    "tech"
+                ];
                 url = "https://stackoverflow.blog/feed/";
             }
             {
-                tags = [ "blog" "pod" "tech" ];
+                tags = [
+                    "blog"
+                    "pod"
+                    "tech"
+                ];
                 url = "https://changelog.com/feed";
             }
             {
-                tags = [ "pod" "tech" ];
+                tags = [
+                    "pod"
+                    "tech"
+                ];
                 url = "https://changelog.com/master/feed";
             }
             {
@@ -286,11 +416,17 @@
                 url = "https://projecteuler.net/rss2_euler.xml";
             }
             {
-                tags = [ "blog" "sci" ];
+                tags = [
+                    "blog"
+                    "sci"
+                ];
                 url = "https://www.johndcook.com/blog/feed";
             }
             {
-                tags = [ "mag" "sci" ];
+                tags = [
+                    "mag"
+                    "sci"
+                ];
                 url = "https://nautil.us/feed/";
             }
             {
@@ -302,19 +438,31 @@
                 url = "https://www.nirandfar.com/feed";
             }
             {
-                tags = [ "mag" "sci" ];
+                tags = [
+                    "mag"
+                    "sci"
+                ];
                 url = "https://www.nature.com/nature.rss";
             }
             {
-                tags = [ "blog" "news" ];
+                tags = [
+                    "blog"
+                    "news"
+                ];
                 url = "https://aaronjacklin.substack.com/feed";
             }
             {
-                tags = [ "blog" "news" ];
+                tags = [
+                    "blog"
+                    "news"
+                ];
                 url = "https://graymirror.substack.com/feed";
             }
             {
-                tags = [ "blog" "news" ];
+                tags = [
+                    "blog"
+                    "news"
+                ];
                 url = "https://www.malone.news/feed";
             }
             {

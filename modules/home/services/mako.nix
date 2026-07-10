@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+    lib,
+    pkgs,
+    config,
+    ...
+}:
 {
     services.mako = {
         enable = true;
@@ -25,10 +30,10 @@
             on-touch = "invoke-default-action";
             on-button-left = "invoke-default-action";
             on-button-right = "dismiss";
-            on-button-middle=''exec makoctl menu -n "$id" menu -p "Action> "'';
-            on-notify=''exec [ "$(makoctl list | grep -c "^Notification")" -eq 1 ] && pw-play /usr/share/sounds/freedesktop/stereo/message.oga'';
+            on-button-middle = ''exec makoctl menu -n "$id" menu -p "Action> "'';
+            on-notify = ''exec [ "$(makoctl list | grep -c "^Notification")" -eq 1 ] && pw-play /usr/share/sounds/freedesktop/stereo/message.oga'';
             hidden = {
-                format ="(and %h more)";
+                format = "(and %h more)";
                 text-color = "#bbc3d4";
             };
             "urgency=low" = {
@@ -79,7 +84,7 @@
                 on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga";
             };
             "app-name=poweralertd category=power.critical" = {
-                on-notify="exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga";
+                on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga";
             };
         };
     };

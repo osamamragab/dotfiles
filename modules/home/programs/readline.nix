@@ -4,7 +4,7 @@
         enable = true;
         includeSystemConfig = true;
         variables = {
-            editing-mode ="vi";
+            editing-mode = "vi";
             bell-style = "none";
             meta-flag = true;
             input-meta = true;

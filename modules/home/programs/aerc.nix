@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 {
     programs.aerc = {
         enable = true;
@@ -246,7 +251,7 @@
             Spam=tag:spam
         '';
     };
-    xdg.configFile."aerc/folder-map-gmail.conf" = lib.mkIf config.programs.aerc.enable  {
+    xdg.configFile."aerc/folder-map-gmail.conf" = lib.mkIf config.programs.aerc.enable {
         text = ''
             Inbox=INBOX
             All=[Gmail]/All Mail

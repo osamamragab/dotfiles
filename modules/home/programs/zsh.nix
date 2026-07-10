@@ -1,13 +1,14 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 {
     programs.zsh = {
         enable = true;
         package = pkgs.zsh;
-        dotDir =
-            if config.xdg.enable then
-                "${config.xdg.configHome}/zsh"
-            else
-                config.home.homeDirectory;
+        dotDir = if config.xdg.enable then "${config.xdg.configHome}/zsh" else config.home.homeDirectory;
         enableCompletion = true;
         enableVteIntegration = true;
         defaultKeymap = "viins";
@@ -15,7 +16,10 @@
         # zprof.enable = true;
         autosuggestion = {
             enable = true;
-            strategy = [ "history" "completion" ];
+            strategy = [
+                "history"
+                "completion"
+            ];
         };
         history = {
             size = 32768;
@@ -125,24 +129,26 @@
     };
 
     xdg.configFile."fsh/overlay.ini" = lib.mkIf config.programs.zsh.fastSyntaxHighlighting.enable {
-        source = (pkgs.formats.ini {}).generate "overlay.ini" {
+        source = (pkgs.formats.ini { }).generate "overlay.ini" {
             base = {
                 comment = 8;
             };
         };
     };
 
-    home.file."${config.programs.zsh.dotDir}/completions/_notes" = lib.mkIf config.programs.zsh.enableCompletion {
-        text = ''
-            #compdef notes
-            _notes() {
-                _files -W "''${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
-            }
-            compdef _notes notes
-        '';
-    };
+    home.file."${config.programs.zsh.dotDir}/completions/_notes" =
+        lib.mkIf config.programs.zsh.enableCompletion
+            {
+                text = ''
+                    #compdef notes
+                    _notes() {
+                        _files -W "''${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
+                    }
+                    compdef _notes notes
+                '';
+            };
 
-    home.sessionVariables._Z_DATA =
-        lib.mkIf (lib.lists.any (p: p.src == pkgs.zsh-z) config.programs.zsh.plugins)
-        "${config.xdg.stateHome}/zdata";
+    home.sessionVariables._Z_DATA = lib.mkIf (lib.lists.any (
+        p: p.src == pkgs.zsh-z
+    ) config.programs.zsh.plugins) "${config.xdg.stateHome}/zdata";
 }

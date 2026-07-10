@@ -1,4 +1,11 @@
-{ inputs, pkgs, lib, config, systemInfo, ... }:
+{
+    inputs,
+    pkgs,
+    lib,
+    config,
+    systemInfo,
+    ...
+}:
 let
     hm = config.home-manager.users.${systemInfo.user};
 in
@@ -63,7 +70,6 @@ in
         };
     };
 
-
     services.printing = {
         enable = true;
         package = pkgs.cups;
@@ -81,7 +87,7 @@ in
 
     programs.dconf.enable = true;
     documentation.dev.enable = true;
-    security.pam.services.swaylock = lib.mkIf hm.programs.swaylock.enable {};
+    security.pam.services.swaylock = lib.mkIf hm.programs.swaylock.enable { };
     services.gnome.gnome-keyring.enable = true;
 
     programs.zsh = {
@@ -93,7 +99,7 @@ in
         "/share/applications"
         "/share/xdg-desktop-portal"
     ]
-        ++ lib.optional config.programs.zsh.enable "/share/zsh";
+    ++ lib.optional config.programs.zsh.enable "/share/zsh";
 
     users = {
         users.${systemInfo.user} = {
@@ -108,10 +114,10 @@ in
                 "kvm"
                 "networkmanager"
             ]
-                ++ lib.optional config.services.keyd.enable "keyd"
-                ++ lib.optional config.virtualisation.docker.enable "docker";
+            ++ lib.optional config.services.keyd.enable "keyd"
+            ++ lib.optional config.virtualisation.docker.enable "docker";
         };
-        groups.${systemInfo.user} = {};
+        groups.${systemInfo.user} = { };
     };
 
     home-manager = {

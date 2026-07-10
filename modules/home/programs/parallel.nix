@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 {
     programs.parallel = {
         enable = true;
@@ -7,7 +12,9 @@
     };
 
     home.sessionVariables.PARALLEL_HOME = lib.mkIf config.programs.parallel.enable "${config.xdg.dataHome}/parallel";
-    home.file."${config.home.sessionVariables.PARALLEL_HOME}/will-cite" = lib.mkIf config.programs.parallel.enable {
-        text = "";
-    };
+    home.file."${config.home.sessionVariables.PARALLEL_HOME}/will-cite" =
+        lib.mkIf config.programs.parallel.enable
+            {
+                text = "";
+            };
 }

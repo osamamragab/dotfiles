@@ -6,7 +6,14 @@
             "10-rates" = {
                 "context.properties" = {
                     "default.clock.rate" = 48000;
-                    "default.clock.allowed-rates" = [ 44100 48000 88200 96000 176400 192000 ];
+                    "default.clock.allowed-rates" = [
+                        44100
+                        48000
+                        88200
+                        96000
+                        176400
+                        192000
+                    ];
                     "default.clock.quantum" = 1024;
                     "default.clock.min-quantum" = 32;
                     "default.clock.max-quantum" = 8192;
@@ -42,7 +49,10 @@
                     "monitor.bluez.properties" = {
                         "bluez5.enable-sbc-xq" = true;
                         "bluez5.enable-msbc" = true;
-                        "bluez5.codecs" = [ "sbc" "sbc-xq" ];
+                        "bluez5.codecs" = [
+                            "sbc"
+                            "sbc-xq"
+                        ];
                     };
                 };
                 disable-camera = {

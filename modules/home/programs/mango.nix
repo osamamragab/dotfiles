@@ -17,7 +17,10 @@
             ];
         };
         topPrefixes = [ "source" ];
-        bottomPrefixes = [ "exec" "exec-once" ];
+        bottomPrefixes = [
+            "exec"
+            "exec-once"
+        ];
         settings = {
             # Window effect
             blur = 0;
@@ -159,7 +162,7 @@
 
             # mouse
             # need relogin to make it apply
-            mouse_natural_scrolling=0;
+            mouse_natural_scrolling = 0;
 
             # Appearance
             gappih = 5;

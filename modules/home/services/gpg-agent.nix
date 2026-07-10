@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 {
     services.gpg-agent = {
         enable = true;

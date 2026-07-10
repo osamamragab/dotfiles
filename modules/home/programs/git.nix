@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 {
     programs.git = {
         enable = true;
@@ -73,11 +78,11 @@
     };
 
     home.shellAliases = lib.mkIf config.programs.git.enable {
-        g="git";
-        gst="git status -sb";
-        gph="git push";
-        gpl="git pull";
-        gdf="git diff";
+        g = "git";
+        gst = "git status -sb";
+        gph = "git push";
+        gpl = "git pull";
+        gdf = "git diff";
     };
 
     xdg.configFile."git/ssh-signkey" = lib.mkIf config.programs.git.enable {

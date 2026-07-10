@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-    virtualisation ={
+    virtualisation = {
         docker = {
             enable = false;
             package = pkgs.docker;

@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 let
     configPath = ../files/emacs;
 in
@@ -9,10 +14,10 @@ in
     };
     home.file.".config/emacs" =
         lib.mkIf (config.programs.emacs.enable && builtins.pathExists configPath)
-        {
-            source = configPath;
-            recursive = true;
-        };
+            {
+                source = configPath;
+                recursive = true;
+            };
     home.shellAliases = lib.mkIf config.programs.emacs.enable {
         emacs = "emacsclient -nca emacs";
     };

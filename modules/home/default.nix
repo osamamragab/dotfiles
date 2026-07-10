@@ -1,16 +1,11 @@
 { lib, config, ... }:
 let
-    importDir = dir:
-        lib.filter
-        (path: lib.hasSuffix ".nix" (toString path))
-        (lib.filesystem.listFilesRecursive dir);
+    importDir =
+        dir:
+        lib.filter (path: lib.hasSuffix ".nix" (toString path)) (lib.filesystem.listFilesRecursive dir);
 in
 {
-    imports =
-        importDir ./config
-        ++ importDir ./programs
-        ++ importDir ./services
-        ++ importDir ./extras;
+    imports = importDir ./config ++ importDir ./programs ++ importDir ./services ++ importDir ./extras;
 
     programs.home-manager.enable = true;
     home = {

@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 {
     programs.info = {
         enable = true;
@@ -6,6 +11,6 @@
     };
 
     home.shellAliases = lib.mkIf config.programs.info.enable {
-        info="info --vi-keys";
+        info = "info --vi-keys";
     };
 }

@@ -1,7 +1,17 @@
-{ pkgs, lib, config, ... }:
+{
+    pkgs,
+    lib,
+    config,
+    ...
+}:
 let
     name = "Osama Ragab";
-    mkEmailAccount = { address, flavor ? "plain", primary ? false}:
+    mkEmailAccount =
+        {
+            address,
+            flavor ? "plain",
+            primary ? false,
+        }:
         {
             inherit primary address flavor;
             realName = name;
@@ -17,11 +27,7 @@ let
                 showSignature = "append";
             };
             imap = {
-                host =
-                    if flavor == "gmail.com" then
-                        "imap.gmail.com"
-                    else
-                        lib.last (lib.splitString "@" address);
+                host = if flavor == "gmail.com" then "imap.gmail.com" else lib.last (lib.splitString "@" address);
                 port = 993;
                 tls = {
                     enable = true;
@@ -53,16 +59,13 @@ let
                 extraAccounts = {
                     outgoing =
                         if flavor == "gmail.com" then
-                            "smtps://${lib.replaceStrings ["@"] ["%40"] address}@smtp.gmail.com"
+                            "smtps://${lib.replaceStrings [ "@" ] [ "%40" ] address}@smtp.gmail.com"
                         else
                             "smtps://${address}";
                     outgoing-cred-cmd = "${pkgs.pass}/bin/pass mail/${address} | sed 1q";
                     maildir-account-path = address;
                     folder-map = "${config.xdg.configHome}/aerc/${
-                        if flavor == "gmail.com" then
-                            "folder-map-gmail.conf"
-                        else
-                            "folder-map.conf"
+                        if flavor == "gmail.com" then "folder-map-gmail.conf" else "folder-map.conf"
                     }";
                 };
             };
