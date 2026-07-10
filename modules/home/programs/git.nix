@@ -4,15 +4,15 @@
     config,
     ...
 }:
+let
+    primaryAccount = lib.lists.findFirst (acc: acc.primary == true) null (
+        builtins.attrValues config.accounts.email.accounts
+    );
+in
 {
     programs.git = {
         enable = true;
         package = pkgs.git;
-        signing = {
-            format = null;
-            signByDefault = true;
-            signer = "~/.config/git/ssh-signkey";
-        };
         ignores = [
             "/node_modules/"
             "/__pycache__/"
@@ -29,16 +29,17 @@
                 defaultBranch = "main";
             };
             core = {
-                editor = "nvim";
-                pager = "delta";
+                editor = "${config.programs.neovim.package or pkgs.neovim-unwrapped}/bin/nvim";
+                pager = "${config.programs.delta.package or pkgs.delta}/bin/delta";
             };
             user = {
-                name = "Osama Ragab";
-                email = "theosamaragab@gmail.com";
-                signingKey = "~/.ssh/id_ed25519";
+                name = primaryAccount.realName;
+                email = primaryAccount.address;
+                signingKey = primaryAccount.gpg.key;
             };
             gpg = {
-                format = "ssh";
+                program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
+                format = "openpgp";
             };
             commit = {
                 gpgSign = true;
@@ -46,6 +47,10 @@
             push = {
                 default = "simple";
                 autoSetupRemote = true;
+                gpgSign = "if-asked";
+            };
+            tag = {
+                gpgSign = true;
             };
             pull = {
                 rebase = true;
@@ -55,6 +60,9 @@
             };
             rerere = {
                 enabled = true;
+            };
+            receive = {
+                advertisePushOptions = true;
             };
             alias = {
                 co = "checkout";
@@ -83,25 +91,5 @@
         gph = "git push";
         gpl = "git pull";
         gdf = "git diff";
-    };
-
-    xdg.configFile."git/ssh-signkey" = lib.mkIf config.programs.git.enable {
-        text = ''
-            #!/bin/sh
-            # A workaround to stop git from being annoying when using ssh signing keys.
-            # By default, git uses ssh-keygen to sign commits. ssh-keygen does not honor
-            # AddKeysToAgent in ssh config. So here you go.
-            set -eu
-            while getopts "Y:n:f:" opt; do
-                case "$opt" in
-                f)
-                    key="''${OPTARG%.pub}"
-                    ssh-add -T "$key.pub" 2>&- || ssh-add "$key"
-                    ;;
-                *) ;;
-                esac
-            done
-            exec ssh-keygen "$@"
-        '';
     };
 }

@@ -6,6 +6,8 @@
 }:
 let
     name = "Osama Ragab";
+    gpgKey = "4F5D73863FBDBED9";
+    passBin = "${config.programs.password-store.package or pkgs.pass}/bin/pass";
     mkEmailAccount =
         {
             address,
@@ -17,9 +19,9 @@ let
             realName = name;
             userName = address;
             maildir.path = address;
-            passwordCommand = "${pkgs.pass}/bin/pass mail/${address} | sed 1q";
+            passwordCommand = "${passBin} mail/${address} | sed 1q";
             gpg = {
-                key = "4F5D73863FBDBED9";
+                key = gpgKey;
                 signByDefault = true;
             };
             signature = {
@@ -62,7 +64,7 @@ let
                             "smtps://${lib.replaceStrings [ "@" ] [ "%40" ] address}@smtp.gmail.com"
                         else
                             "smtps://${address}";
-                    outgoing-cred-cmd = "${pkgs.pass}/bin/pass mail/${address} | sed 1q";
+                    outgoing-cred-cmd = "${passBin} mail/${address} | sed 1q";
                     maildir-account-path = address;
                     folder-map = "${config.xdg.configHome}/aerc/${
                         if flavor == "gmail.com" then "folder-map-gmail.conf" else "folder-map.conf"
@@ -73,7 +75,7 @@ let
 in
 {
     accounts.email = {
-        maildirBasePath = "${config.home.homeDirectory}/.local/share/mail";
+        maildirBasePath = "${config.xdg.dataHome}/mail";
         accounts = {
             main = mkEmailAccount {
                 primary = true;
