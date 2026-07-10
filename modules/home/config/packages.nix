@@ -17,6 +17,5 @@
         rustc
         cargo
         nodejs
-        python3
     ];
 }

@@ -1,8 +1,14 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
-    home.packages = [ pkgs.wget ];
-    home.sessionVariables.WGETRC = "$XDG_CONFIG_HOME/wget/wgetrc";
-    xdg.configFile."wget/wgetrc".text = ''
-        hsts-file=~/.cache/wget-hsts
-    '';
+    home = {
+        packages = [ pkgs.wget ];
+        sessionVariables.WGETRC =
+            if config.xdg.enable then
+                "${config.xdg.configHome}/wget/wgetrc"
+            else
+                "${config.home.homeDirectory}/.wgetrc";
+        file.${config.home.sessionVariables.WGETRC}.text = ''
+            hsts-file=~/.cache/wget-hsts
+        '';
+    };
 }

@@ -3,7 +3,11 @@
     programs.zsh = {
         enable = true;
         package = pkgs.zsh;
-        dotDir = if config.xdg.enable then "${config.xdg.configHome}/zsh" else config.home.homeDirectory;
+        dotDir =
+            if config.xdg.enable then
+                "${config.xdg.configHome}/zsh"
+            else
+                config.home.homeDirectory;
         enableCompletion = true;
         enableVteIntegration = true;
         defaultKeymap = "viins";
@@ -138,7 +142,7 @@
         '';
     };
 
-    home.sessionVariables._Z_DATA = lib.mkIf
-        (lib.lists.any (p: p.src == pkgs.zsh-z) config.programs.zsh.plugins)
-        "${config.xdg.cacheHome}/zdata";
+    home.sessionVariables._Z_DATA =
+        lib.mkIf (lib.lists.any (p: p.src == pkgs.zsh-z) config.programs.zsh.plugins)
+        "${config.xdg.stateHome}/zdata";
 }

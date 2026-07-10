@@ -4,7 +4,7 @@
         enable = true;
         package = pkgs.swaylock;
         settings = {
-            image = "${config.xdg.dataHome}/bg";
+            image = "${config.home.homeDirectory}/${config.xdg.dataFile.bg.target}";
             scaling = "stretch";
             font-size = 24;
             daemonize = true;

@@ -24,14 +24,12 @@
             ip="ip -color=auto";
             bc="bc -ql";
             diff="diff --color=auto";
-            info="info --vi-keys";
             rsync="rsync -vrPlu";
             ffmpeg="ffmpeg -hide_banner";
             drag="dragon-drop -a -x";
             adb=''env HOME="$ANDROID_USER_HOME" adb'';
             mitmproxy=''mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'';
             mitmweb=''mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'';
-            emacs="emacsclient -nca emacs";
         };
     };
 }
