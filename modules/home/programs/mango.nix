@@ -1,4 +1,4 @@
-{ inputs, pkgs, config, ... }:
+{ inputs, ... }:
 {
     imports = [
         inputs.mangowm.hmModules.mango
@@ -118,7 +118,7 @@
             no_border_when_single = 0;
             axis_bind_apply_timeout = 100;
             focus_on_activate = 0;
-            idleinhibit_ignore_visible = 0;
+            idleinhibit_ignore_visible = 1;
             sloppyfocus = 0;
             warpcursor = 1;
             cursor_hide_timeout = 5;
@@ -374,8 +374,6 @@
                 # For some reason it does not start correctly when enabling the
                 # systemd integration.
                 "systemctl --user start mango-session.target"
-                "${pkgs.keyd}/bin/keyd-application-mapper"
-                "${pkgs.wbg}/bin/wbg --stretch ${config.xdg.dataHome}/bg"
             ];
         };
     };
