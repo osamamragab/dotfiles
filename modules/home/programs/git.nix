@@ -38,8 +38,32 @@ in
                 signingKey = primaryAccount.gpg.key;
             };
             gpg = {
-                program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
                 format = "openpgp";
+                program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
+                opengpg.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
+                x509.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpgsm";
+                ssh.program = builtins.toString (
+                    pkgs.writeShellScript "ssh-signkey" ''
+                        #!/bin/sh
+                        # A workaround to stop git from being annoying when using ssh signing keys.
+                        # By default, git uses ssh-keygen to sign commits. ssh-keygen does not honor
+                        # AddKeysToAgent in ssh config. So here you go.
+
+                        set -eu
+
+                        while getopts "Y:n:f:" opt; do
+                            case "$opt" in
+                                f)
+                                    key="''${OPTARG%.pub}"
+                                    ssh-add -T "$key.pub" 2>&- || ssh-add "$key"
+                                ;;
+                                *) ;;
+                            esac
+                        done
+
+                        exec ssh-keygen "$@"
+                    ''
+                );
             };
             commit = {
                 gpgSign = true;
@@ -82,6 +106,7 @@ in
         lfs = {
             enable = true;
             package = pkgs.git-lfs;
+            skipSmudge = false;
         };
     };
 
