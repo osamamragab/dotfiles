@@ -7,9 +7,9 @@
         gtk4.enable = true;
         colorScheme = "dark";
         font = {
-            package = pkgs.nerd-fonts.hack;
-            name = "Hack";
-            size = 12;
+            package = null;
+            name = "Sans";
+            size = 11;
         };
         theme = {
             package = pkgs.nordic;
