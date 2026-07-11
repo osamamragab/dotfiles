@@ -104,7 +104,11 @@ in
     users = {
         users.${systemInfo.user} = {
             isNormalUser = true;
-            shell = lib.mkIf config.programs.zsh.enable pkgs.zsh;
+            shell =
+                if config.programs.zsh.enable then
+                    config.programs.zsh.package or pkgs.zsh
+                else
+                    config.programs.bash.package or pkgs.bashInteractive;
             extraGroups = [
                 "wheel"
                 "video"
@@ -113,9 +117,7 @@ in
                 "lp"
                 "kvm"
                 "networkmanager"
-            ]
-            ++ lib.optional config.services.keyd.enable "keyd"
-            ++ lib.optional config.virtualisation.docker.enable "docker";
+            ];
         };
         groups.${systemInfo.user} = { };
     };
@@ -144,38 +146,7 @@ in
         settings = {
             default_session = {
                 user = "greeter";
-                command = "${pkgs.dbus}/bin/dbus-run-session ${pkgs.cage}/bin/cage -- ${pkgs.regreet}/bin/regreet";
-            };
-        };
-    };
-
-    programs.regreet = {
-        enable = true;
-        package = pkgs.regreet;
-        font = {
-            package = hm.gtk.font.package;
-            name = hm.gtk.font.name;
-            size = hm.gtk.font.size;
-        };
-        theme = {
-            package = hm.gtk.theme.package;
-            name = hm.gtk.theme.name;
-        };
-        iconTheme = {
-            package = hm.gtk.iconTheme.package;
-            name = hm.gtk.iconTheme.name;
-        };
-        cursorTheme = {
-            package = hm.gtk.cursorTheme.package;
-            name = hm.gtk.cursorTheme.name;
-        };
-        settings = {
-            background = {
-                path = "${hm.xdg.dataHome}/bg";
-                fit = "Cover";
-            };
-            GTK = {
-                cursor_blink = false;
+                command = "${pkgs.tuigreet}/bin/tuigreet --sessions ${config.services.displayManager.sessionData.desktops}/share/xsessions:${config.services.displayManager.sessionData.desktops}/share/wayland-sessions --remember --remember-user-session";
             };
         };
     };
