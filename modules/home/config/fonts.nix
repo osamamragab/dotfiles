@@ -18,18 +18,21 @@
         enable = true;
         defaultFonts = {
             serif = [
-                "DejaVu Serif"
                 "Noto Serif"
+                "DejaVu Serif"
             ];
             sansSerif = [
-                "DejaVu Sans"
                 "Noto Sans"
+                "DejaVu Sans"
             ];
             monospace = [
-                "Hack"
+                "Hack Nerd Font"
+                "Noto Sans Mono"
                 "DejaVu Sans Mono"
             ];
-            emoji = [ "Noto Color Emoji" ];
+            emoji = [
+                "Noto Color Emoji"
+            ];
         };
         configFile = {
             css-aliases = {
