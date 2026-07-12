@@ -4,6 +4,27 @@
     config,
     ...
 }:
+let
+    mbsyncBin = "${config.programs.mbsync.package or pkgs.isync}/bin/mbsync";
+    mailSyncScript = pkgs.writeShellScript "mailsync" ''
+        set -eu
+
+        mkdir -p ${
+            lib.concatStringsSep " " (
+                lib.mapAttrsToList (
+                    k: v: "'${config.accounts.email.maildirBasePath}/${v.address}'"
+                ) config.accounts.email.accounts
+            )
+        }
+
+        pidof -sqx mbsync && {
+            echo "$(basename "$0"): already running" >&2
+            exit 1
+        }
+
+        exec ${mbsyncBin} -aV
+    '';
+in
 {
     programs.aerc = {
         enable = true;
@@ -14,7 +35,7 @@
                 unsafe-accounts-conf = true;
                 pgp-provider = if config.programs.gpg.enable then "gpg" else "auto";
                 enable-osc8 = true;
-                default-menu-cmd = "${pkgs.fzf}/bin/fzf -m";
+                default-menu-cmd = "${config.programs.fzf.package or pkgs.fzf}/bin/fzf -m";
                 default-save-path = config.xdg.userDirs.download;
             };
             ui = {
@@ -24,7 +45,7 @@
                 timestamp-format = "2006-01-02 15:04:05";
             };
             viewer = {
-                pager = "${pkgs.less}/bin/less -R -c --wordwrap";
+                pager = "${config.programs.less.package or pkgs.less}/bin/less -R -c --wordwrap";
                 alternatives = [
                     "text/plain"
                     "text/html"
@@ -64,8 +85,8 @@
             };
             hooks = {
                 mail-received = ''${pkgs.libnotify}/bin/notify-send -a "[$AERC_ACCOUNT/$AERC_FOLDER] New mail from $AERC_FROM_NAME" "$AERC_SUBJECT"'';
-                mail-added = ''${pkgs.isync}/bin/mbsync "$AERC_ACCOUNT:$AERC_FOLDER" &'';
-                mail-deleted = ''${pkgs.isync}/bin/mbsync "$AERC_ACCOUNT:$AERC_FOLDER" &'';
+                mail-added = ''${mbsyncBin} "$AERC_ACCOUNT:$AERC_FOLDER" &'';
+                mail-deleted = ''${mbsyncBin} "$AERC_ACCOUNT:$AERC_FOLDER" &'';
             };
             templates = {
                 template-dirs = "${config.xdg.dataHome}/aerc/templates/";
@@ -81,7 +102,7 @@
                 postpone = "Drafts";
                 folders-sort = "Inbox";
                 cache-headers = true;
-                check-mail-cmd = "${config.xdg.binHome}/mailsync";
+                check-mail-cmd = builtins.toString mailSyncScript;
             };
         };
         extraBinds = {
@@ -100,7 +121,7 @@
             };
             messages = {
                 q = ":quit<Enter>";
-                u = ":exec mailsync<Enter>";
+                u = ":exec ${builtins.toString mailSyncScript}<Enter>";
                 ld = ":modify-labels +deleted<Enter>";
                 j = ":next<Enter>";
                 "<Down>" = ":next<Enter>";
