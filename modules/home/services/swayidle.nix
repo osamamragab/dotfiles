@@ -1,37 +1,34 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
-    swaylock = "${pkgs.swaylock}/bin/swaylock -fF";
-    systemctl = "${pkgs.systemd}/bin/systemctl";
-    makoctl = "${pkgs.mako}/bin/makoctl";
-    wlr-randr = "${pkgs.wlr-randr}/bin/wlr-randr";
-    brightnessctl = "${pkgs.brightnessctl}/bin/brightnessctl";
+    makoctlBin = "${config.programs.mako.package or pkgs.mako}/bin/makoctl";
+    swaylockBin = "${config.programs.swaylock.package or pkgs.swaylock}/bin/swaylock -fF";
 in
 {
     services.swayidle = {
         enable = true;
         package = pkgs.swayidle;
         events = {
-            lock = swaylock;
-            before-sleep = swaylock;
+            lock = swaylockBin;
+            before-sleep = swaylockBin;
         };
         timeouts = [
             {
-                timeout = 180;
-                command = "${makoctl} mode -a away >/dev/null 2>&1; ${brightnessctl} -q -s -c backlight set 20%";
-                resumeCommand = "${makoctl} mode -r away >/dev/null 2>&1; ${brightnessctl} -q -r";
+                timeout = 5 * 60;
+                command = "${makoctlBin} mode -a away >/dev/null 2>&1; ${pkgs.brightnessctl}/bin/brightnessctl -q -s -c backlight set 20%";
+                resumeCommand = "${makoctlBin} mode -r away >/dev/null 2>&1; ${pkgs.brightnessctl}/bin/brightnessctl -q -r";
             }
             {
-                timeout = 300;
-                command = swaylock;
+                timeout = 10 * 60;
+                command = swaylockBin;
             }
             {
-                timeout = 330;
-                command = "${wlr-randr} --output '*' --off";
-                resumeCommand = "${wlr-randr} --output '*' --on";
+                timeout = 15 * 60;
+                command = "${pkgs.wlopm}/bin/wlopm --off '*'";
+                resumeCommand = "${pkgs.wlopm}/bin/wlopm --on '*'";
             }
             {
-                timeout = 1200;
-                command = "${systemctl} suspend";
+                timeout = 20 * 60;
+                command = "${pkgs.systemd}/bin/systemctl -i suspend";
             }
         ];
     };
