@@ -3,11 +3,11 @@
     pkgs,
     lib,
     config,
-    systemInfo,
+    custom,
     ...
 }:
 let
-    hm = config.home-manager.users.${systemInfo.user};
+    hm = config.home-manager.users.${custom.systemInfo.user};
 in
 {
     imports = [
@@ -17,8 +17,8 @@ in
         ./packages.nix
     ];
 
-    networking.hostName = systemInfo.host;
-    system.stateVersion = systemInfo.stateVersion;
+    networking.hostName = custom.systemInfo.host;
+    system.stateVersion = custom.systemInfo.stateVersion;
 
     services.logind = {
         enable = true;
@@ -102,7 +102,7 @@ in
     ++ lib.optional config.programs.zsh.enable "/share/zsh";
 
     users = {
-        users.${systemInfo.user} = {
+        users.${custom.systemInfo.user} = {
             isNormalUser = true;
             shell =
                 if config.programs.zsh.enable then
@@ -119,21 +119,21 @@ in
                 "networkmanager"
             ];
         };
-        groups.${systemInfo.user} = { };
+        groups.${custom.systemInfo.user} = { };
     };
 
     home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        extraSpecialArgs = { inherit inputs systemInfo; };
-        users.${systemInfo.user} = { ... }: {
+        extraSpecialArgs = { inherit inputs custom; };
+        users.${custom.systemInfo.user} = { ... }: {
             imports = [
                 ./../../modules/home
             ];
             home = {
-                username = systemInfo.user;
-                homeDirectory = "/home/${systemInfo.user}";
-                stateVersion = systemInfo.stateVersion;
+                username = custom.systemInfo.user;
+                homeDirectory = "/home/${custom.systemInfo.user}";
+                stateVersion = custom.systemInfo.stateVersion;
             };
         };
     };

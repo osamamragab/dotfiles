@@ -35,14 +35,18 @@
             ...
         }@inputs:
         let
+            utils = import ./lib/utils.nix { lib = nixpkgs.lib; };
             mkSystem =
                 { host, user }:
                 nixpkgs.lib.nixosSystem {
                     specialArgs = {
                         inherit inputs;
-                        systemInfo = {
-                            inherit host user;
-                            stateVersion = "26.11";
+                        custom = {
+                            inherit utils;
+                            systemInfo = {
+                                inherit host user;
+                                stateVersion = "26.11";
+                            };
                         };
                     };
                     modules = [

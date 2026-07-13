@@ -1,11 +1,11 @@
-{ lib, config, ... }:
-let
-    importDir =
-        dir:
-        lib.filter (path: lib.hasSuffix ".nix" (toString path)) (lib.filesystem.listFilesRecursive dir);
-in
+{ config, custom, ... }:
 {
-    imports = importDir ./config ++ importDir ./programs ++ importDir ./services ++ importDir ./extras;
+    imports = custom.utils.importDirs [
+        ./config
+        ./programs
+        ./services
+        ./extras
+    ];
 
     programs.home-manager.enable = true;
     home = {
