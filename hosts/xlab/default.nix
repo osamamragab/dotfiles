@@ -21,16 +21,7 @@
         useGlobalPkgs = true;
         useUserPackages = true;
         extraSpecialArgs = { inherit inputs custom; };
-        users.${custom.systemInfo.user} = { ... }: {
-            imports = [
-                ./../../modules/home
-            ];
-            home = {
-                username = custom.systemInfo.user;
-                homeDirectory = "/home/${custom.systemInfo.user}";
-                stateVersion = custom.systemInfo.stateVersion;
-            };
-        };
+        users.${custom.systemInfo.user} = ./../../modules/home;
     };
 
     services.logind = {
