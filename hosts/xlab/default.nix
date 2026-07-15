@@ -22,7 +22,9 @@
         useUserPackages = true;
         extraSpecialArgs = { inherit inputs custom; };
         users.${custom.systemInfo.user} = { ... }: {
-            imports = [ ./../../modules/home ];
+            imports = [
+                ./../../modules/home
+            ];
             home = {
                 username = custom.systemInfo.user;
                 homeDirectory = "/home/${custom.systemInfo.user}";
@@ -99,6 +101,16 @@
 
     security.pam.services.swaylock = { };
     services.gnome.gnome-keyring.enable = true;
+
+    programs.nix-ld = {
+        enable = true;
+        package = pkgs.nix-ld;
+    };
+
+    programs.nix-index = {
+        enable = true;
+        package = pkgs.nix-index;
+    };
 
     programs.zsh = {
         enable = true;
