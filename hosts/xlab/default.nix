@@ -12,6 +12,7 @@
         ./file-system.nix
         ./boot.nix
         ./packages.nix
+        inputs.mangowm.nixosModules.mango
     ];
 
     networking.hostName = custom.systemInfo.host;

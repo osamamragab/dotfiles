@@ -31,7 +31,6 @@
             nur,
             home-manager,
             disko,
-            mangowm,
             ...
         }@inputs:
         let
@@ -53,7 +52,6 @@
                         nur.modules.nixos.default
                         home-manager.nixosModules.home-manager
                         disko.nixosModules.disko
-                        mangowm.nixosModules.mango
                         ./modules/nixos
                         ./hosts/${host}
                     ];
