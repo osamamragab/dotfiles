@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{
+    pkgs,
+    ...
+}:
 {
     gtk = {
         enable = true;
@@ -23,6 +26,20 @@
             package = pkgs.nordzy-cursor-theme;
             name = "Nordzy";
             size = 24;
+        };
+    };
+
+    qt = {
+        enable = true;
+        platformTheme.name = "kvantum";
+        style.name = "kvantum";
+        kvantum = {
+            enable = true;
+            settings = {
+                General = {
+                    theme = "KvAdaptaDark";
+                };
+            };
         };
     };
 }

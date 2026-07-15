@@ -1,6 +1,12 @@
-{ pkgs, ... }:
 {
-    home.packages = [ pkgs.procps ];
+    pkgs,
+    ...
+}:
+{
+    home.packages = [
+        pkgs.procps
+    ];
+
     xdg.configFile."procps/toprc".text = ''
         top's Config File (Linux processes with windows)
         Id:m, Mode_altscr=0, Mode_irixps=1, Delay_time=3.0, Curwin=0

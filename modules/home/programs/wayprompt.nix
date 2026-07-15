@@ -1,7 +1,5 @@
 {
     pkgs,
-    lib,
-    config,
     ...
 }:
 {
@@ -28,10 +26,5 @@
                 cancel-button-border = "0xb74e58ff";
             };
         };
-    };
-
-    services.gpg-agent.pinentry = lib.mkIf config.services.gpg-agent.enable {
-        package = pkgs.wayprompt;
-        program = "pinentry-wayprompt";
     };
 }

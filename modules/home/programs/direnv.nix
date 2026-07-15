@@ -1,4 +1,8 @@
-{ pkgs, config, ... }:
+{
+    pkgs,
+    config,
+    ...
+}:
 {
     programs.direnv = {
         enable = true;
@@ -9,7 +13,7 @@
         enableNushellIntegration = config.programs.nushell.enable;
         silent = false;
         nix-direnv = {
-            enable = false;
+            enable = true;
             package = pkgs.nix-direnv;
         };
         mise = {

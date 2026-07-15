@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{
+    pkgs,
+    ...
+}:
 {
     # TODO: add all user packages.
     home.packages = with pkgs; [

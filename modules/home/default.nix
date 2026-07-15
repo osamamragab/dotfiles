@@ -1,4 +1,8 @@
-{ config, custom, ... }:
+{
+    config,
+    custom,
+    ...
+}:
 {
     imports = custom.utils.importDirs [
         ./config

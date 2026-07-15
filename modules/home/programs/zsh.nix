@@ -8,7 +8,11 @@
     programs.zsh = {
         enable = true;
         package = pkgs.zsh;
-        dotDir = if config.xdg.enable then "${config.xdg.configHome}/zsh" else config.home.homeDirectory;
+        dotDir =
+            if config.xdg.enable then
+                "${config.xdg.configHome}/zsh"
+            else
+                config.home.homeDirectory;
         enableCompletion = true;
         enableVteIntegration = true;
         defaultKeymap = "viins";
@@ -24,7 +28,7 @@
         history = {
             size = 32768;
             save = 32768;
-            path = "$XDG_STATE_HOME/history";
+            path = "${config.xdg.stateHome}/history";
             share = true;
             ignoreAllDups = true;
             ignoreSpace = true;
@@ -128,13 +132,17 @@
         ];
     };
 
-    xdg.configFile."fsh/overlay.ini" = lib.mkIf config.programs.zsh.fastSyntaxHighlighting.enable {
-        source = (pkgs.formats.ini { }).generate "overlay.ini" {
-            base = {
-                comment = 8;
+    xdg.configFile."fsh/overlay.ini" =
+        let
+            iniFormat = pkgs.formats.ini { };
+        in
+        lib.mkIf config.programs.zsh.fastSyntaxHighlighting.enable {
+            source = iniFormat.generate "overlay.ini" {
+                base = {
+                    comment = 8;
+                };
             };
         };
-    };
 
     home.file."${config.programs.zsh.dotDir}/completions/_notes" =
         lib.mkIf config.programs.zsh.enableCompletion

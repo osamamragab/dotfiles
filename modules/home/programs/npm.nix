@@ -1,4 +1,8 @@
-{ pkgs, config, ... }:
+{
+    pkgs,
+    config,
+    ...
+}:
 {
     programs.npm = {
         enable = true;

@@ -1,7 +1,13 @@
-{ pkgs, config, ... }:
+{
+    pkgs,
+    config,
+    ...
+}:
 {
     home = {
-        packages = [ pkgs.wget ];
+        packages = [
+            pkgs.wget
+        ];
         sessionVariables.WGETRC =
             if config.xdg.enable then
                 "${config.xdg.configHome}/wget/wgetrc"

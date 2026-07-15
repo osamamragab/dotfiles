@@ -1,4 +1,8 @@
-{ pkgs, config, ... }:
+{
+    pkgs,
+    config,
+    ...
+}:
 {
     services.mpd = {
         enable = true;
@@ -32,7 +36,7 @@
     services.mpdris2-rs = {
         enable = true;
         package = pkgs.mpdris2-rs;
-        host = "${config.services.mpd.network.listenAddress}:${toString config.services.mpd.network.port}";
+        host = "${config.services.mpd.network.listenAddress}:${builtins.toString config.services.mpd.network.port}";
         notifications.enable = false;
     };
 }

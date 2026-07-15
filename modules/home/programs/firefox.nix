@@ -82,7 +82,9 @@ in
             extensions = {
                 force = true;
                 packages = addonPackages;
-                settings = builtins.foldl' (acc: addon: acc // mkAddonSettings addon { }) { } addonPackages;
+                settings = builtins.foldl' (
+                    acc: addon: acc // mkAddonSettings addon { }
+                ) { } addonPackages;
             };
             arkenfox = {
                 enable = true;
@@ -157,5 +159,7 @@ in
         };
     };
 
-    home.sessionVariables.BROWSER = lib.mkIf config.programs.firefox.enable "firefox";
+    home.sessionVariables = lib.optionalAttrs config.programs.firefox.enable {
+        BROWSER = "firefox";
+    };
 }

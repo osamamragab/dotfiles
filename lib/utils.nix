@@ -1,4 +1,7 @@
-{ lib, ... }:
+{
+    lib,
+    ...
+}:
 let
     importDir =
         dir:
@@ -6,11 +9,11 @@ let
             lib.filesystem.listFilesRecursive dir
         );
     importDirs =
-        dirs: builtins.concatMap (dir: importDir dir) (builtins.filter (dir: dir != null) dirs);
+        dirs:
+        builtins.concatMap (dir: importDir dir) (
+            builtins.filter (dir: dir != null) dirs
+        );
 in
 {
-    inherit
-        importDir
-        importDirs
-        ;
+    inherit importDir importDirs;
 }

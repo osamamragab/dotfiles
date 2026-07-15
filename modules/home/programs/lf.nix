@@ -1,4 +1,8 @@
-{ pkgs, ... }:
+{
+    pkgs,
+    config,
+    ...
+}:
 {
     programs.lf = {
         enable = true;
@@ -12,8 +16,8 @@
             scrolloff = 10;
             cursorpreviewfmt = "\033[7;2m";
             autoquit = true;
-            cleaner = "${pkgs.lf}/bin/lfcleaner";
-            previewer = "${pkgs.lf}/bin/lfpreviewer";
+            cleaner = "${config.programs.lf.package}/bin/lfcleaner";
+            previewer = "${config.programs.lf.package}/bin/lfpreviewer";
         };
         keybindings = {
             H = "set hidden!";
@@ -25,12 +29,12 @@
             D = "delete";
             delete = "delete";
             q = "quit";
-            extract = "${pkgs.lf}/bin/lfextract $f";
+            extract = "${config.programs.lf.package}/bin/lfextract $f";
         };
         commands = {
             open = "&open $f";
             q = "quit";
-            extract = "${pkgs.lf}/bin/lfextract $f";
+            extract = "${config.programs.lf.package}/bin/lfextract $f";
         };
     };
 }

@@ -1,6 +1,10 @@
-{ pkgs, config, ... }:
 {
-    home.sessionVariables.TERMINAL = "foot";
+    pkgs,
+    lib,
+    config,
+    ...
+}:
+{
     programs.foot = {
         enable = true;
         package = pkgs.foot;
@@ -70,5 +74,13 @@
                 dim7 = "aeb3bb";
             };
         };
+    };
+
+    home.sessionVariables = lib.optionalAttrs config.programs.foot.enable {
+        TERMINAL =
+            if config.programs.foot.server.enable then
+                "${config.programs.foot.package or pkgs.foot}/bin/footclient"
+            else
+                "${config.programs.foot.package or pkgs.foot}/bin/foot";
     };
 }

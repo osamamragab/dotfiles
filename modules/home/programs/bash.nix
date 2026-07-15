@@ -1,11 +1,15 @@
-{ pkgs, ... }:
+{
+    pkgs,
+    config,
+    ...
+}:
 {
     programs.bash = {
         enable = true;
         package = pkgs.bashInteractive;
         enableCompletion = true;
         enableVteIntegration = true;
-        historyFile = "$XDG_STATE_HOME/history";
+        historyFile = "${config.xdg.stateHome}/history";
         historyFileSize = 32768;
         historySize = 10000; # in-memory
         historyControl = [

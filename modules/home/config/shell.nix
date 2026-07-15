@@ -1,4 +1,7 @@
-{ config, ... }:
+{
+    config,
+    ...
+}:
 {
     home = {
         shell = {

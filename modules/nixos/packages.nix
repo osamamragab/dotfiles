@@ -1,4 +1,7 @@
-{ pkgs, lib, ... }:
+{
+    pkgs,
+    ...
+}:
 {
     environment.systemPackages = with pkgs; [
         git
@@ -14,6 +17,7 @@
         iftop
         strace
         ltrace
+        traceroute
         lsof
         sysstat
         lm_sensors

@@ -1,4 +1,8 @@
-{ inputs, ... }:
+{
+    inputs,
+    config,
+    ...
+}:
 {
     imports = [
         inputs.mangowm.hmModules.mango
@@ -9,14 +13,23 @@
         systemd = {
             enable = true;
             xdgAutostart = false;
-            # TODO: add required variables only.
-            variables = [ "--all" ];
+            variables = [
+                "DISPLAY"
+                "WAYLAND_DISPLAY"
+                "XDG_SESSION_TYPE"
+                "XDG_CURRENT_DESKTOP"
+                "XCURSOR_SIZE"
+                "XCURSOR_THEME"
+                "NIXOS_OZONE_WL"
+            ];
             extraCommands = [
                 "systemctl --user reset-failed"
-                "systemctl --user start mango-session.target"
+                "systemctl --user restart mango-session.target"
             ];
         };
-        topPrefixes = [ "source" ];
+        topPrefixes = [
+            "source"
+        ];
         bottomPrefixes = [
             "exec"
             "exec-once"
@@ -230,7 +243,7 @@
                 "SUPER+CTRL,P,minimized,"
                 "SUPER+ALT,P,restore_minimized"
                 "SUPER+SHIFT,P,toggle_scratchpad"
-                "SUPER,P,toggle_named_scratchpad,terminal-scratchpad,none,terminal -a terminal-scratchpad -w 840x560"
+                "SUPER,P,toggle_named_scratchpad,terminal-scratchpad,none,${config.home.sessionVariables.TERMINAL} -a terminal-scratchpad -w 840x560"
 
                 # scroller layout
                 "SUPER+SHIFT,S,set_proportion,1.0"
@@ -295,7 +308,7 @@
                 "SUPER,H,resizewin,-50,+0"
                 "SUPER,L,resizewin,+50,+0"
 
-                "SUPER,Return,spawn,terminal"
+                "SUPER,Return,spawn,${config.home.sessionVariables.TERMINAL}"
                 "SUPER,E,spawn,emacsclient -nca emacs"
                 "NONE,Menu,spawn,menu-handler"
                 "SUPER,M,spawn,menu-handler"
@@ -371,12 +384,6 @@
                 "NO_AT_BRIDGE,1"
                 "_JAVA_AWT_WM_NONREPARENTING,1"
                 "AWT_TOOLKIT,MToolkit wmname LG3D"
-            ];
-
-            exec-once = [
-                # For some reason it does not start correctly when enabling the
-                # systemd integration.
-                "systemctl --user start mango-session.target"
             ];
         };
     };

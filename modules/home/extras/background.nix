@@ -12,9 +12,11 @@ in
     home.packages = lib.mkIf backgroundExists [
         pkgs.wbg
     ];
+
     xdg.dataFile.bg = lib.mkIf backgroundExists {
         source = backgroundPath;
     };
+
     wayland.windowManager.mango.settings.exec-once =
         lib.mkIf (backgroundExists && config.wayland.windowManager.mango.enable)
             [

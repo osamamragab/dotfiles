@@ -1,4 +1,3 @@
-{ ... }:
 {
     programs.readline = {
         enable = true;

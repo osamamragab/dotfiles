@@ -1,6 +1,5 @@
 {
     pkgs,
-    lib,
     config,
     ...
 }:
@@ -15,5 +14,9 @@
         grabKeyboardAndMouse = true;
         maxCacheTtl = 1800;
         defaultCacheTtl = 600;
+        pinentry = {
+            package = config.programs.wayprompt.package or pkgs.wayprompt;
+            program = "pinentry-wayprompt";
+        };
     };
 }

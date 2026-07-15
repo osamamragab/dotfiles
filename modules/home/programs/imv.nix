@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{
+    pkgs,
+    ...
+}:
 {
     programs.imv = {
         enable = true;
@@ -53,12 +56,14 @@
                 "<Ctrl+x>r" = ''exec magick mogrify -rotate 90 "$imv_current_file"'';
                 "<Ctrl+x><Shift+R>" = ''exec magick mogrify -rotate -90 "$imv_current_file"'';
                 "<Ctrl+x>f" = ''exec magick mogrify -flop "$imv_current_file"'';
-                "<Ctrl+x>i" = ''exec file "$imv_current_file"; exec mediainfo "$imv_current_file"'';
+                "<Ctrl+x>i" =
+                    ''exec file "$imv_current_file"; exec mediainfo "$imv_current_file"'';
                 "<Ctrl+x>d" =
                     ''exec [ "$(printf "no\nyes" | menu -p "delete $imv_current_file?")" = "yes" ] && rm "$imv_current_file" && echo "$imv_current_file deleted" && imv-msg "$imv_pid" close'';
                 "<Ctrl+x><Shift+D>" =
                     ''exec rm "$imv_current_file" && echo "$imv_current_file deleted" && imv-msg "$imv_pid" close'';
-                "<Ctrl+x>y" = ''exec wl-copy <"$imv_current_file" && echo "$imv_current_file copied to clipboard"'';
+                "<Ctrl+x>y" =
+                    ''exec wl-copy <"$imv_current_file" && echo "$imv_current_file copied to clipboard"'';
                 "<Ctrl+x>g" = ''exec setsid -f dragon-drop -x "$imv_current_file"'';
             };
         };

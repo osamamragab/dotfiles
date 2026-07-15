@@ -29,7 +29,11 @@ let
                 showSignature = "append";
             };
             imap = {
-                host = if flavor == "gmail.com" then "imap.gmail.com" else lib.last (lib.splitString "@" address);
+                host =
+                    if flavor == "gmail.com" then
+                        "imap.gmail.com"
+                    else
+                        lib.last (lib.splitString "@" address);
                 port = 993;
                 tls = {
                     enable = true;

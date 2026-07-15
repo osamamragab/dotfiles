@@ -1,10 +1,14 @@
-{ pkgs, ... }:
+{
+    pkgs,
+    ...
+}:
 {
     home.packages = [
         (pkgs.python3.withPackages (pypkgs: [
             pypkgs.jedi
         ]))
     ];
+
     xdg.configFile."python/pythonrc".text = ''
         #!/usr/bin/env python3
         from os import getenv

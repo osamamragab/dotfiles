@@ -10,18 +10,19 @@
         killUnconfinedConfinables = true;
     };
 
-    security.rtkit = {
-        enable = true;
-        package = pkgs.rtkit;
-    };
-
     security.audit = {
         enable = true;
         package = pkgs.audit;
     };
+
     security.auditd = {
         enable = true;
-        package = pkgs.audit;
+        package = config.security.audit.package or pkgs.audit;
+    };
+
+    security.rtkit = {
+        enable = true;
+        package = pkgs.rtkit;
     };
 
     services.pipewire = {

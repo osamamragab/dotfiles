@@ -5,6 +5,7 @@
     ...
 }:
 let
+    iniFormat = pkgs.formats.iniWithGlobalSection { };
     mbsyncBin = "${config.programs.mbsync.package or pkgs.isync}/bin/mbsync";
     mailSyncScript = pkgs.writeShellScript "mailsync" ''
         set -eu
@@ -45,7 +46,9 @@ in
                 timestamp-format = "2006-01-02 15:04:05";
             };
             viewer = {
-                pager = "${config.programs.less.package or pkgs.less}/bin/less -R -c --wordwrap";
+                pager = "${
+                    config.programs.less.package or pkgs.less
+                }/bin/less -R -c --wordwrap";
                 alternatives = [
                     "text/plain"
                     "text/html"
@@ -262,24 +265,32 @@ in
             };
         };
     };
+
     xdg.configFile."aerc/folder-map.conf" = lib.mkIf config.programs.aerc.enable {
-        text = ''
-            All=not tag:archived and not tag:deleted and not tag:spam
-            Inbox=tag:inbox and not tag:archived and not tag:deleted and not tag:spam
-            Todo=tag:todo and not tag:archived and not tag:deleted
-            Archive=tag:archived
-            Sent=tag:sent
-            Spam=tag:spam
-        '';
+        source = iniFormat.generate "aerc-folder-map.conf" {
+            globalSection = {
+                All = "not tag:archived and not tag:deleted and not tag:spam";
+                Inbox = "tag:inbox and not tag:archived and not tag:deleted and not tag:spam";
+                Todo = "tag:todo and not tag:archived and not tag:deleted";
+                Archive = "tag:archived";
+                Sent = "tag:sent";
+                Spam = "tag:spam";
+            };
+        };
     };
-    xdg.configFile."aerc/folder-map-gmail.conf" = lib.mkIf config.programs.aerc.enable {
-        text = ''
-            Inbox=INBOX
-            All=[Gmail]/All Mail
-            Sent=[Gmail]/Sent Mail
-            Drafts=[Gmail]/Drafts
-            Spam=[Gmail]/Spam
-            Trash=[Gmail]/Trash
-        '';
-    };
+
+    xdg.configFile."aerc/folder-map-gmail.conf" =
+        lib.mkIf config.programs.aerc.enable
+            {
+                source = iniFormat.generate "aerc-folder-map-gmail.conf" {
+                    globalSection = {
+                        Inbox = "INBOX";
+                        All = "[Gmail]/All Mail";
+                        Sent = "[Gmail]/Sent Mail";
+                        Drafts = "[Gmail]/Drafts";
+                        Spam = "[Gmail]/Spam";
+                        Trash = "[Gmail]/Trash";
+                    };
+                };
+            };
 }
