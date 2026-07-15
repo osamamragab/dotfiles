@@ -16,11 +16,11 @@
         };
         theme = {
             package = pkgs.nordic;
-            name = "Nordic";
+            name = "Nordic-darker";
         };
         iconTheme = {
             package = pkgs.nordzy-icon-theme;
-            name = "Nordzy";
+            name = "Nordzy-dark";
         };
         cursorTheme = {
             package = pkgs.nordzy-cursor-theme;
