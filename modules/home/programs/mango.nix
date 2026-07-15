@@ -185,8 +185,8 @@
             scratchpad_width_ratio = 0.6;
             scratchpad_height_ratio = 0.7;
             borderpx = 2;
-            cursor_size = 24;
-            cursor_theme = "Adwaita";
+            cursor_size = config.gtk.cursorTheme.size;
+            cursor_theme = config.gtk.cursorTheme.name;
             rootcolor = "0x2e3440ff";
             bordercolor = "0x4c566aff";
             dropcolor = "0x4c566a55";
