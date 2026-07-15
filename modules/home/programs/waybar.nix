@@ -1,4 +1,14 @@
-{ pkgs, config, ... }:
+{
+    pkgs,
+    config,
+    ...
+}:
+let
+    terminalWrap =
+        cmd: "${config.home.sessionVariables.TERMINAL} -a terminal-floating ${cmd}";
+    audioctlWrap = cmd: "${config.xdg.binHome}/audioctl ${cmd}";
+    menuHandlerWrap = menu: "${config.xdg.binHome}/menu-handler ${menu}";
+in
 {
     programs.waybar = {
         enable = true;
@@ -66,13 +76,13 @@
                     format = "{icon}";
                     format-muted = "";
                     tooltip-format = "{volume}% - {node_name}";
-                    on-click = "${config.xdg.binHome}/terminal -a terminal-floating wiremix";
-                    on-click-right = "${pkgs.helvum}/bin/helvum";
-                    on-click-middle = "${config.xdg.binHome}/audioctl output toggle";
                     max-volume = 200;
                     scroll-step = 5;
-                    on-scroll-up = "${config.xdg.binHome}/audioctl output 5%+";
-                    on-scroll-down = "${config.xdg.binHome}/audioctl output 5%-";
+                    on-click = terminalWrap "${pkgs.wiremix}/bin/wiremix";
+                    on-click-right = "${pkgs.helvum}/bin/helvum";
+                    on-click-middle = audioctlWrap "output toggle";
+                    on-scroll-up = audioctlWrap "output 5%+";
+                    on-scroll-down = audioctlWrap "output 5%-";
                     format-icons = {
                         headphone = "";
                         hands-free = "";
@@ -122,7 +132,7 @@
                     format-full = "󰂅";
                     tooltip-format-discharging = "{power:>1.0f}W↓ {capacity}%";
                     tooltip-format-charging = "{power:>1.0f}W↑ {capacity}%";
-                    on-click = "${config.xdg.binHome}/menu-handler power-profiles";
+                    on-click = menuHandlerWrap "power-profiles";
                     states = {
                         warning = 30;
                         critical = 15;
@@ -141,7 +151,7 @@
                         "󰤥"
                         "󰤨"
                     ];
-                    on-click = "${config.xdg.binHome}/terminal -a terminal-floating nmtui";
+                    on-click = terminalWrap "${pkgs.networkmanager}/bin/nmtui";
                     tooltip-format = "{ifname} via {gwaddr}";
                     tooltip-format-wifi = "{essid} ({frequency}GHz) {signalStrength}% \n{ifname}: {ipaddr}/{cidr}";
                     tooltip-format-ethernet = "{ifname}: {ipaddr}/{cidr}";
@@ -153,7 +163,7 @@
                     format-disabled = "󰂲";
                     format-connected = "󰂱";
                     format-no-controller = "";
-                    on-click = "${config.xdg.binHome}/terminal -a terminal-floating bluetui";
+                    on-click = terminalWrap "${pkgs.bluetui}/bin/bluetui";
                     tooltip-format = "{controller_alias}\t{controller_address}";
                     tooltip-format-connected = "{controller_alias}\t{controller_address}\n{device_enumerate}";
                     tooltip-format-enumerate-connected = "- {device_alias}\t[{device_address}]";
@@ -217,7 +227,9 @@
                 "custom/dnd" = {
                     format = "{}";
                     interval = "once";
-                    on-click = "${pkgs.mako}/bin/makoctl mode -r dnd >/dev/null 2>&1";
+                    on-click = "${
+                        config.services.mako.package or pkgs.mako
+                    }/bin/makoctl mode -r dnd >/dev/null 2>&1";
                     tooltip = false;
                     signal = 7;
                     exec = pkgs.writeShellScript "dnd" ''
@@ -229,13 +241,13 @@
                             [1-9]) ;;
                             *) count="9+" ;;
                         esac
-                        printf "%s\nDisable DnD" "$\{count:+ $count\}"
+                        printf "%s\nDisable DnD" "''${count:+ $count}"
                     '';
                 };
                 "custom/recording" = {
                     format = "{}";
                     interval = "once";
-                    on-click = "${config.xdg.binHome}/menu-handler screen-recording stop";
+                    on-click = menuHandlerWrap "screen-recording stop";
                     signal = 8;
                     exec = pkgs.writeShellScript "screen-recording" ''
                         set -eu
@@ -246,14 +258,14 @@
                 "custom/days" = {
                     format = "{}";
                     interval = 1800;
-                    on-click = "${config.xdg.binHome}/terminal -a terminal-floating notes todo";
+                    on-click = terminalWrap "${config.xdg.binHome}/notes todo";
                     exec = pkgs.writeShellScript "days" ''
                         set -eu
                         # TODO: add birthdate to some variable.
                         dob="$(date -d "2004-06-09"  "+%s")"
                         now="$(date "+%s")"
                         days=$(( (now - dob) / 86400 ))
-                        printf "%d\n" "$days"
+                        printf "%d\nTODOs" "$days"
                     '';
                 };
             };
