@@ -4,6 +4,11 @@
     config,
     ...
 }:
+let
+    playSound =
+        sound:
+        "${pkgs.pipewire}/bin/pw-play ${pkgs.sound-theme-freedesktop}/share/sounds/freedesktop/stereo/${sound}";
+in
 {
     services.mako = {
         enable = true;
@@ -30,8 +35,8 @@
             on-touch = "invoke-default-action";
             on-button-left = "invoke-default-action";
             on-button-right = "dismiss";
-            on-button-middle = ''exec makoctl menu -n "$id" menu -p "Action> "'';
-            on-notify = ''exec [ "$(makoctl list | grep -c "^Notification")" -eq 1 ] && pw-play /usr/share/sounds/freedesktop/stereo/message.oga'';
+            on-button-middle = ''exec ${config.services.mako.package}/bin/makoctl menu -n "$id" menu -p "Action> "'';
+            on-notify = ''exec [ "$(${config.services.mako.package}/bin/makoctl list | grep -c "^Notification")" -eq 1 ] && ${playSound "message.oga"}'';
             hidden = {
                 format = "(and %h more)";
                 text-color = "#bbc3d4";
@@ -54,7 +59,13 @@
             "mode=dnd" = {
                 invisible = 1;
                 default-timeout = 0;
-                on-notify = lib.mkIf config.programs.waybar.enable "exec pkill -x -RTMIN+7 waybar";
+                on-notify =
+                    let
+                        bar = lib.optionalAttrs config.programs.waybar.enable (config.programs.waybar.settings.bar or { });
+                    in
+                    lib.optionalString (
+                        (builtins.hasAttr "custom/dnd" bar) && (builtins.hasAttr "signal" bar."custom/dnd")
+                    ) ("exec pkill -x -RTMIN+${builtins.toString bar."custom/dnd".signal} waybar");
             };
             "mode=dnd urgency=low" = {
                 on-notify = "dismiss";
@@ -75,16 +86,16 @@
                 on-notify = "none";
             };
             "app-name=poweralertd category=power.online" = {
-                on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/power-plug.oga";
+                on-notify = "exec ${playSound "power-plug.oga"}";
             };
             "app-name=poweralertd category=power.offline" = {
-                on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/power-unplug.oga";
+                on-notify = "exec ${playSound "power-unplug.oga"}";
             };
             "app-name=poweralertd category=power.low" = {
-                on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga";
+                on-notify = "exec ${playSound "dialog-warning.oga"}";
             };
             "app-name=poweralertd category=power.critical" = {
-                on-notify = "exec pw-play /usr/share/sounds/freedesktop/stereo/dialog-warning.oga";
+                on-notify = "exec ${playSound "dialog-warning.oga"}";
             };
         };
     };
