@@ -1,9 +1,11 @@
 {
     pkgs,
+    lib,
     config,
     ...
 }:
 let
+    iconsPath = ../files/lf/icons;
     thumbDir = "${config.xdg.cacheHome}/lf/thumbnails";
     cleanerScript = pkgs.writeShellScript "lfcleaner" ''
         set -eu
@@ -121,4 +123,15 @@ in
             extract = "$extract $f";
         };
     };
+
+    xdg.configFile."lf/icons" =
+        lib.mkIf
+            (
+                builtins.pathExists iconsPath
+                && config.programs.lf.enable
+                && config.programs.lf.settings.icons
+            )
+            {
+                source = iconsPath;
+            };
 }
