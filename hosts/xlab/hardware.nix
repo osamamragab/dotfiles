@@ -1,4 +1,5 @@
 {
+    pkgs,
     lib,
     config,
     modulesPath,
@@ -46,16 +47,34 @@
             initrd.enable = true;
             opencl.enable = true;
         };
+        bluetooth = {
+            enable = true;
+            package = pkgs.bluez;
+            powerOnBoot = true;
+            settings = {
+                General = {
+                    ControllerMode = "bredr";
+                    Experimental = true;
+                    FastConnectable = true;
+                    ClassicBondedOnly = true;
+                };
+                Policy = {
+                    AutoEnable = true;
+                };
+            };
+        };
     };
 
-    nixpkgs.config.allowUnfreePredicate = lib.mkIf config.hardware.enableAllFirmware (
-        pkg:
-        builtins.elem (lib.getName pkg) [
-            "broadcom-bt-firmware"
-            "b43-firmware"
-            "xone-dongle-firmware"
-            "facetimehd-firmware"
-            "facetimehd-calibration"
-        ]
-    );
+    nixpkgs.config.allowUnfreePredicate =
+        lib.mkIf config.hardware.enableAllFirmware
+            (
+                pkg:
+                builtins.elem (lib.getName pkg) [
+                    "broadcom-bt-firmware"
+                    "b43-firmware"
+                    "xone-dongle-firmware"
+                    "facetimehd-firmware"
+                    "facetimehd-calibration"
+                ]
+            );
 }
