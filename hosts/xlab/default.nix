@@ -6,9 +6,6 @@
     custom,
     ...
 }:
-let
-    hm = config.home-manager.users.${custom.systemInfo.user};
-in
 {
     imports = [
         ./hardware.nix
@@ -19,6 +16,20 @@ in
 
     networking.hostName = custom.systemInfo.host;
     system.stateVersion = custom.systemInfo.stateVersion;
+
+    home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        extraSpecialArgs = { inherit inputs custom; };
+        users.${custom.systemInfo.user} = { ... }: {
+            imports = [ ./../../modules/home ];
+            home = {
+                username = custom.systemInfo.user;
+                homeDirectory = "/home/${custom.systemInfo.user}";
+                stateVersion = custom.systemInfo.stateVersion;
+            };
+        };
+    };
 
     services.logind = {
         enable = true;
@@ -51,8 +62,6 @@ in
             };
         };
     };
-
-    hardware.bluetooth.enable = true;
 
     networking = {
         wireless.enable = true;
@@ -87,19 +96,14 @@ in
 
     programs.dconf.enable = true;
     documentation.dev.enable = true;
-    security.pam.services.swaylock = lib.mkIf hm.programs.swaylock.enable { };
+
+    security.pam.services.swaylock = { };
     services.gnome.gnome-keyring.enable = true;
 
     programs.zsh = {
         enable = true;
         enableGlobalCompInit = false;
     };
-
-    environment.pathsToLink = [
-        "/share/applications"
-        "/share/xdg-desktop-portal"
-    ]
-    ++ lib.optional config.programs.zsh.enable "/share/zsh";
 
     users = {
         users.${custom.systemInfo.user} = {
@@ -120,22 +124,6 @@ in
             ];
         };
         groups.${custom.systemInfo.user} = { };
-    };
-
-    home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        extraSpecialArgs = { inherit inputs custom; };
-        users.${custom.systemInfo.user} = { ... }: {
-            imports = [
-                ./../../modules/home
-            ];
-            home = {
-                username = custom.systemInfo.user;
-                homeDirectory = "/home/${custom.systemInfo.user}";
-                stateVersion = custom.systemInfo.stateVersion;
-            };
-        };
     };
 
     # TODO: find a better way to load user environment variables instead of
