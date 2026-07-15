@@ -24,6 +24,23 @@
         users.${custom.systemInfo.user} = ./../../modules/home;
     };
 
+    networking = {
+        wireless.enable = true;
+        firewall = {
+            # TODO: enable Docker DNS.
+            allowedTCPPorts = [
+                22000 # Syncthing TCP sync
+                53317 # LocalSend TCP transfer
+            ];
+            allowedUDPPorts = [
+                22000 # Syncthing QUIC sync
+                21027 # Syncthing discovery
+                53317 # LocalSend UDP discovery
+            ];
+        };
+    };
+
+
     services.logind = {
         enable = true;
         settings = {
@@ -56,22 +73,6 @@
         };
     };
 
-    networking = {
-        wireless.enable = true;
-        firewall = {
-            # TODO: enable Docker DNS.
-            allowedTCPPorts = [
-                22000 # Syncthing TCP sync
-                53317 # LocalSend TCP transfer
-            ];
-            allowedUDPPorts = [
-                22000 # Syncthing QUIC sync
-                21027 # Syncthing discovery
-                53317 # LocalSend UDP discovery
-            ];
-        };
-    };
-
     services.printing = {
         enable = true;
         package = pkgs.cups;
@@ -101,6 +102,12 @@
     programs.nix-index = {
         enable = true;
         package = pkgs.nix-index;
+    };
+
+    programs.appimage = {
+        enable = true;
+        binfmt = true;
+        package = pkgs.appimage-run;
     };
 
     programs.zsh = {
