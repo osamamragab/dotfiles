@@ -25,6 +25,7 @@ let
         cookie-editor
         header-editor
         visbug
+        theme-nord-polar-night
     ];
     mkAddonSettings = addon: extraSettings: {
         ${addon.addonId}.settings = {
