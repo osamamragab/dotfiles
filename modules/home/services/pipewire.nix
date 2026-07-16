@@ -1,4 +1,3 @@
-{ ... }:
 {
     services.pipewire = {
         enable = true;
@@ -18,28 +17,6 @@
                     "default.clock.min-quantum" = 32;
                     "default.clock.max-quantum" = 8192;
                 };
-            };
-            "60-echo-cancel" = {
-                "context.modules" = [
-                    {
-                        name = "libpipewire-module-echo-cancel";
-                        args = {
-                            "monitor.mode" = true;
-                            "capture.props" = {
-                                "node.name" = "echo-cancel-capture";
-                                "node.passive" = true;
-                                "node.force-quantum" = 512;
-                            };
-                            "source.props" = {
-                                "node.name" = "echo-cancel-source";
-                            };
-                            "aec.args" = {
-                                "webrtc.gain_control" = false;
-                                "webrtc.extended_filter" = false;
-                            };
-                        };
-                    }
-                ];
             };
         };
         wireplumber = {
