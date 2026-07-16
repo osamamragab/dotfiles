@@ -24,10 +24,9 @@
             binds =
                 let
                     # using scripts because imv cannot parse long lines (sigh).
-                    bgScript = pkgs.writeShellScript "imv-bg" ''
+                    wallpaperScript = pkgs.writeShellScript "imv-wallpaper" ''
                         set -eu
-                        pkill -x wbg
-                        setsid -f ${pkgs.wbg}/bin/wbg "$imv_current_file"
+                        ${config.programs.noctalia.package}/bin/noctalia msg wallpaper-set "$imv_current_file"
                     '';
                     infoScript = pkgs.writeShellScript "imv-info" ''
                         set -eu
@@ -96,7 +95,7 @@
                     "<space>" = "toggle_playing";
                     t = "slideshow +1";
                     "<Shift+T>" = "slideshow -1";
-                    "<Ctrl+x>w" = "exec ${builtins.toString bgScript}";
+                    "<Ctrl+x>w" = "exec ${builtins.toString wallpaperScript}";
                     "<Ctrl+x>r" = "exec ${builtins.toString rotateScript} 90";
                     "<Ctrl+x><Shift+R>" = "exec ${builtins.toString rotateScript} -90";
                     "<Ctrl+x>f" = "exec ${builtins.toString flipScript}";
