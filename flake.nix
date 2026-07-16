@@ -18,6 +18,10 @@
             url = "github:mangowm/mango";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        noctalia = {
+            url = "github:noctalia-dev/noctalia/cachix";
+            #inputs.nixpkgs.follows = "nixpkgs";
+        };
         arkenfox = {
             url = "github:dwarfmaster/arkenfox-nixos";
             inputs.nixpkgs.follows = "nixpkgs";
