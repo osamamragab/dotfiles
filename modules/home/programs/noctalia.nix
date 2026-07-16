@@ -272,6 +272,81 @@
                     }
                 ];
             };
+            lockscreen_widgets = {
+                enabled = true;
+                grid = {
+                    cell_size = 8;
+                    major_interval = 4;
+                    visible = true;
+                };
+                widget = {
+                    login-box = {
+                        type = "login_box";
+                        output = "eDP-1";
+                        box_height = 70.0;
+                        box_width = 400.0;
+                        cx = 768.0;
+                        cy = 608.0;
+                        settings = {
+                            background_color = "surface_variant";
+                            background_opacity = 0.88;
+                            background_radius = 12.0;
+                            center_password_text = false;
+                            input_opacity = 1.0;
+                            input_radius = 6.0;
+                            show_caps_lock = true;
+                            show_keyboard_layout = true;
+                            show_login_button = true;
+                            show_password_hint = false;
+                        };
+                    };
+                    clock-date = {
+                        type = "clock";
+                        box_height = 40.0;
+                        box_width = 100.0;
+                        cx = 768.0;
+                        cy = 200.0;
+                        output = "eDP-1";
+                        settings = {
+                            background = false;
+                            clock_style = "digital";
+                            format = "{:%a, %b %e}";
+                            shadow = true;
+                        };
+                    };
+                    clock-time = {
+                        type = "clock";
+                        box_height = 40.0;
+                        box_width = 200.0;
+                        cx = 768.0;
+                        cy = 240.0;
+                        output = "eDP-1";
+                        rotation = 0.0;
+                        settings = {
+                            background = false;
+                            clock_style = "digital";
+                            format = "{:%H:%M}";
+                            shadow = true;
+                        };
+                    };
+                    media-player = {
+                        type = "media_player";
+                        box_height = 168.0;
+                        box_width = 328.0;
+                        cx = 768.0;
+                        cy = 432.0;
+                        output = "eDP-1";
+                        rotation = 0.0;
+                        settings = {
+                            background = true;
+                            color = "on_surface";
+                            hide_when_no_media = true;
+                            layout = "horizontal";
+                            shadow = true;
+                        };
+                    };
+                };
+            };
         };
     };
 
