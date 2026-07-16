@@ -18,7 +18,6 @@
     programs.noctalia = {
         enable = true;
         settings = {
-            audio.enable_overdrive = true;
             desktop_widgets.enabled = false;
             nightlight.enabled = true;
             location = {
@@ -30,6 +29,11 @@
                 source = "builtin";
                 builtin = "Nord";
                 wallpaper_scheme = "soft";
+            };
+            audio = {
+                enable_sounds = true;
+                enable_overdrive = true;
+                sound_volume = 1.0;
             };
             dock = {
                 enabled = false;
@@ -127,9 +131,9 @@
                 };
             };
             widget = {
-                bluetooth = {
-                    show_label = true;
-                };
+                volume.show_label = false;
+                network.show_label = false;
+                bluetooth.show_label = false;
                 cat = {
                     type = "noctalia/bongocat:cat";
                     tappy_mode = true;
@@ -148,7 +152,7 @@
                     warning_color = "error";
                 };
                 media = {
-                    scale = 0.9;
+                    scale = 0.75;
                     hide_when_no_media = true;
                     title_scroll = "on_hover";
                 };
@@ -272,81 +276,117 @@
                     }
                 ];
             };
-            lockscreen_widgets = {
-                enabled = true;
-                grid = {
-                    cell_size = 8;
-                    major_interval = 4;
-                    visible = true;
+            lockscreen_widgets =
+                let
+                    kanshiOutputs = builtins.map (e: e.output) (
+                        builtins.filter (e: e ? output) config.services.kanshi.settings
+                    );
+
+                    widgetTemplates = {
+                        login-box = {
+                            type = "login_box";
+                            box_height = 70.0;
+                            box_width = 400.0;
+                            fx = 0.5;
+                            fy = 608.0 / 864.0;
+                            settings = {
+                                background_color = "surface_variant";
+                                background_opacity = 0.88;
+                                background_radius = 12.0;
+                                center_password_text = false;
+                                input_opacity = 1.0;
+                                input_radius = 6.0;
+                                show_caps_lock = true;
+                                show_keyboard_layout = true;
+                                show_login_button = true;
+                                show_password_hint = false;
+                            };
+                        };
+                        clock-date = {
+                            type = "clock";
+                            box_height = 40.0;
+                            box_width = 100.0;
+                            fx = 0.5;
+                            fy = 200.0 / 864.0;
+                            settings = {
+                                background = false;
+                                clock_style = "digital";
+                                format = "{:%a, %b %e}";
+                                shadow = true;
+                            };
+                        };
+                        clock-time = {
+                            type = "clock";
+                            box_height = 40.0;
+                            box_width = 200.0;
+                            fx = 0.5;
+                            fy = 240.0 / 864.0;
+                            rotation = 0.0;
+                            settings = {
+                                background = false;
+                                clock_style = "digital";
+                                format = "{:%H:%M}";
+                                shadow = true;
+                            };
+                        };
+                        media-player = {
+                            type = "media_player";
+                            box_height = 168.0;
+                            box_width = 328.0;
+                            fx = 0.5;
+                            fy = 0.5;
+                            rotation = 0.0;
+                            settings = {
+                                background = true;
+                                color = "on_surface";
+                                hide_when_no_media = true;
+                                layout = "horizontal";
+                                shadow = true;
+                            };
+                        };
+                    };
+
+                    mkWidgetsForOutput =
+                        output:
+                        let
+                            criteria = output.criteria;
+                            dims = lib.splitString "x" output.mode;
+                            physWidth = lib.toInt (builtins.elemAt dims 0);
+                            physHeight = lib.toInt (builtins.elemAt dims 1);
+                            scale = output.scale or 1.0;
+                            logicalWidth = physWidth / scale;
+                            logicalHeight = physHeight / scale;
+                        in
+                        lib.mapAttrs' (
+                            name: w:
+                            let
+                                widgetDef =
+                                    removeAttrs w [
+                                        "fx"
+                                        "fy"
+                                    ]
+                                    // {
+                                        output = criteria;
+                                        cx = logicalWidth * w.fx;
+                                        cy = logicalHeight * w.fy;
+                                    };
+                            in
+                            lib.nameValuePair "${name}@${criteria}" widgetDef
+                        ) widgetTemplates;
+
+                    allWidgets = lib.foldl' (
+                        acc: output: acc // (mkWidgetsForOutput output)
+                    ) { } kanshiOutputs;
+                in
+                {
+                    enabled = true;
+                    grid = {
+                        cell_size = 8;
+                        major_interval = 4;
+                        visible = true;
+                    };
+                    widget = allWidgets;
                 };
-                widget = {
-                    login-box = {
-                        type = "login_box";
-                        output = "eDP-1";
-                        box_height = 70.0;
-                        box_width = 400.0;
-                        cx = 768.0;
-                        cy = 608.0;
-                        settings = {
-                            background_color = "surface_variant";
-                            background_opacity = 0.88;
-                            background_radius = 12.0;
-                            center_password_text = false;
-                            input_opacity = 1.0;
-                            input_radius = 6.0;
-                            show_caps_lock = true;
-                            show_keyboard_layout = true;
-                            show_login_button = true;
-                            show_password_hint = false;
-                        };
-                    };
-                    clock-date = {
-                        type = "clock";
-                        box_height = 40.0;
-                        box_width = 100.0;
-                        cx = 768.0;
-                        cy = 200.0;
-                        output = "eDP-1";
-                        settings = {
-                            background = false;
-                            clock_style = "digital";
-                            format = "{:%a, %b %e}";
-                            shadow = true;
-                        };
-                    };
-                    clock-time = {
-                        type = "clock";
-                        box_height = 40.0;
-                        box_width = 200.0;
-                        cx = 768.0;
-                        cy = 240.0;
-                        output = "eDP-1";
-                        rotation = 0.0;
-                        settings = {
-                            background = false;
-                            clock_style = "digital";
-                            format = "{:%H:%M}";
-                            shadow = true;
-                        };
-                    };
-                    media-player = {
-                        type = "media_player";
-                        box_height = 168.0;
-                        box_width = 328.0;
-                        cx = 768.0;
-                        cy = 432.0;
-                        output = "eDP-1";
-                        rotation = 0.0;
-                        settings = {
-                            background = true;
-                            color = "on_surface";
-                            hide_when_no_media = true;
-                            layout = "horizontal";
-                            shadow = true;
-                        };
-                    };
-                };
-            };
         };
     };
 
