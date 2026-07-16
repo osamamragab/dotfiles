@@ -42,8 +42,14 @@
         ];
         historySubstringSearch = {
             enable = true;
-            searchUpKey = [ "^[[A" ];
-            searchDownKey = [ "^[[B" ];
+            searchUpKey = [
+                "^[[A"
+                "^[OA"
+            ];
+            searchDownKey = [
+                "^[[B"
+                "^[OB"
+            ];
         };
         fastSyntaxHighlighting = {
             enable = true;
