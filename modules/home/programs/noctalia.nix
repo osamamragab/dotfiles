@@ -3,7 +3,6 @@
     pkgs,
     lib,
     config,
-    custom,
     ...
 }:
 {
@@ -13,6 +12,7 @@
 
     home.packages = with pkgs; [
         gpu-screen-recorder # required for noctalia/screen_recorder plugin.
+        hyprpicker # required for noctalia/color_picker plugin.
     ];
 
     programs.noctalia = {
@@ -20,6 +20,11 @@
         settings = {
             audio.enable_overdrive = true;
             desktop_widgets.enabled = false;
+            nightlight.enabled = true;
+            location = {
+                auto_locate = false;
+                address = "Cairo, Egypt";
+            };
             theme = {
                 mode = "dark";
                 source = "builtin";
@@ -27,7 +32,7 @@
                 wallpaper_scheme = "soft";
             };
             dock = {
-                enabled = true;
+                enabled = false;
                 shadow = false;
                 reserve_space = false;
                 show_dots = true;
@@ -37,7 +42,6 @@
             shell = {
                 font_family = "monospace";
                 date_format = "%A, %F";
-                launcher.providers.calculator.prefix = "=";
                 session.grid = true;
                 panel = {
                     shadow = false;
@@ -50,6 +54,12 @@
                     directory = "${config.xdg.userDirs.pictures}/screenshots";
                     filename_pattern = "screenshot_%Y%m%d-%H%M%S";
                 };
+                launcher = {
+                    provider_prefix = "/";
+                    providers = {
+                        calculator.prefix = "=";
+                    };
+                };
             };
             osd = {
                 position_vertical = "top_right";
@@ -57,8 +67,9 @@
             wallpaper = {
                 enabled = true;
                 fill_mode = "stretch";
-                fill_color = "#2e3440";
+                fill_color = "surface";
                 directory = "${config.xdg.userDirs.pictures}/wallpapers";
+                default.path = "${config.programs.noctalia.settings.wallpaper.directory}/default.png";
             };
             keybinds = {
                 cancel = [
@@ -116,57 +127,45 @@
                 };
             };
             widget = {
-                session.enabled = false;
-                clipboard.enabled = false;
-                wallpaper.enabled = false;
-                brightness.enabled = false;
-                notifications.enabled = true;
                 bluetooth = {
-                    enabled = true;
                     show_label = true;
                 };
                 cat = {
-                    enabled = true;
                     type = "noctalia/bongocat:cat";
                     tappy_mode = true;
                     audio_spectrum = true;
                     use_mpris_filter = true;
                 };
                 clock = {
-                    enabled = true;
                     capsule_radius = 4;
                     capsule_padding = 10;
                     format = "{:%a %H:%M}";
-                    timezone = custom.systemInfo.timeZone;
                     tooltip_format = "{:%d %b (W%U)}";
                 };
                 battery = {
-                    enabled = true;
                     device = "auto";
                     warning_threshold = 20;
                     warning_color = "error";
                 };
                 media = {
-                    enabled = true;
                     scale = 0.9;
                     hide_when_no_media = true;
                     title_scroll = "on_hover";
                 };
                 privacy = {
-                    enabled = true;
                     hide_inactive = true;
                     active_color = "error";
                 };
                 recorder = {
-                    enabled = true;
                     type = "noctalia/screen_recorder:recorder";
                 };
+                color-picker = {
+                    type = "oldirtty/color_picker:widget";
+                };
                 tray = {
-                    enabled = true;
                     drawer = true;
                 };
                 workspaces = {
-                    enabled = true;
                     capsule_radius = 4;
                     capsule_padding = 6;
                     empty_color = "on_surface";
@@ -176,6 +175,41 @@
                     occupied_color = "on_surface";
                     style = "minimal";
                     scale = 1.2;
+                };
+            };
+            plugins = {
+                source = [
+                    {
+                        enabled = true;
+                        auto_update = false;
+                        kind = "git";
+                        location = "https://github.com/noctalia-dev/official-plugins";
+                        name = "official";
+                    }
+
+                    {
+                        enabled = true;
+                        auto_update = false;
+                        kind = "git";
+                        location = "https://github.com/noctalia-dev/community-plugins";
+                        name = "community";
+                    }
+                ];
+                enabled = [
+                    "noctalia/bongocat"
+                    "oldirtty/color_picker"
+                    "whyoolw/sharednd"
+                    "noctalia/screen_recorder"
+                ];
+            };
+            plugin_settings = {
+                "noctalia/screen_recorder" = {
+                    directory = "~/docs/vids/recordings";
+                    filename_pattern = "recording_%Y%m%d_%H%M%S";
+                    hide_inactive = false;
+                };
+                "oldirtty/color_picker" = {
+                    hyprpicker-lowercase = true;
                 };
             };
             bar.default = {
@@ -194,7 +228,6 @@
                 center = [
                     "clock"
                     "privacy"
-                    "recorder"
                 ];
                 end = [
                     "group:g4"
@@ -204,15 +237,16 @@
                 ];
                 capsule_group = [
                     {
-                        enabled = true;
                         id = "g1";
                         members = [
+                            "clipboard"
+                            "color-picker"
+                            "screenshot"
+                            "recorder"
                             "control-center"
-                            "session"
                         ];
                     }
                     {
-                        enabled = true;
                         id = "g2";
                         members = [
                             "network"
@@ -223,7 +257,6 @@
                         ];
                     }
                     {
-                        enabled = true;
                         id = "g3";
                         members = [
                             "notifications"
@@ -231,7 +264,6 @@
                         ];
                     }
                     {
-                        enabled = true;
                         id = "g4";
                         members = [
                             "media"
@@ -243,14 +275,20 @@
         };
     };
 
-    home.file."${config.programs.noctalia.settings.wallpaper.directory}/wallpapers" =
-        lib.mkIf config.programs.noctalia.settings.wallpaper.enabled {
-            source = ../../../assets/wallpapers;
-            recursive = true;
-        };
+    home.file."${config.programs.noctalia.settings.wallpaper.directory}" =
+        lib.mkIf
+            (
+                config.programs.noctalia.enable
+                && config.programs.noctalia.settings.wallpaper.enabled
+            )
+            {
+                source = ../../../assets/wallpapers;
+                recursive = true;
+            };
 
     wayland.windowManager.mango.settings.exec-once =
-        lib.mkIf config.wayland.windowManager.mango.enable
+        lib.mkIf
+            (config.programs.noctalia.enable && config.wayland.windowManager.mango.enable)
             [
                 "${config.programs.noctalia.package}/bin/noctalia"
             ];
