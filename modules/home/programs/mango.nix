@@ -3,7 +3,11 @@
     config,
     ...
 }:
-{
+let
+    terminal = config.home.sessionVariables.TERMINAL;
+    noctaliaBin = "${config.programs.noctalia.package}/bin/noctalia";
+in
+    {
     imports = [
         inputs.mangowm.hmModules.mango
     ];
@@ -36,7 +40,7 @@
         ];
         settings = {
             # Window effect
-            blur = 0;
+            blur = 1;
             blur_layer = 0;
             blur_optimized = 1;
             blur_params = {
@@ -45,17 +49,17 @@
                 noise = 0.02;
                 brightness = 0.9;
                 contrast = 0.9;
-                saturation = 1.2;
+                saturation = 1.0;
             };
 
-            shadows = 0;
+            shadows = 1;
             layer_shadows = 0;
-            shadow_only_floating = 1;
-            shadows_size = 10;
-            shadows_blur = 15;
+            shadow_only_floating = 0;
+            shadows_size = 4;
+            shadows_blur = 12;
             shadows_position = {
-                x = 0;
-                y = 0;
+                x = 2;
+                y = 2;
             };
             shadowscolor = "0x000000ff";
 
@@ -243,7 +247,7 @@
                 "SUPER+CTRL,P,minimized,"
                 "SUPER+ALT,P,restore_minimized"
                 "SUPER+SHIFT,P,toggle_scratchpad"
-                "SUPER,P,toggle_named_scratchpad,terminal-scratchpad,none,${config.home.sessionVariables.TERMINAL} -a terminal-scratchpad -w 840x560"
+                "SUPER,P,toggle_named_scratchpad,terminal-scratchpad,none,${terminal} -a terminal-scratchpad -w 840x560"
 
                 # scroller layout
                 "SUPER+SHIFT,S,set_proportion,1.0"
@@ -308,43 +312,41 @@
                 "SUPER,H,resizewin,-50,+0"
                 "SUPER,L,resizewin,+50,+0"
 
-                "SUPER,Return,spawn,${config.home.sessionVariables.TERMINAL}"
+                "SUPER,Return,spawn,${terminal}"
                 "SUPER,E,spawn,emacsclient -nca emacs"
-                "NONE,Menu,spawn,menu-handler"
-                "SUPER,M,spawn,menu-handler"
-                "SUPER,R,spawn,menu-handler apps"
-                "SUPER,Q,spawn,menu-handler system-actions"
-                "NONE,Print,spawn,menu-handler screenshot"
-                "ALT,Print,spawn,menu-handler screen-recording"
-                "CTRL+ALT,Print,spawn,menu-handler screen-recording stop"
-                "SUPER,I,spawn,menu-handler input-handler"
-                "SUPER,O,spawn,menu-handler clipboard-history"
-                "SUPER+SHIFT,O,spawn,menu-handler recent-files"
-                "SUPER,Backslash,spawn,menu-handler notifications clear"
-                "SUPER+SHIFT,Backslash,spawn,menu-handler notifications dnd"
-                "NONE,XF86PowerOff,spawn,menu-handler system-actions"
-                "NONE,XF86Display,spawn,menu-handler display-profiles"
+                "NONE,Menu,spawn,${noctaliaBin} msg panel-open control-center"
+                "SUPER,M,spawn,${noctaliaBin} msg panel-open control-center"
+                "SUPER,R,spawn,${noctaliaBin} msg panel-open launcher"
+                "SUPER,Q,spawn,${noctaliaBin} msg panel-open session"
+                "NONE,Print,spawn,${noctaliaBin} msg screenshot-fullscreen pick"
+                "CTRL,Print,spawn,${noctaliaBin} msg screenshot-region"
+                "ALT,Print,spawn,${noctaliaBin} msg plugin noctalia/screen_recorder:service all start"
+                "CTRL+ALT,Print,spawn,${noctaliaBin} msg plugin noctalia/screen_recorder:service all stop"
+                "SUPER,O,spawn,${noctaliaBin} msg panel-open clipboard"
+                "SUPER,Backslash,spawn,${noctaliaBin} msg notification-clear-active"
+                "SUPER+SHIFT,Backslash,spawn,${noctaliaBin} msg notification-dnd-toggle"
+                "NONE,XF86PowerOff,spawn,${noctaliaBin} msg panel-open session"
             ];
 
             bindl = [
                 "NONE,XF86Eject,spawn,eject -T"
-                "NONE,XF86AudioRaiseVolume,spawn,audioctl output 5%+"
-                "NONE,XF86AudioLowerVolume,spawn,audioctl output 5%-"
-                "NONE,XF86AudioMute,spawn,audioctl output toggle"
-                "NONE,XF86AudioMicMute,spawn,audioctl input toggle"
-                "SUPER,Equal,spawn,audioctl output 5%+"
-                "SUPER,Minus,spawn,audioctl output 5%-"
-                "SUPER,Backspace,spawn,audioctl output toggle"
-                "SUPER+CTRL,Backspace,spawn,audioctl input toggle"
-                "NONE,XF86AudioNext,spawn,playerctl next"
-                "NONE,XF86AudioPrev,spawn,playerctl previous"
-                "NONE,XF86AudioPlay,spawn,playerctl play-pause"
-                "NONE,XF86AudioMedia,spawn,playerctl play-pause"
-                "SUPER+SHIFT,Equal,spawn,playerctl next"
-                "SUPER+SHIFT,Minus,spawn,playerctl previous"
-                "SUPER+SHIFT,Backspace,spawn,playerctl play-pause"
-                "NONE,XF86MonBrightnessUp,spawn,screenlightctl 10%+"
-                "NONE,XF86MonBrightnessDown,spawn,screenlightctl 10%-"
+                "NONE,XF86AudioRaiseVolume,spawn,${noctaliaBin} msg volume-up 5"
+                "NONE,XF86AudioLowerVolume,spawn,${noctaliaBin} msg volume-down 5"
+                "NONE,XF86AudioMute,spawn,${noctaliaBin} msg volume-mute"
+                "NONE,XF86AudioMicMute,spawn,${noctaliaBin} msg mic-mute"
+                "SUPER,Equal,spawn,${noctaliaBin} msg volume-up 5"
+                "SUPER,Minus,spawn,${noctaliaBin} msg volume-down 5"
+                "SUPER,Backspace,spawn,${noctaliaBin} msg volume-mute"
+                "SUPER+CTRL,Backspace,spawn,${noctaliaBin} msg mic-mute"
+                "NONE,XF86AudioNext,spawn,${noctaliaBin} msg media next"
+                "NONE,XF86AudioPrev,spawn,${noctaliaBin} msg media previous"
+                "NONE,XF86AudioPlay,spawn,${noctaliaBin} msg media toggle"
+                "NONE,XF86AudioMedia,spawn,${noctaliaBin} msg media toggle"
+                "SUPER+SHIFT,Equal,spawn,${noctaliaBin} msg media next"
+                "SUPER+SHIFT,Minus,spawn,${noctaliaBin} msg media previous"
+                "SUPER+SHIFT,Backspace,spawn,${noctaliaBin} msg media toggle"
+                "NONE,XF86MonBrightnessUp,spawn,${noctaliaBin} msg brightness-up all 5"
+                "NONE,XF86MonBrightnessDown,spawn,${noctaliaBin} msg brightness-down all 5"
             ];
 
             windowrule = [
@@ -384,6 +386,13 @@
                 "NO_AT_BRIDGE,1"
                 "_JAVA_AWT_WM_NONREPARENTING,1"
                 "AWT_TOOLKIT,MToolkit wmname LG3D"
+            ];
+
+            exec-once = [
+                # For some reason it does not start correctly when enabling the
+                # systemd integration.
+                "systemctl --user reset-failed"
+                "systemctl --user restart mango-session.target"
             ];
         };
     };
