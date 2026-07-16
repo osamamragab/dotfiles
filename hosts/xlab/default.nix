@@ -151,6 +151,8 @@
         groups.${custom.systemInfo.user} = { };
     };
 
+    programs.gpu-screen-recorder.enable = true;
+
     programs.noctalia-greeter = {
         enable = true;
         greeter-args = "";

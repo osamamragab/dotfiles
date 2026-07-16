@@ -11,7 +11,6 @@
     ];
 
     home.packages = with pkgs; [
-        gpu-screen-recorder # required for noctalia/screen_recorder plugin.
         hyprpicker # required for noctalia/color_picker plugin.
     ];
 
