@@ -1,4 +1,3 @@
-{ ... }:
 {
     time.timeZone = "Africa/Cairo";
     i18n = {

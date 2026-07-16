@@ -1,4 +1,7 @@
-{ lib, ... }:
+{
+    lib,
+    ...
+}:
 {
     boot = {
         consoleLogLevel = 3;
