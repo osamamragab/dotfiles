@@ -66,7 +66,7 @@ in
             border_radius = 0;
             no_radius_when_single = 0;
             focused_opacity = 1.0;
-            unfocused_opacity = 1.0;
+            unfocused_opacity = 0.9;
 
             # Animation Configuration(support type:zoom,slide)
             # tag_animation_direction: 1-horizontal,0-vertical
