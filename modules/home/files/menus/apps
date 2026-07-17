@@ -1,5 +1,0 @@
-#!/bin/sh
-
-set -eu
-
-exec fuzzel --prompt "${MENU_PROMPT:-Apps}> "
