@@ -13,7 +13,6 @@ let
         hash="$(sha256sum "$(readlink -f "$file")" | cut -d " " -f 1)"
         find "${thumbDir}" -name "$hash*" -delete || true
     '';
-
     previwerScript = pkgs.writeShellScript "lfpreviewer" ''
         set -eu
 
@@ -35,56 +34,56 @@ let
         }
 
         thumbnailfile() {
-        	hash="$(sha256sum "$(readlink -f "$file")" | cut -d " " -f 1)"
-        	thumb="${thumbDir}/$hash"
-        	[ -d "${thumbDir}" ] ||
-        		mkdir -p "${thumbDir}"
-        	[ -f "$thumb" ]
+            hash="$(sha256sum "$(readlink -f "$file")" | cut -d " " -f 1)"
+            thumb="${thumbDir}/$hash"
+            [ -d "${thumbDir}" ] ||
+                mkdir -p "${thumbDir}"
+            [ -f "$thumb" ]
         }
 
         mime="$(file -bL --mime-type -- "$file")"
         case "$mime" in
-        	image/jpeg | image/png | image/gif | image/webp)
-        		sixel "$file"
-        		;;
-        	image/*)
-        		thumbnailfile ||
-                    ${pkgs.imagemagick}/bin/magick "$file" "$thumb.jpg"
-        		sixel "$thumb.jpg"
-        		;;
-        	text/troff)
-        		${pkgs.bat-extras.batman} "$file"
-        		;;
-        	text/html)
-        		${pkgs.w3m}/bin/w3m -t "$posx" -T "$mime" -I utf-8 -O utf-8 -dump "$file"
-        		;;
-        	text/* | */xml | application/json | application/x-ndjson)
-        		${pkgs.bat}/bin/bat -pf --terminal-width $((width - 5)) "$file"
-        		;;
-        	audio/* | application/octet-stream)
-        		${pkgs.mediainfo}/bin/mediainfo "$file"
-        		;;
-        	video/*)
-        		thumbnailfile ||
-                    ${pkgs.ffmpegthumbnailer}/bin/ffmpegthumbnailer -i "$file" -o "$thumb.jpg" -s 0
-        		sixel "$thumb.jpg"
-        		;;
-        	*/pdf)
-        		thumbnailfile ||
-                    ${pkgs.poppler-utils}/bin/pdftoppm -jpeg -f 1 -singlefile "$file" "$thumb"
-        		sixel "$thumb.jpg"
-        		;;
-        	*/epub+zip | */mobi*)
-        		thumbnailfile ||
-                    ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$file" "$thumb.jpg"
-        		sixel "$thumb.jpg"
-        		;;
-        	application/*zip)
-        		${pkgs.atool}/bin/atool --list -- "$file"
-        		;;
-        	application/pgp-encrypted)
-        		${config.programs.gpg.package or pkgs.gnupg} -d -- "$file"
-        		;;
+        image/jpeg | image/png | image/gif | image/webp)
+            sixel "$file"
+            ;;
+        image/*)
+            thumbnailfile ||
+            ${pkgs.imagemagick}/bin/magick "$file" "$thumb.jpg"
+            sixel "$thumb.jpg"
+            ;;
+        text/troff)
+            ${pkgs.bat-extras.batman}/bin/batman "$file"
+            ;;
+        text/html)
+            ${pkgs.w3m}/bin/w3m -t "$posx" -T "$mime" -I utf-8 -O utf-8 -dump "$file"
+            ;;
+        text/* | */xml | application/json | application/x-ndjson)
+            ${pkgs.bat}/bin/bat -pf --terminal-width $((width - 5)) "$file"
+            ;;
+        audio/* | application/octet-stream)
+            ${pkgs.mediainfo}/bin/mediainfo "$file"
+            ;;
+        video/*)
+            thumbnailfile ||
+                ${pkgs.ffmpegthumbnailer}/bin/ffmpegthumbnailer -i "$file" -o "$thumb.jpg" -s 0
+            sixel "$thumb.jpg"
+            ;;
+        */pdf)
+            thumbnailfile ||
+                ${pkgs.poppler-utils}/bin/pdftoppm -jpeg -f 1 -singlefile "$file" "$thumb"
+            sixel "$thumb.jpg"
+            ;;
+        */epub+zip | */mobi*)
+            thumbnailfile ||
+                ${pkgs.gnome-epub-thumbnailer}/bin/gnome-epub-thumbnailer "$file" "$thumb.jpg"
+            sixel "$thumb.jpg"
+            ;;
+        application/*zip | application/*rar | application/*-xz)
+            ${pkgs.unar}/bin/lsar -- "$file"
+            ;;
+        application/pgp-encrypted)
+            ${config.programs.gpg.package or pkgs.gnupg}/bin/gpg -d -- "$file"
+            ;;
         esac
 
         exit 1
@@ -112,15 +111,15 @@ in
             esc = "!true";
             x = "$$f";
             X = "!$f";
-            o = "open $f";
+            o = "&xdg-open $f";
             D = "delete";
             delete = "delete";
             q = "quit";
         };
         commands = {
-            open = "&open $f";
             q = "quit";
-            extract = "$extract $f";
+            open = "&xdg-open $f";
+            extract = "&${pkgs.unar}/bin/unar $f";
         };
     };
 
