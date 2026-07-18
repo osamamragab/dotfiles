@@ -314,8 +314,8 @@ in
 
                 "SUPER,Return,spawn,${terminal}"
                 "SUPER,E,spawn,emacsclient -nca emacs"
-                "NONE,Menu,spawn,${noctaliaBin} msg panel-open control-center"
-                "SUPER,M,spawn,${noctaliaBin} msg panel-open control-center"
+                "SUPER,Escape,spawn,${noctaliaBin} msg panel-open control-center"
+                "NONE,Menu,spawn,${noctaliaBin} msg panel-open launcher"
                 "SUPER,R,spawn,${noctaliaBin} msg panel-open launcher"
                 "SUPER,Q,spawn,${noctaliaBin} msg panel-open session"
                 "NONE,Print,spawn,${noctaliaBin} msg screenshot-fullscreen pick"
