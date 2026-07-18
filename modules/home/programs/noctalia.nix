@@ -5,6 +5,12 @@
     config,
     ...
 }:
+let
+    wallpapersDir = "${config.xdg.userDirs.pictures}/wallpapers";
+    kanshiOutputs = builtins.map (e: e.output) (
+        builtins.filter (e: e ? output) config.services.kanshi.settings
+    );
+in
 {
     imports = [
         inputs.noctalia.homeModules.default
@@ -45,6 +51,7 @@
             shell = {
                 font_family = "monospace";
                 date_format = "%A, %F";
+                polkit_agent = true;
                 session.grid = true;
                 panel = {
                     shadow = false;
@@ -58,9 +65,25 @@
                     filename_pattern = "screenshot_%Y%m%d-%H%M%S";
                 };
                 launcher = {
+                    sort_by_usage = true;
                     provider_prefix = "/";
                     providers = {
                         calculator.prefix = "=";
+                    };
+                    dmenu.entry = {
+                        passmenu =
+                            let
+                                passmenuBin = "${config.xdg.binHome}/passmenu";
+                            in
+                            {
+                                label = "Passwords";
+                                prefix = "pass";
+                                global = false;
+                                freeform = false;
+                                glyph = "lock";
+                                command = "${passmenuBin} -l";
+                                exec = "${passmenuBin} {selection}";
+                            };
                     };
                 };
             };
@@ -71,8 +94,8 @@
                 enabled = true;
                 fill_mode = "stretch";
                 fill_color = "surface";
-                directory = "${config.xdg.userDirs.pictures}/wallpapers";
-                default.path = "${config.programs.noctalia.settings.wallpaper.directory}/default.png";
+                directory = wallpapersDir;
+                default.path = "${wallpapersDir}/default.png";
             };
             keybinds = {
                 cancel = [
@@ -207,7 +230,7 @@
             };
             plugin_settings = {
                 "noctalia/screen_recorder" = {
-                    directory = "~/docs/vids/recordings";
+                    directory = "${config.xdg.userDirs.videos}/recordings";
                     filename_pattern = "recording_%Y%m%d_%H%M%S";
                     hide_inactive = false;
                 };
@@ -255,7 +278,6 @@
                             "network"
                             "bluetooth"
                             "volume"
-                            "brightness"
                             "battery"
                         ];
                     }
@@ -277,10 +299,6 @@
             };
             lockscreen_widgets =
                 let
-                    kanshiOutputs = builtins.map (e: e.output) (
-                        builtins.filter (e: e ? output) config.services.kanshi.settings
-                    );
-
                     widgetTemplates = {
                         login-box = {
                             type = "login_box";
@@ -344,7 +362,6 @@
                             };
                         };
                     };
-
                     mkWidgetsForOutput =
                         output:
                         let
@@ -372,10 +389,6 @@
                             in
                             lib.nameValuePair "${name}@${criteria}" widgetDef
                         ) widgetTemplates;
-
-                    allWidgets = lib.foldl' (
-                        acc: output: acc // (mkWidgetsForOutput output)
-                    ) { } kanshiOutputs;
                 in
                 {
                     enabled = true;
@@ -384,7 +397,9 @@
                         major_interval = 4;
                         visible = true;
                     };
-                    widget = allWidgets;
+                    widget = lib.foldl' (
+                        acc: output: acc // (mkWidgetsForOutput output)
+                    ) { } kanshiOutputs;
                 };
         };
     };
