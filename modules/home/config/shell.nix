@@ -27,6 +27,7 @@
             ip = "ip -color=auto";
             bc = "bc -ql";
             diff = "diff --color=auto";
+            open = "xdg-open";
             rsync = "rsync -vrPlu";
             ffmpeg = "ffmpeg -hide_banner";
             drag = "dragon-drop -a -x";

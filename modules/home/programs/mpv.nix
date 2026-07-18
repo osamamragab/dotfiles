@@ -1,5 +1,7 @@
 {
     pkgs,
+    lib,
+    config,
     ...
 }:
 {
@@ -28,5 +30,17 @@
             pkgs.mpvScripts.mpris
             pkgs.mpvScripts.reload
         ];
+    };
+
+    home.file."${config.xdg.binHome}/webcam" = lib.mkIf config.programs.mpv.enable {
+        source = pkgs.writeShellScript "mpv-webcam" ''
+            exec "${config.programs.mpv.package or pkgs.mpv}/bin/mpv" \
+                --untimed \
+                --profile=low-latency \
+                --framedrop=no \
+                --demuxer-lavf-o=video_size=640x480,input_format=mjpeg \
+                --wayland-app-id=terminal-floating \
+                av://v4l2:/dev/video0
+        '';
     };
 }

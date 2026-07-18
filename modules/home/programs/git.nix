@@ -117,4 +117,30 @@ in
         gpl = "git pull";
         gdf = "git diff";
     };
+
+    home.file."${config.xdg.binHome}/gac" = lib.mkIf config.programs.git.enable {
+        source =
+            let
+                gitBin = "${config.programs.git.package or pkgs.git}/bin/git";
+            in
+            pkgs.writeShellScript "gac" ''
+                set -eu
+
+                if [ $# -lt 2 ]; then
+                    printf "usage:\n  %s files... message\n" "$(basename "$0")"
+                    exit 1
+                fi
+
+                for msg; do :; done
+
+                for f; do
+                    [ "$f" = "$msg" ] && break
+                    [ -n "''${files:-}" ] && files="$files $f" || files="$f"
+                done
+
+                # shellcheck disable=SC2086
+                ${gitBin} add $files &&
+                    ${gitBin} commit -m "$msg"
+            '';
+    };
 }

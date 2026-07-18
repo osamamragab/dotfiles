@@ -7,10 +7,10 @@
     home.packages = with pkgs; [
         libnotify
         wl-clipboard
-        sound-theme-freedesktop
         wiremix
         helvum
         tree-sitter
+        buku
 
         gcc
         gnumake

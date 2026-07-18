@@ -19,12 +19,8 @@
         preferXdgDirectories = config.xdg.enable;
         enableNixpkgsReleaseCheck = true;
         file = {
-            ".local/bin" = {
+            ${config.xdg.binHome} = {
                 source = ./files/bin;
-                recursive = true;
-            };
-            ".local/share/menus" = {
-                source = ./files/menus;
                 recursive = true;
             };
         };

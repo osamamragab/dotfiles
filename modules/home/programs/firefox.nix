@@ -18,7 +18,6 @@ let
         istilldontcareaboutcookies
         darkreader
         vimium-c
-        imagus-mod
         wayback-machine
         search-by-image
         youtube-nonstop
@@ -163,4 +162,24 @@ in
     home.sessionVariables = lib.optionalAttrs config.programs.firefox.enable {
         BROWSER = "firefox";
     };
+
+    home.file."${config.xdg.binHome}/fftabs" =
+        let
+            dir =
+                if config.xdg.enable then
+                    "${config.xdg.configHome}/mozilla/firefox"
+                else
+                    "${config.home.homeDirectory}/.mozilla/firefox";
+        in
+        lib.mkIf config.programs.firefox.enable
+            {
+                source =
+                    pkgs.writeShellScript "fftabs" ''
+                        set -eu
+                        sed -n "s/Path=\(.*\)/\1/p" "${dir}/profiles.ini" | while IFS= read -r p; do
+                            ${pkgs.dejsonlz4}/bin/dejsonlz4 "${dir}/$p/sessionstore-backups/recovery.jsonlz4" |
+                                ${pkgs.jq}/bin/jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
+                        done
+                    '';
+            };
 }
