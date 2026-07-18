@@ -2,44 +2,33 @@
 
 set -eu
 
-slug=0
-input=0
-
-case "${1:-}" in
-slug)
-	slug=1
-	shift
-	;;
-input)
-	input=1
-	shift
-	;;
-esac
-
-[ -n "${MENU_PROMPT:-}" ] && {
-	# shellcheck disable=SC2015
-	[ $input -eq 1 ] &&
-		set -- "$@" --prompt-only "$MENU_PROMPT> " ||
-		set -- "$@" --prompt "$MENU_PROMPT> "
+usage() {
+	echo "Usage: $(basename "$0") [-h] [-p prompt]" >&2
 }
 
-ec=0
-
-sel="$(fuzzel --dmenu --no-run-if-empty --no-sort "$@" 2>/dev/null)" ||
-	case $? in
-	1[0-9]) # custom exit codes
-		ec=$?
+prompt=""
+while getopts "hp:" opt; do
+	case "$opt" in
+	h)
+		usage
+		exit 0
+		;;
+	p)
+		prompt="$OPTARG"
 		;;
 	*)
-		exit $?
+		usage
+		exit 1
 		;;
 	esac
+done
 
-[ $slug -eq 1 ] && {
-	sel="$(echo "$sel" | tr -dc "[:print:]" | tr "[:upper:][:space:][:punct:]" "[:lower:]-" | sed "s/-\+/-/g")"
-	sel="${sel#-}"
-	sel="${sel%-}"
-}
+command -v noctalia >/dev/null 2>&1 &&
+	pidof -sxq noctalia &&
+	exec noctalia dmenu ${prompt:+-p "$prompt"}
 
-echo "$sel"
-exit $ec
+command -v fuzzel >/dev/null 2>&1 &&
+	exec fuzzel --dmenu --no-run-if-empty --no-sort ${prompt:+-p "$prompt> "}
+
+echo "$(basename "$0"): no dmenu-compatible program found" >&2
+exit 1
