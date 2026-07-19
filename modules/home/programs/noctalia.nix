@@ -5,12 +5,6 @@
     config,
     ...
 }:
-let
-    wallpapersDir = "${config.xdg.userDirs.pictures}/wallpapers";
-    kanshiOutputs = builtins.map (e: e.output) (
-        builtins.filter (e: e ? output) config.services.kanshi.settings
-    );
-in
 {
     imports = [
         inputs.noctalia.homeModules.default
@@ -67,6 +61,7 @@ in
                 launcher = {
                     sort_by_usage = true;
                     provider_prefix = "/";
+                    fetch_exchange_rates = false;
                     providers = {
                         calculator.prefix = "=";
                     };
@@ -77,12 +72,56 @@ in
                             in
                             {
                                 label = "Passwords";
+                                glyph = "lock";
                                 prefix = "pass";
                                 global = false;
                                 freeform = false;
-                                glyph = "lock";
                                 command = "${passmenuBin} -l";
                                 exec = "${passmenuBin} {selection}";
+                            };
+                        bookmarks =
+                            let
+                                bukuBin = "${pkgs.buku}/bin/buku";
+                            in
+                            {
+                                label = "Bookmarks";
+                                glyph = "bookmark";
+                                prefix = "boo";
+                                global = false;
+                                freeform = false;
+                                command = "${bukuBin} --nostdin -p -f 4 | sed 's/\t/ /g'";
+                                exec = "echo '{selection}' | cut -d ' ' -f 1 | xargs -r buku --nostdin -o";
+                            };
+                        power-profiles =
+                            let
+                                ppcBin = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl";
+                            in
+                            {
+                                label = "Power Profiles";
+                                glyph = "bolt";
+                                prefix = "power";
+                                global = false;
+                                freeform = false;
+                                command = "${ppcBin} list | sed -n 's/^\\(\\s\\|\\*\\)\\s\\(.*\\):$/\\2/p'";
+                                exec = "${ppcBin} set '{selection}'";
+                            };
+                        display-profiles =
+                            let
+                                kanshiBin = "${config.services.kanshi.package or pkgs.kanshi}/bin/kanshictl";
+                                kanshiProfiles = lib.concatStringsSep "\\n" (
+                                    lib.concatMap (
+                                        e: lib.optional ((e.profile.name or "") != "") e.profile.name
+                                    ) config.services.kanshi.settings
+                                );
+                            in
+                            {
+                                label = "Display Profiles";
+                                glyph = "device-desktop";
+                                prefix = "disp";
+                                global = false;
+                                freeform = false;
+                                command = "printf '${kanshiProfiles}'";
+                                exec = "${kanshiBin} switch '{selection}'";
                             };
                     };
                 };
@@ -94,8 +133,8 @@ in
                 enabled = true;
                 fill_mode = "stretch";
                 fill_color = "surface";
-                directory = wallpapersDir;
-                default.path = "${wallpapersDir}/default.png";
+                directory = "${config.xdg.userDirs.pictures}/wallpapers";
+                default.path = "${config.programs.noctalia.settings.wallpaper.directory}/default.png";
             };
             keybinds = {
                 cancel = [
@@ -299,6 +338,11 @@ in
             };
             lockscreen_widgets =
                 let
+                    kanshiOutputs = builtins.map (e: e.output) (
+                        builtins.filter (
+                            e: e ? output && e.output != { }
+                        ) config.services.kanshi.settings
+                    );
                     widgetTemplates = {
                         login-box = {
                             type = "login_box";
