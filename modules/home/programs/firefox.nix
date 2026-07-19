@@ -171,15 +171,13 @@ in
                 else
                     "${config.home.homeDirectory}/.mozilla/firefox";
         in
-        lib.mkIf config.programs.firefox.enable
-            {
-                source =
-                    pkgs.writeShellScript "fftabs" ''
-                        set -eu
-                        sed -n "s/Path=\(.*\)/\1/p" "${dir}/profiles.ini" | while IFS= read -r p; do
-                            ${pkgs.dejsonlz4}/bin/dejsonlz4 "${dir}/$p/sessionstore-backups/recovery.jsonlz4" |
-                                ${pkgs.jq}/bin/jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
-                        done
-                    '';
-            };
+        lib.mkIf config.programs.firefox.enable {
+            source = pkgs.writeShellScript "fftabs" ''
+                set -eu
+                sed -n "s/Path=\(.*\)/\1/p" "${dir}/profiles.ini" | while IFS= read -r p; do
+                    ${pkgs.dejsonlz4}/bin/dejsonlz4 "${dir}/$p/sessionstore-backups/recovery.jsonlz4" |
+                        ${pkgs.jq}/bin/jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
+                done
+            '';
+        };
 }

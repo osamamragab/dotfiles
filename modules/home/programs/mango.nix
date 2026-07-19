@@ -7,7 +7,7 @@ let
     terminal = config.home.sessionVariables.TERMINAL;
     noctaliaBin = "${config.programs.noctalia.package}/bin/noctalia";
 in
-    {
+{
     imports = [
         inputs.mangowm.hmModules.mango
     ];

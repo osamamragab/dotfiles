@@ -47,12 +47,20 @@
             };
         };
     };
-    environment.etc."libinput/local-overrides.conf" = lib.mkIf config.services.keyd.enable {
-        text = ''
-            [Serial Keyboards]
-            MatchUdevType=keyboard
-            MatchName=keyd virtual keyboard
-            AttrKeyboardIntegration=internal
-        '';
-    };
+    environment.etc."libinput/local-overrides.conf" =
+        lib.mkIf config.services.keyd.enable
+            {
+                source =
+                    let
+                        iniFormat = pkgs.formats.ini { };
+                    in
+                    iniFormat.generate "libinput-local-overrides.conf" {
+
+                        "Serial Keyboards" = {
+                            MatchUdevType = "keyboard";
+                            MatchName = "keyd virtual keyboard";
+                            AttrKeyboardIntegration = "internal";
+                        };
+                    };
+            };
 }
