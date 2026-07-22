@@ -39,8 +39,7 @@ in
             };
             gpg = {
                 format = "openpgp";
-                program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
-                opengpg.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
+                openpgp.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
                 x509.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpgsm";
                 ssh.program = builtins.toString (
                     pkgs.writeShellScript "ssh-signkey" ''
