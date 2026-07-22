@@ -28,7 +28,7 @@
                         name = "cryptroot";
                         settings = {
                             allowDiscards = true;
-                            #keyFile = "/tmp/secret.key";
+                            # keyFile = "/tmp/secret.key";
                         };
                         content = {
                             type = "btrfs";
@@ -70,14 +70,6 @@
                                         "noatime"
                                     ];
                                 };
-                                "/lib" = {
-                                    mountpoint = "/var/lib";
-                                    mountOptions = [
-                                        "subvol=lib"
-                                        "compress=zstd"
-                                        "noatime"
-                                    ];
-                                };
                                 "/swap" = {
                                     mountpoint = "/var/swap";
                                     mountOptions = [
@@ -98,20 +90,7 @@
 
     fileSystems = {
         "/var/log".neededForBoot = true;
-        "/var/lib".neededForBoot = true;
         "/var/swap".neededForBoot = true;
-    };
-
-    services.btrfs.autoScrub = {
-        enable = true;
-        interval = "weekly";
-        fileSystems = [ "/" ];
-    };
-
-    boot.initrd.luks.devices.cryptroot = {
-        device = "/dev/disk/by-partlabel/luks";
-        allowDiscards = true;
-        preLVM = true;
     };
 
     zramSwap = {
@@ -119,5 +98,11 @@
         algorithm = "zstd";
         priority = 5;
         memoryPercent = 50;
+    };
+
+    services.btrfs.autoScrub = {
+        enable = true;
+        interval = "weekly";
+        fileSystems = [ "/" ];
     };
 }
