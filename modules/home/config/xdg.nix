@@ -35,9 +35,6 @@
         terminal-exec = {
             enable = true;
             package = pkgs.xdg-terminal-exec;
-            settings = {
-                default = [ "foot.desktop" ];
-            };
         };
         userDirs = {
             enable = true;
@@ -62,7 +59,18 @@
         };
     };
 
-    home.sessionPath = lib.mkIf config.xdg.localBinInPath [
-        config.xdg.binHome
-    ];
+    # TODO: select window
+    xdg.configFile."xdg-desktop-portal-wlr/config" =
+        let
+            iniFormat = pkgs.formats.ini { };
+        in
+        lib.mkIf config.xdg.portal.enable {
+            source = iniFormat.generate "xdg-desktop-portal-wlr-config.ini" {
+                screencast = {
+                    max_fps = 60;
+                    chooser_type = "simple";
+                    chooser_cmd = "${pkgs.slurp}/bin/slurp -or -f 'Monitor: %o'";
+                };
+            };
+        };
 }
