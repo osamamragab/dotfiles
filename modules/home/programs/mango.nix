@@ -54,12 +54,12 @@ in
 
             shadows = 1;
             layer_shadows = 0;
-            shadow_only_floating = 0;
+            shadow_only_floating = 1;
             shadows_size = 4;
             shadows_blur = 12;
             shadows_position = {
-                x = 2;
-                y = 2;
+                x = 0;
+                y = 0;
             };
             shadowscolor = "0x000000ff";
 
