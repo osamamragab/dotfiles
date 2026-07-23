@@ -9,7 +9,7 @@
         enable = true;
         package = pkgs.mpv;
         config = {
-            hwdec = "vaapi";
+            hwdec = "auto";
             profile = "gpu-hq";
             video-sync = "display-resample";
             gpu-context = "wayland";
