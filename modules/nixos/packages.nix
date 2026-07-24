@@ -8,10 +8,10 @@
         file
         which
         tree
+        fdupes
         gnused
         gnutar
         gawk
-        zstd
         btop
         iotop
         iftop
@@ -19,8 +19,9 @@
         ltrace
         traceroute
         lsof
-        sysstat
+        rsync
         lm_sensors
+        smartmontools
         pciutils
         usbutils
         ethtool
