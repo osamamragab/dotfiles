@@ -147,6 +147,7 @@
                 "dialout"
                 "kvm"
             ]
+            ++ lib.optional config.hardware.i2c.enable "i2c"
             ++ lib.optional config.services.printing.enable "lp"
             ++ lib.optional config.networking.networkmanager.enable "networkmanager";
         };

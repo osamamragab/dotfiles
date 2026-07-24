@@ -77,6 +77,10 @@
                 };
             };
         };
+        i2c = {
+            enable = true;
+            group = "i2c";
+        };
     };
 
     environment.variables = lib.mkIf config.hardware.graphics.enable {
