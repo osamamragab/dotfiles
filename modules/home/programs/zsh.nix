@@ -29,7 +29,7 @@
             size = 32768;
             save = 32768;
             path = "${config.xdg.stateHome}/history";
-            share = true;
+            share = false;
             ignoreAllDups = true;
             ignoreSpace = true;
             extended = false;
