@@ -18,9 +18,18 @@
             "i915"
             "amdgpu"
         ];
+        kernelParams = [
+            "i915.enable_guc=3"
+            "i915.enable_dc=4"
+            "i915.fastboot=1"
+            "amdgpu.runpm=0"
+            "amdgpu.abmlevel=0"
+            "amdgpu.gpu_recovery=1"
+            "amdgpu.lockup_timeout=10000"
+        ];
         extraModulePackages = [ ];
         initrd = {
-            kernelModules = [ "amdgpu" ];
+            kernelModules = [ ];
             availableKernelModules = [
                 "xhci_pci"
                 "nvme"
@@ -29,10 +38,6 @@
                 "sd_mod"
             ];
         };
-        extraModprobeConfig = lib.mkAfter ''
-            options i915   enable_guc=3 enable_dc=4 fastboot=1
-            options amdgpu runpm=0 abmlevel=0 gpu_recovery=1 lockup_timeout=10000 ppfeaturemask=0xffffffff
-        '';
     };
 
     hardware = {
@@ -42,10 +47,19 @@
         graphics = {
             enable = true;
             enable32Bit = true;
+            extraPackages = with pkgs; [
+                intel-media-driver # VA-API (iHD) userspace
+                vpl-gpu-rt         # oneVPL (QSV) runtime
+                libvdpau-va-gl     # VDPAU-only apps
+            ];
         };
         amdgpu = {
             initrd.enable = true;
             opencl.enable = true;
+            overdrive = {
+                enable = true;
+                ppfeaturemask = "0xffffffff";
+            };
         };
         bluetooth = {
             enable = true;
@@ -63,6 +77,11 @@
                 };
             };
         };
+    };
+
+    environment.variables = lib.mkIf config.hardware.graphics.enable {
+        LIBVA_DRIVER_NAME = "radeonsi";
+        VDPAU_DRIVER = "radeonsi";
     };
 
     nixpkgs.config.allowUnfreePredicate =
