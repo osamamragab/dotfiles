@@ -36,7 +36,6 @@
             };
             dock = {
                 enabled = false;
-                shadow = false;
                 reserve_space = false;
                 show_dots = true;
                 smart_auto_hide = true;
@@ -47,11 +46,11 @@
                 date_format = "%A, %F";
                 polkit_agent = true;
                 session.grid = true;
+                shadow.alpha = 0.15;
                 panel = {
-                    shadow = false;
                     open_near_click_control_center = true;
                     open_near_click_session = true;
-                    transparency_mode = "soft";
+                    transparency_mode = "solid";
                 };
                 screenshot = {
                     confirm_region = true;
@@ -168,26 +167,19 @@
             };
             idle = {
                 pre_action_fade_seconds = 10;
-                behavior_order = [
-                    "lock"
-                    "screen-off"
-                    "lock-and-suspend"
-                ];
                 behavior = {
                     lock = {
-                        enabled = true;
                         action = "lock";
                         timeout = 10 * 60;
                     };
                     screen-off = {
-                        enabled = true;
                         action = "screen_off";
                         timeout = 11 * 60;
                     };
-                    lock-and-suspend = {
-                        enabled = true;
-                        action = "lock_and_suspend";
+                    suspend = {
+                        action = "suspend";
                         timeout = 15 * 60;
+                        lock_before_suspend = true;
                     };
                 };
             };
@@ -278,8 +270,6 @@
                 };
             };
             bar.default = {
-                shadow = false;
-                contact_shadow = true;
                 capsule = true;
                 concave_edge_corners = false;
                 font_weight = 700;
