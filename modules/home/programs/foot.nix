@@ -76,11 +76,22 @@
         };
     };
 
-    home.sessionVariables = lib.optionalAttrs config.programs.foot.enable {
+    home.sessionVariables = lib.mkIf config.programs.foot.enable {
         TERMINAL =
             if config.programs.foot.server.enable then
                 "${config.programs.foot.package or pkgs.foot}/bin/footclient"
             else
                 "${config.programs.foot.package or pkgs.foot}/bin/foot";
     };
+
+    xdg.terminal-exec.settings.default =
+        lib.mkIf (config.programs.foot.enable && config.xdg.terminal-exec.enable)
+            (
+                lib.mkMerge [
+                    [ "foot.desktop" ]
+                    (lib.optionals config.programs.foot.server.enable (
+                        lib.mkBefore [ "footclient.desktop" ]
+                    ))
+                ]
+            );
 }
