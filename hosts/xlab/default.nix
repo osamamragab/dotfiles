@@ -27,7 +27,10 @@
     };
 
     networking = {
-        wireless.enable = true;
+        wireless = {
+            enable = true;
+            scanOnLowSignal = true;
+        };
         firewall = {
             # TODO: enable Docker DNS.
             allowedTCPPorts = [
@@ -106,7 +109,6 @@
     programs.dconf.enable = true;
     documentation.dev.enable = true;
 
-    security.pam.services.swaylock = { };
     services.gnome.gnome-keyring.enable = true;
 
     programs.nix-ld = {
@@ -143,10 +145,10 @@
                 "video"
                 "audio"
                 "dialout"
-                "lp"
                 "kvm"
-                "networkmanager"
-            ];
+            ]
+            ++ lib.optional config.services.printing.enable "lp"
+            ++ lib.optional config.networking.networkmanager.enable "networkmanager";
         };
         groups.${custom.systemInfo.user} = { };
     };
