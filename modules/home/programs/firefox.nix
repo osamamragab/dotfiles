@@ -55,8 +55,8 @@ in
                 order = [
                     "ddg"
                     "google"
-                    "wikipedia"
                     "youtube"
+                    "wikipedia"
                 ];
                 engines = {
                     bing.metaData.hidden = true;
@@ -159,7 +159,7 @@ in
         };
     };
 
-    home.sessionVariables = lib.optionalAttrs config.programs.firefox.enable {
+    home.sessionVariables = lib.mkIf config.programs.firefox.enable {
         BROWSER = "firefox";
     };
 
