@@ -205,7 +205,7 @@
                     warning_color = "error";
                 };
                 media = {
-                    scale = 0.75;
+                    scale = 0.8;
                     hide_when_no_media = true;
                     title_scroll = "on_hover";
                 };
@@ -231,7 +231,6 @@
                     labels_only_when_occupied = true;
                     occupied_color = "on_surface";
                     style = "minimal";
-                    scale = 1.2;
                 };
             };
             plugins = {
