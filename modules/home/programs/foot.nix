@@ -87,11 +87,12 @@
     xdg.terminal-exec.settings.default =
         lib.mkIf (config.programs.foot.enable && config.xdg.terminal-exec.enable)
             (
-                lib.mkMerge [
+                if config.programs.foot.server.enable then
+                    [
+                        "footclient.desktop"
+                        "foot.desktop"
+                    ]
+                else
                     [ "foot.desktop" ]
-                    (lib.optionals config.programs.foot.server.enable (
-                        lib.mkBefore [ "footclient.desktop" ]
-                    ))
-                ]
             );
 }
