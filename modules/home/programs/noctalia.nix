@@ -45,12 +45,38 @@
                 font_family = "monospace";
                 date_format = "%A, %F";
                 polkit_agent = true;
-                session.grid = true;
                 shadow.alpha = 0.15;
                 panel = {
                     open_near_click_control_center = true;
                     open_near_click_session = true;
                     transparency_mode = "solid";
+                };
+                session = {
+                    grid = false;
+                    actions = [
+                        {
+                            action = "lock";
+                            shortcut = "l";
+                        }
+                        {
+                            action = "logout";
+                            shortcut = "q";
+                        }
+                        {
+                            action = "lock_and_suspend";
+                            shortcut = "s";
+                        }
+                        {
+                            action = "reboot";
+                            shortcut = "r";
+                            variant = "destructive";
+                        }
+                        {
+                            action = "shutdown";
+                            shortcut = "d";
+                            variant = "destructive";
+                        }
+                    ];
                 };
                 screenshot = {
                     confirm_region = true;
