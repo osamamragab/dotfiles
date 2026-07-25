@@ -107,9 +107,9 @@
                         display-profiles =
                             let
                                 kanshiBin = "${config.services.kanshi.package or pkgs.kanshi}/bin/kanshictl";
-                                kanshiProfiles = lib.concatStringsSep "\\n" (
-                                    lib.concatMap (
-                                        e: lib.optional ((e.profile.name or "") != "") e.profile.name
+                                kanshiProfiles = lib.strings.concatStringsSep "\\n" (
+                                    lib.lists.concatMap (
+                                        e: lib.lists.optional ((e.profile.name or "") != "") e.profile.name
                                     ) config.services.kanshi.settings
                                 );
                             in
@@ -327,8 +327,8 @@
             };
             lockscreen_widgets =
                 let
-                    kanshiOutputs = builtins.map (e: e.output) (
-                        builtins.filter (
+                    kanshiOutputs = lib.lists.map (e: e.output) (
+                        lib.lists.filter (
                             e: e ? output && e.output != { }
                         ) config.services.kanshi.settings
                     );
@@ -398,29 +398,28 @@
                     mkWidgetsForOutput =
                         output:
                         let
-                            criteria = output.criteria;
-                            dims = lib.splitString "x" output.mode;
-                            physWidth = lib.toInt (builtins.elemAt dims 0);
-                            physHeight = lib.toInt (builtins.elemAt dims 1);
+                            dims = lib.strings.splitString "x" output.mode;
+                            physWidth = lib.strings.toInt (lib.lists.elemAt dims 0);
+                            physHeight = lib.strings.toInt (lib.lists.elemAt dims 1);
                             scale = output.scale or 1.0;
                             logicalWidth = physWidth / scale;
                             logicalHeight = physHeight / scale;
                         in
-                        lib.mapAttrs' (
-                            name: w:
+                        lib.attrsets.mapAttrs' (
+                            name: widget:
                             let
                                 widgetDef =
-                                    removeAttrs w [
+                                    lib.attrsets.removeAttrs widget [
                                         "fx"
                                         "fy"
                                     ]
                                     // {
-                                        output = criteria;
-                                        cx = logicalWidth * w.fx;
-                                        cy = logicalHeight * w.fy;
+                                        output = output.criteria;
+                                        cx = logicalWidth * widget.fx;
+                                        cy = logicalHeight * widget.fy;
                                     };
                             in
-                            lib.nameValuePair "${name}@${criteria}" widgetDef
+                            lib.attrsets.nameValuePair "${name}@${output.criteria}" widgetDef
                         ) widgetTemplates;
                 in
                 {
@@ -430,7 +429,7 @@
                         major_interval = 4;
                         visible = true;
                     };
-                    widget = lib.foldl' (
+                    widget = lib.lists.foldl' (
                         acc: output: acc // (mkWidgetsForOutput output)
                     ) { } kanshiOutputs;
                 };

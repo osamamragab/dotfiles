@@ -5,13 +5,13 @@
 let
     importDir =
         dir:
-        lib.filter (path: lib.hasSuffix ".nix" (builtins.toString path)) (
+        lib.lists.filter (path: lib.strings.hasSuffix ".nix" (lib.toString path)) (
             lib.filesystem.listFilesRecursive dir
         );
     importDirs =
         dirs:
-        builtins.concatMap (dir: importDir dir) (
-            builtins.filter (dir: dir != null) dirs
+        lib.lists.concatMap (dir: importDir dir) (
+            lib.lists.filter (dir: dir != null) dirs
         );
 in
 {

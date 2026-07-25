@@ -112,8 +112,8 @@ in
             scrolloff = 10;
             cursorpreviewfmt = "\033[7;2m";
             autoquit = true;
-            cleaner = builtins.toString cleanerScript;
-            previewer = builtins.toString previwerScript;
+            cleaner = lib.toString cleanerScript;
+            previewer = lib.toString previwerScript;
         };
         keybindings = {
             H = "set hidden!";
@@ -136,7 +136,7 @@ in
     xdg.configFile."lf/icons" =
         lib.mkIf
             (
-                builtins.pathExists iconsPath
+                lib.pathExists iconsPath
                 && config.programs.lf.enable
                 && config.programs.lf.settings.icons
             )

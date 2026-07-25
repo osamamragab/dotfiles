@@ -33,7 +33,7 @@ let
                     if flavor == "gmail.com" then
                         "imap.gmail.com"
                     else
-                        lib.last (lib.splitString "@" address);
+                        lib.lists.last (lib.strings.splitString "@" address);
                 port = 993;
                 tls = {
                     enable = true;
@@ -65,7 +65,7 @@ let
                 extraAccounts = {
                     outgoing =
                         if flavor == "gmail.com" then
-                            "smtps://${lib.replaceStrings [ "@" ] [ "%40" ] address}@smtp.gmail.com"
+                            "smtps://${lib.strings.replaceString "@" "%40" address}@smtp.gmail.com"
                         else
                             "smtps://${address}";
                     outgoing-cred-cmd = "${passBin} mail/${address} | sed 1q";

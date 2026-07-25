@@ -92,7 +92,7 @@
         lib.mkIf config.hardware.enableAllFirmware
             (
                 pkg:
-                builtins.elem (lib.getName pkg) [
+                lib.lists.elem (lib.strings.getName pkg) [
                     "broadcom-bt-firmware"
                     "b43-firmware"
                     "xone-dongle-firmware"

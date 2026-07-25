@@ -1,16 +1,13 @@
 {
     pkgs,
+    lib,
     config,
     ...
 }:
 {
     services.emacs = {
         enable = config.programs.emacs.enable;
-        package =
-            if config.programs.emacs.enable then
-                config.programs.emacs.finalPackage
-            else
-                pkgs.emacs;
+        package = config.programs.emacs.finalPackage;
         client = {
             enable = true;
             arguments = [

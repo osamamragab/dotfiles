@@ -105,7 +105,7 @@ in
                 postpone = "Drafts";
                 folders-sort = "Inbox";
                 cache-headers = true;
-                check-mail-cmd = builtins.toString mailSyncScript;
+                check-mail-cmd = lib.toString mailSyncScript;
             };
         };
         extraBinds = {
@@ -124,7 +124,7 @@ in
             };
             messages = {
                 q = ":quit<Enter>";
-                u = ":exec ${builtins.toString mailSyncScript}<Enter>";
+                u = ":exec ${lib.toString mailSyncScript}<Enter>";
                 ld = ":modify-labels +deleted<Enter>";
                 j = ":next<Enter>";
                 "<Down>" = ":next<Enter>";

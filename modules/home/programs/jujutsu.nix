@@ -1,5 +1,6 @@
 {
     pkgs,
+    lib,
     config,
     ...
 }:
@@ -24,7 +25,7 @@ in
             signing = {
                 behaviour = "own";
                 key = gitSettings.user.signingKey;
-                backend = builtins.getAttr gitSettings.gpg.format backendMap;
+                backend = lib.attrsets.getAttr gitSettings.gpg.format backendMap;
                 backends = {
                     gpg.program = gitSettings.gpg.openpgp.program;
                     gpgsm.program = gitSettings.gpg.x509.program;

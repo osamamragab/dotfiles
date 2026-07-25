@@ -82,7 +82,7 @@ in
             extensions = {
                 force = true;
                 packages = addonPackages;
-                settings = builtins.foldl' (
+                settings = lib.lists.foldl' (
                     acc: addon: acc // mkAddonSettings addon { }
                 ) { } addonPackages;
             };

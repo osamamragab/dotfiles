@@ -13,7 +13,7 @@ in
         package = pkgs.emacs-pgtk;
     };
     home.file.".config/emacs" =
-        lib.mkIf (config.programs.emacs.enable && builtins.pathExists configPath)
+        lib.mkIf (config.programs.emacs.enable && lib.pathExists configPath)
             {
                 source = configPath;
                 recursive = true;

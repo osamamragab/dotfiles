@@ -1,5 +1,6 @@
 {
     pkgs,
+    lib,
     config,
     ...
 }:
@@ -95,15 +96,15 @@
                     "<space>" = "toggle_playing";
                     t = "slideshow +1";
                     "<Shift+T>" = "slideshow -1";
-                    "<Ctrl+x>w" = "exec ${builtins.toString wallpaperScript}";
-                    "<Ctrl+x>r" = "exec ${builtins.toString rotateScript} 90";
-                    "<Ctrl+x><Shift+R>" = "exec ${builtins.toString rotateScript} -90";
-                    "<Ctrl+x>f" = "exec ${builtins.toString flipScript}";
-                    "<Ctrl+x>i" = "exec ${builtins.toString infoScript}";
-                    "<Ctrl+x>d" = "exec ${builtins.toString deleteScript}";
-                    "<Ctrl+x><Shift+D>" = "exec ${builtins.toString deleteScript} -f";
-                    "<Ctrl+x>y" = "exec ${builtins.toString copyScript}";
-                    "<Ctrl+x>g" = "exec ${builtins.toString dragScript}";
+                    "<Ctrl+x>w" = "exec ${lib.toString wallpaperScript}";
+                    "<Ctrl+x>r" = "exec ${lib.toString rotateScript} 90";
+                    "<Ctrl+x><Shift+R>" = "exec ${lib.toString rotateScript} -90";
+                    "<Ctrl+x>f" = "exec ${lib.toString flipScript}";
+                    "<Ctrl+x>i" = "exec ${lib.toString infoScript}";
+                    "<Ctrl+x>d" = "exec ${lib.toString deleteScript}";
+                    "<Ctrl+x><Shift+D>" = "exec ${lib.toString deleteScript} -f";
+                    "<Ctrl+x>y" = "exec ${lib.toString copyScript}";
+                    "<Ctrl+x>g" = "exec ${lib.toString dragScript}";
                 };
         };
     };

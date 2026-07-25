@@ -70,11 +70,13 @@
 
     services.keyd.keyboards.redragon-k613 = lib.mkIf config.services.keyd.enable {
         ids = [ "258a:002a" ];
-        settings = lib.recursiveUpdate config.services.keyd.keyboards.default.settings {
-            main = {
-                esc = "`";
-            };
-        };
+        settings =
+            lib.attrsets.recursiveUpdate config.services.keyd.keyboards.default.settings
+                {
+                    main = {
+                        esc = "`";
+                    };
+                };
     };
 
     services.printing = {
@@ -147,9 +149,9 @@
                 "dialout"
                 "kvm"
             ]
-            ++ lib.optional config.hardware.i2c.enable "i2c"
-            ++ lib.optional config.services.printing.enable "lp"
-            ++ lib.optional config.networking.networkmanager.enable "networkmanager";
+            ++ lib.lists.optional config.hardware.i2c.enable "i2c"
+            ++ lib.lists.optional config.services.printing.enable "lp"
+            ++ lib.lists.optional config.networking.networkmanager.enable "networkmanager";
         };
         groups.${custom.systemInfo.user} = { };
     };

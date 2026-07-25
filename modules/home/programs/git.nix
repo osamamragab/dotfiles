@@ -6,7 +6,7 @@
 }:
 let
     primaryAccount = lib.lists.findFirst (acc: acc.primary == true) null (
-        builtins.attrValues config.accounts.email.accounts
+        lib.attrsets.attrValues config.accounts.email.accounts
     );
 in
 {
@@ -41,7 +41,7 @@ in
                 format = "openpgp";
                 openpgp.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
                 x509.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpgsm";
-                ssh.program = builtins.toString (
+                ssh.program = lib.toString (
                     pkgs.writeShellScript "ssh-signkey" ''
                         #!/bin/sh
                         # A workaround to stop git from being annoying when using ssh signing keys.
