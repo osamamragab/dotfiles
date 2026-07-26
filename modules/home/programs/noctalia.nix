@@ -132,7 +132,7 @@
                             };
                         display-profiles =
                             let
-                                kanshiBin = "${config.services.kanshi.package or pkgs.kanshi}/bin/kanshictl";
+                                kanshiBin = "${config.services.kanshi.package}/bin/kanshictl";
                                 kanshiProfiles = lib.strings.concatStringsSep "\\n" (
                                     lib.lists.concatMap (
                                         e: lib.lists.optional ((e.profile.name or "") != "") e.profile.name

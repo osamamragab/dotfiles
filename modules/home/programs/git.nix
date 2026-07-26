@@ -29,8 +29,8 @@ in
                 defaultBranch = "main";
             };
             core = {
-                editor = "${config.programs.neovim.package or pkgs.neovim-unwrapped}/bin/nvim";
-                pager = "${config.programs.delta.package or pkgs.delta}/bin/delta";
+                editor = "${config.programs.neovim.package}/bin/nvim";
+                pager = "${config.programs.delta.package}/bin/delta";
             };
             user = {
                 name = primaryAccount.realName;
@@ -39,8 +39,8 @@ in
             };
             gpg = {
                 format = "openpgp";
-                openpgp.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
-                x509.program = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpgsm";
+                openpgp.program = "${config.programs.gpg.package}/bin/gpg";
+                x509.program = "${config.programs.gpg.package}/bin/gpgsm";
                 ssh.program = lib.toString (
                     pkgs.writeShellScript "ssh-signkey" ''
                         #!/bin/sh
@@ -120,7 +120,7 @@ in
     home.file."${config.xdg.binHome}/gac" = lib.mkIf config.programs.git.enable {
         source =
             let
-                gitBin = "${config.programs.git.package or pkgs.git}/bin/git";
+                gitBin = "${config.programs.git.package}/bin/git";
             in
             pkgs.writeShellScript "gac" ''
                 set -eu

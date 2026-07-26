@@ -48,8 +48,8 @@
     home.file."${config.xdg.binHome}/tmuxx" = lib.mkIf config.programs.tmux.enable {
         source =
             let
-                fzfBin = "${config.programs.fzf.package or pkgs.fzf}/bin/fzf";
-                tmuxBin = "${config.programs.tmux.package or pkgs.tmux}/bin/tmux";
+                fzfBin = "${config.programs.fzf.package}/bin/fzf";
+                tmuxBin = "${config.programs.tmux.package}/bin/tmux";
             in
             pkgs.writeShellScript "tmuxx" ''
                 set -eu

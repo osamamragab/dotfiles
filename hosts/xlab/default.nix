@@ -139,9 +139,9 @@
             isNormalUser = true;
             shell =
                 if config.programs.zsh.enable then
-                    config.programs.zsh.package or pkgs.zsh
+                    pkgs.zsh
                 else
-                    config.programs.bash.package or pkgs.bashInteractive;
+                    pkgs.bashInteractive;
             extraGroups = [
                 "wheel"
                 "video"

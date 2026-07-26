@@ -17,7 +17,7 @@
 
     security.auditd = {
         enable = true;
-        package = config.security.audit.package or pkgs.audit;
+        package = config.security.audit.package;
     };
 
     security.rtkit = {

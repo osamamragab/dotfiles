@@ -17,8 +17,8 @@ let
     '';
     previwerScript =
         let
-            batBin = "${config.programs.bat.package or pkgs.bat}/bin/bat";
-            gpgBin = "${config.programs.gpg.package or pkgs.gnupg}/bin/gpg";
+            batBin = "${config.programs.bat.package}/bin/bat";
+            gpgBin = "${config.programs.gpg.package}/bin/gpg";
             w3mBin = "${pkgs.w3m}/bin/w3m";
             lsarBin = "${pkgs.unar}/bin/lsar";
             chafaBin = "${pkgs.chafa}/bin/chafa";

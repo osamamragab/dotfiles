@@ -34,7 +34,7 @@
 
     home.file."${config.xdg.binHome}/webcam" = lib.mkIf config.programs.mpv.enable {
         source = pkgs.writeShellScript "mpv-webcam" ''
-            exec "${config.programs.mpv.package or pkgs.mpv}/bin/mpv" \
+            exec "${config.programs.mpv.package}/bin/mpv" \
                 --untimed \
                 --profile=low-latency \
                 --framedrop=no \

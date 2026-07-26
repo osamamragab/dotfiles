@@ -7,7 +7,7 @@
 let
     name = "Osama Ragab";
     gpgKey = "4F5D73863FBDBED9";
-    passBin = "${config.programs.password-store.package or pkgs.pass}/bin/pass";
+    passBin = "${config.programs.password-store.package}/bin/pass";
     mkEmailAccount =
         {
             address,

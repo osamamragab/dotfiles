@@ -6,7 +6,7 @@
 }:
 let
     iniFormat = pkgs.formats.iniWithGlobalSection { };
-    mbsyncBin = "${config.programs.mbsync.package or pkgs.isync}/bin/mbsync";
+    mbsyncBin = "${config.programs.mbsync.package}/bin/mbsync";
     mailSyncScript = pkgs.writeShellScript "mailsync" ''
         set -eu
 
@@ -36,7 +36,7 @@ in
                 unsafe-accounts-conf = true;
                 pgp-provider = if config.programs.gpg.enable then "gpg" else "auto";
                 enable-osc8 = true;
-                default-menu-cmd = "${config.programs.fzf.package or pkgs.fzf}/bin/fzf -m";
+                default-menu-cmd = "${config.programs.fzf.package}/bin/fzf -m";
                 default-save-path = config.xdg.userDirs.download;
             };
             ui = {
@@ -46,9 +46,7 @@ in
                 timestamp-format = "2006-01-02 15:04:05";
             };
             viewer = {
-                pager = "${
-                    config.programs.less.package or pkgs.less
-                }/bin/less -R -c --wordwrap";
+                pager = "${config.programs.less.package}/bin/less -R -c --wordwrap";
                 alternatives = [
                     "text/plain"
                     "text/html"
