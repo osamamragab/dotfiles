@@ -133,11 +133,11 @@
                         display-profiles =
                             let
                                 kanshiBin = "${config.services.kanshi.package}/bin/kanshictl";
-                                kanshiProfiles = lib.strings.concatStringsSep "\\n" (
-                                    lib.lists.concatMap (
-                                        e: lib.lists.optional ((e.profile.name or "") != "") e.profile.name
-                                    ) config.services.kanshi.settings
-                                );
+                                kanshiProfiles =
+                                    config.services.kanshi.settings
+                                    |> lib.lists.filter (e: (e.profile.name or "") != "")
+                                    |> lib.lists.map (e: e.profile.name)
+                                    |> lib.strings.concatStringsSep "\\n";
                             in
                             {
                                 label = "Display Profiles";
@@ -353,11 +353,10 @@
             };
             lockscreen_widgets =
                 let
-                    kanshiOutputs = lib.lists.map (e: e.output) (
-                        lib.lists.filter (
-                            e: e ? output && e.output != { }
-                        ) config.services.kanshi.settings
-                    );
+                    kanshiOutputs =
+                        config.services.kanshi.settings
+                        |> lib.lists.filter (e: e ? output && e.output != { })
+                        |> lib.lists.map (e: e.output);
                     widgetTemplates = {
                         login-box = {
                             type = "login_box";

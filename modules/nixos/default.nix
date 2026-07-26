@@ -29,6 +29,7 @@
             experimental-features = [
                 "nix-command"
                 "flakes"
+                "pipe-operators"
             ];
             use-xdg-base-directories = true;
             cores = 0; # use all cores

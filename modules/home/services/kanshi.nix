@@ -5,11 +5,10 @@
     ...
 }:
 let
-    outputs = lib.lists.map (e: e.output) (
-        lib.lists.filter (
-            e: e ? output && e.output != { }
-        ) config.services.kanshi.settings
-    );
+    outputs =
+        config.services.kanshi.settings
+        |> lib.lists.filter (e: e ? output && e.output != { })
+        |> lib.lists.map (e: e.output);
     parsePos =
         output:
         let
@@ -34,7 +33,7 @@ let
     relativePos =
         rel: criteria:
         let
-            output = lib.lists.findFirst (e: e.criteria == criteria) { } outputs;
+            output = lib.lists.findFirst (e: e.criteria == criteria) null outputs;
             dims = parseDims output;
             pos = parsePos output;
             x = pos.x + dims.w;

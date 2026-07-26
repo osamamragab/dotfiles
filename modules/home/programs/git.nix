@@ -5,9 +5,10 @@
     ...
 }:
 let
-    primaryAccount = lib.lists.findFirst (acc: acc.primary == true) null (
-        lib.attrsets.attrValues config.accounts.email.accounts
-    );
+    primaryAccount =
+        config.accounts.email.accounts
+        |> lib.attrsets.attrValues
+        |> lib.lists.findFirst (acc: acc.primary == true) null;
 in
 {
     programs.git = {

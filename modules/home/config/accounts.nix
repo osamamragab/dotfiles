@@ -62,18 +62,23 @@ let
             };
             aerc = {
                 enable = true;
-                extraAccounts = {
-                    outgoing =
-                        if flavor == "gmail.com" then
-                            "smtps://${lib.strings.replaceString "@" "%40" address}@smtp.gmail.com"
-                        else
-                            "smtps://${address}";
-                    outgoing-cred-cmd = "${passBin} mail/${address} | sed 1q";
-                    maildir-account-path = address;
-                    folder-map = "${config.xdg.configHome}/aerc/${
-                        if flavor == "gmail.com" then "folder-map-gmail.conf" else "folder-map.conf"
-                    }";
-                };
+                extraAccounts =
+                    let
+                        outgoing =
+                            if flavor == "gmail.com" then
+                                "smtps://${lib.strings.replaceString "@" "%40" address}@smtp.gmail.com"
+                            else
+                                "smtps://${address}";
+                        folderMapFile =
+                            if flavor == "gmail.com" then "folder-map-gmail.conf" else "folder-map.conf";
+                        folderMap = "${config.xdg.configHome}/aerc/${folderMapFile}";
+                    in
+                    {
+                        inherit outgoing;
+                        outgoing-cred-cmd = "${passBin} mail/${address} | sed 1q";
+                        maildir-account-path = address;
+                        folder-map = folderMap;
+                    };
             };
         };
 in
