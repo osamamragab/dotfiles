@@ -4,12 +4,7 @@
 }:
 {
     home = {
-        shell = {
-            enableZshIntegration = config.programs.zsh.enable;
-            enableBashIntegration = config.programs.bash.enable;
-            enableFishIntegration = config.programs.fish.enable;
-            enableNushellIntegration = config.programs.nushell.enable;
-        };
+        shell.enableShellIntegration = true;
         # TODO: add functions.
         shellAliases = {
             e = "\${EDITOR:-vi}";

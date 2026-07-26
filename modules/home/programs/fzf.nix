@@ -8,10 +8,6 @@
     programs.fzf = {
         enable = true;
         package = pkgs.fzf;
-        enableZshIntegration = config.programs.zsh.enable;
-        enableBashIntegration = config.programs.bash.enable;
-        enableFishIntegration = config.programs.fish.enable;
-        enableNushellIntegration = config.programs.nushell.enable;
         defaultCommand = lib.mkIf config.programs.fd.enable "fd --type f --type symlink --hidden --strip-cwd-prefix";
         defaultOptions = [
             "--tiebreak=begin"
