@@ -9,7 +9,9 @@
         wl-clipboard
         wl-mirror
         wlr-randr
+        wdisplays
         wayvnc
+        wev
         lswt
         libnotify
 
