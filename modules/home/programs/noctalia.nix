@@ -366,6 +366,7 @@
                             fx = 0.5;
                             fy = 608.0 / 864.0;
                             settings = {
+                                layout = "compact";
                                 background_color = "surface_variant";
                                 background_opacity = 0.88;
                                 background_radius = 12.0;
