@@ -1,11 +1,19 @@
 {
     inputs,
+    pkgs,
+    lib,
     config,
     ...
 }:
 let
-    terminal = config.home.sessionVariables.TERMINAL;
     noctaliaBin = "${config.programs.noctalia.package}/bin/noctalia";
+    terminalBin =
+        if config.home.sessionVariables ? TERMINAL then
+            config.home.sessionVariables.TERMINAL
+        else if config.xdg.terminal-exec.enable then
+            "${config.xdg.terminal-exec.package}/bin/xdg-terminal-exec"
+        else
+            builtins.throw "No terminal emulator found";
 in
 {
     imports = [
@@ -247,7 +255,7 @@ in
                 "SUPER+CTRL,P,minimized,"
                 "SUPER+ALT,P,restore_minimized"
                 "SUPER+SHIFT,P,toggle_scratchpad"
-                "SUPER,P,toggle_named_scratchpad,terminal-scratchpad,none,${terminal} -a terminal-scratchpad -w 840x560"
+                "SUPER,P,toggle_named_scratchpad,terminal-scratchpad,none,${terminalBin} --app-id=terminal-scratchpad"
 
                 # scroller layout
                 "SUPER+SHIFT,S,set_proportion,1.0"
@@ -312,8 +320,7 @@ in
                 "SUPER,H,resizewin,-50,+0"
                 "SUPER,L,resizewin,+50,+0"
 
-                "SUPER,Return,spawn,${terminal}"
-                "SUPER,E,spawn,emacsclient -nca emacs"
+                "SUPER,Return,spawn,${terminalBin}"
                 "SUPER,Escape,spawn,${noctaliaBin} msg panel-open control-center"
                 "NONE,Menu,spawn,${noctaliaBin} msg panel-open launcher"
                 "SUPER,R,spawn,${noctaliaBin} msg panel-open launcher"
@@ -326,7 +333,18 @@ in
                 "SUPER,Backslash,spawn,${noctaliaBin} msg notification-clear-active"
                 "SUPER+SHIFT,Backslash,spawn,${noctaliaBin} msg notification-dnd-toggle"
                 "NONE,XF86PowerOff,spawn,${noctaliaBin} msg panel-open session"
-            ];
+            ]
+            ++ lib.optional config.programs.emacs.enable (
+                let
+                    cmd =
+                        if config.services.emacs.enable then
+                            "${config.programs.emacs.finalPackage}/bin/emacsclient -nca ${config.programs.emacs.finalPackage}/bin/emacs"
+                        else
+                            "${config.programs.emacs.finalPackage}/bin/emacs";
+                in
+                "SUPER,E,spawn,${cmd}"
+
+            );
 
             bindl = [
                 "NONE,XF86Eject,spawn,eject -T"
