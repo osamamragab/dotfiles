@@ -4,6 +4,7 @@
     ...
 }:
 {
+    home.packages = [ pkgs.gcr ];
     services.gpg-agent = {
         enable = true;
         enableZshIntegration = config.programs.zsh.enable;
@@ -15,8 +16,8 @@
         maxCacheTtl = 1800;
         defaultCacheTtl = 600;
         pinentry = {
-            package = config.programs.wayprompt.package or pkgs.wayprompt;
-            program = "pinentry-wayprompt";
+            package = pkgs.pinentry-gnome3;
+            program = "pinentry-gnome3";
         };
     };
 }
