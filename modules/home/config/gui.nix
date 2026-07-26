@@ -3,6 +3,16 @@
     ...
 }:
 {
+    home.pointerCursor = {
+        enable = true;
+        package = pkgs.nordzy-cursor-theme;
+        name = "Nordzy-cursors";
+        size = 32;
+        dotIcons.enable = true;
+        gtk.enable = true;
+        x11.enable = true;
+    };
+
     gtk = {
         enable = true;
         gtk2.enable = true;
@@ -21,11 +31,6 @@
         iconTheme = {
             package = pkgs.nordzy-icon-theme;
             name = "Nordzy-dark";
-        };
-        cursorTheme = {
-            package = pkgs.nordzy-cursor-theme;
-            name = "Nordzy-cursors";
-            size = 32;
         };
     };
 
