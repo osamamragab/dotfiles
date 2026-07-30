@@ -374,12 +374,23 @@ in
             ];
 
             windowrule = [
-                "isterm:1,appid:foot"
-                "isterm:1,appid:footclient"
                 "isterm:1,isnamedscratchpad:1,width:840,height:560,appid:terminal-scratchpad"
                 "isterm:1,isfloating:1,width:840,height:560,appid:terminal-floating"
                 "noswallow:1,appid:wev"
-            ];
+            ]
+            ++ lib.lists.optionals config.xdg.terminal-exec.enable (
+                config.xdg.terminal-exec.settings
+                |> lib.attrsets.attrValues
+                |> lib.lists.concatLists
+                |> lib.lists.unique
+                |> lib.lists.map (
+                    file:
+                    let
+                        name = lib.strings.removeSuffix ".desktop" file;
+                    in
+                    "isterm:1,appid:${name}"
+                )
+            );
 
             # layer rule
             layerrule = [
