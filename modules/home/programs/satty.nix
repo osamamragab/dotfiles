@@ -1,5 +1,7 @@
 {
     pkgs,
+    lib,
+    config,
     ...
 }:
 {
@@ -12,7 +14,7 @@
                 early-exit = true;
                 copy-command = "wl-copy --type image/png";
             };
-            keybindings = {
+            keybinds = {
                 pointer = "p";
                 crop = "c";
                 brush = "b";
@@ -25,18 +27,7 @@
                 blur = "u";
                 highlight = "h";
             };
-            color-palette = {
-                palette = [
-                    "#b74e58"
-                    "#97b67c"
-                    "#e7c173"
-                    "#5e81ac"
-                    "#a97ea1"
-                    "#80b3b2"
-                    "#bbc3d4"
-                    "#2e3440"
-                ];
-            };
+            color-palette.palette = lib.unique config.lib.stylix.colors.withHashtag.toList;
         };
     };
 }

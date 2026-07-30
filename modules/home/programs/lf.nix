@@ -43,7 +43,7 @@ let
                     --polite on \
                     --animate off \
                     --size "''${width}x''${height}" \
-                    --bg "#2e3440" \
+                    --bg "${config.lib.stylix.colors.withHashtag.base00}" \
                     --threshold 0.95 \
                     "$1"
             }

@@ -14,6 +14,10 @@
             url = "github:nix-community/disko";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        stylix = {
+            url = "github:nix-community/stylix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
         mangowm = {
             url = "github:mangowm/mango";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -58,8 +62,8 @@
                     };
                     modules = [
                         nur.modules.nixos.default
-                        home-manager.nixosModules.home-manager
                         disko.nixosModules.disko
+                        home-manager.nixosModules.home-manager
                         ./modules/nixos
                         ./hosts/${host}
                     ];

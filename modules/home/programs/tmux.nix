@@ -25,12 +25,6 @@
             set -gs renumber-windows on
             set -gs copy-command "wl-copy"
 
-            set -gw status-style "bg=color0 fg=color15"
-            set -gw window-status-current-style "bg=color8"
-            set -gw mode-style "bg=color8"
-            set -gw message-style "bg=color0 fg=color15"
-            set -gw message-command-style "bg=color0 fg=color15"
-
             set -gw mode-keys vi
             bind -T copy-mode-vi v send -X begin-selection
             bind -T copy-mode-vi V send -X select-line

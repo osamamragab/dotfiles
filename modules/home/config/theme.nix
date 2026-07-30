@@ -1,42 +1,72 @@
 {
+    inputs,
     pkgs,
+    lib,
+    config,
     ...
 }:
 {
+    imports = [
+        inputs.stylix.homeModules.default
+    ];
+
     home.packages = with pkgs; [
-        nerd-fonts.hack
-        # nerd-fonts.symbols-only
         noto-fonts
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
         noto-fonts-color-emoji
-        dejavu_fonts
-        # inter
-        # ibm-plex
-        # nerd-fonts.blex-mono
-        # nerd-fonts.dejavu-sans-mono
     ];
+
+    home.pointerCursor.enable = true;
+    gtk.enable = true;
+    qt.enable = true;
+
+    stylix = {
+        enable = true;
+        autoEnable = true;
+        overlays.enable = false;
+        polarity = "dark";
+        base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+        image = ../../../assets/wallpaper.png;
+        imageScalingMode = "stretch";
+        fonts = {
+            serif = {
+                package = pkgs.dejavu_fonts;
+                name = "DejaVu Serif";
+            };
+            sansSerif = {
+                package = pkgs.dejavu_fonts;
+                name = "DejaVu Sans";
+            };
+            monospace = {
+                package = pkgs.nerd-fonts.hack;
+                name = "Hack Nerd Font";
+            };
+            emoji = {
+                package = pkgs.noto-fonts-color-emoji;
+                name = "Noto Color Emoji";
+            };
+        };
+        icons = {
+            enable = true;
+            package = pkgs.nordzy-icon-theme;
+            dark = "Nordzy-dark";
+            light = "Nordzy";
+        };
+        cursor = {
+            package = pkgs.nordzy-cursor-theme;
+            name = "Nordzy-cursors";
+            size = 24;
+        };
+        opacity = {
+            popups = 0.95;
+            terminal = 0.95;
+            applications = 1.0;
+        };
+    };
 
     fonts.fontconfig = {
         enable = true;
-        defaultFonts = {
-            serif = [
-                "Noto Serif"
-                "DejaVu Serif"
-            ];
-            sansSerif = [
-                "Noto Sans"
-                "DejaVu Sans"
-            ];
-            monospace = [
-                "Hack Nerd Font"
-                "Noto Sans Mono"
-                "DejaVu Sans Mono"
-            ];
-            emoji = [
-                "Noto Color Emoji"
-            ];
-        };
         configFile = {
             css-aliases = {
                 enable = true;

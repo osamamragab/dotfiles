@@ -11,11 +11,11 @@ let
         set -eu
 
         mkdir -p ${
-            lib.concatStringsSep " " (
-                lib.mapAttrsToList (
-                    k: v: "'${config.accounts.email.maildirBasePath}/${v.address}'"
-                ) config.accounts.email.accounts
+            config.accounts.email.accounts
+            |> lib.mapAttrsToList (
+                k: v: "'${config.accounts.email.maildirBasePath}/${v.address}'"
             )
+            |> lib.concatStringsSep " "
         }
 
         pidof -sqx mbsync && {

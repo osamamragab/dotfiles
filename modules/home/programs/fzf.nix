@@ -24,22 +24,6 @@
             "--sort"
             "--exact"
         ];
-        colors = {
-            fg = "7";
-            hl = "3";
-            "fg+" = "15";
-            "bg+" = "8";
-            "hl+" = "4";
-            marker = "10";
-            pointer = "0";
-            gutter = "0";
-            info = "8";
-            prompt = "8";
-            border = "8";
-            spinner = "8";
-            header = "8";
-            footer = "8";
-        };
         tmux = {
             enableShellIntegration = config.programs.tmux.enable;
             shellIntegrationOptions = [

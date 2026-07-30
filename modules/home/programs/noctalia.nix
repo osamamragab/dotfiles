@@ -25,8 +25,6 @@
             };
             theme = {
                 mode = "dark";
-                source = "builtin";
-                builtin = "Nord";
                 wallpaper_scheme = "soft";
             };
             audio = {
@@ -42,7 +40,6 @@
                 launcher_position = "end";
             };
             shell = {
-                font_family = "monospace";
                 date_format = "%A, %F";
                 polkit_agent = true;
                 shadow.alpha = 0.15;
@@ -159,7 +156,6 @@
                 fill_mode = "stretch";
                 fill_color = "surface";
                 directory = "${config.xdg.userDirs.pictures}/wallpapers";
-                default.path = "${config.programs.noctalia.settings.wallpaper.directory}/default.png";
             };
             keybinds = {
                 cancel = [
@@ -297,6 +293,7 @@
             bar.default = {
                 capsule = true;
                 concave_edge_corners = false;
+                font_family = config.stylix.fonts.monospace.name;
                 font_weight = 700;
                 margin_ends = 0;
                 radius = 0;
@@ -375,7 +372,6 @@
                                 show_caps_lock = true;
                                 show_keyboard_layout = true;
                                 show_login_button = true;
-                                show_password_hint = false;
                             };
                         };
                         clock-date = {
@@ -461,17 +457,6 @@
                 };
         };
     };
-
-    home.file."${config.programs.noctalia.settings.wallpaper.directory}" =
-        lib.mkIf
-            (
-                config.programs.noctalia.enable
-                && config.programs.noctalia.settings.wallpaper.enabled
-            )
-            {
-                source = ../../../assets/wallpapers;
-                recursive = true;
-            };
 
     wayland.windowManager.mango.settings.exec-once =
         lib.mkIf
