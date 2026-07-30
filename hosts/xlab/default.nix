@@ -12,7 +12,6 @@
         ./file-system.nix
         ./boot.nix
         ./packages.nix
-        inputs.mangowm.nixosModules.mango
         inputs.noctalia-greeter.nixosModules.default
     ];
 
@@ -176,6 +175,6 @@
 
     programs.mango = {
         enable = true;
-        addLoginEntry = true;
+        package = pkgs.mango;
     };
 }
