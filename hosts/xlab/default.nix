@@ -36,10 +36,16 @@
                 22000 # Syncthing TCP sync
                 53317 # LocalSend TCP transfer
             ];
+            allowedTCPPortRanges = [
+                { from = 1714; to = 1764; } # KDE Connect
+            ];
             allowedUDPPorts = [
                 22000 # Syncthing QUIC sync
                 21027 # Syncthing discovery
                 53317 # LocalSend UDP discovery
+            ];
+            allowedUDPPortRanges = [
+                { from = 1714; to = 1764; } # KDE Connect
             ];
         };
     };
