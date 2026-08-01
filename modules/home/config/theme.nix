@@ -59,9 +59,10 @@
             size = 24;
         };
         opacity = {
+            applications = 1.0;
+            desktop = 1.0;
             popups = 0.95;
             terminal = 0.95;
-            applications = 1.0;
         };
     };
 
