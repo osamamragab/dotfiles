@@ -149,6 +149,7 @@
                     pkgs.bashInteractive;
             extraGroups = [
                 "wheel"
+                "input"
                 "video"
                 "audio"
                 "dialout"
