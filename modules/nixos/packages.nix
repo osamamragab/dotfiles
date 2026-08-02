@@ -20,10 +20,11 @@
         traceroute
         lsof
         rsync
-        lm_sensors
-        smartmontools
+        psmisc
+        ethtool
         pciutils
         usbutils
-        ethtool
+        lm_sensors
+        smartmontools
     ];
 }
