@@ -10,9 +10,12 @@
         inputs.noctalia.homeModules.default
     ];
 
-    home.packages = with pkgs; [
-        hyprpicker # required for noctalia/color_picker plugin.
-    ];
+    home.packages =
+        let
+            plugins = config.programs.noctalia.settings.plugins.enabled;
+        in
+        lib.optional (lib.elem "noctalia/bongocat" plugins) pkgs.evtest
+        ++ lib.optional (lib.elem "oldirtty/color_picker" plugins) pkgs.hyprpicker;
 
     programs.noctalia = {
         enable = true;
@@ -214,6 +217,7 @@
                     tappy_mode = true;
                     audio_spectrum = true;
                     use_mpris_filter = true;
+                    executable_path = "${pkgs.evtest}/bin/evtest";
                 };
                 clock = {
                     capsule_radius = 4;
@@ -275,9 +279,9 @@
                 ];
                 enabled = [
                     "noctalia/bongocat"
+                    "noctalia/screen_recorder"
                     "oldirtty/color_picker"
                     "whyoolw/sharednd"
-                    "noctalia/screen_recorder"
                 ];
             };
             plugin_settings = {
