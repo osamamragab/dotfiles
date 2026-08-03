@@ -37,7 +37,11 @@
                 53317 # LocalSend TCP transfer
             ];
             allowedTCPPortRanges = [
-                { from = 1714; to = 1764; } # KDE Connect
+                # KDE Connect
+                {
+                    from = 1714;
+                    to = 1764;
+                }
             ];
             allowedUDPPorts = [
                 22000 # Syncthing QUIC sync
@@ -45,7 +49,11 @@
                 53317 # LocalSend UDP discovery
             ];
             allowedUDPPortRanges = [
-                { from = 1714; to = 1764; } # KDE Connect
+                # KDE Connect
+                {
+                    from = 1714;
+                    to = 1764;
+                }
             ];
         };
     };
@@ -142,11 +150,7 @@
     users = {
         users.${custom.systemInfo.user} = {
             isNormalUser = true;
-            shell =
-                if config.programs.zsh.enable then
-                    pkgs.zsh
-                else
-                    pkgs.bashInteractive;
+            shell = if config.programs.zsh.enable then pkgs.zsh else pkgs.bashInteractive;
             extraGroups = [
                 "wheel"
                 "input"
@@ -155,9 +159,10 @@
                 "dialout"
                 "kvm"
             ]
-            ++ lib.lists.optional config.hardware.i2c.enable "i2c"
-            ++ lib.lists.optional config.services.printing.enable "lp"
-            ++ lib.lists.optional config.networking.networkmanager.enable "networkmanager";
+            ++ lib.optional config.hardware.i2c.enable "i2c"
+            ++ lib.optional config.services.keyd.enable "keyd"
+            ++ lib.optional config.services.printing.enable "lp"
+            ++ lib.optional config.networking.networkmanager.enable "networkmanager";
         };
         groups.${custom.systemInfo.user} = { };
     };
