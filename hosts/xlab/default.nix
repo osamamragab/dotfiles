@@ -107,6 +107,11 @@
         package = pkgs.power-profiles-daemon;
     };
 
+    services.vnstat = {
+        enable = true;
+        package = pkgs.vnstat;
+    };
+
     services.upower = {
         enable = true;
         package = pkgs.upower;
