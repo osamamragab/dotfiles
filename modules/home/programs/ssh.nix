@@ -5,7 +5,7 @@
         settings = {
             "*" = {
                 ForwardAgent = false;
-                addKeysToAgent = true;
+                AddKeysToAgent = true;
             };
         };
     };

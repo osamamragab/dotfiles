@@ -40,7 +40,7 @@
             substitute = true;
             max-substitution-jobs = 16;
             substituters = [
-                "https://cache.nixos.org/"
+                "https://cache.nixos.org"
                 "https://nix-community.cachix.org"
                 "https://noctalia.cachix.org"
             ];
