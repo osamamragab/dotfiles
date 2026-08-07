@@ -208,6 +208,9 @@
                     };
                 };
             };
+            battery = {
+                warning_threshold = 20;
+            };
             widget = {
                 volume.show_label = false;
                 network.show_label = false;
@@ -227,7 +230,6 @@
                 };
                 battery = {
                     device = "auto";
-                    warning_threshold = 20;
                     warning_color = "error";
                 };
                 media = {
@@ -260,10 +262,10 @@
                 };
             };
             plugins = {
+                auto_update = false;
                 source = [
                     {
                         enabled = true;
-                        auto_update = false;
                         kind = "git";
                         location = "https://github.com/noctalia-dev/official-plugins";
                         name = "official";
@@ -271,7 +273,6 @@
 
                     {
                         enabled = true;
-                        auto_update = false;
                         kind = "git";
                         location = "https://github.com/noctalia-dev/community-plugins";
                         name = "community";
