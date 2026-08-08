@@ -8,6 +8,7 @@
 let
     hexColor =
         color: "0x${color}${lib.optionalString (lib.stringLength color == 6) "ff"}";
+    mmsgBin = "${config.wayland.windowManager.mango.package}/bin/mmsg";
     noctaliaBin = "${config.programs.noctalia.package}/bin/noctalia";
     terminalBin =
         if config.home.sessionVariables ? TERMINAL then
@@ -16,6 +17,12 @@ let
             "${config.xdg.terminal-exec.package}/bin/xdg-terminal-exec"
         else
             builtins.throw "No terminal emulator found";
+    zoomerScript =
+        pkgs.writeShellScript "zoomer-script" ''
+            set -eu
+            mon="$(${mmsgBin} get last_open_surface | ${pkgs.jq}/bin/jq -r ".monitor")"
+            ${pkgs.woomer}/bin/woomer --monitor "$mon" #--output "$mon"
+        '';
 in
 {
     imports = [
@@ -323,6 +330,7 @@ in
                 "SUPER,L,resizewin,+50,+0"
 
                 "SUPER,Return,spawn,${terminalBin}"
+                "SUPER,Z,spawn,${zoomerScript}"
                 "SUPER,Escape,spawn,${noctaliaBin} msg panel-open control-center"
                 "NONE,Menu,spawn,${noctaliaBin} msg panel-open launcher"
                 "SUPER,R,spawn,${noctaliaBin} msg panel-open launcher"
