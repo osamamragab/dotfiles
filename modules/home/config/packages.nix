@@ -59,11 +59,12 @@
         gimp
         krita
         kicad
-        #freecad
-        #blender
+        freecad
+        blender
         lmms
         libreoffice
         telegram-desktop
+        vesktop
         localsend
         #rustdesk
 
