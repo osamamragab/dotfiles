@@ -84,7 +84,7 @@
                     {
                         matches = [
                             {
-                                application.name = "~Chromium.*";
+                                "application.name" = "~Chromium.*";
                             }
                         ];
                         actions = {
