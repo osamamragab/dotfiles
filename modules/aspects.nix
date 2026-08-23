@@ -13,9 +13,9 @@ let
             if lib.isAttrs aspect then
                 aspect
             else if lib.isString aspect then
-                config.flake.aspects.${aspect} or (throw "Aspect '${aspect}' not found")
+                config.flake.aspects.${aspect} or (lib.throw "Aspect '${aspect}' not found")
             else
-                throw "Invalid aspect reference: ${lib.toString aspect}"
+                lib.throw "Invalid aspect reference: ${lib.toString aspect}"
         );
     getAspectsForClass =
         class: aspects:

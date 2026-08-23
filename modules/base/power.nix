@@ -1,11 +1,6 @@
 {
-    flake.aspects.power = {
+    flake.aspects.base = {
         nixos = { pkgs, ... }: {
-            services.power-profiles-daemon = {
-                enable = true;
-                package = pkgs.power-profiles-daemon;
-            };
-
             services.upower = {
                 enable = true;
                 package = pkgs.upower;
@@ -18,6 +13,11 @@
                 timeCritical = 300;
                 timeAction = 120;
                 criticalPowerAction = "HybridSleep";
+            };
+
+            services.power-profiles-daemon = {
+                enable = true;
+                package = pkgs.power-profiles-daemon;
             };
         };
     };

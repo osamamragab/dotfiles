@@ -29,7 +29,7 @@
                     autoEnable = true;
                     overlays.enable = false;
                     polarity = "dark";
-                    base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
+                    base16Scheme = "${inputs.tinted-schemes}/base16/nord.yaml";
                     image = ../../assets/wallpaper.png;
                     imageScalingMode = "stretch";
                     fonts = {

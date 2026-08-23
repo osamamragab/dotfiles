@@ -5,7 +5,6 @@
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
         flake-parts.url = "github:hercules-ci/flake-parts";
         import-tree.url = "github:denful/import-tree";
-        flake-aspects.url = "github:denful/flake-aspects";
         nur = {
             url = "github:nix-community/NUR";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -20,6 +19,11 @@
         };
         stylix = {
             url = "github:nix-community/stylix";
+            inputs.nixpkgs.follows = "nixpkgs";
+        };
+        tinted-schemes = {
+            url = "github:tinted-theming/schemes";
+            flake = false;
             inputs.nixpkgs.follows = "nixpkgs";
         };
         mangowm = {
@@ -41,6 +45,8 @@
     };
 
     nixConfig = {
+        abort-on-warn = true;
+        allow-import-from-derivation = false;
         experimental-features = [
             "nix-command"
             "flakes"

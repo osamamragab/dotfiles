@@ -9,6 +9,7 @@
             tools
             desktop
             dev
+            virtualisation
         ];
         extraModules = [
             (
