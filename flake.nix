@@ -1,7 +1,11 @@
 {
-    description = "root NixOS flake";
+    description = "Osama's NixOS configuration";
+
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+        flake-parts.url = "github:hercules-ci/flake-parts";
+        import-tree.url = "github:denful/import-tree";
+        flake-aspects.url = "github:denful/flake-aspects";
         nur = {
             url = "github:nix-community/NUR";
             inputs.nixpkgs.follows = "nixpkgs";
@@ -55,44 +59,8 @@
     };
 
     outputs =
-        {
-            self,
-            nixpkgs,
-            nur,
-            home-manager,
-            disko,
-            ...
-        }@inputs:
-        let
-            utils = import ./lib/utils.nix { lib = nixpkgs.lib; };
-            mkSystem =
-                { host, user }:
-                nixpkgs.lib.nixosSystem {
-                    specialArgs = {
-                        inherit inputs;
-                        custom = {
-                            inherit utils;
-                            systemInfo = {
-                                inherit host user;
-                                stateVersion = "26.11";
-                            };
-                        };
-                    };
-                    modules = [
-                        nur.modules.nixos.default
-                        disko.nixosModules.disko
-                        home-manager.nixosModules.home-manager
-                        ./modules/nixos
-                        ./hosts/${host}
-                    ];
-                };
-        in
-        {
-            nixosConfigurations = {
-                xlab = mkSystem {
-                    host = "xlab";
-                    user = "osama";
-                };
-            };
-        };
+        inputs:
+        inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+            inputs.import-tree ./modules
+        );
 }
