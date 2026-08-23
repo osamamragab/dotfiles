@@ -1,10 +1,11 @@
 {
-    flake.aspects.networking = {
+    flake.aspects.base = {
         nixos =
             {
                 pkgs,
                 lib,
                 config,
+                host,
                 ...
             }:
             {
@@ -25,15 +26,7 @@
                     };
                 };
 
-                users.users =
-                    config.users.users
-                    |> lib.mapAttrs (
-                        _: user:
-                        user
-                        // {
-                            extraGroups = (user.extraGroups or [ ]) ++ [ "networkmanager" ];
-                        }
-                    );
+                users.groups.networkmanager.members = [ host.user ];
 
                 services.vnstat = {
                     enable = true;
