@@ -18,7 +18,7 @@
                     };
                 };
 
-                users.groups.video.members = [ host.user ];
+                users.groups.video.members = lib.optional config.hardware.graphics.enable host.user;
 
                 nixpkgs.config.allowUnfreePredicate =
                     lib.mkIf config.hardware.enableAllFirmware

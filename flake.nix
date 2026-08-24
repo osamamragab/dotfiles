@@ -24,7 +24,6 @@
         tinted-schemes = {
             url = "github:tinted-theming/schemes";
             flake = false;
-            inputs.nixpkgs.follows = "nixpkgs";
         };
         mangowm = {
             url = "github:mangowm/mango";

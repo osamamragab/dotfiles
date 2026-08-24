@@ -4,6 +4,7 @@
             virtualisation.podman = {
                 enable = true;
                 package = pkgs.podman;
+                defaultNetwork.settings.dns_enabled = true;
             };
         };
 
@@ -14,8 +15,8 @@
                 settings = {
                     registries.search = [ "docker.io" ];
                     containers.engine.compose_providers = [
-                        "${pkgs.podman}/bin/podman-compose"
-                        "${pkgs.docker}/bin/docker-compose"
+                        "${pkgs.podman-compose}/bin/podman-compose"
+                        "${pkgs.docker-compose}/bin/docker-compose"
                     ];
                 };
             };

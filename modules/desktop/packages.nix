@@ -1,5 +1,5 @@
 {
-    flake.apsects.desktop = {
+    flake.aspects.desktop = {
         homeManager = { pkgs, ... }: {
             home.packages = with pkgs; [
                 wl-clipboard
