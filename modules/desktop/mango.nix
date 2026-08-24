@@ -165,7 +165,7 @@
                         axis_bind_apply_timeout = 100;
                         focus_on_activate = 0;
                         idleinhibit_ignore_visible = 1;
-                        sloppyfocus = 0;
+                        sloppyfocus = 1;
                         warpcursor = 1;
                         cursor_hide_timeout = 5;
                         cursor_hide_on_keypress = 1;
