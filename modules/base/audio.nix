@@ -27,6 +27,7 @@
 
         homeManager = { pkgs, lib, ... }: {
             home.packages = with pkgs; [
+                alsa-utils
                 wiremix
                 helvum
             ];
