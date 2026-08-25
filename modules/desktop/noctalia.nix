@@ -252,6 +252,7 @@
                             volume.show_label = false;
                             network.show_label = false;
                             bluetooth.show_label = false;
+                            launcher.glyph = "ankh";
                             cat = {
                                 type = "noctalia/bongocat:cat";
                                 tappy_mode = true;
@@ -260,10 +261,11 @@
                                 executable_path = "${pkgs.evtest}/bin/evtest";
                             };
                             clock = {
-                                capsule_radius = 4;
-                                capsule_padding = 10;
+                                anchor = true;
                                 format = "{:%a %H:%M}";
                                 tooltip_format = "{:%d %b (W%U)}";
+                                capsule_radius = 4;
+                                capsule_padding = 10;
                             };
                             battery = {
                                 device = "auto";
@@ -299,7 +301,7 @@
                             };
                         };
                         plugins = {
-                            auto_update = false;
+                            auto_update = "none";
                             source = [
                                 {
                                     enabled = true;
@@ -319,7 +321,6 @@
                                 "noctalia/bongocat"
                                 "noctalia/screen_recorder"
                                 "oldirtty/color_picker"
-                                "whyoolw/sharednd"
                             ];
                         };
                         plugin_settings = {
