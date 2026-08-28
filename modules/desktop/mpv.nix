@@ -38,14 +38,30 @@
                 home.file."${config.xdg.binHome}/webcam" = lib.mkIf config.programs.mpv.enable {
                     source = pkgs.writeShellScript "mpv-webcam" ''
                         exec "${config.programs.mpv.package}/bin/mpv" \
-                            --untimed \
-                            --profile=low-latency \
-                            --framedrop=no \
-                            --demuxer-lavf-o=video_size=640x480,input_format=mjpeg \
-                            --wayland-app-id=terminal-floating \
-                            av://v4l2:/dev/video0
+                          --untimed \
+                          --profile=low-latency \
+                          --framedrop=no \
+                          --demuxer-lavf-o=video_size=640x480,input_format=mjpeg \
+                          --wayland-app-id=terminal-floating \
+                          av://v4l2:/dev/video0
                     '';
                 };
+
+                xdg.mimeApps.defaultApplications = lib.mkIf config.programs.mpv.enable (
+                    lib.genAttrs [
+                        "video/mp4"
+                        "video/mpeg"
+                        "video/x-matroska"
+                        "video/webm"
+                        "video/quicktime"
+                        "audio/ogg"
+                        "audio/flac"
+                        "audio/mpeg"
+                        "audio/x-m4a"
+                        "audio/x-wav"
+                        "application/octet-stream"
+                    ] (_: [ "mpv.desktop" ])
+                );
             };
     };
 }

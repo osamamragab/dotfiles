@@ -140,6 +140,12 @@
                         {
                             source = ./lf/icons;
                         };
+
+                xdg.mimeApps.defaultApplications = lib.mkIf config.programs.lf.enable (
+                    lib.genAttrs [
+                        "inode/directory"
+                    ] (_: [ "lf.desktop" ])
+                );
             };
     };
 }

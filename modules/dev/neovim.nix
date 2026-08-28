@@ -29,6 +29,13 @@
                 home.shellAliases = lib.mkIf config.programs.neovim.enable {
                     vi = "nvim --noplugin";
                 };
+                xdg.mimeApps.defaultApplications = lib.mkIf config.programs.neovim.enable (
+                    lib.genAttrs [
+                        "text/plain"
+                        "text/x-c"
+                        "text/x-shellscript"
+                    ] (_: [ "aerc.desktop" ])
+                );
             };
     };
 }

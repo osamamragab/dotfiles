@@ -19,7 +19,9 @@ let
         );
     getAspectsForClass =
         class: aspects:
-        aspects |> lib.map (a: a.${class} or null) |> lib.filter (m: m != null);
+        aspects
+        |> lib.map (aspect: aspect.${class} or null)
+        |> lib.filter (aspect: aspect != null);
 in
 {
     options.flake.aspects = lib.mkOption {
@@ -81,7 +83,7 @@ in
     };
 
     config.flake.modules = lib.genAttrs [ "nixos" "homeManager" "darwin" ] (
-        class: lib.mapAttrs (_: a: a.${class}) config.flake.aspects
+        class: config.flake.aspects |> lib.mapAttrs (_: aspect: aspect.${class})
     );
 
     config.flake.nixosConfigurations =

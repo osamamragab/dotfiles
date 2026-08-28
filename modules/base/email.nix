@@ -403,6 +403,12 @@
                     enable = true;
                     package = pkgs.isync;
                 };
+
+                xdg.mimeApps.defaultApplications = lib.mkIf config.programs.aerc.enable (
+                    lib.genAttrs [
+                        "x-scheme-handler/mailto"
+                    ] (_: [ "aerc.desktop" ])
+                );
             };
     };
 }
