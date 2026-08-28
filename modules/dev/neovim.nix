@@ -34,7 +34,7 @@
                         "text/plain"
                         "text/x-c"
                         "text/x-shellscript"
-                    ] (_: [ "aerc.desktop" ])
+                    ] (_: [ "nvim.desktop" ])
                 );
             };
     };
