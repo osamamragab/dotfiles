@@ -38,6 +38,7 @@ require("utils.pack").add({
 					zsh = { "shfmt" },
 					bash = { "shfmt" },
 					asm = { "asmfmt" },
+					nix = { "nixfmt" },
 					rust = { "rustfmt", lsp_format = "fallback" },
 					go = get_formatters({
 						{ "gofumpt",           fallback = "gofmt" },
@@ -63,6 +64,16 @@ require("utils.pack").add({
 					typescriptreact = prettier_fmt,
 					["*"] = { "codespell" },
 					["_"] = { "trim_whitespace" },
+				},
+				formatters = {
+					nixfmt = {
+						append_args = function()
+							return {
+								"--indent", vim.o.shiftwidth,
+								"--width", vim.o.colorcolumn,
+							}
+						end
+					},
 				},
 			})
 			vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
