@@ -159,7 +159,6 @@
                         # Overview Setting
                         hotarea_size = 10;
                         enable_hotarea = 0;
-                        ov_tab_mode = 0;
                         overviewgappi = 5;
                         overviewgappo = 30;
 
@@ -268,21 +267,22 @@
                             "SUPER+SHIFT,L,exchange_client,right"
 
                             # switch window status
-                            "SUPER,S,toggleglobal,"
-                            "SUPER+SHIFT,Tab,toggleoverview,"
-                            "SUPER+SHIFT,Space,togglefloating,"
-                            "SUPER,F,togglefullscreen,"
-                            "SUPER+ALT,F,togglefakefullscreen,"
-                            "SUPER+SHIFT,F,togglemaximizescreen,"
-                            "SUPER+CTRL,F,toggleoverlay,"
-                            "SUPER+CTRL,P,minimized,"
+                            "SUPER,S,toggleglobal"
+                            "SUPER+ALT,Tab,toggleoverview"
+                            "SUPER+SHIFT,Tab,togglejump"
+                            "SUPER+SHIFT,Space,togglefloating"
+                            "SUPER,F,togglefullscreen"
+                            "SUPER+ALT,F,togglefakefullscreen"
+                            "SUPER+SHIFT,F,togglemaximizescreen"
+                            "SUPER+CTRL,F,toggleoverlay"
+                            "SUPER+CTRL,P,minimized"
                             "SUPER+ALT,P,restore_minimized"
                             "SUPER+SHIFT,P,toggle_scratchpad"
                             "SUPER,P,toggle_named_scratchpad,terminal-scratchpad,none,${terminalBin} --app-id=terminal-scratchpad"
 
                             # scroller layout
                             "SUPER+SHIFT,S,set_proportion,1.0"
-                            "SUPER+ALT,S,switch_proportion_preset,"
+                            "SUPER+ALT,S,switch_proportion_preset"
                             "SUPER+CTRL+ALT,H,scroller_stack,left"
                             "SUPER+CTRL+ALT,L,scroller_stack,right"
                             "SUPER+CTRL+ALT,K,scroller_stack,up"
