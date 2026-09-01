@@ -1,414 +1,412 @@
 {
-    flake.aspects.base = {
-        homeManager =
-            {
-                pkgs,
-                lib,
-                config,
-                ...
-            }:
-            let
-                iniFormat = pkgs.formats.iniWithGlobalSection { };
-            in
-            {
-                accounts.email =
-                    let
-                        name = "Osama Ragab";
-                        gpgKey = "4F5D73863FBDBED9";
-                        passBin = "${config.programs.password-store.package}/bin/pass";
-                        mkEmailAccount =
-                            {
-                                address,
-                                flavor ? "plain",
-                                primary ? false,
-                            }:
-                            {
-                                inherit primary address flavor;
-                                realName = name;
-                                userName = address;
-                                maildir.path = address;
-                                passwordCommand = "${passBin} mail/${address} | sed 1q";
-                                gpg = {
-                                    key = gpgKey;
-                                    signByDefault = true;
-                                };
-                                signature = {
-                                    command = ''printf "\n\n- ${name}\n"'';
-                                    showSignature = "append";
-                                };
-                                imap = {
-                                    host =
-                                        if flavor == "gmail.com" then
-                                            "imap.gmail.com"
-                                        else
-                                            lib.last (lib.splitString "@" address);
-                                    port = 993;
-                                    tls = {
-                                        enable = true;
-                                        useStartTls = false; # IMAPS, not STARTTLS
-                                    };
-                                };
-                                mbsync = {
-                                    enable = true;
-                                    create = "both";
-                                    expunge = "both";
-                                    patterns = [ "*" ];
-                                    extraConfig = {
-                                        account = {
-                                            AuthMechs = "LOGIN";
-                                        };
-                                        channel = {
-                                            CopyArrivalDate = "yes";
-                                            MaxMessages = 0;
-                                            ExpireUnread = "no";
-                                            SyncState = "*";
-                                        };
-                                        local = {
-                                            Subfolders = "Verbatim";
-                                        };
-                                    };
-                                };
-                                aerc = {
-                                    enable = true;
-                                    extraAccounts =
-                                        let
-                                            outgoing =
-                                                if flavor == "gmail.com" then
-                                                    "smtps://${lib.replaceString "@" "%40" address}@smtp.gmail.com"
-                                                else
-                                                    "smtps://${address}";
-                                            folderMapFile =
-                                                if flavor == "gmail.com" then "folder-map-gmail.conf" else "folder-map.conf";
-                                            folderMap = "${config.xdg.configHome}/aerc/${folderMapFile}";
-                                        in
-                                        {
-                                            inherit outgoing;
-                                            outgoing-cred-cmd = "${passBin} mail/${address} | sed 1q";
-                                            maildir-account-path = address;
-                                            folder-map = folderMap;
-                                        };
-                                };
-                            };
-                    in
-                    {
-                        maildirBasePath = "${config.xdg.dataHome}/mail";
-                        accounts = {
-                            main = mkEmailAccount {
-                                primary = true;
-                                address = "theosamaragab@gmail.com";
-                                flavor = "gmail.com";
-                            };
-                            alt = mkEmailAccount {
-                                address = "iosamaify@gmail.com";
-                                flavor = "gmail.com";
-                            };
-                            disroot = mkEmailAccount {
-                                address = "osamaragab@disroot.org";
-                                flavor = "plain";
-                            };
-                            uni = mkEmailAccount {
-                                address = "osamamuhammad@std.mans.edu.eg";
-                                flavor = "gmail.com";
-                            };
-                        };
-                    };
-
-                programs.aerc =
-                    let
-                        mbsyncBin = "${config.programs.mbsync.package}/bin/mbsync";
-                        mailSyncScript = pkgs.writeShellScript "mailsync" ''
-                            set -eu
-
-                            mkdir -p ${
-                                config.accounts.email.accounts
-                                |> lib.mapAttrsToList (
-                                    k: v: "'${config.accounts.email.maildirBasePath}/${v.address}'"
-                                )
-                                |> lib.concatStringsSep " "
-                            }
-
-                            pidof -sqx mbsync && {
-                                echo "$(basename "$0"): already running" >&2
-                                exit 1
-                            }
-
-                            exec ${mbsyncBin} -aV
-                        '';
-                    in
-                    {
-                        enable = true;
-                        package = pkgs.aerc;
-                        extraConfig = {
-                            general = {
-                                # required for aerc to read accounts.conf generated by home-manager
-                                unsafe-accounts-conf = true;
-                                pgp-provider = if config.programs.gpg.enable then "gpg" else "auto";
-                                default-menu-cmd = "${config.programs.fzf.package}/bin/fzf -m";
-                                default-save-path = config.xdg.userDirs.download;
-                            };
-                            ui = {
-                                #styleset-name = "nord";
-                                fuzzy-complete = true;
-                                column-separator = "  ";
-                                timestamp-format = "2006-01-02 15:04:05";
-                            };
-                            viewer = {
-                                pager = "${config.programs.less.package}/bin/less -R -c --wordwrap";
-                                alternatives = [
-                                    "text/plain"
-                                    "text/html"
-                                ];
-                                header-layout = [
-                                    "Subject"
-                                    "From"
-                                    "To"
-                                    "Cc"
-                                    "Bcc"
-                                    "Date"
-                                ];
-                            };
-                            compose = {
-                                editor = "$EDITOR";
-                                edit-headers = true;
-                                empty-subject-warning = true;
-                                no-attachment-warning = "^[^>]*attach(ed|ment)";
-                                header-layout = [
-                                    "Subject"
-                                    "From"
-                                    "To"
-                                    "Cc"
-                                    "Bcc"
-                                ];
-                            };
-                            filters = {
-                                "text/plain" = "wrap -w 100 | colorize";
-                                "text/calendar" = "calendar";
-                                "message/delivery-status" = "colorize";
-                                "message/rfc822" = "colorize";
-                                "text/html" = "html | colorize";
-                                ".headers" = "colorize";
-                                "text/x-patch" = "hldiff";
-                                "application/pdf" = "pdftotext - -l 10 -nopgbrk -q  - | fmt -w 100 | colorize";
-                                "subject,~^\\[PATCH" = "hldiff";
-                            };
-                            hooks = {
-                                mail-received = ''${pkgs.libnotify}/bin/notify-send -a "[$AERC_ACCOUNT/$AERC_FOLDER] New mail from $AERC_FROM_NAME" "$AERC_SUBJECT"'';
-                                mail-added = ''${mbsyncBin} "$AERC_ACCOUNT:$AERC_FOLDER" &'';
-                                mail-deleted = ''${mbsyncBin} "$AERC_ACCOUNT:$AERC_FOLDER" &'';
-                            };
-                            templates = {
-                                template-dirs = "${config.xdg.dataHome}/aerc/templates/";
-                                new-message = "new_message";
-                                quoted-reply = "quoted_reply";
-                                forwards = "forward_as_body";
-                            };
-                        };
-                        extraAccounts = {
-                            global = {
-                                default = "Inbox";
-                                copy-to = "Sent";
-                                postpone = "Drafts";
-                                folders-sort = "Inbox";
-                                cache-headers = true;
-                                check-mail-cmd = lib.toString mailSyncScript;
-                            };
-                        };
-                        extraBinds = {
-                            global = {
-                                "<C-p>" = ":prev-tab<Enter>";
-                                "<C-PgUp>" = ":prev-tab<Enter>";
-                                "<C-n>" = ":next-tab<Enter>";
-                                "<C-PgDn>" = ":next-tab<Enter>";
-                                "\\[t" = ":prev-tab<Enter>";
-                                "\\]t" = ":next-tab<Enter>";
-                                "<C-t>" = ":term<Enter>";
-                                "?" = ":help keys<Enter>";
-                                "<C-c>" = ":quit<Enter>";
-                                "<C-q>" = ":quit<Enter>";
-                                "<C-z>" = ":suspend<Enter>";
-                            };
-                            messages = {
-                                q = ":quit<Enter>";
-                                u = ":exec ${lib.toString mailSyncScript}<Enter>";
-                                ld = ":modify-labels +deleted<Enter>";
-                                j = ":next<Enter>";
-                                "<Down>" = ":next<Enter>";
-                                "<C-d>" = ":next 50%<Enter>";
-                                "<C-f>" = ":next 100%<Enter>";
-                                "<PgDn>" = ":next 100%<Enter>";
-                                k = ":prev<Enter>";
-                                "<Up>" = ":prev<Enter>";
-                                "<C-u>" = ":prev 50%<Enter>";
-                                "<C-b>" = ":prev 100%<Enter>";
-                                "<PgUp>" = ":prev 100%<Enter>";
-                                g = ":select 0<Enter>";
-                                G = ":select -1<Enter>";
-                                J = ":next-folder<Enter>";
-                                "<C-Down>" = ":next-folder<Enter>";
-                                K = ":prev-folder<Enter>";
-                                "<C-Up>" = ":prev-folder<Enter>";
-                                H = ":collapse-folder<Enter>";
-                                "<C-Left>" = ":collapse-folder<Enter>";
-                                L = ":expand-folder<Enter>";
-                                "<C-Right>" = ":expand-folder<Enter>";
-                                v = ":mark -t<Enter>";
-                                "<Space>" = ":mark -t<Enter>:next<Enter>";
-                                V = ":mark -v<Enter>";
-                                T = ":toggle-threads<Enter>";
-                                zc = ":fold<Enter>";
-                                zo = ":unfold<Enter>";
-                                za = ":fold -t<Enter>";
-                                zM = ":fold -a<Enter>";
-                                zR = ":unfold -a<Enter>";
-                                "<tab>" = ":fold -t<Enter>";
-                                "<Enter>" = ":view<Enter>";
-                                d = ":prompt 'Really delete this message?' 'delete-message'<Enter>";
-                                D = ":delete<Enter>";
-                                a = ":archive flat<Enter>";
-                                A = ":unmark -a<Enter>:mark -T<Enter>:archive flat<Enter>";
-                                C = ":compose<Enter>";
-                                m = ":compose<Enter>";
-                                rr = ":reply -a<Enter>";
-                                rq = ":reply -aq<Enter>";
-                                Rr = ":reply<Enter>";
-                                Rq = ":reply -q<Enter>";
-                                c = ":cf<space>";
-                                "$" = ":term<space>";
-                                "!" = ":term<space>";
-                                "|" = ":pipe<space>";
-                                "/" = ":search<space>";
-                                "\\" = ":filter<space>";
-                                n = ":next-result<Enter>";
-                                N = ":prev-result<Enter>";
-                                "<Esc>" = ":clear<Enter>";
-                                s = ":split<Enter>";
-                                S = ":vsplit<Enter>";
-                                pl = ":patch list<Enter>";
-                                pa = ":patch apply <Tab>";
-                                pd = ":patch drop <Tab>";
-                                pb = ":patch rebase<Enter>";
-                                pt = ":patch term<Enter>";
-                                ps = ":patch switch <Tab>";
-                            };
-                            "messages:folder=Drafts" = {
-                                "<Enter>" = ":recall<Enter>";
-                            };
-                            view = {
-                                "/" = ":toggle-key-passthrough<Enter>/";
-                                q = ":close<Enter>";
-                                O = ":open<Enter>";
-                                o = ":open<Enter>";
-                                S = ":save<space>";
-                                "|" = ":pipe<space>";
-                                D = ":delete<Enter>";
-                                A = ":archive flat<Enter>";
-                                "<C-l>" = ":open-link <space>";
-                                f = ":forward<Enter>";
-                                rr = ":reply -a<Enter>";
-                                rq = ":reply -aq<Enter>";
-                                Rr = ":reply<Enter>";
-                                Rq = ":reply -q<Enter>";
-                                H = ":toggle-headers<Enter>";
-                                "<C-k>" = ":prev-part<Enter>";
-                                "<C-Up>" = ":prev-part<Enter>";
-                                "<C-j>" = ":next-part<Enter>";
-                                "<C-Down>" = ":next-part<Enter>";
-                                J = ":next<Enter>";
-                                "<C-Right>" = ":next<Enter>";
-                                K = ":prev<Enter>";
-                                "<C-Left>" = ":prev<Enter>";
-                            };
-                            "view::passthrough" = {
-                                "$noinherit" = true;
-                                "$ex" = "<C-x>";
-                                "<Esc>" = ":toggle-key-passthrough<Enter>";
-                            };
-                            compose = {
-                                "$noinherit" = true;
-                                "$ex" = "<C-x>";
-                                "$complete" = "<C-o>";
-                                "<C-k>" = ":prev-field<Enter>";
-                                "<C-Up>" = ":prev-field<Enter>";
-                                "<C-j>" = ":next-field<Enter>";
-                                "<C-Down>" = ":next-field<Enter>";
-                                "<A-p>" = ":switch-account -p<Enter>";
-                                "<C-Left>" = ":switch-account -p<Enter>";
-                                "<A-n>" = ":switch-account -n<Enter>";
-                                "<C-Right>" = ":switch-account -n<Enter>";
-                                "<tab>" = ":next-field<Enter>";
-                                "<backtab>" = ":prev-field<Enter>";
-                                "<C-p>" = ":prev-tab<Enter>";
-                                "<C-PgUp>" = ":prev-tab<Enter>";
-                                "<C-n>" = ":next-tab<Enter>";
-                                "<C-PgDn>" = ":next-tab<Enter>";
-                            };
-                            "compose::editor" = {
-                                "$noinherit" = true;
-                                "$ex" = "<C-x>";
-                                "<C-k>" = ":prev-field<Enter>";
-                                "<C-Up>" = ":prev-field<Enter>";
-                                "<C-j>" = ":next-field<Enter>";
-                                "<C-Down>" = ":next-field<Enter>";
-                                "<C-p>" = ":prev-tab<Enter>";
-                                "<C-PgUp>" = ":prev-tab<Enter>";
-                                "<C-n>" = ":next-tab<Enter>";
-                                "<C-PgDn>" = ":next-tab<Enter>";
-                            };
-                            "compose::review" = {
-                                y = ":send<Enter>";
-                                n = ":abort<Enter>";
-                                v = ":preview<Enter>";
-                                p = ":postpone<Enter>";
-                                q = ":choose -o d discard abort -o p postpone postpone<Enter>";
-                                e = ":edit<Enter>";
-                                a = ":attach<space>";
-                                d = ":detach<space>";
-                            };
-                            terminal = {
-                                "$noinherit" = true;
-                                "$ex" = "<C-x>";
-                            };
-                        };
-                    };
-
-                xdg.configFile."aerc/folder-map.conf" = lib.mkIf config.programs.aerc.enable {
-                    source = iniFormat.generate "aerc-folder-map.conf" {
-                        globalSection = {
-                            All = "not tag:archived and not tag:deleted and not tag:spam";
-                            Inbox = "tag:inbox and not tag:archived and not tag:deleted and not tag:spam";
-                            Todo = "tag:todo and not tag:archived and not tag:deleted";
-                            Archive = "tag:archived";
-                            Sent = "tag:sent";
-                            Spam = "tag:spam";
-                        };
-                    };
+  flake.aspects.base = {
+    homeManager =
+      {
+        pkgs,
+        lib,
+        config,
+        ...
+      }:
+      let
+        iniFormat = pkgs.formats.iniWithGlobalSection { };
+      in
+      {
+        accounts.email =
+          let
+            name = "Osama Ragab";
+            gpgKey = "4F5D73863FBDBED9";
+            passBin = "${config.programs.password-store.package}/bin/pass";
+            mkEmailAccount =
+              {
+                address,
+                flavor ? "plain",
+                primary ? false,
+              }:
+              {
+                inherit primary address flavor;
+                realName = name;
+                userName = address;
+                maildir.path = address;
+                passwordCommand = "${passBin} mail/${address} | sed 1q";
+                gpg = {
+                  key = gpgKey;
+                  signByDefault = true;
                 };
-
-                xdg.configFile."aerc/folder-map-gmail.conf" =
-                    lib.mkIf config.programs.aerc.enable
-                        {
-                            source = iniFormat.generate "aerc-folder-map-gmail.conf" {
-                                globalSection = {
-                                    Inbox = "INBOX";
-                                    All = "[Gmail]/All Mail";
-                                    Sent = "[Gmail]/Sent Mail";
-                                    Drafts = "[Gmail]/Drafts";
-                                    Spam = "[Gmail]/Spam";
-                                    Trash = "[Gmail]/Trash";
-                                };
-                            };
-                        };
-
-                programs.mbsync = {
+                signature = {
+                  command = ''printf "\n\n- ${name}\n"'';
+                  showSignature = "append";
+                };
+                imap = {
+                  host =
+                    if flavor == "gmail.com" then
+                      "imap.gmail.com"
+                    else
+                      lib.last (lib.splitString "@" address);
+                  port = 993;
+                  tls = {
                     enable = true;
-                    package = pkgs.isync;
+                    useStartTls = false; # IMAPS, not STARTTLS
+                  };
                 };
-
-                xdg.mimeApps.defaultApplications = lib.mkIf config.programs.aerc.enable (
-                    lib.genAttrs [
-                        "x-scheme-handler/mailto"
-                    ] (_: [ "aerc.desktop" ])
-                );
+                mbsync = {
+                  enable = true;
+                  create = "both";
+                  expunge = "both";
+                  patterns = [ "*" ];
+                  extraConfig = {
+                    account = {
+                      AuthMechs = "LOGIN";
+                    };
+                    channel = {
+                      CopyArrivalDate = "yes";
+                      MaxMessages = 0;
+                      ExpireUnread = "no";
+                      SyncState = "*";
+                    };
+                    local = {
+                      Subfolders = "Verbatim";
+                    };
+                  };
+                };
+                aerc = {
+                  enable = true;
+                  extraAccounts =
+                    let
+                      outgoing =
+                        if flavor == "gmail.com" then
+                          "smtps://${lib.replaceString "@" "%40" address}@smtp.gmail.com"
+                        else
+                          "smtps://${address}";
+                      folderMapFile =
+                        if flavor == "gmail.com" then "folder-map-gmail.conf" else "folder-map.conf";
+                      folderMap = "${config.xdg.configHome}/aerc/${folderMapFile}";
+                    in
+                    {
+                      inherit outgoing;
+                      outgoing-cred-cmd = "${passBin} mail/${address} | sed 1q";
+                      maildir-account-path = address;
+                      folder-map = folderMap;
+                    };
+                };
+              };
+          in
+          {
+            maildirBasePath = "${config.xdg.dataHome}/mail";
+            accounts = {
+              main = mkEmailAccount {
+                primary = true;
+                address = "theosamaragab@gmail.com";
+                flavor = "gmail.com";
+              };
+              alt = mkEmailAccount {
+                address = "iosamaify@gmail.com";
+                flavor = "gmail.com";
+              };
+              disroot = mkEmailAccount {
+                address = "osamaragab@disroot.org";
+                flavor = "plain";
+              };
+              uni = mkEmailAccount {
+                address = "osamamuhammad@std.mans.edu.eg";
+                flavor = "gmail.com";
+              };
             };
-    };
+          };
+
+        programs.aerc =
+          let
+            mbsyncBin = "${config.programs.mbsync.package}/bin/mbsync";
+            mailSyncScript = pkgs.writeShellScript "mailsync" ''
+              set -eu
+
+              mkdir -p ${
+                config.accounts.email.accounts
+                |> lib.mapAttrsToList (
+                  k: v: "'${config.accounts.email.maildirBasePath}/${v.address}'"
+                )
+                |> lib.concatStringsSep " "
+              }
+
+              pidof -sqx mbsync && {
+                echo "$(basename "$0"): already running" >&2
+                exit 1
+              }
+
+              exec ${mbsyncBin} -aV
+            '';
+          in
+          {
+            enable = true;
+            package = pkgs.aerc;
+            extraConfig = {
+              general = {
+                # required for aerc to read accounts.conf generated by home-manager
+                unsafe-accounts-conf = true;
+                pgp-provider = if config.programs.gpg.enable then "gpg" else "auto";
+                default-menu-cmd = "${config.programs.fzf.package}/bin/fzf -m";
+                default-save-path = config.xdg.userDirs.download;
+              };
+              ui = {
+                #styleset-name = "nord";
+                fuzzy-complete = true;
+                column-separator = "  ";
+                timestamp-format = "2006-01-02 15:04:05";
+              };
+              viewer = {
+                pager = "${config.programs.less.package}/bin/less -R -c --wordwrap";
+                alternatives = [
+                  "text/plain"
+                  "text/html"
+                ];
+                header-layout = [
+                  "Subject"
+                  "From"
+                  "To"
+                  "Cc"
+                  "Bcc"
+                  "Date"
+                ];
+              };
+              compose = {
+                editor = "$EDITOR";
+                edit-headers = true;
+                empty-subject-warning = true;
+                no-attachment-warning = "^[^>]*attach(ed|ment)";
+                header-layout = [
+                  "Subject"
+                  "From"
+                  "To"
+                  "Cc"
+                  "Bcc"
+                ];
+              };
+              filters = {
+                "text/plain" = "wrap -w 100 | colorize";
+                "text/calendar" = "calendar";
+                "message/delivery-status" = "colorize";
+                "message/rfc822" = "colorize";
+                "text/html" = "html | colorize";
+                ".headers" = "colorize";
+                "text/x-patch" = "hldiff";
+                "application/pdf" = "pdftotext - -l 10 -nopgbrk -q  - | fmt -w 100 | colorize";
+                "subject,~^\\[PATCH" = "hldiff";
+              };
+              hooks = {
+                mail-received = ''${pkgs.libnotify}/bin/notify-send -a "[$AERC_ACCOUNT/$AERC_FOLDER] New mail from $AERC_FROM_NAME" "$AERC_SUBJECT"'';
+                mail-added = ''${mbsyncBin} "$AERC_ACCOUNT:$AERC_FOLDER" &'';
+                mail-deleted = ''${mbsyncBin} "$AERC_ACCOUNT:$AERC_FOLDER" &'';
+              };
+              templates = {
+                template-dirs = "${config.xdg.dataHome}/aerc/templates/";
+                new-message = "new_message";
+                quoted-reply = "quoted_reply";
+                forwards = "forward_as_body";
+              };
+            };
+            extraAccounts = {
+              global = {
+                default = "Inbox";
+                copy-to = "Sent";
+                postpone = "Drafts";
+                folders-sort = "Inbox";
+                cache-headers = true;
+                check-mail-cmd = lib.toString mailSyncScript;
+              };
+            };
+            extraBinds = {
+              global = {
+                "<C-p>" = ":prev-tab<Enter>";
+                "<C-PgUp>" = ":prev-tab<Enter>";
+                "<C-n>" = ":next-tab<Enter>";
+                "<C-PgDn>" = ":next-tab<Enter>";
+                "\\[t" = ":prev-tab<Enter>";
+                "\\]t" = ":next-tab<Enter>";
+                "<C-t>" = ":term<Enter>";
+                "?" = ":help keys<Enter>";
+                "<C-c>" = ":quit<Enter>";
+                "<C-q>" = ":quit<Enter>";
+                "<C-z>" = ":suspend<Enter>";
+              };
+              messages = {
+                q = ":quit<Enter>";
+                u = ":exec ${lib.toString mailSyncScript}<Enter>";
+                ld = ":modify-labels +deleted<Enter>";
+                j = ":next<Enter>";
+                "<Down>" = ":next<Enter>";
+                "<C-d>" = ":next 50%<Enter>";
+                "<C-f>" = ":next 100%<Enter>";
+                "<PgDn>" = ":next 100%<Enter>";
+                k = ":prev<Enter>";
+                "<Up>" = ":prev<Enter>";
+                "<C-u>" = ":prev 50%<Enter>";
+                "<C-b>" = ":prev 100%<Enter>";
+                "<PgUp>" = ":prev 100%<Enter>";
+                g = ":select 0<Enter>";
+                G = ":select -1<Enter>";
+                J = ":next-folder<Enter>";
+                "<C-Down>" = ":next-folder<Enter>";
+                K = ":prev-folder<Enter>";
+                "<C-Up>" = ":prev-folder<Enter>";
+                H = ":collapse-folder<Enter>";
+                "<C-Left>" = ":collapse-folder<Enter>";
+                L = ":expand-folder<Enter>";
+                "<C-Right>" = ":expand-folder<Enter>";
+                v = ":mark -t<Enter>";
+                "<Space>" = ":mark -t<Enter>:next<Enter>";
+                V = ":mark -v<Enter>";
+                T = ":toggle-threads<Enter>";
+                zc = ":fold<Enter>";
+                zo = ":unfold<Enter>";
+                za = ":fold -t<Enter>";
+                zM = ":fold -a<Enter>";
+                zR = ":unfold -a<Enter>";
+                "<tab>" = ":fold -t<Enter>";
+                "<Enter>" = ":view<Enter>";
+                d = ":prompt 'Really delete this message?' 'delete-message'<Enter>";
+                D = ":delete<Enter>";
+                a = ":archive flat<Enter>";
+                A = ":unmark -a<Enter>:mark -T<Enter>:archive flat<Enter>";
+                C = ":compose<Enter>";
+                m = ":compose<Enter>";
+                rr = ":reply -a<Enter>";
+                rq = ":reply -aq<Enter>";
+                Rr = ":reply<Enter>";
+                Rq = ":reply -q<Enter>";
+                c = ":cf<space>";
+                "$" = ":term<space>";
+                "!" = ":term<space>";
+                "|" = ":pipe<space>";
+                "/" = ":search<space>";
+                "\\" = ":filter<space>";
+                n = ":next-result<Enter>";
+                N = ":prev-result<Enter>";
+                "<Esc>" = ":clear<Enter>";
+                s = ":split<Enter>";
+                S = ":vsplit<Enter>";
+                pl = ":patch list<Enter>";
+                pa = ":patch apply <Tab>";
+                pd = ":patch drop <Tab>";
+                pb = ":patch rebase<Enter>";
+                pt = ":patch term<Enter>";
+                ps = ":patch switch <Tab>";
+              };
+              "messages:folder=Drafts" = {
+                "<Enter>" = ":recall<Enter>";
+              };
+              view = {
+                "/" = ":toggle-key-passthrough<Enter>/";
+                q = ":close<Enter>";
+                O = ":open<Enter>";
+                o = ":open<Enter>";
+                S = ":save<space>";
+                "|" = ":pipe<space>";
+                D = ":delete<Enter>";
+                A = ":archive flat<Enter>";
+                "<C-l>" = ":open-link <space>";
+                f = ":forward<Enter>";
+                rr = ":reply -a<Enter>";
+                rq = ":reply -aq<Enter>";
+                Rr = ":reply<Enter>";
+                Rq = ":reply -q<Enter>";
+                H = ":toggle-headers<Enter>";
+                "<C-k>" = ":prev-part<Enter>";
+                "<C-Up>" = ":prev-part<Enter>";
+                "<C-j>" = ":next-part<Enter>";
+                "<C-Down>" = ":next-part<Enter>";
+                J = ":next<Enter>";
+                "<C-Right>" = ":next<Enter>";
+                K = ":prev<Enter>";
+                "<C-Left>" = ":prev<Enter>";
+              };
+              "view::passthrough" = {
+                "$noinherit" = true;
+                "$ex" = "<C-x>";
+                "<Esc>" = ":toggle-key-passthrough<Enter>";
+              };
+              compose = {
+                "$noinherit" = true;
+                "$ex" = "<C-x>";
+                "$complete" = "<C-o>";
+                "<C-k>" = ":prev-field<Enter>";
+                "<C-Up>" = ":prev-field<Enter>";
+                "<C-j>" = ":next-field<Enter>";
+                "<C-Down>" = ":next-field<Enter>";
+                "<A-p>" = ":switch-account -p<Enter>";
+                "<C-Left>" = ":switch-account -p<Enter>";
+                "<A-n>" = ":switch-account -n<Enter>";
+                "<C-Right>" = ":switch-account -n<Enter>";
+                "<tab>" = ":next-field<Enter>";
+                "<backtab>" = ":prev-field<Enter>";
+                "<C-p>" = ":prev-tab<Enter>";
+                "<C-PgUp>" = ":prev-tab<Enter>";
+                "<C-n>" = ":next-tab<Enter>";
+                "<C-PgDn>" = ":next-tab<Enter>";
+              };
+              "compose::editor" = {
+                "$noinherit" = true;
+                "$ex" = "<C-x>";
+                "<C-k>" = ":prev-field<Enter>";
+                "<C-Up>" = ":prev-field<Enter>";
+                "<C-j>" = ":next-field<Enter>";
+                "<C-Down>" = ":next-field<Enter>";
+                "<C-p>" = ":prev-tab<Enter>";
+                "<C-PgUp>" = ":prev-tab<Enter>";
+                "<C-n>" = ":next-tab<Enter>";
+                "<C-PgDn>" = ":next-tab<Enter>";
+              };
+              "compose::review" = {
+                y = ":send<Enter>";
+                n = ":abort<Enter>";
+                v = ":preview<Enter>";
+                p = ":postpone<Enter>";
+                q = ":choose -o d discard abort -o p postpone postpone<Enter>";
+                e = ":edit<Enter>";
+                a = ":attach<space>";
+                d = ":detach<space>";
+              };
+              terminal = {
+                "$noinherit" = true;
+                "$ex" = "<C-x>";
+              };
+            };
+          };
+
+        xdg.configFile."aerc/folder-map.conf" = lib.mkIf config.programs.aerc.enable {
+          source = iniFormat.generate "aerc-folder-map.conf" {
+            globalSection = {
+              All = "not tag:archived and not tag:deleted and not tag:spam";
+              Inbox = "tag:inbox and not tag:archived and not tag:deleted and not tag:spam";
+              Todo = "tag:todo and not tag:archived and not tag:deleted";
+              Archive = "tag:archived";
+              Sent = "tag:sent";
+              Spam = "tag:spam";
+            };
+          };
+        };
+
+        xdg.configFile."aerc/folder-map-gmail.conf" =
+          lib.mkIf config.programs.aerc.enable
+            {
+              source = iniFormat.generate "aerc-folder-map-gmail.conf" {
+                globalSection = {
+                  Inbox = "INBOX";
+                  All = "[Gmail]/All Mail";
+                  Sent = "[Gmail]/Sent Mail";
+                  Drafts = "[Gmail]/Drafts";
+                  Spam = "[Gmail]/Spam";
+                  Trash = "[Gmail]/Trash";
+                };
+              };
+            };
+
+        programs.mbsync = {
+          enable = true;
+          package = pkgs.isync;
+        };
+
+        xdg.mimeApps.defaultApplications = lib.mkIf config.programs.aerc.enable (
+          lib.genAttrs [ "x-scheme-handler/mailto" ] (_: [ "aerc.desktop" ])
+        );
+      };
+  };
 }

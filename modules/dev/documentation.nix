@@ -1,7 +1,7 @@
 {
-    flake.aspects.dev = {
-        nixos = {
-            documentation.dev.enable = true;
-        };
+  flake.aspects.dev = {
+    nixos = {
+      documentation.dev.enable = true;
     };
+  };
 }

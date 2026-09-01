@@ -1,7 +1,7 @@
 {
-    flake.aspects.shell = {
-        homeManager = {
-            home.shell.enableShellIntegration = true;
-        };
+  flake.aspects.shell = {
+    homeManager = {
+      home.shell.enableShellIntegration = true;
     };
+  };
 }

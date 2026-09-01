@@ -1,7 +1,7 @@
 {
-    flake.aspects.desktop = {
-        nixos = {
-            programs.dconf.enable = true;
-        };
+  flake.aspects.desktop = {
+    nixos = {
+      programs.dconf.enable = true;
     };
+  };
 }

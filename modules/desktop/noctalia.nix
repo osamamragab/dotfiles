@@ -1,520 +1,515 @@
 {
-    flake-file.inputs = {
-        noctalia = {
-            url = "github:noctalia-dev/noctalia/cachix";
-            inputs.nixpkgs.autoFollow = false;
+  flake-file.inputs = {
+    noctalia = {
+      url = "github:noctalia-dev/noctalia/cachix";
+      inputs.nixpkgs.autoFollow = false;
+    };
+    noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+  };
+
+  flake.aspects.desktop = {
+    nixos =
+      {
+        inputs,
+        pkgs,
+        host,
+        ...
+      }:
+      {
+        imports = [
+          inputs.noctalia-greeter.nixosModules.default
+        ];
+
+        programs.noctalia-greeter = {
+          enable = true;
+          greeter-args = "";
+          settings = {
+            session.default = "mango";
+            keyboard.layout = "us";
+            idle.timeout = 600;
+            appearance.hide_logo = true;
+            cursor = {
+              package = pkgs.nordzy-cursor-theme;
+              name = "Nordzy-cursors";
+              size = 32;
+            };
+          };
         };
-        noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
-    };
 
-    flake.aspects.desktop = {
-        nixos =
-            {
-                inputs,
-                pkgs,
-                host,
-                ...
-            }:
-            {
-                imports = [
-                    inputs.noctalia-greeter.nixosModules.default
-                ];
+        # required for noctalia/screen_recorder plugin
+        programs.gpu-screen-recorder.enable = true;
 
-                programs.noctalia-greeter = {
-                    enable = true;
-                    greeter-args = "";
-                    settings = {
-                        session.default = "mango";
-                        keyboard.layout = "us";
-                        idle.timeout = 600;
-                        appearance.hide_logo = true;
-                        cursor = {
-                            package = pkgs.nordzy-cursor-theme;
-                            name = "Nordzy-cursors";
-                            size = 32;
-                        };
-                    };
-                };
+        users.groups.input.members = [ host.user ];
+      };
 
-                # required for noctalia/screen_recorder plugin
-                programs.gpu-screen-recorder.enable = true;
+    homeManager =
+      {
+        inputs,
+        pkgs,
+        lib,
+        config,
+        ...
+      }:
+      {
+        imports = [
+          inputs.noctalia.homeModules.default
+        ];
 
-                users.groups.input.members = [ host.user ];
+        home.packages =
+          let
+            plugins = config.programs.noctalia.settings.plugins.enabled;
+          in
+          lib.optional (lib.elem "noctalia/bongocat" plugins) pkgs.evtest
+          ++ lib.optional (lib.elem "oldirtty/color_picker" plugins) pkgs.hyprpicker;
+
+        programs.noctalia = {
+          enable = true;
+          settings = {
+            desktop_widgets.enabled = false;
+            nightlight.enabled = true;
+            location = {
+              auto_locate = false;
+              address = "Cairo, Egypt";
             };
-
-        homeManager =
-            {
-                inputs,
-                pkgs,
-                lib,
-                config,
-                ...
-            }:
-            {
-                imports = [
-                    inputs.noctalia.homeModules.default
+            theme = {
+              mode = "dark";
+              wallpaper_scheme = "soft";
+            };
+            audio = {
+              enable_sounds = true;
+              enable_overdrive = true;
+              sound_volume = 1.0;
+            };
+            dock = {
+              enabled = false;
+              reserve_space = false;
+              show_dots = true;
+              smart_auto_hide = true;
+              launcher_position = "end";
+            };
+            shell = {
+              date_format = "%A, %F";
+              polkit_agent = true;
+              shadow.alpha = 0.15;
+              panel = {
+                open_near_click_control_center = true;
+                open_near_click_session = true;
+                transparency_mode = "solid";
+              };
+              session = {
+                grid = false;
+                actions = [
+                  {
+                    action = "lock";
+                    shortcut = "l";
+                  }
+                  {
+                    action = "logout";
+                    shortcut = "q";
+                  }
+                  {
+                    action = "lock_and_suspend";
+                    shortcut = "s";
+                  }
+                  {
+                    action = "reboot";
+                    shortcut = "r";
+                    variant = "destructive";
+                  }
+                  {
+                    action = "shutdown";
+                    shortcut = "d";
+                    variant = "destructive";
+                  }
                 ];
-
-                home.packages =
+              };
+              screenshot = {
+                confirm_region = true;
+                directory = "${config.xdg.userDirs.pictures}/screenshots";
+                filename_pattern = "screenshot_%Y%m%d-%H%M%S";
+              };
+              launcher = {
+                sort_by_usage = true;
+                provider_prefix = "/";
+                fetch_exchange_rates = false;
+                providers = {
+                  calculator.prefix = "=";
+                };
+                dmenu.entry = {
+                  passmenu =
                     let
-                        plugins = config.programs.noctalia.settings.plugins.enabled;
+                      passmenuBin = "${config.xdg.binHome}/passmenu";
                     in
-                    lib.optional (lib.elem "noctalia/bongocat" plugins) pkgs.evtest
-                    ++ lib.optional (lib.elem "oldirtty/color_picker" plugins) pkgs.hyprpicker;
-
-                programs.noctalia = {
-                    enable = true;
-                    settings = {
-                        desktop_widgets.enabled = false;
-                        nightlight.enabled = true;
-                        location = {
-                            auto_locate = false;
-                            address = "Cairo, Egypt";
-                        };
-                        theme = {
-                            mode = "dark";
-                            wallpaper_scheme = "soft";
-                        };
-                        audio = {
-                            enable_sounds = true;
-                            enable_overdrive = true;
-                            sound_volume = 1.0;
-                        };
-                        dock = {
-                            enabled = false;
-                            reserve_space = false;
-                            show_dots = true;
-                            smart_auto_hide = true;
-                            launcher_position = "end";
-                        };
-                        shell = {
-                            date_format = "%A, %F";
-                            polkit_agent = true;
-                            shadow.alpha = 0.15;
-                            panel = {
-                                open_near_click_control_center = true;
-                                open_near_click_session = true;
-                                transparency_mode = "solid";
-                            };
-                            session = {
-                                grid = false;
-                                actions = [
-                                    {
-                                        action = "lock";
-                                        shortcut = "l";
-                                    }
-                                    {
-                                        action = "logout";
-                                        shortcut = "q";
-                                    }
-                                    {
-                                        action = "lock_and_suspend";
-                                        shortcut = "s";
-                                    }
-                                    {
-                                        action = "reboot";
-                                        shortcut = "r";
-                                        variant = "destructive";
-                                    }
-                                    {
-                                        action = "shutdown";
-                                        shortcut = "d";
-                                        variant = "destructive";
-                                    }
-                                ];
-                            };
-                            screenshot = {
-                                confirm_region = true;
-                                directory = "${config.xdg.userDirs.pictures}/screenshots";
-                                filename_pattern = "screenshot_%Y%m%d-%H%M%S";
-                            };
-                            launcher = {
-                                sort_by_usage = true;
-                                provider_prefix = "/";
-                                fetch_exchange_rates = false;
-                                providers = {
-                                    calculator.prefix = "=";
-                                };
-                                dmenu.entry = {
-                                    passmenu =
-                                        let
-                                            passmenuBin = "${config.xdg.binHome}/passmenu";
-                                        in
-                                        {
-                                            label = "Passwords";
-                                            glyph = "lock";
-                                            prefix = "pass";
-                                            global = false;
-                                            freeform = false;
-                                            command = "${passmenuBin} -l";
-                                            exec = "${passmenuBin} {selection}";
-                                        };
-                                    bookmarks =
-                                        let
-                                            bukuBin = "${pkgs.buku}/bin/buku";
-                                        in
-                                        {
-                                            label = "Bookmarks";
-                                            glyph = "bookmark";
-                                            prefix = "boo";
-                                            global = false;
-                                            freeform = false;
-                                            command = "${bukuBin} --nostdin -p -f 4 | sed 's/\t/ /g'";
-                                            exec = "echo '{selection}' | cut -d ' ' -f 1 | xargs -r buku --nostdin -o";
-                                        };
-                                    power-profiles =
-                                        let
-                                            ppcBin = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl";
-                                        in
-                                        {
-                                            label = "Power Profiles";
-                                            glyph = "bolt";
-                                            prefix = "power";
-                                            global = false;
-                                            freeform = false;
-                                            command = "${ppcBin} list | sed -n 's/^\\(\\s\\|\\*\\)\\s\\(.*\\):$/\\2/p'";
-                                            exec = "${ppcBin} set '{selection}'";
-                                        };
-                                    display-profiles =
-                                        let
-                                            kanshiBin = "${config.services.kanshi.package}/bin/kanshictl";
-                                            kanshiProfiles =
-                                                config.services.kanshi.settings
-                                                |> lib.map (e: e.profile.name or null)
-                                                |> lib.filter (n: n != null)
-                                                |> lib.concatStringsSep "\\n";
-                                        in
-                                        {
-                                            label = "Display Profiles";
-                                            glyph = "device-desktop";
-                                            prefix = "disp";
-                                            global = false;
-                                            freeform = false;
-                                            command = "printf '${kanshiProfiles}'";
-                                            exec = "${kanshiBin} switch '{selection}'";
-                                        };
-                                };
-                            };
-                        };
-                        osd = {
-                            position_vertical = "top_right";
-                        };
-                        wallpaper = {
-                            enabled = true;
-                            fill_mode = "stretch";
-                            fill_color = "surface";
-                            directory = "${config.xdg.userDirs.pictures}/wallpapers";
-                        };
-                        keybinds = {
-                            cancel = [
-                                "Escape"
-                                "Ctrl+c"
-                            ];
-                            down = [
-                                "Down"
-                                "Ctrl+j"
-                            ];
-                            left = [
-                                "Left"
-                                "Ctrl+h"
-                            ];
-                            right = [
-                                "Right"
-                                "Ctrl+l"
-                            ];
-                            tab_next = [
-                                "Tab"
-                                "Ctrl+n"
-                            ];
-                            tab_previous = [
-                                "Shift+ISO_Left_Tab"
-                                "Ctrl+p"
-                            ];
-                            up = [
-                                "Up"
-                                "Ctrl+k"
-                            ];
-                        };
-                        idle = {
-                            pre_action_fade_seconds = 10;
-                            behavior = {
-                                lock = {
-                                    action = "lock";
-                                    timeout = 10 * 60;
-                                };
-                                screen-off = {
-                                    action = "screen_off";
-                                    timeout = 11 * 60;
-                                };
-                                suspend = {
-                                    action = "suspend";
-                                    timeout = 15 * 60;
-                                    lock_before_suspend = true;
-                                };
-                            };
-                        };
-                        battery = {
-                            warning_threshold = 20;
-                        };
-                        widget = {
-                            volume.show_label = false;
-                            network.show_label = false;
-                            bluetooth.show_label = false;
-                            launcher.glyph = "ankh";
-                            cat = {
-                                type = "noctalia/bongocat:cat";
-                                tappy_mode = true;
-                                audio_spectrum = true;
-                                use_mpris_filter = true;
-                                executable_path = "${pkgs.evtest}/bin/evtest";
-                            };
-                            clock = {
-                                anchor = true;
-                                format = "{:%a %H:%M}";
-                                tooltip_format = "{:%d %b (W%U)}";
-                                capsule_radius = 4;
-                                capsule_padding = 10;
-                            };
-                            battery = {
-                                device = "auto";
-                                warning_color = "error";
-                            };
-                            media = {
-                                scale = 0.8;
-                                hide_when_no_media = true;
-                                title_scroll = "on_hover";
-                            };
-                            privacy = {
-                                hide_inactive = true;
-                                active_color = "error";
-                            };
-                            recorder = {
-                                type = "noctalia/screen_recorder:recorder";
-                            };
-                            color-picker = {
-                                type = "oldirtty/color_picker:widget";
-                            };
-                            tray = {
-                                drawer = true;
-                            };
-                            workspaces = {
-                                capsule_radius = 4;
-                                capsule_padding = 6;
-                                empty_color = "on_surface";
-                                focused_color = "hover";
-                                hide_when_empty = true;
-                                labels_only_when_occupied = true;
-                                occupied_color = "on_surface";
-                                style = "minimal";
-                            };
-                        };
-                        plugins = {
-                            auto_update = "none";
-                            source = [
-                                {
-                                    enabled = true;
-                                    kind = "git";
-                                    location = "https://github.com/noctalia-dev/official-plugins";
-                                    name = "official";
-                                }
-
-                                {
-                                    enabled = true;
-                                    kind = "git";
-                                    location = "https://github.com/noctalia-dev/community-plugins";
-                                    name = "community";
-                                }
-                            ];
-                            enabled = [
-                                "noctalia/bongocat"
-                                "noctalia/screen_recorder"
-                                "oldirtty/color_picker"
-                            ];
-                        };
-                        plugin_settings = {
-                            "noctalia/screen_recorder" = {
-                                directory = "${config.xdg.userDirs.videos}/recordings";
-                                filename_pattern = "recording_%Y%m%d_%H%M%S";
-                                hide_inactive = false;
-                            };
-                            "oldirtty/color_picker" = {
-                                hyprpicker-lowercase = true;
-                            };
-                        };
-                        bar.default = {
-                            capsule = true;
-                            concave_edge_corners = false;
-                            font_family = config.stylix.fonts.monospace.name;
-                            font_weight = 700;
-                            margin_ends = 0;
-                            radius = 0;
-                            capsule_padding = 6;
-                            start = [
-                                "launcher"
-                                "workspaces"
-                            ];
-                            center = [
-                                "clock"
-                                "privacy"
-                            ];
-                            end = [
-                                "group:g4"
-                                "group:g3"
-                                "group:g2"
-                                "group:g1"
-                            ];
-                            capsule_group = [
-                                {
-                                    id = "g1";
-                                    members = [
-                                        "clipboard"
-                                        "color-picker"
-                                        "screenshot"
-                                        "recorder"
-                                        "control-center"
-                                    ];
-                                }
-                                {
-                                    id = "g2";
-                                    members = [
-                                        "network"
-                                        "bluetooth"
-                                        "volume"
-                                        "battery"
-                                    ];
-                                }
-                                {
-                                    id = "g3";
-                                    members = [
-                                        "notifications"
-                                        "tray"
-                                    ];
-                                }
-                                {
-                                    id = "g4";
-                                    members = [
-                                        "media"
-                                        "cat"
-                                    ];
-                                }
-                            ];
-                        };
-                        lockscreen_widgets =
-                            let
-                                kanshiOutputs =
-                                    config.services.kanshi.settings
-                                    |> lib.map (e: e.output or null)
-                                    |> lib.filter (o: o != null);
-                                widgetTemplates = {
-                                    login-box = {
-                                        type = "login_box";
-                                        box_height = 70.0;
-                                        box_width = 400.0;
-                                        fx = 0.5;
-                                        fy = 608.0 / 864.0;
-                                        settings = {
-                                            layout = "compact";
-                                            background_color = "surface_variant";
-                                            background_opacity = 0.88;
-                                            background_radius = 12.0;
-                                            center_password_text = false;
-                                            input_opacity = 1.0;
-                                            input_radius = 6.0;
-                                            show_caps_lock = true;
-                                            show_keyboard_layout = true;
-                                            show_login_button = true;
-                                        };
-                                    };
-                                    clock-date = {
-                                        type = "clock";
-                                        box_height = 40.0;
-                                        box_width = 100.0;
-                                        fx = 0.5;
-                                        fy = 200.0 / 864.0;
-                                        settings = {
-                                            background = false;
-                                            clock_style = "digital";
-                                            format = "{:%a, %b %e}";
-                                            shadow = true;
-                                        };
-                                    };
-                                    clock-time = {
-                                        type = "clock";
-                                        box_height = 40.0;
-                                        box_width = 200.0;
-                                        fx = 0.5;
-                                        fy = 240.0 / 864.0;
-                                        rotation = 0.0;
-                                        settings = {
-                                            background = false;
-                                            clock_style = "digital";
-                                            format = "{:%H:%M}";
-                                            shadow = true;
-                                        };
-                                    };
-                                    media-player = {
-                                        type = "media_player";
-                                        box_height = 168.0;
-                                        box_width = 328.0;
-                                        fx = 0.5;
-                                        fy = 0.5;
-                                        rotation = 0.0;
-                                        settings = {
-                                            background = true;
-                                            color = "on_surface";
-                                            hide_when_no_media = true;
-                                            layout = "horizontal";
-                                            shadow = true;
-                                        };
-                                    };
-                                };
-                                mkWidgetsForOutput =
-                                    output:
-                                    let
-                                        dims = lib.splitString "x" output.mode;
-                                        physWidth = lib.toInt (lib.elemAt dims 0);
-                                        physHeight = lib.toInt (lib.elemAt dims 1);
-                                        scale = output.scale or 1.0;
-                                        logicalWidth = physWidth / scale;
-                                        logicalHeight = physHeight / scale;
-                                    in
-                                    lib.mapAttrs' (
-                                        name: widget:
-                                        let
-                                            widgetDef =
-                                                lib.removeAttrs widget [
-                                                    "fx"
-                                                    "fy"
-                                                ]
-                                                // {
-                                                    output = output.criteria;
-                                                    cx = logicalWidth * widget.fx;
-                                                    cy = logicalHeight * widget.fy;
-                                                };
-                                        in
-                                        lib.nameValuePair "${name}@${output.criteria}" widgetDef
-                                    ) widgetTemplates;
-                            in
-                            {
-                                enabled = true;
-                                grid = {
-                                    cell_size = 8;
-                                    major_interval = 4;
-                                    visible = true;
-                                };
-                                widget = lib.foldl' (
-                                    acc: output: acc // (mkWidgetsForOutput output)
-                                ) { } kanshiOutputs;
-                            };
+                    {
+                      label = "Passwords";
+                      glyph = "lock";
+                      prefix = "pass";
+                      global = false;
+                      freeform = false;
+                      command = "${passmenuBin} -l";
+                      exec = "${passmenuBin} {selection}";
+                    };
+                  bookmarks =
+                    let
+                      bukuBin = "${pkgs.buku}/bin/buku";
+                    in
+                    {
+                      label = "Bookmarks";
+                      glyph = "bookmark";
+                      prefix = "boo";
+                      global = false;
+                      freeform = false;
+                      command = "${bukuBin} --nostdin -p -f 4 | sed 's/\t/ /g'";
+                      exec = "echo '{selection}' | cut -d ' ' -f 1 | xargs -r buku --nostdin -o";
+                    };
+                  power-profiles =
+                    let
+                      ppcBin = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl";
+                    in
+                    {
+                      label = "Power Profiles";
+                      glyph = "bolt";
+                      prefix = "power";
+                      global = false;
+                      freeform = false;
+                      command = "${ppcBin} list | sed -n 's/^\\(\\s\\|\\*\\)\\s\\(.*\\):$/\\2/p'";
+                      exec = "${ppcBin} set '{selection}'";
+                    };
+                  display-profiles =
+                    let
+                      kanshiBin = "${config.services.kanshi.package}/bin/kanshictl";
+                      kanshiProfiles =
+                        config.services.kanshi.settings
+                        |> lib.map (e: e.profile.name or null)
+                        |> lib.filter (n: n != null)
+                        |> lib.concatStringsSep "\\n";
+                    in
+                    {
+                      label = "Display Profiles";
+                      glyph = "device-desktop";
+                      prefix = "disp";
+                      global = false;
+                      freeform = false;
+                      command = "printf '${kanshiProfiles}'";
+                      exec = "${kanshiBin} switch '{selection}'";
                     };
                 };
-
-                wayland.windowManager.mango.settings.exec-once =
-                    lib.mkIf
-                        (config.programs.noctalia.enable && config.wayland.windowManager.mango.enable)
-                        [
-                            "${config.programs.noctalia.package}/bin/noctalia"
-                        ];
+              };
             };
-    };
+            osd = {
+              position_vertical = "top_right";
+            };
+            wallpaper = {
+              enabled = true;
+              fill_mode = "stretch";
+              fill_color = "surface";
+              directory = "${config.xdg.userDirs.pictures}/wallpapers";
+            };
+            keybinds = {
+              cancel = [
+                "Escape"
+                "Ctrl+c"
+              ];
+              down = [
+                "Down"
+                "Ctrl+j"
+              ];
+              left = [
+                "Left"
+                "Ctrl+h"
+              ];
+              right = [
+                "Right"
+                "Ctrl+l"
+              ];
+              tab_next = [
+                "Tab"
+                "Ctrl+n"
+              ];
+              tab_previous = [
+                "Shift+ISO_Left_Tab"
+                "Ctrl+p"
+              ];
+              up = [
+                "Up"
+                "Ctrl+k"
+              ];
+            };
+            idle = {
+              pre_action_fade_seconds = 10;
+              behavior = {
+                lock = {
+                  action = "lock";
+                  timeout = 10 * 60;
+                };
+                screen-off = {
+                  action = "screen_off";
+                  timeout = 11 * 60;
+                };
+                suspend = {
+                  action = "suspend";
+                  timeout = 15 * 60;
+                  lock_before_suspend = true;
+                };
+              };
+            };
+            battery = {
+              warning_threshold = 20;
+            };
+            widget = {
+              volume.show_label = false;
+              network.show_label = false;
+              bluetooth.show_label = false;
+              launcher.glyph = "ankh";
+              cat = {
+                type = "noctalia/bongocat:cat";
+                tappy_mode = true;
+                audio_spectrum = true;
+                use_mpris_filter = true;
+                executable_path = "${pkgs.evtest}/bin/evtest";
+              };
+              clock = {
+                anchor = true;
+                format = "{:%a %H:%M}";
+                tooltip_format = "{:%d %b (W%U)}";
+                capsule_radius = 4;
+                capsule_padding = 10;
+              };
+              battery = {
+                device = "auto";
+                warning_color = "error";
+              };
+              media = {
+                scale = 0.8;
+                hide_when_no_media = true;
+                title_scroll = "on_hover";
+              };
+              privacy = {
+                hide_inactive = true;
+                active_color = "error";
+              };
+              recorder = {
+                type = "noctalia/screen_recorder:recorder";
+              };
+              color-picker = {
+                type = "oldirtty/color_picker:widget";
+              };
+              tray = {
+                drawer = true;
+              };
+              workspaces = {
+                capsule_radius = 4;
+                capsule_padding = 6;
+                empty_color = "on_surface";
+                focused_color = "hover";
+                hide_when_empty = true;
+                labels_only_when_occupied = true;
+                occupied_color = "on_surface";
+                style = "minimal";
+              };
+            };
+            plugins = {
+              auto_update = "none";
+              source = [
+                {
+                  enabled = true;
+                  kind = "git";
+                  location = "https://github.com/noctalia-dev/official-plugins";
+                  name = "official";
+                }
+
+                {
+                  enabled = true;
+                  kind = "git";
+                  location = "https://github.com/noctalia-dev/community-plugins";
+                  name = "community";
+                }
+              ];
+              enabled = [
+                "noctalia/bongocat"
+                "noctalia/screen_recorder"
+                "oldirtty/color_picker"
+              ];
+            };
+            plugin_settings = {
+              "noctalia/screen_recorder" = {
+                directory = "${config.xdg.userDirs.videos}/recordings";
+                filename_pattern = "recording_%Y%m%d_%H%M%S";
+                hide_inactive = false;
+              };
+              "oldirtty/color_picker" = {
+                hyprpicker-lowercase = true;
+              };
+            };
+            bar.default = {
+              capsule = true;
+              concave_edge_corners = false;
+              font_family = config.stylix.fonts.monospace.name;
+              font_weight = 700;
+              margin_ends = 0;
+              radius = 0;
+              capsule_padding = 6;
+              start = [
+                "launcher"
+                "workspaces"
+              ];
+              center = [
+                "clock"
+                "privacy"
+              ];
+              end = [
+                "group:g4"
+                "group:g3"
+                "group:g2"
+                "group:g1"
+              ];
+              capsule_group = [
+                {
+                  id = "g1";
+                  members = [
+                    "clipboard"
+                    "color-picker"
+                    "screenshot"
+                    "recorder"
+                    "control-center"
+                  ];
+                }
+                {
+                  id = "g2";
+                  members = [
+                    "network"
+                    "bluetooth"
+                    "volume"
+                    "battery"
+                  ];
+                }
+                {
+                  id = "g3";
+                  members = [
+                    "notifications"
+                    "tray"
+                  ];
+                }
+                {
+                  id = "g4";
+                  members = [
+                    "media"
+                    "cat"
+                  ];
+                }
+              ];
+            };
+            lockscreen_widgets =
+              let
+                kanshiOutputs =
+                  config.services.kanshi.settings |> lib.map (e: e.output or null) |> lib.filter (o: o != null);
+                widgetTemplates = {
+                  login-box = {
+                    type = "login_box";
+                    box_height = 70.0;
+                    box_width = 400.0;
+                    fx = 0.5;
+                    fy = 608.0 / 864.0;
+                    settings = {
+                      layout = "compact";
+                      background_color = "surface_variant";
+                      background_opacity = 0.88;
+                      background_radius = 12.0;
+                      center_password_text = false;
+                      input_opacity = 1.0;
+                      input_radius = 6.0;
+                      show_caps_lock = true;
+                      show_keyboard_layout = true;
+                      show_login_button = true;
+                    };
+                  };
+                  clock-date = {
+                    type = "clock";
+                    box_height = 40.0;
+                    box_width = 100.0;
+                    fx = 0.5;
+                    fy = 200.0 / 864.0;
+                    settings = {
+                      background = false;
+                      clock_style = "digital";
+                      format = "{:%a, %b %e}";
+                      shadow = true;
+                    };
+                  };
+                  clock-time = {
+                    type = "clock";
+                    box_height = 40.0;
+                    box_width = 200.0;
+                    fx = 0.5;
+                    fy = 240.0 / 864.0;
+                    rotation = 0.0;
+                    settings = {
+                      background = false;
+                      clock_style = "digital";
+                      format = "{:%H:%M}";
+                      shadow = true;
+                    };
+                  };
+                  media-player = {
+                    type = "media_player";
+                    box_height = 168.0;
+                    box_width = 328.0;
+                    fx = 0.5;
+                    fy = 0.5;
+                    rotation = 0.0;
+                    settings = {
+                      background = true;
+                      color = "on_surface";
+                      hide_when_no_media = true;
+                      layout = "horizontal";
+                      shadow = true;
+                    };
+                  };
+                };
+                mkWidgetsForOutput =
+                  output:
+                  let
+                    dims = lib.splitString "x" output.mode;
+                    physWidth = lib.toInt (lib.elemAt dims 0);
+                    physHeight = lib.toInt (lib.elemAt dims 1);
+                    scale = output.scale or 1.0;
+                    logicalWidth = physWidth / scale;
+                    logicalHeight = physHeight / scale;
+                  in
+                  lib.mapAttrs' (
+                    name: widget:
+                    let
+                      widgetDef =
+                        lib.removeAttrs widget [
+                          "fx"
+                          "fy"
+                        ]
+                        // {
+                          output = output.criteria;
+                          cx = logicalWidth * widget.fx;
+                          cy = logicalHeight * widget.fy;
+                        };
+                    in
+                    lib.nameValuePair "${name}@${output.criteria}" widgetDef
+                  ) widgetTemplates;
+              in
+              {
+                enabled = true;
+                grid = {
+                  cell_size = 8;
+                  major_interval = 4;
+                  visible = true;
+                };
+                widget = lib.foldl' (acc: output: acc // (mkWidgetsForOutput output)) { } kanshiOutputs;
+              };
+          };
+        };
+
+        wayland.windowManager.mango.settings.exec-once =
+          lib.mkIf (config.programs.noctalia.enable && config.wayland.windowManager.mango.enable)
+            [
+              "${config.programs.noctalia.package}/bin/noctalia"
+            ];
+      };
+  };
 }
