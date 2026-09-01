@@ -1,4 +1,12 @@
 {
+    flake-file.inputs = {
+        stylix.url = "github:nix-community/stylix";
+        tinted-schemes = {
+            url = "github:tinted-theming/schemes";
+            flake = false;
+        };
+    };
+
     flake.aspects.desktop = {
         homeManager =
             {

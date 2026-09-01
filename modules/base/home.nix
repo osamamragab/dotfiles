@@ -1,4 +1,6 @@
 {
+    flake-file.inputs.home-manager.url = "github:nix-community/home-manager";
+
     flake.aspects.base = {
         nixos =
             {

@@ -1,4 +1,6 @@
 {
+    flake-file.inputs.arkenfox.url = "github:dwarfmaster/arkenfox-nixos";
+
     flake.aspects.desktop = {
         homeManager =
             {

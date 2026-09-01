@@ -1,4 +1,12 @@
 {
+    flake-file.inputs = {
+        noctalia = {
+            url = "github:noctalia-dev/noctalia/cachix";
+            inputs.nixpkgs.autoFollow = false;
+        };
+        noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
+    };
+
     flake.aspects.desktop = {
         nixos =
             {

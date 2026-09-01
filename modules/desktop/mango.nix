@@ -1,4 +1,7 @@
 {
+
+    flake-file.inputs.mangowm.url = "github:mangowm/mango";
+
     flake.aspects.desktop = {
         nixos = { pkgs, ... }: {
             programs.mango = {

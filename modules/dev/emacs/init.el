@@ -4,29 +4,30 @@
 (editorconfig-mode 1)
 (save-place-mode 1)
 
-(setopt
-    inhibit-startup-screen t
-    inhibit-startup-message t
-    initial-scratch-message nil
-    initial-buffer-choice t
-    menu-bar-mode nil
-    tool-bar-mode nil
-    scroll-bar-mode nil
-    use-dialog-box nil
-    cursor-type 'box
-    tab-bar-show nil
-    tab-bar-close-button-show nil
-	use-short-answers t
-	visible-bell nil
-	ring-bell-function 'ignore
-    indicate-empty-lines t
-    show-trailing-whitespace t
-    indent-tabs-mode nil
-    tab-width 4
-    indent-line-function 'insert-tab)
+(setopt inhibit-startup-screen t
+		inhibit-startup-message t
+		initial-scratch-message nil
+		initial-buffer-choice t
+		menu-bar-mode nil
+		tool-bar-mode nil
+		scroll-bar-mode nil
+		use-dialog-box nil
+		cursor-type 'box
+		tab-bar-show nil
+		tab-bar-close-button-show nil
+		use-short-answers t
+		visible-bell nil
+		ring-bell-function 'ignore
+		indicate-empty-lines t
+		show-trailing-whitespace t
+		indent-tabs-mode nil
+		tab-width 4
+		indent-line-function 'insert-tab)
 
-(setopt redisplay-skip-fontification-on-input t
+(setopt native-comp-jit-compilation t
+		gc-cons-threshold (* 10 1024 1024)
 		read-process-output-max (* 4 1024 1024)
+		redisplay-skip-fontification-on-input t
 		cursor-in-non-selected-windows nil
 		highlight-nonselected-windows nil
 		save-interprogram-paste-before-kill t
@@ -107,7 +108,7 @@
 
 (keymap-global-set "<escape>" 'keyboard-escape-quit)
 
-(add-to-list 'default-frame-alist '(font . "monospace-14"))
+(add-to-list 'default-frame-alist '(font . "monospace-12"))
 
 (if init-file-debug
     (setopt use-package-verbose t
@@ -195,7 +196,6 @@
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
 
-
 (use-package consult)
 
 (use-package corfu
@@ -225,7 +225,6 @@
   (add-to-list 'completion-at-point-functions #'cape-file)
   (add-to-list 'completion-at-point-functions #'cape-keyword)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev))
-
 
 (use-package kind-icon
   :after corfu

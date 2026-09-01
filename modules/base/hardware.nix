@@ -1,4 +1,6 @@
 {
+    flake-file.inputs.disko.url = "github:nix-community/disko";
+
     flake.aspects.base = {
         nixos =
             {
