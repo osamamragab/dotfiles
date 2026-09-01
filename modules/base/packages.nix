@@ -17,7 +17,6 @@
         ltrace
         traceroute
         lsof
-        rsync
         psmisc
         ethtool
         pciutils

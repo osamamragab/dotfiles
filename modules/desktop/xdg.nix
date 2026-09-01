@@ -59,7 +59,12 @@
           };
         };
 
-        home.preferXdgDirectories = config.xdg.enable;
+        home = {
+          preferXdgDirectories = config.xdg.enable;
+          shellAliases = lib.mkIf config.xdg.enable {
+            open = "xdg-open";
+          };
+        };
 
         # TODO: select window
         xdg.configFile."xdg-desktop-portal-wlr/config" =

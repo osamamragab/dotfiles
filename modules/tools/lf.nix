@@ -135,6 +135,14 @@
           };
         };
 
+        home.shellAliases = lib.mkIf config.programs.lf.enable {
+          lfcd = ''
+            _lfcd() {
+              cd "$(command lf -print-last-dir "$@")" || return $?
+            }; _lfcd \
+          '';
+        };
+
         xdg.configFile."lf/icons" =
           lib.mkIf (config.programs.lf.enable && config.programs.lf.settings.icons)
             {

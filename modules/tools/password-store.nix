@@ -19,6 +19,19 @@
           };
         };
 
+        home.shellAliases = lib.mkIf config.programs.password-store.enable {
+          pass = ''
+            _pass() {
+              ed="''${EDITOR:-vi}"
+              case "$ed" in
+              vim | nvim) ed="$ed --noplugin" ;;
+              esac
+              env EDITOR="$ed" pass "$@"
+              unset ed
+            }; _pass \
+          '';
+        };
+
         home.file."${config.xdg.binHome}/passmenu" =
           let
             menuBin = "${config.xdg.binHome}/menu";

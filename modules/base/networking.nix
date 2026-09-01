@@ -35,21 +35,27 @@
       };
 
     homeManager = { pkgs, ... }: {
-      home.packages = with pkgs; [
-        mitmproxy
-        bettercap
-        wireshark
-        termshark
-        aircrack-ng
-        proxychains-ng
-        netcat-openbsd
-        macchanger
-        mosh
-        wrk
-        tor
-        torsocks
-        transmission_4
-      ];
+      home = {
+        packages = with pkgs; [
+          mitmproxy
+          bettercap
+          wireshark
+          termshark
+          aircrack-ng
+          proxychains-ng
+          netcat-openbsd
+          macchanger
+          mosh
+          wrk
+          tor
+          torsocks
+          transmission_4
+        ];
+        shellAliases = {
+          mitmproxy = ''mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'';
+          mitmweb = ''mitmweb --set confdir="$XDG_CONFIG_HOME/mitmproxy"'';
+        };
+      };
     };
   };
 }
