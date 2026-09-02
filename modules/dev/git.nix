@@ -36,7 +36,7 @@
               editor = "${config.programs.neovim.package}/bin/nvim";
               pager = "${config.programs.delta.package}/bin/delta";
             };
-            user = {
+            user = lib.mkIf (primaryAccount != null) {
               name = primaryAccount.realName;
               email = primaryAccount.address;
               signingKey = primaryAccount.gpg.key;

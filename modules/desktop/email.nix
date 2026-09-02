@@ -1,5 +1,5 @@
 {
-  flake.aspects.base = {
+  flake.aspects.desktop = {
     homeManager =
       {
         pkgs,
