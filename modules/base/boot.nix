@@ -9,11 +9,11 @@
       }:
       {
         boot = {
-          consoleLogLevel = 3;
+          consoleLogLevel = lib.mkDefault 3;
           tmp = {
-            useTmpfs = true;
-            tmpfsSize = "50%";
-            cleanOnBoot = true;
+            useTmpfs = lib.mkDefault true;
+            tmpfsSize = lib.mkDefault "50%";
+            cleanOnBoot = lib.mkDefault true;
           };
           kernelParams = [
             "quiet"
@@ -43,20 +43,20 @@
             "snd_pcsp"
           ];
           initrd = {
-            compressor = "zstd";
-            systemd.enable = true;
+            compressor = lib.mkDefault "zstd";
+            systemd.enable = lib.mkDefault true;
           };
           loader = {
-            efi.canTouchEfiVariables = true;
+            efi.canTouchEfiVariables = lib.mkDefault true;
             systemd-boot = {
-              enable = true;
+              enable = lib.mkDefault true;
               configurationLimit = lib.mkDefault 10;
               consoleMode = lib.mkDefault "max";
             };
           };
           plymouth = {
             enable = lib.mkDefault false;
-            theme = "hud_3";
+            theme = lib.mkDefault "hud_3";
             themePackages = [
               (pkgs.adi1090x-plymouth-themes.override {
                 selected_themes = [ config.boot.plymouth.theme ];
