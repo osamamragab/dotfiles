@@ -19,7 +19,9 @@ let
     );
   getAspectsForClass =
     class: aspects:
-    aspects |> lib.map (aspect: aspect.${class} or null) |> lib.filter (aspect: aspect != null);
+    aspects
+    |> lib.map (aspect: aspect.${class} or null)
+    |> lib.filter (aspect: aspect != null);
 in
 {
   options.flake.aspects = lib.mkOption {
@@ -62,6 +64,10 @@ in
             type = lib.types.listOf (lib.types.either lib.types.str lib.types.attrs);
             default = [ ];
           };
+          module = lib.mkOption {
+            type = lib.types.deferredModule;
+            default = { };
+          };
           extraModules = lib.mkOption {
             type = lib.types.listOf lib.types.deferredModule;
             default = [ ];
@@ -101,12 +107,14 @@ in
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
         ]
-        ++ (getAspects host.aspects |> getAspectsForClass "nixos")
+        ++ nixosModules
+        ++ [ host.module ]
         ++ host.extraModules
         ++ [
           {
             networking.hostName = hostName;
             system.stateVersion = host.stateVersion;
+            users.users.${host.user} = { };
             home-manager = {
               extraSpecialArgs = { inherit inputs host; };
               users.${host.user} = hmModules ++ host.extraHomeModules |> lib.mkMerge;
