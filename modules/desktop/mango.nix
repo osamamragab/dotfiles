@@ -16,6 +16,7 @@
         pkgs,
         lib,
         config,
+        osConfig,
         ...
       }:
       let
@@ -396,6 +397,7 @@
               "isterm:1,isnamedscratchpad:1,width:840,height:560,appid:terminal-scratchpad"
               "isterm:1,isfloating:1,width:840,height:560,appid:terminal-floating"
               "noswallow:1,appid:wev"
+              "isfloating:1,appid:udiskie"
             ]
             ++ lib.optionals config.xdg.terminal-exec.enable (
               config.xdg.terminal-exec.settings
@@ -449,6 +451,14 @@
               "systemctl --user restart mango-session.target"
             ];
           };
+        };
+
+        xdg.portal = lib.mkIf (config.wayland.windowManager.mango.enable or false) {
+          config.mango = {
+            "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+            "org.freedesktop.impl.portal.Screenshot" = "wlr";
+          };
+          extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
         };
       };
   };

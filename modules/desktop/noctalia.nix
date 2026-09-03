@@ -48,6 +48,7 @@
         pkgs,
         lib,
         config,
+        osConfig,
         ...
       }:
       {
@@ -140,7 +141,7 @@
                     let
                       passmenuBin = "${config.xdg.binHome}/passmenu";
                     in
-                    {
+                    lib.mkIf config.programs.password-store.enable {
                       label = "Passwords";
                       glyph = "lock";
                       prefix = "pass";
@@ -166,7 +167,7 @@
                     let
                       ppcBin = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl";
                     in
-                    {
+                    lib.mkIf osConfig.services.power-profiles-daemon.enable {
                       label = "Power Profiles";
                       glyph = "bolt";
                       prefix = "power";
@@ -184,7 +185,7 @@
                         |> lib.filter (n: n != null)
                         |> lib.concatStringsSep "\\n";
                     in
-                    {
+                    lib.mkIf config.services.kanshi.enable {
                       label = "Display Profiles";
                       glyph = "device-desktop";
                       prefix = "disp";
@@ -402,7 +403,9 @@
             lockscreen_widgets =
               let
                 kanshiOutputs =
-                  config.services.kanshi.settings |> lib.map (e: e.output or null) |> lib.filter (o: o != null);
+                  config.services.kanshi.settings
+                  |> lib.map (e: e.output or null)
+                  |> lib.filter (o: o != null);
                 widgetTemplates = {
                   login-box = {
                     type = "login_box";
@@ -500,16 +503,21 @@
                   major_interval = 4;
                   visible = true;
                 };
-                widget = lib.foldl' (acc: output: acc // (mkWidgetsForOutput output)) { } kanshiOutputs;
+                widget = lib.foldl' (
+                  acc: output: acc // (mkWidgetsForOutput output)
+                ) { } kanshiOutputs;
               };
           };
         };
 
-        wayland.windowManager.mango.settings.exec-once =
-          lib.mkIf (config.programs.noctalia.enable && config.wayland.windowManager.mango.enable)
-            [
-              "${config.programs.noctalia.package}/bin/noctalia"
-            ];
+        wayland.windowManager =
+          lib.optionalAttrs
+            (config.programs.noctalia.enable && (config.wayland.windowManager ? mango))
+            {
+              mango.settings.exec-once = [
+                "${config.programs.noctalia.package}/bin/noctalia"
+              ];
+            };
       };
   };
 }

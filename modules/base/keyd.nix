@@ -10,7 +10,9 @@
       }:
       let
         mkSettings =
-          settings: settings |> lib.recursiveUpdate (config.services.keyd.keyboards.default.settings or { });
+          settings:
+          settings
+          |> lib.recursiveUpdate (config.services.keyd.keyboards.default.settings or { });
         mkMainSettings = settings: mkSettings { main = settings; };
       in
       {
@@ -39,20 +41,22 @@
 
         users.groups.keyd.members = [ host.user ];
 
-        environment.etc."libinput/local-overrides.quirks" = lib.mkIf config.services.keyd.enable {
-          source =
-            let
-              iniFormat = pkgs.formats.ini { };
-            in
-            iniFormat.generate "libinput-local-overrides.quirks" {
+        environment.etc."libinput/local-overrides.quirks" =
+          lib.mkIf config.services.keyd.enable
+            {
+              source =
+                let
+                  iniFormat = pkgs.formats.ini { };
+                in
+                iniFormat.generate "libinput-local-overrides.quirks" {
 
-              "Serial Keyboards" = {
-                MatchUdevType = "keyboard";
-                MatchName = "keyd virtual keyboard";
-                AttrKeyboardIntegration = "internal";
-              };
+                  "Serial Keyboards" = {
+                    MatchUdevType = "keyboard";
+                    MatchName = "keyd virtual keyboard";
+                    AttrKeyboardIntegration = "internal";
+                  };
+                };
             };
-        };
       };
 
     homeManager =
@@ -60,6 +64,7 @@
         pkgs,
         lib,
         config,
+        osConfig,
         ...
       }:
       {
@@ -80,12 +85,14 @@
             org-chromium-chromium = common;
           };
 
-        wayland.windowManager.mango.settings.exec-once =
-          lib.mkIf config.wayland.windowManager.mango.enable
-            [
-              "${pkgs.keyd}/bin/keyd-application-mapper"
-            ];
-
+        wayland.windowManager =
+          lib.optionalAttrs
+            (osConfig.services.keyd.enable && (config.wayland.windowManager ? mango))
+            {
+              mango.settings.exec-once = [
+                "${pkgs.keyd}/bin/keyd-application-mapper"
+              ];
+            };
       };
   };
 }

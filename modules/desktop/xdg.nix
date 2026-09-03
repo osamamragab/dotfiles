@@ -25,15 +25,8 @@
                   if config.services.gnome-keyring.enable then "gnome-keyring" else "none";
                 "org.freedesktop.impl.portal.Inhibit" = "none";
               };
-              mango = lib.mkIf config.wayland.windowManager.mango.enable {
-                "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-                "org.freedesktop.impl.portal.Screenshot" = "wlr";
-              };
             };
-            extraPortals = with pkgs; [
-              xdg-desktop-portal-wlr
-              xdg-desktop-portal-gtk
-            ];
+            extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
           };
           terminal-exec = {
             enable = true;
