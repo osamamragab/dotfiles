@@ -6,15 +6,14 @@
       {
         pkgs,
         lib,
-        config,
         host,
         ...
       }:
       {
         users = {
-          defaultUserShell = pkgs.bashInteractive;
+          defaultUserShell = lib.mkDefault pkgs.bashInteractive;
           users.${host.user} = {
-            name = host.user;
+            name = lib.mkDefault host.user;
             group = host.user;
             isNormalUser = lib.mkDefault true;
             useDefaultShell = lib.mkDefault true;
@@ -24,18 +23,19 @@
         };
 
         home-manager = {
-          useGlobalPkgs = true;
-          useUserPackages = true;
+          useGlobalPkgs = lib.mkDefault true;
+          useUserPackages = lib.mkDefault true;
         };
       };
 
-    homeManager = { host, ... }: {
+    homeManager = { lib, host, ... }: {
       programs.home-manager.enable = true;
+
       home = {
         username = host.user;
         stateVersion = host.stateVersion;
         homeDirectory = "/home/${host.user}";
-        enableNixpkgsReleaseCheck = true;
+        enableNixpkgsReleaseCheck = lib.mkDefault true;
       };
     };
   };

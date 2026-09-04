@@ -4,6 +4,8 @@
 
   flake-file = {
     description = "Osama's NixOS configuration";
+    auto-follow.enable = true;
+    formatter = pkgs: pkgs.nixfmt;
     inputs = {
       nixpkgs.url = lib.mkDefault "github:NixOS/nixpkgs/nixpkgs-unstable";
       nixpkgs-lib.follows = "nixpkgs";
@@ -11,7 +13,5 @@
       import-tree.url = "github:denful/import-tree";
       flake-parts.url = "github:hercules-ci/flake-parts";
     };
-    auto-follow.enable = true;
-    formatter = pkgs: pkgs.nixfmt;
   };
 }

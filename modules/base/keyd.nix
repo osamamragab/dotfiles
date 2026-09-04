@@ -64,7 +64,7 @@
         pkgs,
         lib,
         config,
-        osConfig,
+        osConfig ? null,
         ...
       }:
       {
@@ -87,7 +87,10 @@
 
         wayland.windowManager =
           lib.optionalAttrs
-            (osConfig.services.keyd.enable && (config.wayland.windowManager ? mango))
+            (
+              (osConfig.services.keyd.enable or false)
+              && (config.wayland.windowManager ? mango)
+            )
             {
               mango.settings.exec-once = [
                 "${pkgs.keyd}/bin/keyd-application-mapper"

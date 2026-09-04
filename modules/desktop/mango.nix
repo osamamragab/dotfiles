@@ -16,7 +16,6 @@
         pkgs,
         lib,
         config,
-        osConfig,
         ...
       }:
       let
@@ -37,9 +36,7 @@
         '';
       in
       {
-        imports = [
-          inputs.mangowm.hmModules.mango
-        ];
+        imports = [ inputs.mangowm.hmModules.mango ];
 
         wayland.windowManager.mango = {
           enable = true;

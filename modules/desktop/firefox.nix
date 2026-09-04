@@ -155,9 +155,7 @@
         };
       in
       {
-        imports = [
-          inputs.arkenfox.hmModules.arkenfox
-        ];
+        imports = [ inputs.arkenfox.hmModules.arkenfox ];
 
         programs.firefox = {
           enable = true;

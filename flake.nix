@@ -69,18 +69,16 @@
     };
     nur = {
       url = "github:nix-community/NUR";
-      inputs = {
-        flake-parts.follows = "flake-parts";
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.flake-parts.follows = "flake-parts";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     stylix = {
       url = "github:nix-community/stylix";
       inputs = {
         flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs";
-        nur.follows = "nur";
         tinted-schemes.follows = "tinted-schemes";
+        nur.follows = "nur";
       };
     };
     tinted-schemes = {

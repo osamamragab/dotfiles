@@ -17,9 +17,7 @@
         ...
       }:
       {
-        imports = [
-          inputs.stylix.homeModules.default
-        ];
+        imports = [ inputs.stylix.homeModules.default ];
 
         home.packages = with pkgs; [
           noto-fonts

@@ -16,9 +16,7 @@
         ...
       }:
       {
-        imports = [
-          inputs.noctalia-greeter.nixosModules.default
-        ];
+        imports = [ inputs.noctalia-greeter.nixosModules.default ];
 
         programs.noctalia-greeter = {
           enable = true;
@@ -48,13 +46,11 @@
         pkgs,
         lib,
         config,
-        osConfig,
+        osConfig ? null,
         ...
       }:
       {
-        imports = [
-          inputs.noctalia.homeModules.default
-        ];
+        imports = [ inputs.noctalia.homeModules.default ];
 
         home.packages =
           let
@@ -167,7 +163,7 @@
                     let
                       ppcBin = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl";
                     in
-                    lib.mkIf osConfig.services.power-profiles-daemon.enable {
+                    lib.mkIf (osConfig.services.power-profiles-daemon.enable or false) {
                       label = "Power Profiles";
                       glyph = "bolt";
                       prefix = "power";

@@ -117,7 +117,7 @@ in
             users.users.${host.user} = { };
             home-manager = {
               extraSpecialArgs = { inherit inputs host; };
-              users.${host.user} = hmModules ++ host.extraHomeModules |> lib.mkMerge;
+              users.${host.user} = (hmModules ++ host.extraHomeModules) |> lib.mkMerge;
             };
           }
         ];
@@ -132,9 +132,13 @@ in
         hmModules = getAspects host.aspects |> getAspectsForClass "homeManager";
       in
       inputs.home-manager.lib.homeManagerConfiguration {
-        system = host.system;
-        specialArgs = { inherit inputs host; };
-        homeModules = hmModules ++ host.extraHomeModules;
+        pkgs = inputs.nixpkgs.legacyPackages.${host.system};
+        extraSpecialArgs = { inherit inputs host; };
+        modules = [
+          inputs.nur.modules.homeManager.default
+        ]
+        ++ hmModules
+        ++ host.extraHomeModules;
       }
     );
 }
