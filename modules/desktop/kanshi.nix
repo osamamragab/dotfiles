@@ -9,7 +9,9 @@
       }:
       let
         outputs =
-          config.services.kanshi.settings |> lib.map (e: e.output or null) |> lib.filter (o: o != null);
+          config.services.kanshi.settings
+          |> lib.map (e: e.output or null)
+          |> lib.filter (o: o != null);
         parsePos =
           output:
           let
@@ -87,6 +89,14 @@
                 criteria = "DP-2";
                 mode = "1680x1050";
                 position = relativePos "left" "HDMI-A-1";
+                scale = 1.0;
+              };
+            }
+            {
+              output = {
+                criteria = "LVDS-1";
+                mode = "1366x768";
+                position = "0,0";
                 scale = 1.0;
               };
             }
