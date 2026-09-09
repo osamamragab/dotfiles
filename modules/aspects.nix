@@ -56,6 +56,10 @@ in
           user = lib.mkOption {
             type = lib.types.str;
           };
+          sshKey = lib.mkOption {
+            type = lib.types.str;
+            default = "";
+          };
           stateVersion = lib.mkOption {
             type = lib.types.str;
             default = "26.11";
@@ -98,6 +102,18 @@ in
         aspects = getAspects host.aspects;
         nixosModules = aspects |> getAspectsForClass "nixos";
         hmModules = aspects |> getAspectsForClass "homeManager";
+        knownHosts =
+          config.flake.hosts
+          |> lib.filterAttrs (hn: h: hn != hostName && h.sshKey != "")
+          |> lib.mapAttrs' (
+            hn: h: {
+              name = hn;
+              value = {
+                hostNames = [ hn ];
+                publicKey = h.sshKey;
+              };
+            }
+          );
       in
       inputs.nixpkgs.lib.nixosSystem {
         system = host.system;
@@ -112,8 +128,9 @@ in
         ++ host.extraModules
         ++ [
           {
-            networking.hostName = hostName;
             system.stateVersion = host.stateVersion;
+            networking.hostName = hostName;
+            services.openssh = { inherit knownHosts; };
             users.users.${host.user} = { };
             home-manager = {
               extraSpecialArgs = { inherit inputs host; };
