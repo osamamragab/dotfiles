@@ -5,6 +5,7 @@
         packages = with pkgs; [
           bc
           jq
+          age
           buku
           tree-sitter
           fribidi
