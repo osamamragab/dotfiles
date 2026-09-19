@@ -73,6 +73,10 @@
             popups = 0.95;
             terminal = 0.95;
           };
+          targets = {
+            emacs.enable = false;
+            neovim.enable = false;
+          };
         };
 
         fonts.fontconfig = {
