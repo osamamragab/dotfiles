@@ -22,18 +22,15 @@
 
         users.groups.video.members = lib.optional config.hardware.graphics.enable host.user;
 
-        nixpkgs.config.allowUnfreePredicate =
-          lib.mkIf config.hardware.enableAllFirmware
-            (
-              pkg:
-              lib.elem (lib.getName pkg) [
-                "broadcom-bt-firmware"
-                "b43-firmware"
-                "xone-dongle-firmware"
-                "facetimehd-firmware"
-                "facetimehd-calibration"
-              ]
-            );
+        nixpkgs.config.allowUnfreePackages =
+          lib.optionals config.hardware.enableAllFirmware
+            [
+              "broadcom-bt-firmware"
+              "b43-firmware"
+              "xone-dongle-firmware"
+              "facetimehd-firmware"
+              "facetimehd-calibration"
+            ];
       };
   };
 }
