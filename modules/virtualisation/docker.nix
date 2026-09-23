@@ -1,6 +1,6 @@
 {
   flake.aspects.virtualisation = {
-    nixos = { pkgs, ... }: {
+    nixos = { pkgs, config, ... }: {
       virtualisation.docker = {
         enable = true;
         package = pkgs.docker;
@@ -8,6 +8,9 @@
         rootless = {
           enable = true;
           setSocketVariable = true;
+          daemon.settings = {
+            storage-driver = config.virtualisation.docker.storageDriver;
+          };
         };
       };
     };
