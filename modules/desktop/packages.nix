@@ -19,7 +19,7 @@
         libreoffice
         telegram-desktop
         vesktop
-        #rustdesk
+        rustdesk-flutter
       ];
     };
   };
