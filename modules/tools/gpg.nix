@@ -52,7 +52,7 @@
       };
 
       home.packages = with pkgs; [
-        gcr # required for pinentry-gnome3 to work properly
+        gcr_4 # required for pinentry-gnome3 to work properly
         pinentry-curses
       ];
     };
