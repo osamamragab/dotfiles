@@ -113,6 +113,8 @@
           };
         };
 
+        home.packages = [ pkgs.git-bug ];
+
         home.shellAliases = lib.mkIf config.programs.git.enable {
           g = "git";
           gst = "git status -sb";
