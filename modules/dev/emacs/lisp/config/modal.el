@@ -65,6 +65,7 @@
     "b p"   '(previous-buffer :which-key "Previous Buffer")
     "b i"   '(ibuffer :which-key "Ibuffer")
     "b r"   '(revert-buffer :which-key "Revert Buffer")
+    "b f"   '(eglot-format-buffer :which-key "Format Buffer")
     "r c"   '((lambda () (interactive) (load-file user-init-file) (message "config reloaded")) :which-key "Reload Config")
     "o t"   '(term-scratch :which-key "Scratch Terminal")
     "o d"   '(dirvish :which-key "Dirvish")
