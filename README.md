@@ -2,11 +2,13 @@
 
 > NixOS system configurations.
 
+
 ## Hosts
 
-| Host | OS    | Arch   |
-| ---  | ---   | ---    |
-| xlab | NixOS | x86_64 |
+| Host   | OS    | Arch   |
+| ------ | ----- | ------ |
+| xlab   | NixOS | x86_64 |
+| boraiy | NixOS | x86_64 |
 
 
 ## Usage
