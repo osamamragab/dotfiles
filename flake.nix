@@ -1,4 +1,4 @@
-# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# DO-NOT-EDIT. This file was auto-generated using github:denful/flake-file.
 # Use `nix run .#write-flake` to regenerate it.
 {
   description = "Osama's NixOS configuration";
@@ -55,7 +55,7 @@
       };
     };
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      url = "github:NixOS/nixpkgs/nixos-unstable";
     };
     nixpkgs-lib = {
       follows = "nixpkgs";
@@ -69,16 +69,18 @@
     };
     nur = {
       url = "github:nix-community/NUR";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        flake-parts.follows = "flake-parts";
+        nixpkgs.follows = "nixpkgs";
+      };
     };
     stylix = {
       url = "github:nix-community/stylix";
       inputs = {
         flake-parts.follows = "flake-parts";
         nixpkgs.follows = "nixpkgs";
-        tinted-schemes.follows = "tinted-schemes";
         nur.follows = "nur";
+        tinted-schemes.follows = "tinted-schemes";
       };
     };
     tinted-schemes = {
