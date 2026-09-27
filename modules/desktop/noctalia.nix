@@ -159,7 +159,8 @@
         imports = [ inputs.noctalia.homeModules.default ];
 
         home.packages =
-          lib.optional (lib.elem "noctalia/bongocat" plugins) pkgs.evtest
+          lib.optional cfg.settings.brightness.enable_ddcutil pkgs.ddcutil
+          ++ lib.optional (lib.elem "noctalia/bongocat" plugins) pkgs.evtest
           ++ lib.optional (lib.elem "oldirtty/color_picker" plugins) pkgs.hyprpicker;
 
         programs.noctalia = {
@@ -336,6 +337,10 @@
             };
             battery = {
               warning_threshold = 20;
+            };
+            brightness = {
+              enable_ddcutil = true;
+              sync_all_monitors = true;
             };
             widget = {
               volume.show_label = false;
