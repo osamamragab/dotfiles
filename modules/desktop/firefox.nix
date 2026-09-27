@@ -14,7 +14,10 @@
         cfg = config.programs.firefox;
         addonPackages = with pkgs.nur.repos.rycee.firefox-addons; [
           multi-account-containers
+          noscript
           ublock-origin
+          privacy-badger
+          private-relay
           sponsorblock
           dearrow
           chrome-mask
