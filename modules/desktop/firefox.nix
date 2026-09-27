@@ -11,6 +11,7 @@
         ...
       }:
       let
+        cfg = config.programs.firefox;
         addonPackages = with pkgs.nur.repos.rycee.firefox-addons; [
           multi-account-containers
           ublock-origin
@@ -174,34 +175,26 @@
           ) { } profiles;
         };
 
-        stylix.targets.firefox = lib.mkIf config.programs.firefox.enable {
+        stylix.targets.firefox = lib.mkIf cfg.enable {
           colorTheme.enable = true;
           profileNames = lib.map (p: p.name) profiles;
         };
 
-        home.sessionVariables = lib.mkIf config.programs.firefox.enable {
+        home.sessionVariables = lib.mkIf cfg.enable {
           BROWSER = "firefox";
         };
 
-        home.file."${config.xdg.binHome}/fftabs" =
-          let
-            dir =
-              if config.xdg.enable then
-                "${config.xdg.configHome}/mozilla/firefox"
-              else
-                "${config.home.homeDirectory}/.mozilla/firefox";
-          in
-          lib.mkIf config.programs.firefox.enable {
-            source = pkgs.writeShellScript "fftabs" ''
-              set -eu
-              sed -n "s/Path=\(.*\)/\1/p" "${dir}/profiles.ini" | while IFS= read -r p; do
-                ${pkgs.dejsonlz4}/bin/dejsonlz4 "${dir}/$p/sessionstore-backups/recovery.jsonlz4" |
-                  ${pkgs.jq}/bin/jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
-              done
-            '';
-          };
+        home.file."${config.xdg.binHome}/fftabs" = lib.mkIf cfg.enable {
+          source = pkgs.writeShellScript "fftabs" ''
+            set -eu
+            sed -n "s/Path=\(.*\)/\1/p" "${cfg.configPath}/profiles.ini" | while IFS= read -r p; do
+              ${pkgs.dejsonlz4}/bin/dejsonlz4 "${cfg.configPath}/$p/sessionstore-backups/recovery.jsonlz4" |
+                ${pkgs.jq}/bin/jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
+            done
+          '';
+        };
 
-        xdg.mimeApps.defaultApplications = lib.mkIf config.programs.firefox.enable (
+        xdg.mimeApps.defaultApplications = lib.mkIf cfg.enable (
           lib.genAttrs [
             "x-scheme-handler/http"
             "x-scheme-handler/https"

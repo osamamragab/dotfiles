@@ -7,15 +7,19 @@
         config,
         ...
       }:
+      let
+        cfg = config.xdg;
+        homeDir = config.home.homeDirectory;
+      in
       {
         xdg = {
           enable = true;
           localBinInPath = true;
-          configHome = "${config.home.homeDirectory}/.config";
-          cacheHome = "${config.home.homeDirectory}/.cache";
-          dataHome = "${config.home.homeDirectory}/.local/share";
-          stateHome = "${config.home.homeDirectory}/.local/state";
-          binHome = "${config.home.homeDirectory}/.local/bin";
+          configHome = "${homeDir}/.config";
+          cacheHome = "${homeDir}/.cache";
+          dataHome = "${homeDir}/.local/share";
+          stateHome = "${homeDir}/.local/state";
+          binHome = "${homeDir}/.local/bin";
           portal = {
             enable = true;
             config = {
@@ -37,15 +41,15 @@
             package = pkgs.xdg-user-dirs;
             createDirectories = true;
             setSessionVariables = false;
-            desktop = "${config.home.homeDirectory}";
-            projects = "${config.home.homeDirectory}/src";
-            download = "${config.home.homeDirectory}/dls";
-            documents = "${config.home.homeDirectory}/docs";
-            publicShare = "${config.home.homeDirectory}/docs/share";
-            templates = "${config.home.homeDirectory}/docs/templates";
-            music = "${config.home.homeDirectory}/docs/music";
-            videos = "${config.home.homeDirectory}/docs/vids";
-            pictures = "${config.home.homeDirectory}/docs/pics";
+            desktop = "${homeDir}";
+            projects = "${homeDir}/src";
+            download = "${homeDir}/dls";
+            documents = "${homeDir}/docs";
+            publicShare = "${homeDir}/docs/share";
+            templates = "${homeDir}/docs/templates";
+            music = "${homeDir}/docs/music";
+            videos = "${homeDir}/docs/vids";
+            pictures = "${homeDir}/docs/pics";
           };
           mimeApps = {
             enable = true;

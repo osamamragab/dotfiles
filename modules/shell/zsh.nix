@@ -24,6 +24,9 @@
         config,
         ...
       }:
+      let
+        cfg = config.programs.zsh;
+      in
       {
         programs.zsh = {
           enable = true;
@@ -47,7 +50,7 @@
           };
           history = {
             size = 32 * 1024;
-            save = config.programs.zsh.history.size;
+            save = cfg.history.size;
             path = "${config.xdg.stateHome}/history";
             share = false;
             ignoreAllDups = true;
@@ -83,7 +86,7 @@
               file = "share/zsh-z/zsh-z.plugin.zsh";
             }
           ];
-          completionInit = lib.mkIf config.programs.zsh.enableCompletion ''
+          completionInit = lib.mkIf cfg.enableCompletion ''
             fpath+=("$ZDOTDIR/completions")
             _comp_options+=(globdots)
             autoload -Uz compinit
@@ -158,33 +161,27 @@
           ];
         };
 
-        xdg.configFile."fsh/overlay.ini" =
-          let
-            iniFormat = pkgs.formats.ini { };
-          in
-          lib.mkIf config.programs.zsh.fastSyntaxHighlighting.enable {
-            source = iniFormat.generate "overlay.ini" {
-              base = {
-                comment = 8;
-              };
+        xdg.configFile."fsh/overlay.ini" = lib.mkIf cfg.fastSyntaxHighlighting.enable {
+          source = (pkgs.formats.ini { }).generate "overlay.ini" {
+            base = {
+              comment = 8;
             };
           };
+        };
 
-        home.file."${config.programs.zsh.dotDir}/completions/_notes" =
-          lib.mkIf config.programs.zsh.enableCompletion
-            {
-              text = ''
-                #compdef notes
-                _notes() {
-                  _files -W "''${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
-                }
-                compdef _notes notes
-              '';
-            };
+        home.file."${cfg.dotDir}/completions/_notes" = lib.mkIf cfg.enableCompletion {
+          text = ''
+            #compdef notes
+            _notes() {
+              _files -W "''${NOTESDIR:-$(xdg-user-dir DOCUMENTS)/notes}"
+            }
+            compdef _notes notes
+          '';
+        };
 
         home.sessionVariables._Z_DATA = lib.mkIf (lib.any (
           p: p.src == pkgs.zsh-z
-        ) config.programs.zsh.plugins) "${config.xdg.stateHome}/zdata";
+        ) cfg.plugins) "${config.xdg.stateHome}/zdata";
       };
   };
 }

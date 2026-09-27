@@ -7,6 +7,11 @@
         config,
         ...
       }:
+      let
+        cfg = config.programs.tmux;
+        fzfBin = "${config.programs.fzf.package}/bin/fzf";
+        tmuxBin = "${cfg.package}/bin/tmux";
+      in
       {
         programs.tmux = {
           enable = true;
@@ -42,56 +47,51 @@
           '';
         };
 
-        home.file."${config.xdg.binHome}/tmuxx" = lib.mkIf config.programs.tmux.enable {
-          source =
-            let
-              fzfBin = "${config.programs.fzf.package}/bin/fzf";
-              tmuxBin = "${config.programs.tmux.package}/bin/tmux";
-            in
-            pkgs.writeShellScript "tmuxx" ''
-              set -eu
+        home.file."${config.xdg.binHome}/tmuxx" = lib.mkIf cfg.enable {
+          source = pkgs.writeShellScript "tmuxx" ''
+            set -eu
 
-              PROJECTS_DIR="${config.xdg.userDirs.projects}"
+            PROJECTS_DIR="${config.xdg.userDirs.projects}"
 
-              dirsel() {
-                find "$PRODJECTS_DIR" -mindepth 2 -maxdepth 2 -type d -printf "%T@ %P\n" |
-                  sort -nr |
-                  cut -d " " -f 2- |
-                  ${fzfBin}
-              }
+            dirsel() {
+              find "$PRODJECTS_DIR" -mindepth 2 -maxdepth 2 -type d -printf "%T@ %P\n" |
+                sort -nr |
+                cut -d " " -f 2- |
+                ${fzfBin}
+            }
 
-              case "''${1:--}" in
-              .)
-                dir="$(pwd)"
-                shift
-                ;;
-              -)
-                dir="$PRODJECTS_DIR/$(dirsel)" || exit $?
-                [ $# -gt 0 ] && shift
-                ;;
-              *)
-                dir="$(readlink -f "$1")"
-                shift
-                ;;
-              esac
+            case "''${1:--}" in
+            .)
+              dir="$(pwd)"
+              shift
+              ;;
+            -)
+              dir="$PRODJECTS_DIR/$(dirsel)" || exit $?
+              [ $# -gt 0 ] && shift
+              ;;
+            *)
+              dir="$(readlink -f "$1")"
+              shift
+              ;;
+            esac
 
-              [ -d "$dir" ] || {
-                echo "$(basename "$0"): '$dir' is not a diretory" >&2
-                exit 1
-              }
-              name="$(basename "$dir")"
+            [ -d "$dir" ] || {
+              echo "$(basename "$0"): '$dir' is not a diretory" >&2
+              exit 1
+            }
+            name="$(basename "$dir")"
 
-              [ $# -gt 1 ] && {
-                ${tmuxBin} new -d -c "$dir" -s "$name" -n "$1"
-                shift
-              }
+            [ $# -gt 1 ] && {
+              ${tmuxBin} new -d -c "$dir" -s "$name" -n "$1"
+              shift
+            }
 
-              for win; do
-                ${tmuxBin} new-window -d -t "$name" -c "$dir" -n "$win"
-              done
+            for win; do
+              ${tmuxBin} new-window -d -t "$name" -c "$dir" -n "$win"
+            done
 
-              exec ${tmuxBin} new -A -c "$dir" -s "$name"
-            '';
+            exec ${tmuxBin} new -A -c "$dir" -s "$name"
+          '';
         };
       };
   };

@@ -9,10 +9,11 @@
         ...
       }:
       let
+        cfg = config.services.keyd;
+        iniFormat = pkgs.formats.ini { };
         mkSettings =
           settings:
-          settings
-          |> lib.recursiveUpdate (config.services.keyd.keyboards.default.settings or { });
+          settings |> lib.recursiveUpdate (cfg.keyboards.default.settings or { });
         mkMainSettings = settings: mkSettings { main = settings; };
       in
       {
@@ -41,22 +42,15 @@
 
         users.groups.keyd.members = [ host.user ];
 
-        environment.etc."libinput/local-overrides.quirks" =
-          lib.mkIf config.services.keyd.enable
-            {
-              source =
-                let
-                  iniFormat = pkgs.formats.ini { };
-                in
-                iniFormat.generate "libinput-local-overrides.quirks" {
-
-                  "Serial Keyboards" = {
-                    MatchUdevType = "keyboard";
-                    MatchName = "keyd virtual keyboard";
-                    AttrKeyboardIntegration = "internal";
-                  };
-                };
+        environment.etc."libinput/local-overrides.quirks" = lib.mkIf cfg.enable {
+          source = iniFormat.generate "libinput-local-overrides.quirks" {
+            "Serial Keyboards" = {
+              MatchUdevType = "keyboard";
+              MatchName = "keyd virtual keyboard";
+              AttrKeyboardIntegration = "internal";
             };
+          };
+        };
       };
 
     homeManager =
@@ -67,30 +61,27 @@
         osConfig ? null,
         ...
       }:
+      let
+        cfg = osConfig.services.keyd or null;
+        iniFormat = pkgs.formats.ini { };
+        common = {
+          "control.y" = "C-c";
+          "control.p" = "C-v";
+        };
+      in
       {
         home.packages = [ pkgs.keyd ];
 
-        xdg.configFile."keyd/app.conf".source =
-          let
-            iniFormat = pkgs.formats.ini { };
-            common = {
-              "control.y" = "C-c";
-              "control.p" = "C-v";
-            };
-          in
-          iniFormat.generate "app.conf" {
-            firefox = common;
-            org-mozilla-firefox = common;
-            chromium = common;
-            org-chromium-chromium = common;
-          };
+        xdg.configFile."keyd/app.conf".source = iniFormat.generate "app.conf" {
+          firefox = common;
+          org-mozilla-firefox = common;
+          chromium = common;
+          org-chromium-chromium = common;
+        };
 
         wayland.windowManager =
           lib.optionalAttrs
-            (
-              (osConfig.services.keyd.enable or false)
-              && (config.wayland.windowManager ? mango)
-            )
+            ((cfg.enable or false) && (config.wayland.windowManager ? mango))
             {
               mango.settings.exec-once = [
                 "${pkgs.keyd}/bin/keyd-application-mapper"

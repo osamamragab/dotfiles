@@ -7,6 +7,9 @@
         config,
         ...
       }:
+      let
+        cfg = config.programs.foot;
+      in
       {
         programs.foot = {
           enable = true;
@@ -48,25 +51,23 @@
           };
         };
 
-        home.sessionVariables = lib.mkIf config.programs.foot.enable {
+        home.sessionVariables = lib.mkIf cfg.enable {
           TERMINAL =
-            if config.programs.foot.server.enable then
-              "${config.programs.foot.package}/bin/footclient"
+            if cfg.server.enable then
+              "${cfg.package}/bin/footclient"
             else
-              "${config.programs.foot.package}/bin/foot";
+              "${cfg.package}/bin/foot";
         };
 
-        xdg.terminal-exec.settings.default =
-          lib.mkIf (config.programs.foot.enable && config.xdg.terminal-exec.enable)
-            (
-              if config.programs.foot.server.enable then
-                [
-                  "footclient.desktop"
-                  "foot.desktop"
-                ]
-              else
-                [ "foot.desktop" ]
-            );
+        xdg.terminal-exec.settings.default = lib.mkIf cfg.enable (
+          if cfg.server.enable then
+            [
+              "footclient.desktop"
+              "foot.desktop"
+            ]
+          else
+            [ "foot.desktop" ]
+        );
       };
   };
 }

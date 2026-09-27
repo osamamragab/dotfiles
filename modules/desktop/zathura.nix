@@ -7,6 +7,9 @@
         config,
         ...
       }:
+      let
+        cfg = config.programs.zathura;
+      in
       {
         programs.zathura = {
           enable = true;
@@ -40,7 +43,7 @@
           };
         };
 
-        xdg.mimeApps.defaultApplications = lib.mkIf config.programs.zathura.enable (
+        xdg.mimeApps.defaultApplications = lib.mkIf cfg.enable (
           lib.genAttrs [
             "image/vnd.djvu"
             "application/pdf"

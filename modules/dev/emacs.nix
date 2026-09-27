@@ -7,18 +7,22 @@
         config,
         ...
       }:
+      let
+        cfg = config.programs.emacs;
+      in
       {
         programs.emacs = {
           enable = true;
           package = pkgs.emacs-pgtk;
-          extraPackages = epkgs: with epkgs; [
-            vterm
-          ];
+          extraPackages =
+            epkgs: with epkgs; [
+              vterm
+            ];
         };
 
         services.emacs = {
-          enable = config.programs.emacs.enable;
-          package = config.programs.emacs.finalPackage;
+          enable = cfg.enable;
+          package = cfg.finalPackage;
           client = {
             enable = true;
             arguments = [
@@ -32,12 +36,12 @@
           startWithUserSession = !config.services.emacs.socketActivation.enable;
         };
 
-        home.file.".config/emacs" = lib.mkIf config.programs.emacs.enable {
+        home.file.".config/emacs" = lib.mkIf cfg.enable {
           source = ./emacs;
           recursive = true;
         };
 
-        home.shellAliases = lib.mkIf config.programs.emacs.enable {
+        home.shellAliases = lib.mkIf cfg.enable {
           emacs = "emacsclient -nca emacs";
         };
       };

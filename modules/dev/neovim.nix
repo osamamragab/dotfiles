@@ -7,6 +7,9 @@
         config,
         ...
       }:
+      let
+        cfg = config.programs.neovim;
+      in
       {
         programs.neovim = {
           enable = true;
@@ -21,15 +24,15 @@
           withPython3 = false;
         };
 
-        home.file.".config/nvim" = lib.mkIf config.programs.neovim.enable {
+        home.file.".config/nvim" = lib.mkIf cfg.enable {
           source = ./neovim;
           recursive = true;
         };
 
-        home.shellAliases = lib.mkIf config.programs.neovim.enable {
+        home.shellAliases = lib.mkIf cfg.enable {
           vi = "nvim --noplugin";
         };
-        xdg.mimeApps.defaultApplications = lib.mkIf config.programs.neovim.enable (
+        xdg.mimeApps.defaultApplications = lib.mkIf cfg.enable (
           lib.genAttrs [
             "text/plain"
             "text/x-c"

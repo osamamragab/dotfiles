@@ -7,6 +7,9 @@
         config,
         ...
       }:
+      let
+        cfg = config.programs.mpv;
+      in
       {
         programs.mpv = {
           enable = true;
@@ -35,9 +38,9 @@
           ];
         };
 
-        home.file."${config.xdg.binHome}/webcam" = lib.mkIf config.programs.mpv.enable {
+        home.file."${config.xdg.binHome}/webcam" = lib.mkIf cfg.enable {
           source = pkgs.writeShellScript "mpv-webcam" ''
-            exec "${config.programs.mpv.package}/bin/mpv" \
+            exec "${cfg.package}/bin/mpv" \
               --untimed \
               --profile=low-latency \
               --framedrop=no \
@@ -47,7 +50,7 @@
           '';
         };
 
-        xdg.mimeApps.defaultApplications = lib.mkIf config.programs.mpv.enable (
+        xdg.mimeApps.defaultApplications = lib.mkIf cfg.enable (
           lib.genAttrs [
             "video/mp4"
             "video/mpeg"

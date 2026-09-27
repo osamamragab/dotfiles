@@ -1,5 +1,4 @@
 {
-
   flake-file.inputs.mangowm.url = "github:mangowm/mango";
 
   flake.aspects.desktop = {
@@ -19,8 +18,9 @@
         ...
       }:
       let
+        cfg = config.wayland.windowManager.mango;
         hexColor = c: "0x${c}${lib.optionalString (lib.stringLength c == 6) "ff"}";
-        mmsgBin = "${config.wayland.windowManager.mango.package}/bin/mmsg";
+        mmsgBin = "${cfg.package}/bin/mmsg";
         noctaliaBin = "${config.programs.noctalia.package}/bin/noctalia";
         terminalBin =
           if config.home.sessionVariables ? TERMINAL then
@@ -450,7 +450,7 @@
           };
         };
 
-        xdg.portal = lib.mkIf (config.wayland.windowManager.mango.enable or false) {
+        xdg.portal = lib.mkIf (cfg.enable or false) {
           config.mango = {
             "org.freedesktop.impl.portal.ScreenCast" = "wlr";
             "org.freedesktop.impl.portal.Screenshot" = "wlr";

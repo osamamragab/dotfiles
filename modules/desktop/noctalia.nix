@@ -49,13 +49,116 @@
         osConfig ? null,
         ...
       }:
+      let
+        cfg = config.programs.noctalia;
+        plugins = cfg.settings.plugins.enabled;
+        ppcBin = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl";
+        bukuBin = "${pkgs.buku}/bin/buku";
+        passmenuBin = "${config.xdg.binHome}/passmenu";
+        kanshiBin = "${config.services.kanshi.package}/bin/kanshictl";
+        kanshiOutputs =
+          config.services.kanshi.settings
+          |> lib.map (e: e.output or null)
+          |> lib.filter (o: o != null);
+        kanshiProfiles =
+          config.services.kanshi.settings
+          |> lib.map (e: e.profile.name or null)
+          |> lib.filter (n: n != null)
+          |> lib.concatStringsSep "\\n";
+        widgetTemplates = {
+          login-box = {
+            type = "login_box";
+            box_height = 70.0;
+            box_width = 400.0;
+            fx = 0.5;
+            fy = 608.0 / 864.0;
+            settings = {
+              layout = "compact";
+              background_color = "surface_variant";
+              background_opacity = 0.88;
+              background_radius = 12.0;
+              center_password_text = false;
+              input_opacity = 1.0;
+              input_radius = 6.0;
+              show_caps_lock = true;
+              show_keyboard_layout = true;
+              show_login_button = true;
+            };
+          };
+          clock-date = {
+            type = "clock";
+            box_height = 40.0;
+            box_width = 100.0;
+            fx = 0.5;
+            fy = 200.0 / 864.0;
+            settings = {
+              background = false;
+              clock_style = "digital";
+              format = "{:%a, %b %e}";
+              shadow = true;
+            };
+          };
+          clock-time = {
+            type = "clock";
+            box_height = 40.0;
+            box_width = 200.0;
+            fx = 0.5;
+            fy = 240.0 / 864.0;
+            rotation = 0.0;
+            settings = {
+              background = false;
+              clock_style = "digital";
+              format = "{:%H:%M}";
+              shadow = true;
+            };
+          };
+          media-player = {
+            type = "media_player";
+            box_height = 168.0;
+            box_width = 328.0;
+            fx = 0.5;
+            fy = 0.5;
+            rotation = 0.0;
+            settings = {
+              background = true;
+              color = "on_surface";
+              hide_when_no_media = true;
+              layout = "horizontal";
+              shadow = true;
+            };
+          };
+        };
+        mkWidgetsForOutput =
+          output:
+          let
+            dims = lib.splitString "x" output.mode;
+            physWidth = lib.toInt (lib.elemAt dims 0);
+            physHeight = lib.toInt (lib.elemAt dims 1);
+            scale = output.scale or 1.0;
+            logicalWidth = physWidth / scale;
+            logicalHeight = physHeight / scale;
+          in
+          lib.mapAttrs' (
+            name: widget:
+            let
+              widgetDef =
+                lib.removeAttrs widget [
+                  "fx"
+                  "fy"
+                ]
+                // {
+                  output = output.criteria;
+                  cx = logicalWidth * widget.fx;
+                  cy = logicalHeight * widget.fy;
+                };
+            in
+            lib.nameValuePair "${name}@${output.criteria}" widgetDef
+          ) widgetTemplates;
+      in
       {
         imports = [ inputs.noctalia.homeModules.default ];
 
         home.packages =
-          let
-            plugins = config.programs.noctalia.settings.plugins.enabled;
-          in
           lib.optional (lib.elem "noctalia/bongocat" plugins) pkgs.evtest
           ++ lib.optional (lib.elem "oldirtty/color_picker" plugins) pkgs.hyprpicker;
 
@@ -133,63 +236,44 @@
                   calculator.prefix = "=";
                 };
                 dmenu.entry = {
-                  passmenu =
-                    let
-                      passmenuBin = "${config.xdg.binHome}/passmenu";
-                    in
-                    lib.mkIf config.programs.password-store.enable {
-                      label = "Passwords";
-                      glyph = "lock";
-                      prefix = "pass";
-                      global = false;
-                      freeform = false;
-                      command = "${passmenuBin} -l";
-                      exec = "${passmenuBin} {selection}";
-                    };
-                  bookmarks =
-                    let
-                      bukuBin = "${pkgs.buku}/bin/buku";
-                    in
-                    {
-                      label = "Bookmarks";
-                      glyph = "bookmark";
-                      prefix = "boo";
-                      global = false;
-                      freeform = false;
-                      command = "${bukuBin} --nostdin -p -f 4 | sed 's/\t/ /g'";
-                      exec = "echo '{selection}' | cut -d ' ' -f 1 | xargs -r buku --nostdin -o";
-                    };
+                  passmenu = lib.mkIf config.programs.password-store.enable {
+                    label = "Passwords";
+                    glyph = "lock";
+                    prefix = "pass";
+                    global = false;
+                    freeform = false;
+                    command = "${passmenuBin} -l";
+                    exec = "${passmenuBin} {selection}";
+                  };
+                  bookmarks = {
+                    label = "Bookmarks";
+                    glyph = "bookmark";
+                    prefix = "boo";
+                    global = false;
+                    freeform = false;
+                    command = "${bukuBin} --nostdin -p -f 4 | sed 's/\t/ /g'";
+                    exec = "echo '{selection}' | cut -d ' ' -f 1 | xargs -r buku --nostdin -o";
+                  };
                   power-profiles =
-                    let
-                      ppcBin = "${pkgs.power-profiles-daemon}/bin/powerprofilesctl";
-                    in
-                    lib.mkIf (osConfig.services.power-profiles-daemon.enable or false) {
-                      label = "Power Profiles";
-                      glyph = "bolt";
-                      prefix = "power";
-                      global = false;
-                      freeform = false;
-                      command = "${ppcBin} list | sed -n 's/^\\(\\s\\|\\*\\)\\s\\(.*\\):$/\\2/p'";
-                      exec = "${ppcBin} set '{selection}'";
-                    };
-                  display-profiles =
-                    let
-                      kanshiBin = "${config.services.kanshi.package}/bin/kanshictl";
-                      kanshiProfiles =
-                        config.services.kanshi.settings
-                        |> lib.map (e: e.profile.name or null)
-                        |> lib.filter (n: n != null)
-                        |> lib.concatStringsSep "\\n";
-                    in
-                    lib.mkIf config.services.kanshi.enable {
-                      label = "Display Profiles";
-                      glyph = "device-desktop";
-                      prefix = "disp";
-                      global = false;
-                      freeform = false;
-                      command = "printf '${kanshiProfiles}'";
-                      exec = "${kanshiBin} switch '{selection}'";
-                    };
+                    lib.mkIf (osConfig.services.power-profiles-daemon.enable or false)
+                      {
+                        label = "Power Profiles";
+                        glyph = "bolt";
+                        prefix = "power";
+                        global = false;
+                        freeform = false;
+                        command = "${ppcBin} list | sed -n 's/^\\(\\s\\|\\*\\)\\s\\(.*\\):$/\\2/p'";
+                        exec = "${ppcBin} set '{selection}'";
+                      };
+                  display-profiles = lib.mkIf config.services.kanshi.enable {
+                    label = "Display Profiles";
+                    glyph = "device-desktop";
+                    prefix = "disp";
+                    global = false;
+                    freeform = false;
+                    command = "printf '${kanshiProfiles}'";
+                    exec = "${kanshiBin} switch '{selection}'";
+                  };
                 };
               };
             };
@@ -314,7 +398,6 @@
                   location = "https://github.com/noctalia-dev/official-plugins";
                   name = "official";
                 }
-
                 {
                   enabled = true;
                   kind = "git";
@@ -397,101 +480,7 @@
               ];
             };
             lockscreen_widgets =
-              let
-                kanshiOutputs =
-                  config.services.kanshi.settings
-                  |> lib.map (e: e.output or null)
-                  |> lib.filter (o: o != null);
-                widgetTemplates = {
-                  login-box = {
-                    type = "login_box";
-                    box_height = 70.0;
-                    box_width = 400.0;
-                    fx = 0.5;
-                    fy = 608.0 / 864.0;
-                    settings = {
-                      layout = "compact";
-                      background_color = "surface_variant";
-                      background_opacity = 0.88;
-                      background_radius = 12.0;
-                      center_password_text = false;
-                      input_opacity = 1.0;
-                      input_radius = 6.0;
-                      show_caps_lock = true;
-                      show_keyboard_layout = true;
-                      show_login_button = true;
-                    };
-                  };
-                  clock-date = {
-                    type = "clock";
-                    box_height = 40.0;
-                    box_width = 100.0;
-                    fx = 0.5;
-                    fy = 200.0 / 864.0;
-                    settings = {
-                      background = false;
-                      clock_style = "digital";
-                      format = "{:%a, %b %e}";
-                      shadow = true;
-                    };
-                  };
-                  clock-time = {
-                    type = "clock";
-                    box_height = 40.0;
-                    box_width = 200.0;
-                    fx = 0.5;
-                    fy = 240.0 / 864.0;
-                    rotation = 0.0;
-                    settings = {
-                      background = false;
-                      clock_style = "digital";
-                      format = "{:%H:%M}";
-                      shadow = true;
-                    };
-                  };
-                  media-player = {
-                    type = "media_player";
-                    box_height = 168.0;
-                    box_width = 328.0;
-                    fx = 0.5;
-                    fy = 0.5;
-                    rotation = 0.0;
-                    settings = {
-                      background = true;
-                      color = "on_surface";
-                      hide_when_no_media = true;
-                      layout = "horizontal";
-                      shadow = true;
-                    };
-                  };
-                };
-                mkWidgetsForOutput =
-                  output:
-                  let
-                    dims = lib.splitString "x" output.mode;
-                    physWidth = lib.toInt (lib.elemAt dims 0);
-                    physHeight = lib.toInt (lib.elemAt dims 1);
-                    scale = output.scale or 1.0;
-                    logicalWidth = physWidth / scale;
-                    logicalHeight = physHeight / scale;
-                  in
-                  lib.mapAttrs' (
-                    name: widget:
-                    let
-                      widgetDef =
-                        lib.removeAttrs widget [
-                          "fx"
-                          "fy"
-                        ]
-                        // {
-                          output = output.criteria;
-                          cx = logicalWidth * widget.fx;
-                          cy = logicalHeight * widget.fy;
-                        };
-                    in
-                    lib.nameValuePair "${name}@${output.criteria}" widgetDef
-                  ) widgetTemplates;
-              in
+
               {
                 enabled = true;
                 grid = {
@@ -507,12 +496,9 @@
         };
 
         wayland.windowManager =
-          lib.optionalAttrs
-            (config.programs.noctalia.enable && (config.wayland.windowManager ? mango))
+          lib.optionalAttrs (cfg.enable && (config.wayland.windowManager ? mango))
             {
-              mango.settings.exec-once = [
-                "${config.programs.noctalia.package}/bin/noctalia"
-              ];
+              mango.settings.exec-once = [ "${cfg.package}/bin/noctalia" ];
             };
       };
   };

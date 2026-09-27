@@ -8,6 +8,7 @@
         ...
       }:
       let
+        cfg = config.programs.lf;
         thumbDir = "${config.xdg.cacheHome}/lf/thumbnails";
         unarBin = "${pkgs.unar}/bin/unar";
         xdgOpenBin = "${pkgs.xdg-utils}/bin/xdg-open";
@@ -135,7 +136,7 @@
           };
         };
 
-        home.shellAliases = lib.mkIf config.programs.lf.enable {
+        home.shellAliases = lib.mkIf cfg.enable {
           lfcd = ''
             _lfcd() {
               cd "$(command lf -print-last-dir "$@")" || return $?
@@ -143,13 +144,11 @@
           '';
         };
 
-        xdg.configFile."lf/icons" =
-          lib.mkIf (config.programs.lf.enable && config.programs.lf.settings.icons)
-            {
-              source = ./lf/icons;
-            };
+        xdg.configFile."lf/icons" = lib.mkIf (cfg.enable && cfg.settings.icons) {
+          source = ./lf/icons;
+        };
 
-        xdg.mimeApps.defaultApplications = lib.mkIf config.programs.lf.enable (
+        xdg.mimeApps.defaultApplications = lib.mkIf cfg.enable (
           lib.genAttrs [ "inode/directory" ] (_: [ "lf.desktop" ])
         );
       };
