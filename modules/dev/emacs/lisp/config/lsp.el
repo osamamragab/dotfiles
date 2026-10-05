@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package eglot
   :ensure nil
   :config
@@ -16,6 +18,7 @@
   (eglot-events-buffer-size 0)
   (eglot-sync-connect       nil)
   (eglot-extend-to-xref     t)
+  (eglot-ignored-server-capabilities '(:inlayHintProvider))
   :hook ((c-ts-mode
            zig-ts-mode
            go-ts-mode

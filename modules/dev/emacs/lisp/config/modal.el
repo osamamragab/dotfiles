@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package evil
   :demand t
   :init
@@ -33,6 +35,7 @@
 
   (leader
     "y"     (kbd "\"+y")
+    "Y"     (kbd "\"+y$")
     "d"     (kbd "\"_d")
     "D"     (kbd "\"_D")
     "j"     '((lambda () (interactive) (previous-error) (evil-scroll-line-to-center nil)) :which-key "Prev Error")
@@ -77,18 +80,15 @@
 
   (general-define-key
     :states 'visual
-    :prefix "SPC"
     "p" (kbd "\"_dP")
     "J" (kbd ":m '>+1<CR>gv=gv")
     "K" (kbd ":m '<-2<CR>gv=gv"))
 
   (general-define-key
     :states 'normal
-    :prefix "SPC"
-    "Y" (kbd "\"+y$")
-    "n" (kbd "n z z z v")
-    "N" (kbd "N z z z v")
-    "J" (kbd "m z J ` z")
+    "n"   (kbd "n z z z v")
+    "N"   (kbd "N z z z v")
+    "J"   (kbd "m z J ` z")
     "C-d" (kbd "C-d z z")
     "C-u" (kbd "C-u z z"))
 

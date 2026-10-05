@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package paren
   :init
   (setopt show-paren-delay 0

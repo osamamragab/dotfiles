@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package undo-tree
   :demand t
   :config

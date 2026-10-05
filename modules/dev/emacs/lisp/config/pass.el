@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package pass
   :bind (:map pass-mode-map
               ("W" . pass-copy-field))

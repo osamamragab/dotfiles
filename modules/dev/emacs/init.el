@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (setopt use-package-always-defer t
         use-package-always-ensure t)
 
@@ -14,12 +16,13 @@
                            ("elpa" . "https://elpa.gnu.org/packages/")
                            ("org" . "https://orgmode.org/elpa/")))
 (setopt package-archive-priorities '(("melpa" . 10) ("elpa" . 5) ("org" . 5)))
+
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
+
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
-
 (require 'use-package)
 
 (setopt custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -32,7 +35,7 @@
 (setopt display-fill-column-indicator-column 80)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-(electric-pair-mode 1)
+; (electric-pair-mode 1)
 (save-place-mode 1)
 (global-hl-line-mode 1)
 (column-number-mode 1)
@@ -85,12 +88,11 @@
   (setopt no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)
 		no-littering-var-directory "~/.local/share/emacs/"))
 
-;; (use-package envrc
-;;   :hook (after-init . envrc-global-mode))
-
-(use-package direnv
+(use-package envrc
+  :hook (after-init . envrc-global-mode)
   :config
-  (direnv-mode 1))
+  (with-eval-after-load 'envrc
+    (keymap-set envrc-mode-map "C-c e" 'envrc-command-map)))
 
 (use-package which-key
   :defer 0
@@ -170,6 +172,7 @@
 (require 'config/modes)
 (require 'config/format)
 (require 'config/treesitter)
+(require 'config/llms)
 
 (when (eq system-type 'gnu/linux)
   (require 'config/pdf)

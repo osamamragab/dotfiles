@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (use-package vertico
   :init
   (vertico-mode 1)
@@ -52,12 +54,14 @@
     (keymap-set corfu-map "TAB" #'corfu-next)
     (keymap-set corfu-map "<backtab>" #'corfu-previous)
     (keymap-set corfu-map "C-y" #'corfu-insert)
-    (keymap-set corfu-map "RET" #'corfu-insert))
+    (keymap-set corfu-map "RET" #'corfu-insert)
+    (keymap-set corfu-map "S-SPC" #'corfu-insert-separator)
+    (keymap-global-set "C-SPC" #'completion-at-point))
   :custom
   (corfu-auto        t)
   (corfu-cycle       t)
   (corfu-auto-delay  0.15)
-  (corfu-auto-prefix 1)
+  (corfu-auto-prefix 3)
   (corfu-quit-no-match t)
   (corfu-preview-current t))
 

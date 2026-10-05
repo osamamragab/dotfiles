@@ -1,3 +1,13 @@
+;;; -*- lexical-binding: t; -*-
+
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-list-buffers)
+  :custom
+  (persp-mode-prefix-key (kbd "C-c C-p"))
+  :init
+  (persp-mode))
+
 (use-package dired
   :ensure nil
   :hook

@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (setopt
   tramp-use-file-notifications nil
   auto-revert-remote-files nil

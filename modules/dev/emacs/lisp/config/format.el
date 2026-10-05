@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (setopt truncate-lines t
         indent-tabs-mode nil
         tab-width 4

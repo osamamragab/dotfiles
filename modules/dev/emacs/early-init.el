@@ -1,3 +1,5 @@
+;;; -*- lexical-binding: t; -*-
+
 (setopt package-enable-at-startup nil
         inhibit-startup-screen t
         inhibit-startup-message t
@@ -38,6 +40,7 @@
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
+; (set-default-toplevel-value 'lexical-binding t)
 
 (set-face-attribute 'default nil
 					:family "monospace"
