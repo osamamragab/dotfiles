@@ -62,7 +62,7 @@
           ];
           bottomPrefixes = [
             "exec"
-            "exec-once"
+            "exec_once"
           ];
           settings = {
             # Window effect
@@ -87,7 +87,7 @@
               x = 0;
               y = 0;
             };
-            shadowscolor = config.lib.stylix.colors.base00;
+            shadows_color = config.lib.stylix.colors.base00;
 
             border_radius = 0;
             no_radius_when_single = 0;
@@ -107,8 +107,8 @@
             tag_animation_direction = 1;
             zoom_initial_ratio = 0.4;
             zoom_end_ratio = 0.8;
-            fadein_begin_opacity = 0.5;
-            fadeout_begin_opacity = 0.8;
+            fade_in_begin_opacity = 0.5;
+            fade_out_begin_opacity = 0.8;
             animation_duration = {
               tag = 350;
               move = 350;
@@ -122,8 +122,10 @@
               tag = "0.46,1.0,0.29,1";
               close = "0.08,0.92,0,1";
               focus = "0.46,1.0,0.29,1";
-              opafadeout = "0.5,0.5,0.5,0.5";
-              opafadein = "0.46,1.0,0.29,1";
+              opacity = {
+                fade_in = "0.46,1.0,0.29,1";
+                fade_out = "0.5,0.5,0.5,0.5";
+              };
             };
 
             # Scroller Layout Setting
@@ -139,33 +141,33 @@
 
             # Master-Stack Layout Setting
             new_is_master = 1;
-            default_mfact = 0.55;
-            default_nmaster = 1;
-            smartgaps = 1;
+            default_master_count = 1;
+            default_master_factor = 0.55;
+            smart_gaps = 1;
 
             # Dwindle Layout Setting
             dwindle = {
               smart_split = 0;
               drop_simple_split = 1;
               manual_split = 0;
-              hsplit = 1;
-              vsplit = 1;
+              vertical_split = 1;
+              horizontal_split = 1;
               preserve_split = 0;
             };
 
             # Overview Setting
             hotarea_size = 10;
             enable_hotarea = 0;
-            overviewgappi = 5;
-            overviewgappo = 30;
+            overview_gap_inner = 5;
+            overview_gap_outer = 30;
 
             # Misc
             no_border_when_single = 0;
             axis_bind_apply_timeout = 100;
             focus_on_activate = 0;
-            idleinhibit_ignore_visible = 1;
-            sloppyfocus = 1;
-            warpcursor = 1;
+            idle_inhibit_ignore_visible = 1;
+            sloppy_focus = 1;
+            warp_cursor = 1;
             cursor_hide_timeout = 5;
             cursor_hide_on_keypress = 1;
             focus_cross_monitor = 0;
@@ -184,7 +186,7 @@
               rate = 50;
               delay = 200;
             };
-            numlockon = 0;
+            numlock_on = 0;
             xkb_rules = {
               layout = "us,ara";
               options = "grp:alt_space_toggle,grp_led:caps";
@@ -209,29 +211,29 @@
             mouse_natural_scrolling = 0;
 
             # Appearance
-            gappih = 5;
-            gappiv = 5;
-            gappoh = 0;
-            gappov = 0;
+            gap_inner_horizontal = 5;
+            gap_inner_vertical = 5;
+            gap_outer_horizontal = 0;
+            gap_outer_vertical = 0;
             scratchpad_width_ratio = 0.6;
             scratchpad_height_ratio = 0.7;
-            borderpx = 2;
+            border_px = 2;
             cursor_size = config.stylix.cursor.size;
             cursor_theme = config.stylix.cursor.name;
-            rootcolor = hexColor config.lib.stylix.colors.base00;
-            bordercolor = hexColor config.lib.stylix.colors.base03;
-            dropcolor = hexColor (config.lib.stylix.colors.base03 + "55");
-            splitcolor = hexColor config.lib.stylix.colors.base15;
-            focuscolor = hexColor config.lib.stylix.colors.base0F;
-            maximizescreencolor = hexColor config.lib.stylix.colors.base0B;
-            urgentcolor = hexColor config.lib.stylix.colors.base08;
-            scratchpadcolor = hexColor config.lib.stylix.colors.base0F;
-            globalcolor = hexColor config.lib.stylix.colors.base0C;
-            overlaycolor = hexColor config.lib.stylix.colors.base0E;
+            root_color = hexColor config.lib.stylix.colors.base00;
+            border_color = hexColor config.lib.stylix.colors.base03;
+            drop_color = hexColor (config.lib.stylix.colors.base03 + "55");
+            split_color = hexColor config.lib.stylix.colors.base15;
+            focus_color = hexColor config.lib.stylix.colors.base0F;
+            maximized_screen_color = hexColor config.lib.stylix.colors.base0B;
+            urgent_color = hexColor config.lib.stylix.colors.base08;
+            scratchpad_color = hexColor config.lib.stylix.colors.base0F;
+            global_color = hexColor config.lib.stylix.colors.base0C;
+            overlay_color = hexColor config.lib.stylix.colors.base0E;
 
             # layout support:
             # tile,scroller,grid,deck,monocle,center_tile,vertical_tile,vertical_scroller
-            tagrule = [
+            tag_rule = [
               "id:1,layout_name:tile"
               "id:2,layout_name:tile"
               "id:3,layout_name:tile"
@@ -390,11 +392,11 @@
               "NONE,XF86MonBrightnessDown,spawn,${noctaliaBin} msg brightness-down all 5"
             ];
 
-            windowrule = [
-              "isterm:1,isnamedscratchpad:1,width:840,height:560,appid:terminal-scratchpad"
-              "isterm:1,isfloating:1,width:840,height:560,appid:terminal-floating"
-              "noswallow:1,appid:wev"
-              "isfloating:1,appid:udiskie"
+            window_rule = [
+              "is_term:1,is_named_scratchpad:1,width:840,height:560,app_id:terminal-scratchpad"
+              "is_term:1,is_floating:1,width:840,height:560,app_id:terminal-floating"
+              "no_swallow:1,app_id:wev"
+              "is_floating:1,app_id:udiskie"
             ]
             ++ lib.optionals config.xdg.terminal-exec.enable (
               config.xdg.terminal-exec.settings
@@ -406,12 +408,12 @@
                 let
                   name = lib.removeSuffix ".desktop" file;
                 in
-                "isterm:1,appid:${name}"
+                "is_term:1,app_id:${name}"
               )
             );
 
             # layer rule
-            layerrule = [
+            layer_rule = [
               "animation_type_open:slide,layer_name:launcher"
               "animation_type_close:slide,layer_name:launcher"
             ];
@@ -441,7 +443,7 @@
               "AWT_TOOLKIT,MToolkit wmname LG3D"
             ];
 
-            exec-once = [
+            exec_once = [
               # For some reason it does not start correctly when enabling the
               # systemd integration.
               "systemctl --user reset-failed"

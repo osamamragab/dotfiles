@@ -83,7 +83,7 @@
           lib.optionalAttrs
             ((cfg.enable or false) && (config.wayland.windowManager ? mango))
             {
-              mango.settings.exec-once = [
+              mango.settings.exec_once = [
                 "${pkgs.keyd}/bin/keyd-application-mapper"
               ];
             };

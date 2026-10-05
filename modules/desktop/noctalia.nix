@@ -484,26 +484,24 @@
                 }
               ];
             };
-            lockscreen_widgets =
-
-              {
-                enabled = true;
-                grid = {
-                  cell_size = 8;
-                  major_interval = 4;
-                  visible = true;
-                };
-                widget = lib.foldl' (
-                  acc: output: acc // (mkWidgetsForOutput output)
-                ) { } kanshiOutputs;
+            lockscreen_widgets = {
+              enabled = true;
+              grid = {
+                cell_size = 8;
+                major_interval = 4;
+                visible = true;
               };
+              widget = lib.foldl' (
+                acc: output: acc // (mkWidgetsForOutput output)
+              ) { } kanshiOutputs;
+            };
           };
         };
 
         wayland.windowManager =
           lib.optionalAttrs (cfg.enable && (config.wayland.windowManager ? mango))
             {
-              mango.settings.exec-once = [ "${cfg.package}/bin/noctalia" ];
+              mango.settings.exec_once = [ "${cfg.package}/bin/noctalia" ];
             };
       };
   };
