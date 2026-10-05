@@ -50,6 +50,8 @@
           tor
           torsocks
           transmission_4
+          inetutils
+          nmap
         ];
         shellAliases = {
           mitmproxy = ''mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'';
