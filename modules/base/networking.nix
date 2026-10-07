@@ -37,21 +37,22 @@
     homeManager = { pkgs, ... }: {
       home = {
         packages = with pkgs; [
+          inetutils
           mitmproxy
           bettercap
           wireshark
           termshark
-          aircrack-ng
-          proxychains-ng
           netcat-openbsd
           macchanger
+          nmap
+          aircrack-ng
+          proxychains-ng
+          dnsproxy
           mosh
           wrk
           tor
           torsocks
           transmission_4
-          inetutils
-          nmap
         ];
         shellAliases = {
           mitmproxy = ''mitmproxy --set confdir="$XDG_CONFIG_HOME/mitmproxy"'';
