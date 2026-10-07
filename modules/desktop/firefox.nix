@@ -14,6 +14,7 @@
         cfg = config.programs.firefox;
         addonPackages = with pkgs.nur.repos.rycee.firefox-addons; [
           multi-account-containers
+          foxyproxy-standard
           noscript
           ublock-origin
           privacy-badger
