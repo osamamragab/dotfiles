@@ -7,7 +7,6 @@
           jq
           age
           buku
-          tree-sitter
           fribidi
           dragon-drop
           ffmpeg
@@ -20,6 +19,7 @@
           qrencode
           zbar
           minisign
+          openssl
           signify
           hashcat
           duf

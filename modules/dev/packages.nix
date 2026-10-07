@@ -37,6 +37,7 @@
         upx
         usql
         shellcheck
+        tree-sitter
         pnpm
       ];
 
