@@ -8,6 +8,7 @@
           evil-want-C-u-scroll t
           evil-want-C-i-jump t
           evil-undo-system 'undo-tree
+          evil-search-module 'isearch
           evil-kill-on-visual-paste nil
           evil-visual-update-x-selection-p nil)
   :config
@@ -38,6 +39,7 @@
     "Y"     (kbd "\"+y$")
     "d"     (kbd "\"_d")
     "D"     (kbd "\"_D")
+    "s"     '(my/substitute-word-under-cursor :which-key "Substitute Word")
     "j"     '((lambda () (interactive) (previous-error) (evil-scroll-line-to-center nil)) :which-key "Prev Error")
     "k"     '((lambda () (interactive) (next-error) (evil-scroll-line-to-center nil)) :which-key "Next Error")
     ","     '(consult-buffer :which-key "Buffers")
@@ -62,13 +64,15 @@
     "b m"   '(bookmark-set :which-key "Bookmark")
     "b D"   '(bookmark-delete :which-key "Delete Bookmark")
     "b k"   '(kill-current-buffer :which-key "Kill Buffer")
+    "b K"   '(my/kill-other-buffers :which-key "Kill Other Buffers")
     "b l"   '((lambda () (interactive) (switch-to-buffer nil)): which-key "Last Buffer")
     "b b"   '(switch-to-buffer :which-key "Buffers")
     "b n"   '(next-buffer :which-key "Next Buffer")
     "b p"   '(previous-buffer :which-key "Previous Buffer")
     "b i"   '(ibuffer :which-key "Ibuffer")
     "b r"   '(revert-buffer :which-key "Revert Buffer")
-    "b f"   '(eglot-format-buffer :which-key "Format Buffer")
+    "b f"   '(apheleia-format-buffer :which-key "Format Buffer")
+    "b F"   '(eglot-format-buffer :which-key "Format Buffer (eglot)")
     "r c"   '((lambda () (interactive) (load-file user-init-file) (message "config reloaded")) :which-key "Reload Config")
     "o t"   '(term-scratch :which-key "Scratch Terminal")
     "o d"   '(dirvish :which-key "Dirvish")
@@ -81,16 +85,15 @@
   (general-define-key
     :states 'visual
     "p" (kbd "\"_dP")
-    "J" (kbd ":m '>+1<CR>gv=gv")
-    "K" (kbd ":m '<-2<CR>gv=gv"))
+    "J" '(move-text-down :which-key "Move Down")
+    "K" '(move-text-up :which-key "Move Up"))
 
-  (general-define-key
-    :states 'normal
-    "n"   (kbd "n z z z v")
-    "N"   (kbd "N z z z v")
-    "J"   (kbd "m z J ` z")
-    "C-d" (kbd "C-d z z")
-    "C-u" (kbd "C-u z z"))
+  (defun my/kill-other-buffers ()
+    "Kill all other buffers."
+    (interactive)
+    (dolist (buf (delq (current-buffer) (buffer-list)))
+      (unless (string-match-p "\\`[ *]" (buffer-name buf))
+        (kill-buffer buf))))
 
   (defun my/substitute-word-under-cursor ()
     "Populate an ex substitute command for the symbol at point,
@@ -99,8 +102,7 @@
     (let ((word (or (thing-at-point 'symbol t) "")))
       (minibuffer-with-setup-hook
         (lambda () (goto-char (- (point-max) 3)))
-        (evil-ex (format "%%s/\\<%s\\>/%s/gI" word word)))))
-  (leader "s" '(my/substitute-word-under-cursor :which-key "Substitute Word")))
+        (evil-ex (format "%%s/\\<%s\\>/%s/gI" word word))))))
 
 (use-package evil-easymotion
   :after (evil))
@@ -114,6 +116,18 @@
   :after (evil)
   :config
   (evil-lion-mode))
+
+(use-package move-text
+  :config
+  (defun indent-region-advice (&rest ignored)
+    (let ((deactivate deactivate-mark))
+      (if (region-active-p)
+        (indent-region (region-beginning) (region-end))
+        (indent-region (line-beginning-position) (line-end-position)))
+      (setq deactivate-mark deactivate)))
+
+  (advice-add 'move-text-up :after 'indent-region-advice)
+  (advice-add 'move-text-down :after 'indent-region-advice))
 
 (keymap-global-set "C-=" #'text-scale-increase)
 (keymap-global-set "C--" #'text-scale-decrease)

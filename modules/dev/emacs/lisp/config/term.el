@@ -36,25 +36,27 @@ Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
   :after (ghostel evil)
   :hook (ghostel-mode . evil-ghostel-mode))
 
+(dolist (hook '(ghostel-mode-hook vterm-mode-hook term-mode-hook eshell-mode-hook))
+  (add-hook hook (lambda () (setq-local show-trailing-whitespace nil))))
+
 (defun term-scratch ()
-  "Open vterm buffer as a bottom popup at 30% height."
+  "Toggle a ghostel terminal in a bottom side window."
   (interactive)
-  (require 'vterm)
-  (let* ((buf (get-buffer-create "*vterm*"))
-         (win (get-buffer-window buf 'visible)))
-    (if (eq win (selected-window))
-        (window-toggle-side-windows)
-      (with-current-buffer buf
-        (unless (derived-mode-p 'vterm-mode)
-          (vterm-mode)))
-      (select-window
-       (display-buffer
-        buf
-        '((display-buffer-reuse-window
-           display-buffer-in-side-window)
-          (side . bottom)
-          (slot . 0)
-          (window-height . 0.3)
-          (window-parameters . ((no-delete-other-windows . t)))))))))
+  (require 'ghostel)
+  (let* ((name "*ghostel*")
+         (action '((display-buffer-reuse-window display-buffer-in-side-window)
+                   (side . bottom)
+                   (slot . 0)
+                   (window-height . 0.3)
+                   (window-parameters . ((no-delete-other-windows . t)))))
+         (buf (get-buffer name))
+         (win (and buf (get-buffer-window buf))))
+    (cond
+     ((eq win (selected-window)) (delete-window win))
+     (win (select-window win))
+     (t (let ((display-buffer-overriding-action action)
+              (ghostel-buffer-name name))
+          (if buf (display-buffer buf) (ghostel-project)))
+        (select-window (get-buffer-window name))))))
 
 (provide 'config/term)
