@@ -37,6 +37,7 @@
     homeManager = { pkgs, ... }: {
       home = {
         packages = with pkgs; [
+          dnsutils
           inetutils
           mitmproxy
           bettercap
