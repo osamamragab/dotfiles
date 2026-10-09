@@ -40,10 +40,11 @@ Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
   (add-hook hook (lambda () (setq-local show-trailing-whitespace nil))))
 
 (defun term-scratch ()
-  "Toggle a ghostel terminal in a bottom side window."
+  "Toggle a dedicated ghostel terminal in a bottom side window."
   (interactive)
   (require 'ghostel)
-  (let* ((name "*ghostel*")
+  (require 'project)
+  (let* ((name "*scratch-terminal*")
          (action '((display-buffer-reuse-window display-buffer-in-side-window)
                    (side . bottom)
                    (slot . 0)
@@ -52,11 +53,20 @@ Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
          (buf (get-buffer name))
          (win (and buf (get-buffer-window buf))))
     (cond
-     ((eq win (selected-window)) (delete-window win))
-     (win (select-window win))
-     (t (let ((display-buffer-overriding-action action)
-              (ghostel-buffer-name name))
-          (if buf (display-buffer buf) (ghostel-project)))
-        (select-window (get-buffer-window name))))))
+      ((eq win (selected-window)) (delete-window win))
+      (win (select-window win))
+      (t (select-window
+           (display-buffer
+             (or buf
+                 (save-window-excursion
+                   (let ((default-directory
+                           (if-let ((proj (project-current)))
+                                   (project-root proj)
+                                   default-directory))
+                         (ghostel-buffer-name name))
+                     (ghostel))
+                   (rename-buffer name)
+                   (current-buffer)))
+             action))))))
 
 (provide 'config/term)
