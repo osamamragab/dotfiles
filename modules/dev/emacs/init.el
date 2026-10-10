@@ -56,6 +56,8 @@
     use-short-answers t
 	  native-comp-async-report-warnings-errors 'silent)
 
+(setopt trusted-content '("~/src/"))
+
 (setopt select-enable-primary t
         select-enable-clipboard nil)
 (keymap-global-set "C-S-p" (lambda ()
