@@ -44,7 +44,10 @@
           ];
           initrd = {
             compressor = lib.mkDefault "zstd";
-            systemd.enable = lib.mkDefault true;
+            systemd = {
+              enable = lib.mkDefault true;
+              network.wait-online.enable = lib.mkDefault false;
+            };
           };
           loader = {
             efi.canTouchEfiVariables = lib.mkDefault true;

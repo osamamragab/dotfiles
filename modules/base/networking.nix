@@ -27,6 +27,8 @@
           };
         };
 
+        systemd.network.wait-online.enable = config.boot.initrd.systemd.enable;
+
         users.groups.networkmanager.members = [ host.user ];
 
         services.vnstat = {
