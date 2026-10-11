@@ -24,6 +24,8 @@
             logRefusedConnections = true;
             logRefusedPackets = false;
             rejectPackets = false; # drop packets instead of rejecting them
+            trustedInterfaces = lib.optional config.services.tailscale.enable config.services.tailscale.interfaceName;
+            allowedUDPPorts = lib.optional config.services.tailscale.enable config.services.tailscale.port;
           };
         };
 
@@ -35,6 +37,14 @@
           enable = true;
           package = pkgs.vnstat;
         };
+
+        services.tailscale = {
+          enable = true;
+          package = pkgs.tailscale;
+        };
+        systemd.services.tailscaled.serviceConfig.Environment = lib.optional (
+          config.services.tailscale.enable && config.networking.nftables.enable
+        ) "TS_DEBUG_FIREWALL_MODE=nftables";
       };
 
     homeManager = { pkgs, ... }: {
