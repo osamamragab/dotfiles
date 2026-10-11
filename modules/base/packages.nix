@@ -3,6 +3,7 @@
     nixos = { pkgs, ... }: {
       environment.systemPackages = with pkgs; [
         git
+        vis
         file
         which
         tree
