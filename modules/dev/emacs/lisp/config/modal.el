@@ -13,17 +13,22 @@
           evil-visual-update-x-selection-p nil)
   :config
   (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+  (evil-set-initial-state 'dashboard-mode 'normal)
+  :bind
+  (:map evil-insert-state-map
+        ("C-g" . #'evil-normal-state))
+  (:map evil-insert-state-map
+        ("C-h" . #'evil-delete-backward-char-and-join)))
 
 (use-package evil-collection
   :demand t
   :after (evil)
-  :config (evil-collection-init))
+  :config
+  (evil-collection-init)
+  (setopt evil-collection-want-unimpaired-p t))
 
 (use-package general
   :demand t
@@ -52,7 +57,9 @@
     "f d"   '(consult-fd :which-key "fd")
     "f g"   '(consult-ripgrep :which-key "ripgrep")
     "b b"   '(switch-to-buffer :which-key "Buffers")
-    "b d"   '(kill-current-buffer :which-key "Kill Buffer")
+    "b d"   '(flymake-show-buffer-diagnostics :which-key "Show Diagnostics (flymake)")
+    "a k"   '(flymake-goto-next-error :which-key "Next Error (flymake)")
+    "a j"   '(flymake-goto-prev-error :which-key "Previous Error (flymake)")
     "w v"   '(split-window-right :which-key "Vertical")
     "w d"   '(delete-window :which-key "Delete")
     "p p"   '(project-switch-project :which-key "Project")
@@ -72,7 +79,7 @@
     "b i"   '(ibuffer :which-key "Ibuffer")
     "b r"   '(revert-buffer :which-key "Revert Buffer")
     "b f"   '(apheleia-format-buffer :which-key "Format Buffer")
-    "b F"   '(eglot-format-buffer :which-key "Format Buffer (eglot)")
+    "b F"   '(lsp-format-buffer :which-key "Format Buffer (lsp)")
     "r c"   '((lambda () (interactive) (load-file user-init-file) (message "config reloaded")) :which-key "Reload Config")
     "o t"   '(term-scratch :which-key "Scratch Terminal")
     "o d"   '(dirvish :which-key "Dirvish")
@@ -87,6 +94,12 @@
     "p" (kbd "\"_dP")
     "J" '(move-text-down :which-key "Move Down")
     "K" '(move-text-up :which-key "Move Up"))
+
+  (general-define-key
+    :states 'normal
+    "g d" '(lsp-find-definition :which-key "Go to Definition (lsp)")
+    "g r" '(lsp-find-references :which-key "Go to References (lsp)")
+    "g i" '(lsp-find-implementation :which-key "Go to Implementation (lsp)"))
 
   (defun my/kill-other-buffers ()
     "Kill all other buffers."
@@ -117,17 +130,7 @@
   :config
   (evil-lion-mode))
 
-(use-package move-text
-  :config
-  (defun indent-region-advice (&rest ignored)
-    (let ((deactivate deactivate-mark))
-      (if (region-active-p)
-        (indent-region (region-beginning) (region-end))
-        (indent-region (line-beginning-position) (line-end-position)))
-      (setq deactivate-mark deactivate)))
-
-  (advice-add 'move-text-up :after 'indent-region-advice)
-  (advice-add 'move-text-down :after 'indent-region-advice))
+(use-package move-text)
 
 (keymap-global-set "C-=" #'text-scale-increase)
 (keymap-global-set "C--" #'text-scale-decrease)

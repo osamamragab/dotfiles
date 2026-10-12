@@ -62,3 +62,5 @@
 (set-face-background 'mouse "#ffffff")
 
 (setopt native-comp-async-report-warnings-errors 'silent)
+
+(setenv "LSP_USE_PLISTS" "true")

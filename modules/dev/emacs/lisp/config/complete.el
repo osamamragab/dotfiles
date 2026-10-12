@@ -12,9 +12,10 @@
 
 (use-package orderless
   :custom
+  (orderless-matching-styles '(orderless-literal orderless-regexp orderless-flex))
+  (completion-styles '(orderless partial-completion basic))
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t)
-  (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package consult
@@ -49,23 +50,27 @@
   (global-corfu-mode 1)
   :config
   (corfu-popupinfo-mode 1)
-  (with-eval-after-load 'corfu
-    (keymap-set corfu-map "<tab>" #'corfu-next)
-    (keymap-set corfu-map "TAB" #'corfu-next)
-    (keymap-set corfu-map "<backtab>" #'corfu-previous)
-    (keymap-set corfu-map "C-y" #'corfu-insert)
-    (keymap-set corfu-map "RET" #'corfu-insert)
-    (keymap-set corfu-map "S-SPC" #'corfu-insert-separator)
-    (keymap-global-set "C-SPC" #'completion-at-point))
+  :bind
+  ((:map corfu-map
+        ("<tab>" . #'corfu-next)
+        ("TAB" . #'corfu-next)
+        ("<backtab>" . #'corfu-previous)
+        ("C-y" . #'corfu-insert)
+        ("RET" . #'corfu-insert)
+        ("S-SPC" . #'corfu-insert-separator))
+  ("C-SPC" . #'completion-at-point))
   :custom
   (corfu-auto        t)
   (corfu-cycle       t)
-  (corfu-auto-delay  0.15)
+  (corfu-auto-delay  5)
   (corfu-auto-prefix 3)
   (corfu-quit-no-match t)
   (corfu-preview-current t))
 
 (setopt text-mode-ispell-word-completion nil)
+
+(with-eval-after-load 'evil
+  (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point))
 
 (use-package cape
   :init

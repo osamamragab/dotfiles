@@ -5,11 +5,11 @@
   (defun my/openrouter-api-key ()
     "Read OpenRouter API key from pass"
     (or (bound-and-true-p my/--openrouter-key)
-        (setq my/--openrouter-key
+        (setopt my/--openrouter-key
               (string-trim
                 (shell-command-to-string "pass acc/openrouter.ai | sed -n 's/api_key:\s\+\?\(.*\)/\1/p'")))))
-  (setq gptel-default-mode 'org-mode)
-  (setq gptel-backend
+  (setopt gptel-default-mode 'org-mode)
+  (setopt gptel-backend
         (gptel-make-openai "OpenRouter"
           :host "openrouter.ai"
           :endpoint "/api/v1/chat/completions"

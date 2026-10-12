@@ -1,25 +1,25 @@
 ;;; -*- lexical-binding: t; -*-
 
-(use-package eglot
-  :ensure nil
+(use-package lsp-mode
+  :init
+  (setopt lsp-keymap-prefix "C-c l")
+  :commands (lsp lsp-deferred)
   :config
-  (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
-  (add-to-list 'eglot-server-programs '(nix-ts-mode . ("nil")))
-  (add-to-list 'eglot-server-programs '(zig-mode . ("zls")))
-  (add-to-list 'eglot-server-programs '(zig-ts-mode . ("zls")))
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
-  (add-to-list 'eglot-server-programs '(go-ts-mode . ("gopls")))
-  (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer")))
-  (add-to-list 'eglot-server-programs '(rust-ts-mode . ("rust-analyzer")))
-  (add-to-list 'eglot-server-programs '(bash-ts-mode . ("bash-language-server")))
-  (add-to-list 'eglot-server-programs '(python-ts-mode . ("pyright")))
+  (setopt flymake-show-diagnostics-at-end-of-line 'short)
   :custom
-  (eglot-autoshutdown       t)
-  (eglot-events-buffer-size 0)
-  (eglot-sync-connect       nil)
-  (eglot-extend-to-xref     t)
-  (eglot-ignored-server-capabilities '(:inlayHintProvider))
-  :hook ((c-ts-mode
+  (lsp-keep-workspace-alive nil)
+  (lsp-log-io nil)
+  (lsp-enable-xref t)
+  (lsp-idle-delay 0.5)
+  (lsp-enable-symbol-highlighting t)
+  (lsp-enable-links t)
+  (lsp-headerline-breadcrumb-enable t)
+  (lsp-completion-provider :flymake)
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (lsp-completion-mode . (lambda ()
+                                  (setq-local completion-category-defaults
+                                              (assoc-delete-all 'lsp-capf completion-category-defaults))))
+         ((c-ts-mode
            zig-ts-mode
            go-ts-mode
            rust-ts-mode
@@ -33,6 +33,17 @@
            tsx-ts-mode
            dockerfile-ts-mode
            json-ts-mode
-           yaml-ts-mode) . eglot-ensure))
+           yaml-ts-mode) . lsp-deferred)))
+
+(use-package lsp-ui
+             :after lsp-mode
+             :commands lsp-ui-mode
+             :custom
+             (lsp-ui-sideline-show-hover nil)
+             (lsp-ui-sideline-show-diagnostics t)
+             (lsp-ui-sideline-update-mode 'line)
+             (lsp-ui-sideline-diagnostic-max-lines 1))
+
+(use-package dap-mode)
 
 (provide 'config/lsp)

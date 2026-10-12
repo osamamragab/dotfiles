@@ -76,7 +76,7 @@
 (use-package gcmh
   :init
   (setopt native-comp-jit-compilation t
-          gc-cons-threshold (* 10 1024 1024)
+          gc-cons-threshold (* 100 1024 1024)
           read-process-output-max (* 4 1024 1024)
           redisplay-skip-fontification-on-input t)
   :config
