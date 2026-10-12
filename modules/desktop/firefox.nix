@@ -34,13 +34,6 @@
           header-editor
           visbug
         ];
-        mkAddonSettings = addon: extraSettings: {
-          ${addon.addonId}.settings = {
-            default_area = "menupanel";
-            private_browsing = true;
-          }
-          // extraSettings;
-        };
         profiles = [
           {
             id = 0;
@@ -83,9 +76,6 @@
           extensions = {
             force = true;
             packages = addonPackages;
-            settings = lib.foldl' (
-              acc: addon: acc // mkAddonSettings addon { }
-            ) { } addonPackages;
           };
           arkenfox = {
             enable = true;
