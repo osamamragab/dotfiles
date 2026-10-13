@@ -7,6 +7,7 @@
         wlr-randr
         wdisplays
         wayvnc
+        waypipe
         wev
         lswt
         libnotify
