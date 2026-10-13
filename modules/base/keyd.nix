@@ -38,9 +38,11 @@
           };
         };
 
-        systemd.services.keyd.serviceConfig.CapabilityBoundingSet = [ "CAP_SETGID" ];
+        systemd.services.keyd.serviceConfig.CapabilityBoundingSet =
+          lib.optional cfg.enable "CAP_SETGID";
 
-        users.groups.keyd.members = [ host.user ];
+        users.groups.keyd.members = lib.optional cfg.enable host.user;
+        users.groups.input.members = lib.optional cfg.enable host.user;
 
         environment.etc."libinput/local-overrides.quirks" = lib.mkIf cfg.enable {
           source = iniFormat.generate "libinput-local-overrides.quirks" {

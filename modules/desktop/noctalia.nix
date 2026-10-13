@@ -12,9 +12,13 @@
       {
         inputs,
         pkgs,
+        config,
         host,
         ...
       }:
+      let
+        hm = config.home-manager.users.${host.user};
+      in
       {
         imports = [ inputs.noctalia-greeter.nixosModules.default ];
 
@@ -24,20 +28,14 @@
           settings = {
             session.default = "mango";
             keyboard.layout = "us";
-            idle.timeout = 600;
             appearance.hide_logo = true;
-            cursor = {
-              package = pkgs.nordzy-cursor-theme;
-              name = "Nordzy-cursors";
-              size = 32;
-            };
+            cursor = hm.stylix.cursor;
+            idle.timeout = hm.programs.noctalia.settings.idle.behavior.lock.timeout;
           };
         };
 
         # required for noctalia/screen_recorder plugin
-        programs.gpu-screen-recorder.enable = true;
-
-        users.groups.input.members = [ host.user ];
+        programs.gpu-screen-recorder.enable = hm.programs.noctalia.enable;
       };
 
     homeManager =
@@ -321,14 +319,17 @@
               pre_action_fade_seconds = 10;
               behavior = {
                 lock = {
+                  enabled = lib.mkDefault true;
                   action = "lock";
                   timeout = 10 * 60;
                 };
                 screen-off = {
+                  enabled = lib.mkDefault true;
                   action = "screen_off";
                   timeout = 11 * 60;
                 };
                 suspend = {
+                  enabled = lib.mkDefault true;
                   action = "suspend";
                   timeout = 15 * 60;
                   lock_before_suspend = true;

@@ -8,6 +8,9 @@
         host,
         ...
       }:
+      let
+        cfg = config.services.printing;
+      in
       {
         services.printing = {
           enable = true;
@@ -19,8 +22,8 @@
           ];
         };
 
-        users.groups.lp.members = [ host.user ];
-        users.groups.lpadmin.members = config.users.groups.lp.members;
+        users.groups.lp.members = lib.optional cfg.enable host.user;
+        users.groups.lpadmin.members = lib.optional cfg.enable host.user;
       };
   };
 }

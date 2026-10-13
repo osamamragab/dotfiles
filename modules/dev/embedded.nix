@@ -14,7 +14,7 @@
           group = "i2c";
         };
 
-        users.groups.i2c.members = [ host.user ];
+        users.groups.i2c.members = lib.optional config.hardware.i2c.enable host.user;
       };
   };
 }

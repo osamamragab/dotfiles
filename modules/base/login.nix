@@ -1,12 +1,12 @@
 {
   flake.aspects.base = {
-    nixos = {
+    nixos = { lib, ... }: {
       services.logind = {
         enable = true;
         settings = {
           Login = {
-            HandlePowerKey = "ignore";
-            HandleLidSwitchDocked = "ignore";
+            HandlePowerKey = lib.mkDefault "ignore";
+            HandleLidSwitchDocked = lib.mkDefault "ignore";
           };
         };
       };
