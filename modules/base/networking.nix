@@ -14,6 +14,8 @@
           networkmanager = {
             enable = true;
             package = pkgs.networkmanager;
+            dhcp = "internal";
+            dns = if config.services.resolved.enable then "systemd-resolved" else "default";
           };
           wireless = {
             enableHardening = true;
@@ -31,7 +33,9 @@
 
         systemd.network.wait-online.enable = config.boot.initrd.systemd.enable;
 
-        users.groups.networkmanager.members = [ host.user ];
+        users.groups.networkmanager.members = lib.optional config.networking.networkmanager.enable host.user;
+
+        services.resolved.enable = true;
 
         services.vnstat = {
           enable = true;
