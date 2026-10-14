@@ -7,8 +7,6 @@
         save-interprogram-paste-before-kill t)
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
-(use-package apheleia
-  :config
-  (apheleia-global-mode 1))
+(use-package apheleia)
 
 (provide 'config/format)
