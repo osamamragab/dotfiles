@@ -97,9 +97,11 @@
 
   (general-define-key
     :states 'normal
-    "g d" '(lsp-find-definition :which-key "Go to Definition (lsp)")
-    "g r" '(lsp-find-references :which-key "Go to References (lsp)")
-    "g i" '(lsp-find-implementation :which-key "Go to Implementation (lsp)"))
+    "g t"   '(next-buffer :which-key "Next Buffer")
+    "g T"   '(previous-buffer :which-key "Previous Buffer")
+    "g d"   '(lsp-find-definition :which-key "Go to Definition (lsp)")
+    "g r"   '(lsp-find-references :which-key "Go to References (lsp)")
+    "g i"   '(lsp-find-implementation :which-key "Go to Implementation (lsp)"))
 
   (defun my/kill-other-buffers ()
     "Kill all other buffers."
