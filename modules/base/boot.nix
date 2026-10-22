@@ -57,6 +57,13 @@
               consoleMode = lib.mkDefault "max";
             };
           };
+          supportedFilesystems = {
+            btrfs = lib.mkDefault true;
+            ntfs = lib.mkDefault true;
+            vfat = lib.mkDefault true;
+            exfat = lib.mkDefault true;
+            ext4 = lib.mkDefault true;
+          };
           plymouth = {
             enable = lib.mkDefault false;
             theme = lib.mkDefault "hud_3";
