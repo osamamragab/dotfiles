@@ -49,7 +49,7 @@
     "k"     '((lambda () (interactive) (next-error) (evil-scroll-line-to-center nil)) :which-key "Next Error")
     "."     '(find-file :which-key "Find File")
     ","     '(consult-buffer :which-key "Buffers")
-    "/"     '(consult-line :which-key "Search")
+    "/"     '(consult-line :which-key "Go to Line")
     "c c"   '(compile)
     "f s"   '(save-buffer :which-key "Save")
     "f f"   '(project-find-file :which-key "Find File (Project)")
@@ -57,9 +57,11 @@
     "f d"   '(consult-fd :which-key "fd")
     "f g"   '(consult-ripgrep :which-key "ripgrep")
     "b b"   '(switch-to-buffer :which-key "Buffers")
-    "b d"   '(flymake-show-buffer-diagnostics :which-key "Show Diagnostics (flymake)")
-    "a k"   '(flymake-goto-next-error :which-key "Next Error (flymake)")
-    "a j"   '(flymake-goto-prev-error :which-key "Previous Error (flymake)")
+    "a f"   '(lsp-ui-doc-glance :which-key "Doc Glance (lsp)")
+    "a L"   '(lsp-ui-flycheck-list :which-key "Show Diagnostics (lsp)")
+    "a l"   '(flycheck-list-errors :which-key "Show Buffer Diagnostics (flycheck)")
+    "a k"   '(flycheck-next-error :which-key "Next Error (flycheck)")
+    "a j"   '(flycheck-previous-error :which-key "Previous Error (flycheck)")
     "w v"   '(split-window-right :which-key "Vertical")
     "w d"   '(delete-window :which-key "Delete")
     "p p"   '(project-switch-project :which-key "Project")
@@ -97,6 +99,7 @@
 
   (general-define-key
     :states 'normal
+    "g l"   '(consult-line :which-key "Go to Line")
     "g t"   '(next-buffer :which-key "Next Buffer")
     "g T"   '(previous-buffer :which-key "Previous Buffer")
     "g d"   '(lsp-find-definition :which-key "Go to Definition (lsp)")

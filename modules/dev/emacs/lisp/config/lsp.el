@@ -1,11 +1,14 @@
 ;;; -*- lexical-binding: t; -*-
 
+(use-package flycheck
+  :init
+  (global-flycheck-mode)
+  :hook ((after-init . global-flycheck-annotate-mode)))
+
 (use-package lsp-mode
   :init
   (setopt lsp-keymap-prefix "C-c l")
   :commands (lsp lsp-deferred)
-  :config
-  (setopt flymake-show-diagnostics-at-end-of-line 'short)
   :custom
   (lsp-keep-workspace-alive nil)
   (lsp-log-io nil)
@@ -14,7 +17,13 @@
   (lsp-enable-symbol-highlighting t)
   (lsp-enable-links t)
   (lsp-headerline-breadcrumb-enable t)
-  (lsp-completion-provider :flymake)
+  (lsp-tailwindcss-add-on-mode t)
+  (lsp-completion-provider :flycheck)
+  :config
+    (advice-add 'lsp-tailwindcss--server-path :override
+                (lambda ()
+                  (or (executable-find "tailwindcss-language-server")
+                      (lsp-tailwindcss--server-path))))
   :hook ((lsp-mode . lsp-enable-which-key-integration)
          (lsp-completion-mode . (lambda ()
                                   (setq-local completion-category-defaults
@@ -42,7 +51,8 @@
              (lsp-ui-sideline-show-hover nil)
              (lsp-ui-sideline-show-diagnostics t)
              (lsp-ui-sideline-update-mode 'line)
-             (lsp-ui-sideline-diagnostic-max-lines 1))
+             (lsp-ui-sideline-diagnostic-max-lines 1)
+             (lsp-tailwindcss-skip-config-check t))
 
 (use-package dap-mode)
 
