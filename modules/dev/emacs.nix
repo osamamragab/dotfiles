@@ -42,6 +42,7 @@
         services.emacs = {
           enable = cfg.enable;
           package = cfg.package;
+          defaultEditor = lib.mkDefault true;
           client = {
             enable = true;
             arguments = [

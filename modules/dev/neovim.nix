@@ -14,7 +14,7 @@
         programs.neovim = {
           enable = true;
           package = pkgs.neovim-unwrapped;
-          defaultEditor = true;
+          defaultEditor = lib.mkDefault false;
           waylandSupport = pkgs.stdenv.hostPlatform.isLinux;
           vimAlias = true;
           vimdiffAlias = true;
@@ -32,7 +32,7 @@
         home.shellAliases = lib.mkIf cfg.enable {
           vi = "nvim --noplugin";
         };
-        xdg.mimeApps.defaultApplications = lib.mkIf cfg.enable (
+        xdg.mimeApps.defaultApplications = lib.mkIf (cfg.enable && cfg.defaultEditor) (
           lib.genAttrs [
             "text/plain"
             "text/x-c"
