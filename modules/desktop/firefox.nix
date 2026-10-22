@@ -155,7 +155,6 @@
         programs.firefox = {
           enable = true;
           package = pkgs.firefox;
-          enableGnomeExtensions = false;
           arkenfox.enable = true;
           profiles = lib.foldl' (
             acc: profile:
