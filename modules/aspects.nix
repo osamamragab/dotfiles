@@ -106,12 +106,9 @@ in
           config.flake.hosts
           |> lib.filterAttrs (hn: h: hn != hostName && h.sshKey != "")
           |> lib.mapAttrs' (
-            hn: h: {
-              name = hn;
-              value = {
-                hostNames = [ hn ];
-                publicKey = h.sshKey;
-              };
+            hn: h: lib.nameValuePair hn {
+              hostNames = [ hn ];
+              publicKey = h.sshKey;
             }
           );
       in
@@ -122,11 +119,6 @@ in
           inputs.nur.modules.nixos.default
           inputs.disko.nixosModules.disko
           inputs.home-manager.nixosModules.home-manager
-        ]
-        ++ nixosModules
-        ++ [ host.module ]
-        ++ host.extraModules
-        ++ [
           {
             system.stateVersion = host.stateVersion;
             networking.hostName = hostName;
@@ -137,25 +129,26 @@ in
               users.${host.user} = (hmModules ++ host.extraHomeModules) |> lib.mkMerge;
             };
           }
-        ];
+        ]
+        ++ nixosModules
+        ++ [ host.module ]
+        ++ host.extraModules;
       }
     );
 
   config.flake.homeConfigurations =
     config.flake.hosts
-    |> lib.mapAttrs (
-      _: host:
-      let
-        hmModules = getAspects host.aspects |> getAspectsForClass "homeManager";
-      in
-      inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = inputs.nixpkgs.legacyPackages.${host.system};
-        extraSpecialArgs = { inherit inputs host; };
-        modules = [
-          inputs.nur.modules.homeManager.default
-        ]
-        ++ hmModules
-        ++ host.extraHomeModules;
-      }
+    |> lib.mapAttrs' (
+      _: host: lib.nameValuePair host.user (
+        inputs.home-manager.lib.homeManagerConfiguration {
+          pkgs = import inputs.nixpkgs { inherit (host) system; };
+          extraSpecialArgs = { inherit inputs host; };
+          modules = [
+            inputs.nur.modules.homeManager.default
+          ]
+          ++ (getAspects host.aspects |> getAspectsForClass "homeManager")
+          ++ host.extraHomeModules;
+        }
+      )
     );
 }
