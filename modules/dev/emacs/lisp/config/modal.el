@@ -40,6 +40,7 @@
     :prefix "SPC")
 
   (leader
+    "y"     '(my/evil-yank-to-system :which-key "yank to clipboard")
     "Y"     (kbd "\"+y$")
     "d"     (kbd "\"_d")
     "D"     (kbd "\"_D")
@@ -68,7 +69,6 @@
     "p s"   '(project-switch-project :which-key "Switch Project")
     "p r"   '(project-find-regexp :which-key "Project Regexp")
     "p R"   '(project-query-replace-regexp :which-key "Project Replace Regexp")
-    "g s"   '(magit-status :which-key "Magit")
     "b m"   '(bookmark-set :which-key "Bookmark")
     "b D"   '(bookmark-delete :which-key "Delete Bookmark")
     "b k"   '(kill-current-buffer :which-key "Kill Buffer")
@@ -92,20 +92,26 @@
 
   (general-define-key
     :states 'visual
-    "y" (kbd "\"+y")
     "p" (kbd "\"_dP")
     "J" '(move-text-down :which-key "Move Down")
     "K" '(move-text-up :which-key "Move Up"))
 
   (general-define-key
     :states 'normal
-    "y"   (kbd "\"+yy")
     "g l" '(consult-line :which-key "Go to Line")
     "g t" '(next-buffer :which-key "Next Buffer")
     "g T" '(previous-buffer :which-key "Previous Buffer")
     "g d" '(lsp-find-definition :which-key "Go to Definition (lsp)")
     "g r" '(lsp-find-references :which-key "Go to References (lsp)")
     "g i" '(lsp-find-implementation :which-key "Go to Implementation (lsp)"))
+
+  (evil-define-operator my/evil-yank-to-system (beg end type register yank-handler)
+    "Save the characters in motion into the kill-ring and the system clipboard."
+    :move-point nil
+    :repeat nil
+    (interactive "<R><x><y>")
+    (let ((select-enable-clipboard t))
+      (evil-yank beg end type register yank-handler)))
 
   (defun my/kill-other-buffers ()
     "Kill all other buffers."
