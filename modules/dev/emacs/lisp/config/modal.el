@@ -88,7 +88,22 @@
     "C"     '(org-capture :which-key "Org Capture")
     "n r i" '(org-roam-capture :which-key "Org Roam Capture")
     "n r f" '(org-roam-node-find :which-key "Org Roam Find")
-    "n j"   '(org-roam-dailies-capture-today :which-key "Org Roam Daily"))
+    "n j"   '(org-roam-dailies-capture-today :which-key "Org Roam Daily")
+    "g"     '(:ignore t :which-key "magit")
+    "gs"    '(magit-status :which-key "status")
+    "gS"    '(magit-status-here :which-key "status here")
+    "ga"    '(magit-file-stage :which-key "stage file")
+    "gA"    '(magit-stage-modified :which-key "stage all")
+    "gc"    '(magit-commit :which-key "commit")
+    "gC"    '(magit-commit-amend :which-key "commit amend")
+    "gf"    '(magit-fetch :which-key "fetch")
+    "gp"    '(magit-pull :which-key "pull")
+    "gP"    '(magit-push :which-key "push")
+    "gl"    '(magit-log-current :which-key "log current")
+    "gL"    '(magit-log-all :which-key "log all")
+    "gd"    '(magit-diff-unstaged :which-key "diff unstaged")
+    "gD"    '(magit-diff-staged :which-key "diff staged")
+    "gb"    '(magit-blame :which-key "blame"))
 
   (general-define-key
     :states 'visual
