@@ -4,13 +4,13 @@
   :demand t
   :init
   (setopt evil-want-integration t
-          evil-want-keybinding nil
-          evil-want-C-u-scroll t
-          evil-want-C-i-jump t
-          evil-undo-system 'undo-tree
-          evil-search-module 'isearch
-          evil-kill-on-visual-paste nil
-          evil-visual-update-x-selection-p nil)
+    evil-want-keybinding nil
+    evil-want-C-u-scroll t
+    evil-want-C-i-jump t
+    evil-undo-system 'undo-tree
+    evil-search-module 'isearch
+    evil-kill-on-visual-paste nil
+    evil-visual-update-x-selection-p nil)
   :config
   (evil-mode 1)
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
@@ -19,9 +19,9 @@
   (evil-set-initial-state 'dashboard-mode 'normal)
   :bind
   (:map evil-insert-state-map
-        ("C-g" . #'evil-normal-state))
+    ("C-g" . #'evil-normal-state))
   (:map evil-insert-state-map
-        ("C-h" . #'evil-delete-backward-char-and-join)))
+    ("C-h" . #'evil-delete-backward-char-and-join)))
 
 (use-package evil-collection
   :demand t
@@ -40,7 +40,6 @@
     :prefix "SPC")
 
   (leader
-    "y"     (kbd "\"+y")
     "Y"     (kbd "\"+y$")
     "d"     (kbd "\"_d")
     "D"     (kbd "\"_D")
@@ -93,18 +92,20 @@
 
   (general-define-key
     :states 'visual
+    "y" (kbd "\"+y")
     "p" (kbd "\"_dP")
     "J" '(move-text-down :which-key "Move Down")
     "K" '(move-text-up :which-key "Move Up"))
 
   (general-define-key
     :states 'normal
-    "g l"   '(consult-line :which-key "Go to Line")
-    "g t"   '(next-buffer :which-key "Next Buffer")
-    "g T"   '(previous-buffer :which-key "Previous Buffer")
-    "g d"   '(lsp-find-definition :which-key "Go to Definition (lsp)")
-    "g r"   '(lsp-find-references :which-key "Go to References (lsp)")
-    "g i"   '(lsp-find-implementation :which-key "Go to Implementation (lsp)"))
+    "y"   (kbd "\"+yy")
+    "g l" '(consult-line :which-key "Go to Line")
+    "g t" '(next-buffer :which-key "Next Buffer")
+    "g T" '(previous-buffer :which-key "Previous Buffer")
+    "g d" '(lsp-find-definition :which-key "Go to Definition (lsp)")
+    "g r" '(lsp-find-references :which-key "Go to References (lsp)")
+    "g i" '(lsp-find-implementation :which-key "Go to Implementation (lsp)"))
 
   (defun my/kill-other-buffers ()
     "Kill all other buffers."

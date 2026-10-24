@@ -4,7 +4,7 @@
   :demand t
   :config
   (setopt yas-snippet-dirs '("~/.config/emacs/snippets")
-          yas-verbosity    0)
+    yas-verbosity 0)
   (yas-global-mode 1))
 
 (use-package yasnippet-snippets

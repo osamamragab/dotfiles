@@ -1,20 +1,20 @@
 ;;; -*- lexical-binding: t; -*-
 
 (setopt use-package-always-defer t
-        use-package-always-ensure t)
+  use-package-always-ensure t)
 
 (if init-file-debug
-    (setopt debug-on-error t
-            use-package-verbose t
-            use-package-expand-minimally nil
-            use-package-compute-statistics t)
+  (setopt debug-on-error t
+    use-package-verbose t
+    use-package-expand-minimally nil
+    use-package-compute-statistics t)
   (setopt use-package-verbose nil
-          use-package-expand-minimally t))
+    use-package-expand-minimally t))
 
 (require 'package)
 (setopt package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("elpa" . "https://elpa.gnu.org/packages/")
-                           ("org" . "https://orgmode.org/elpa/")))
+                            ("elpa" . "https://elpa.gnu.org/packages/")
+                            ("org" . "https://orgmode.org/elpa/")))
 (setopt package-archive-priorities '(("melpa" . 10) ("elpa" . 5) ("org" . 5)))
 
 (package-initialize)
@@ -47,48 +47,48 @@
 (blink-cursor-mode -1)
 
 (setopt scroll-margin 2
-	  display-line-numbers-type 'relative
-	  make-backup-files nil
-	  auto-save-default nil
-	  create-lockfiles nil
-	  initial-scratch-message nil
-	  require-final-newline t
-    use-short-answers t
-	  native-comp-async-report-warnings-errors 'silent)
+  display-line-numbers-type 'relative
+  make-backup-files nil
+  auto-save-default nil
+  create-lockfiles nil
+  initial-scratch-message nil
+  require-final-newline t
+  use-short-answers t
+  native-comp-async-report-warnings-errors 'silent)
 
 (setopt trusted-content '("~/src/"))
 
 (setopt select-enable-primary t
-        select-enable-clipboard nil)
+  select-enable-clipboard nil)
 (keymap-global-set "C-S-p" (lambda ()
                              (interactive)
                              (clipboard-yank)))
 (keymap-global-set "C-S-y" (lambda ()
                              (interactive)
                              (clipboard-kill-ring-save
-                              (region-beginning)
-                              (region-end))))
+                               (region-beginning)
+                               (region-end))))
 
 (setopt auth-source-pass-filename
-        (or (getenv "PASSWORD_STORE_DIR")
-            (expand-file-name "password-store" (or (getenv "XDG_DATA_HOME")))))
+  (or (getenv "PASSWORD_STORE_DIR")
+    (expand-file-name "password-store" (or (getenv "XDG_DATA_HOME")))))
 
 (use-package gcmh
   :init
   (setopt native-comp-jit-compilation t
-          gc-cons-threshold (* 100 1024 1024)
-          read-process-output-max (* 4 1024 1024)
-          redisplay-skip-fontification-on-input t)
+    gc-cons-threshold (* 100 1024 1024)
+    read-process-output-max (* 4 1024 1024)
+    redisplay-skip-fontification-on-input t)
   :config
   (setopt gcmh-idle-delay 5
-          gcmh-high-cons-threshold (* 16 1024 1024))
+    gcmh-high-cons-threshold (* 16 1024 1024))
   (gcmh-mode 1))
 
 (use-package no-littering
   :demand t
   :init
   (setopt no-littering-etc-directory (expand-file-name "etc/" user-emacs-directory)
-		no-littering-var-directory "~/.local/share/emacs/"))
+	no-littering-var-directory "~/.local/share/emacs/"))
 
 (use-package envrc
   :hook (after-init . envrc-global-mode)
@@ -109,7 +109,7 @@
   (recentf-mode 1)
   :config
   (setopt recentf-max-menu-items 25
-		recentf-max-saved-items 100)
+	recentf-max-saved-items 100)
   (dolist (path '("\\.git/" "/tmp/" "/nix/store/" "\\.gpg/"))
 	(add-to-list 'recentf-exclude path))
   (add-to-list 'recentf-exclude (recentf-expand-file-name no-littering-var-directory))
@@ -122,9 +122,9 @@
   (savehist-mode 1)
   :config
   (setopt history-length 1000
-          history-delete-duplicates t
-          savehist-save-minibuffer-history t
-          savehist-additional-variables '(search-ring regexp-search-ring kill-ring))
+    history-delete-duplicates t
+    savehist-save-minibuffer-history t
+    savehist-additional-variables '(search-ring regexp-search-ring kill-ring))
   (dolist (var '(extended-command-history
                   search-ring
                   regexp-search-ring
@@ -132,13 +132,13 @@
                   recentf-list))
     (add-to-list 'savehist-additional-variables var))
   (add-hook 'savehist-save-hook
-            (lambda ()
-              (setopt kill-ring
-                      (mapcar #'substring-no-properties
-                              (cl-remove-if-not #'stringp kill-ring))))))
+    (lambda ()
+      (setopt kill-ring
+        (mapcar #'substring-no-properties
+          (cl-remove-if-not #'stringp kill-ring))))))
 
 (add-hook 'after-save-hook
-          #'executable-make-buffer-file-executable-if-script-p)
+  #'executable-make-buffer-file-executable-if-script-p)
 
 (defun my/ensure-parent-directory ()
   "Create the parent directory of the file being saved, if it doesn't exist."
@@ -153,8 +153,8 @@
   "Delete other windows in frame if any, or restore previous window config."
   (interactive)
   (if (and winner-mode
-           (equal (selected-window) (next-window)))
-      (winner-undo)
+        (equal (selected-window) (next-window)))
+    (winner-undo)
     (delete-other-windows)))
 (keymap-global-set "C-x 1" #'toggle-delete-other-windows)
 

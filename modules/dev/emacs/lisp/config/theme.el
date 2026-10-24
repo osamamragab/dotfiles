@@ -17,11 +17,11 @@
   (doom-themes-enable-italic t)
   :config
   (if (daemonp)
-        (cl-labels ((load-nord (frame)
-                      (with-selected-frame frame
-                        (load-theme 'doom-nord t))
-                      (remove-hook 'after-make-frame-functions #'load-nord)))
-          (add-hook 'after-make-frame-functions #'load-nord))
-      (load-theme 'doom-nord t)))
+    (cl-labels ((load-nord (frame)
+                  (with-selected-frame frame
+                    (load-theme 'doom-nord t))
+                  (remove-hook 'after-make-frame-functions #'load-nord)))
+      (add-hook 'after-make-frame-functions #'load-nord))
+    (load-theme 'doom-nord t)))
 
 (provide 'config/theme)

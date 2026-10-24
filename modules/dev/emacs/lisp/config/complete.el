@@ -21,20 +21,21 @@
 (use-package consult
   :bind
   (("C-x b"   . consult-buffer)
-   ("M-g g"   . consult-goto-line)
-   ("C-x C-f" . consult-find)
-   ("M-s l" . consult-line)
-   ("C-x m" . consult-man))
+    ("M-g g"   . consult-goto-line)
+    ("C-x C-f" . consult-find)
+    ("M-s l"   . consult-line)
+    ("C-x m"   . consult-man))
   :config
   (consult-customize
-   consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file
-   :preview-key '(:debounce 0.4 any)))
+    consult-ripgrep consult-git-grep consult-grep
+    consult-bookmark consult-recent-file
+    :preview-key '(:debounce 0.4 any)))
 
 (use-package embark
   :bind
-  (("C-." . embark-act)
-   ("C-;" . embark-dwim)))
+  (("M-." . embark-act)
+    ("M-o" . embark-export)
+    ("C-;" . embark-dwim)))
 
 (use-package embark-consult
   :after (embark consult)
@@ -52,13 +53,13 @@
   (corfu-popupinfo-mode 1)
   :bind
   ((:map corfu-map
-        ("<tab>" . #'corfu-next)
-        ("TAB" . #'corfu-next)
-        ("<backtab>" . #'corfu-previous)
-        ("C-y" . #'corfu-insert)
-        ("RET" . #'corfu-insert)
-        ("S-SPC" . #'corfu-insert-separator))
-  ("C-SPC" . #'completion-at-point))
+     ("<tab>" . #'corfu-next)
+     ("TAB" . #'corfu-next)
+     ("<backtab>" . #'corfu-previous)
+     ("C-y" . #'corfu-insert)
+     ("RET" . #'corfu-insert)
+     ("S-SPC" . #'corfu-insert-separator))
+    ("C-SPC" . #'completion-at-point))
   :custom
   (corfu-auto        t)
   (corfu-cycle       t)

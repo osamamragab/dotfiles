@@ -7,14 +7,14 @@
   :commands (magit-status magit-git-current-branch)
   :config
   (setopt magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
-          magit-bury-buffer-function #'magit-restore-window-configuration)
+    magit-bury-buffer-function #'magit-restore-window-configuration)
   (keymap-set magit-status-mode-map "p" #'magit-push)
   (keymap-set magit-status-mode-map "SPC" nil)
   (keymap-set magit-log-mode-map "SPC" nil)
   (keymap-set magit-diff-mode-map "SPC" nil))
 
-  ;;:custom
-  ;;(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+;;:custom
+;;(magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
 (use-package forge)
 
@@ -32,7 +32,7 @@
 
 (use-package git-modes
   :mode (("/\\.gitignore\\'" . gitignore-mode)
-         ("/\\.gitconfig\\'" . gitconfig-mode)
-         ("/\\.gitattributes\\'" . gitattributes-mode)))
+          ("/\\.gitconfig\\'" . gitconfig-mode)
+          ("/\\.gitattributes\\'" . gitattributes-mode)))
 
 (provide 'config/git)

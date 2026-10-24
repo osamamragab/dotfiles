@@ -1,31 +1,32 @@
 ;;; -*- lexical-binding: t; -*-
 
 (setopt package-enable-at-startup nil
-        inhibit-startup-screen t
-        inhibit-startup-message t
-        initial-scratch-message nil
-        initial-buffer-choice t
-        menu-bar-mode nil
-        tool-bar-mode nil
-        scroll-bar-mode nil
-        use-dialog-box nil
-        cursor-type 'box
-        tab-bar-show nil
-        tab-bar-close-button-show nil
-        use-short-answers t
-        visible-bell nil
-        ring-bell-function 'ignore
-        indicate-empty-lines t
-        show-trailing-whitespace t
-        indent-line-function 'insert-tab
-        cursor-in-non-selected-windows nil
-        highlight-nonselected-windows nil
-        kill-do-not-save-duplicates t
-        reb-re-syntax 'string
-        ffap-machine-p-known 'reject
-        window-combination-resize t
-        set-mark-command-repeat-pop t
-        help-window-select t)
+  inhibit-startup-screen t
+  inhibit-startup-message t
+  initial-scratch-message nil
+  initial-buffer-choice t
+  menu-bar-mode nil
+  tool-bar-mode nil
+  scroll-bar-mode nil
+  use-dialog-box nil
+  focus-follows-mouse nil
+  cursor-type 'box
+  tab-bar-show nil
+  tab-bar-close-button-show nil
+  use-short-answers t
+  visible-bell nil
+  ring-bell-function 'ignore
+  indicate-empty-lines t
+  show-trailing-whitespace t
+  indent-line-function 'insert-tab
+  cursor-in-non-selected-windows nil
+  highlight-nonselected-windows nil
+  kill-do-not-save-duplicates t
+  reb-re-syntax 'string
+  ffap-machine-p-known 'reject
+  window-combination-resize t
+  set-mark-command-repeat-pop t
+  help-window-select t)
 
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
@@ -43,17 +44,17 @@
 ; (set-default-toplevel-value 'lexical-binding t)
 
 (set-face-attribute 'default nil
-					:family "monospace"
-					:height 130
-					:weight 'regular)
+  :family "monospace"
+  :height 130
+  :weight 'regular)
 (set-face-attribute 'variable-pitch nil
-					:family "monospace"
-					:height 140
-					:weight 'regular)
+  :family "monospace"
+  :height 140
+  :weight 'regular)
 (set-face-attribute 'fixed-pitch nil
-					:family "monospace"
-					:height 130
-					:weight 'regular)
+  :family "monospace"
+  :height 130
+  :weight 'regular)
 (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
 (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
 (add-to-list 'default-frame-alist '(font . "monospace-11"))
