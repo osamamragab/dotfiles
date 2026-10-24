@@ -36,7 +36,7 @@
     homeManager =
       {
         pkgs,
-        osConfig ? null,
+        osConfig ? { },
         ...
       }:
       {

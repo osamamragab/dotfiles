@@ -60,7 +60,7 @@
         pkgs,
         lib,
         config,
-        osConfig ? null,
+        osConfig ? { },
         ...
       }:
       let

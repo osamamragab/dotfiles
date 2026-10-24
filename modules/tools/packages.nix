@@ -3,7 +3,8 @@
     homeManager =
       {
         pkgs,
-        osConfig ? null,
+        lib,
+        osConfig ? { },
         ...
       }:
       {
@@ -33,7 +34,7 @@
               duf
               entr
             ]
-            ++ lib.optional osConfig.hardware.graphics.enable pkgs.nvtopPackages.full;
+            ++ lib.optional (osConfig.hardware.graphics.enable or false) nvtopPackages.full;
           shellAliases = {
             bc = "bc -ql";
             drag = "dragon-drop -a -x";
