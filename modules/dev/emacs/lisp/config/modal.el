@@ -69,6 +69,7 @@
     "p s"   '(project-switch-project :which-key "Switch Project")
     "p r"   '(project-find-regexp :which-key "Project Regexp")
     "p R"   '(project-query-replace-regexp :which-key "Project Replace Regexp")
+    "p t"   '(ghostel-project :which-key "Project Terminal")
     "b m"   '(bookmark-set :which-key "Bookmark")
     "b D"   '(bookmark-delete :which-key "Delete Bookmark")
     "b k"   '(kill-current-buffer :which-key "Kill Buffer")
@@ -101,9 +102,10 @@
     "gP"    '(magit-push :which-key "push")
     "gl"    '(magit-log-current :which-key "log current")
     "gL"    '(magit-log-all :which-key "log all")
-    "gd"    '(magit-diff-unstaged :which-key "diff unstaged")
-    "gD"    '(magit-diff-staged :which-key "diff staged")
-    "gb"    '(magit-blame :which-key "blame"))
+    "gb"    '(magit-blame :which-key "blame")
+    "gds"   '(magit-diff-staged :which-key "diff staged")
+    "gdu"   '(magit-diff-unstaged :which-key "diff unstaged")
+    "gdf"   '(magit-diff-buffer-file :which-key "diff current file"))
 
   (general-define-key
     :states 'visual
