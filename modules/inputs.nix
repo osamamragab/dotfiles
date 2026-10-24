@@ -5,7 +5,7 @@
   flake-file = {
     description = "Osama's NixOS configuration";
     auto-follow.enable = true;
-    formatter = pkgs: pkgs.nixfmt;
+    formatter = pkgs: pkgs.alejandra;
     inputs = {
       nixpkgs.url = lib.mkDefault "github:NixOS/nixpkgs/nixos-unstable";
       nixpkgs-lib.follows = "nixpkgs";
