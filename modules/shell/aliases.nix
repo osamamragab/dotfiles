@@ -10,7 +10,7 @@
       {
         home = {
           shellAliases = {
-            e = "\${EDITOR:-vi}";
+            e = lib.mkDefault "\${EDITOR:-vi}";
             q = "exit";
             mkd = "mkdir -pv";
             cp = "cp -iv";

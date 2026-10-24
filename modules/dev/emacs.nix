@@ -10,9 +10,11 @@
 
     homeManager =
       {
+        inputs,
         pkgs,
         lib,
         config,
+        osConfig ? { },
         ...
       }:
       let
@@ -21,6 +23,10 @@
         configPath = ./emacs;
       in
       {
+        nixpkgs.overlays = lib.mkIf (!(osConfig.home-manager.useGlobalPkgs or false)) [
+          inputs.emacs-overlay.overlays.default
+        ];
+
         programs.emacs = {
           enable = true;
           package = pkgs.emacsWithPackagesFromUsePackage {
@@ -46,6 +52,7 @@
           client = {
             enable = true;
             arguments = [
+              "-c"
               "-n"
               "-a"
               "emacs"
@@ -60,9 +67,14 @@
           recursive = true;
         };
 
-        home.shellAliases = lib.mkIf cfg.enable {
-          emacs = "emacsclient -nca emacs";
-        };
+        home.shellAliases = lib.mkIf scfg.enable (
+          {
+            emacs = "emacsclient -cna emacs";
+          }
+          // lib.optionalAttrs scfg.defaultEditor {
+            e = "emacs";
+          }
+        );
 
         xdg.mimeApps.defaultApplications = lib.mkIf (cfg.enable && scfg.defaultEditor) (
           lib.genAttrs [
