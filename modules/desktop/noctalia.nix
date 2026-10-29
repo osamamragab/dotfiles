@@ -11,31 +11,30 @@
     nixos =
       {
         inputs,
-        pkgs,
         config,
         host,
         ...
       }:
       let
         hm = config.home-manager.users.${host.user};
+        cfg = hm.programs.noctalia;
       in
       {
         imports = [ inputs.noctalia-greeter.nixosModules.default ];
 
         services.displayManager.noctalia-greeter = {
-          enable = true;
+          enable = cfg.enable;
           greeter-args = "";
           settings = {
-            session.default = "mango";
             keyboard.layout = "us";
             appearance.hide_logo = true;
             cursor = hm.stylix.cursor;
-            idle.timeout = hm.programs.noctalia.settings.idle.behavior.lock.timeout;
+            idle.timeout = cfg.settings.idle.behavior.lock.timeout;
           };
         };
 
         # required for noctalia/screen_recorder plugin
-        programs.gpu-screen-recorder.enable = hm.programs.noctalia.enable;
+        programs.gpu-screen-recorder.enable = cfg.enable;
       };
 
     homeManager =
@@ -190,6 +189,10 @@
               date_format = "%A, %F";
               polkit_agent = true;
               shadow.alpha = 0.15;
+              greeter_sync = {
+                auto_sync = true;
+                privilege_command = "pkexec";
+              };
               panel = {
                 open_near_click_control_center = true;
                 open_near_click_session = true;

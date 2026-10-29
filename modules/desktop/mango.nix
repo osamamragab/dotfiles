@@ -28,7 +28,7 @@
           else if config.xdg.terminal-exec.enable then
             "${config.xdg.terminal-exec.package}/bin/xdg-terminal-exec"
           else
-            builtins.throw "No terminal emulator found";
+            lib.throw "No terminal emulator found";
         zoomerScript = pkgs.writeShellScript "zoomer-script" ''
           set -eu
           mon="$(${mmsgBin} get last_open_surface | ${pkgs.jq}/bin/jq -r ".monitor")"
