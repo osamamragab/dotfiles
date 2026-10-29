@@ -74,6 +74,7 @@
             terminal = 0.95;
           };
           targets = {
+            rofi.enable = false;
             emacs.enable = false;
             neovim.enable = false;
           };
