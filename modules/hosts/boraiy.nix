@@ -144,6 +144,13 @@
 
         networking.wireless.enable = true;
 
+        services.logind.settings.Login = {
+          HandlePowerKey = "lock";
+          HandleLidSwitch = "lock";
+          HandleLidSwitchDocked = "lock";
+          HandleLidSwitchExternalPower = "lock";
+        };
+
         services.openssh = {
           enable = true;
           openFirewall = true;
@@ -157,5 +164,10 @@
           };
         };
       };
+    extraHomeModules = [
+      {
+        programs.noctalia.settings.idle.behavior.suspend.enabled = false;
+      }
+    ];
   };
 }
