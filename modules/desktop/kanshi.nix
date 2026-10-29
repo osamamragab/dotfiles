@@ -82,7 +82,7 @@
                 outputs = [
                   {
                     criteria = "eDP-1";
-                    status = "enable";
+                    status = "disable";
                   }
                   {
                     criteria = "HDMI-A-1";
@@ -93,11 +93,11 @@
             }
             {
               profile = {
-                name = "monitor-only";
+                name = "monitor-laptop";
                 outputs = [
                   {
                     criteria = "eDP-1";
-                    status = "disable";
+                    status = "enable";
                   }
                   {
                     criteria = "HDMI-A-1";
@@ -112,7 +112,7 @@
                 outputs = [
                   {
                     criteria = "eDP-1";
-                    status = "enable";
+                    status = "disable";
                   }
                   {
                     criteria = "HDMI-A-1";
@@ -127,11 +127,11 @@
             }
             {
               profile = {
-                name = "dock-only";
+                name = "dock-laptop";
                 outputs = [
                   {
                     criteria = "eDP-1";
-                    status = "disable";
+                    status = "enable";
                   }
                   {
                     criteria = "HDMI-A-1";
