@@ -79,10 +79,10 @@
     gc-cons-threshold (* 100 1024 1024)
     read-process-output-max (* 4 1024 1024)
     redisplay-skip-fontification-on-input t)
-  :config
-  (setopt gcmh-idle-delay 5
-    gcmh-high-cons-threshold (* 16 1024 1024))
-  (gcmh-mode 1))
+  :hook (after-init . gcmh-mode)
+  :custom
+  (gcmh-idle-delay 5)
+   (gcmh-high-cons-threshold (* 16 1024 1024)))
 
 (use-package no-littering
   :demand t
@@ -92,9 +92,8 @@
 
 (use-package envrc
   :hook (after-init . envrc-global-mode)
-  :config
-  (with-eval-after-load 'envrc
-    (keymap-set envrc-mode-map "C-c e" 'envrc-command-map)))
+  :bind (:map envrc-mode-map
+          ("C-c e" . envrc-command-map)))
 
 (use-package which-key
   :defer 0
@@ -160,6 +159,7 @@
 
 (add-to-list 'load-path (expand-file-name "lisp/" user-emacs-directory))
 
+(require 'config/theme)
 (require 'config/modal)
 (require 'config/complete)
 (require 'config/snippets)
@@ -167,10 +167,8 @@
 (require 'config/git)
 (require 'config/org)
 (require 'config/term)
-(require 'config/undo)
 (require 'config/dired)
 (require 'config/tramp)
-(require 'config/theme)
 (require 'config/modes)
 (require 'config/format)
 (require 'config/treesitter)

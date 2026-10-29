@@ -22,6 +22,7 @@
   cursor-in-non-selected-windows nil
   highlight-nonselected-windows nil
   kill-do-not-save-duplicates t
+  save-interprogram-paste-before-kill t
   reb-re-syntax 'string
   ffap-machine-p-known 'reject
   window-combination-resize t

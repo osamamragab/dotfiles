@@ -7,7 +7,8 @@
     evil-want-keybinding nil
     evil-want-C-u-scroll t
     evil-want-C-i-jump t
-    evil-undo-system 'undo-tree
+    evil-want-fine-undo t
+    evil-undo-system 'undo-fu
     evil-search-module 'isearch
     evil-kill-on-visual-paste nil
     evil-visual-update-x-selection-p nil)
@@ -58,6 +59,7 @@
     "f g"   '(consult-ripgrep :which-key "ripgrep")
     "b b"   '(switch-to-buffer :which-key "Buffers")
     "a f"   '(lsp-ui-doc-glance :which-key "Doc Glance (lsp)")
+    "a c"   '(lsp-ui-sideline-apply-code-actions :which-key "Code Actions (lsp)")
     "a L"   '(lsp-ui-flycheck-list :which-key "Show Diagnostics (lsp)")
     "a l"   '(flycheck-list-errors :which-key "Show Buffer Diagnostics (flycheck)")
     "a k"   '(flycheck-next-error :which-key "Next Error (flycheck)")
@@ -160,6 +162,21 @@
   (evil-lion-mode))
 
 (use-package move-text)
+
+(use-package undo-fu
+  :demand t
+  :custom
+  (undo-limit (* 64  1024 1024))
+  (undo-strong-limit (* 96 1024 1024))
+  (undo-outer-limit (* 960 1024 1024))
+  (undo-fu-allow-undo-in-region nil))
+
+(use-package undo-fu-session
+  :custom
+  (undo-fu-session-directory
+    (expand-file-name "undo-fu-session" user-emacs-directory))
+  :config
+  (undo-fu-session-global-mode 1))
 
 (keymap-global-set "C-=" #'text-scale-increase)
 (keymap-global-set "C--" #'text-scale-decrease)
