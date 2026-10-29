@@ -51,6 +51,8 @@ in {
             auto-optimise-store = true;
             substitute = true;
             max-substitution-jobs = 16;
+            keep-outputs = true;
+            keep-derivations = true;
           };
       };
 
