@@ -29,7 +29,10 @@
   (consult-customize
     consult-ripgrep consult-git-grep consult-grep
     consult-bookmark consult-recent-file
-    :preview-key '(:debounce 0.4 any)))
+    :preview-key '(:debounce 0.4 any))
+  :custom
+  (consult-async-min-input      3)
+  (consult-async-input-debounce 0.5))
 
 (use-package embark
   :bind
@@ -49,8 +52,6 @@
 (use-package corfu
   :init
   (global-corfu-mode 1)
-  :config
-  (corfu-popupinfo-mode 1)
   :bind
   ((:map corfu-map
      ("<tab>" . #'corfu-next)
@@ -63,21 +64,44 @@
   :custom
   (corfu-auto        t)
   (corfu-cycle       t)
-  (corfu-auto-delay  5)
-  (corfu-auto-prefix 3)
+  (corfu-auto-delay  0.3)
+  (corfu-auto-prefix 4)
   (corfu-quit-no-match t)
-  (corfu-preview-current t))
+  (corfu-preview-current t)
+  (corfu-popupinfo-delay '(2.0 . 0.5))
+  :config
+  (corfu-popupinfo-mode 1)
+
+  (with-eval-after-load 'evil
+    (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point))
+  (defun my/corfu-completion-styles ()
+    (setq-local completion-styles '(basic partial-completion)))
+  (add-hook 'eglot-managed-mode-hook #'my/corfu-completion-styles)
+  (with-eval-after-load 'lsp-mode
+    (add-hook 'lsp-managed-mode-hook #'my/corfu-completion-styles)))
 
 (setopt text-mode-ispell-word-completion nil)
 
-(with-eval-after-load 'evil
-  (keymap-set evil-insert-state-map "C-SPC" 'completion-at-point))
+(use-package dabbrev
+  :init
+  (setopt dabbrev-check-other-buffers 'maybe)
+  :config
+  (dolist (rx '("^ "
+                 "^\\*[^*]+\\*$"
+                 "\\.\\(?:elc\\|o\\|so\\|pyc\\|class\\|jar\\)\\'"))
+    (add-to-list 'dabbrev-ignored-buffer-regexps rx))
+  (dolist (m '(messages-buffer-mode compilation-mode
+                help-mode doc-view-mode image-mode))
+    (add-to-list 'dabbrev-ignored-buffer-modes m)))
 
 (use-package cape
-  :init
-  (add-to-list 'completion-at-point-functions #'cape-file)
-  (add-to-list 'completion-at-point-functions #'cape-keyword)
-  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-  (add-to-list 'completion-at-point-functions #'cape-elisp-block))
+  :config
+  (add-to-list 'completion-at-point-functions
+    (cape-capf-super
+      #'cape-elisp-block
+      #'cape-keyword
+      #'cape-dabbrev
+      #'cape-file)
+    t))
 
 (provide 'config/complete)
