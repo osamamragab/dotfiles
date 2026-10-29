@@ -14,8 +14,8 @@
 (use-package ghostel
   :bind (("C-x m" . ghostel)
           :map ghostel-semi-char-mode-map
-          ("C-s" . consult-line)
-          ("C-k" . my/ghostel-send-C-k-and-kill)
+          ("C-s"  . consult-line)
+          ("C-k"  . my/ghostel-send-C-k-and-kill)
           ("M-p" . (lambda () (interactive) (ghostel-send-key "p" "ctrl")))
           ("M-n" . (lambda () (interactive) (ghostel-send-key "n" "ctrl")))
           :map project-prefix-map
@@ -23,8 +23,7 @@
           ("M" . ghostel-project-list-buffers))
   :config
   (defun my/ghostel-send-C-k-and-kill ()
-    "Send `C-k' to ghostel.
-Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
+    "Send `C-k' to ghostel. Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
     (interactive)
     (kill-ring-save (point) (line-end-position))
     (ghostel-send-key "k" "ctrl"))
@@ -34,7 +33,9 @@ Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
 
 (use-package evil-ghostel
   :after (ghostel evil)
-  :hook (ghostel-mode . evil-ghostel-mode))
+  :hook (ghostel-mode . evil-ghostel-mode)
+  :config
+  (setopt evil-ghostel-escape 'terminal))
 
 (dolist (hook '(ghostel-mode-hook vterm-mode-hook term-mode-hook eshell-mode-hook))
   (add-hook hook (lambda () (setq-local show-trailing-whitespace nil))))
@@ -44,14 +45,14 @@ Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
   (interactive)
   (require 'ghostel)
   (require 'project)
-  (let* ((name "*scratch-terminal*")
+  (let* ((name    "*scratch-terminal*")
           (action '((display-buffer-reuse-window display-buffer-in-side-window)
                      (side . bottom)
                      (slot . 0)
                      (window-height . 0.3)
                      (window-parameters . ((no-delete-other-windows . t)))))
-          (buf (get-buffer name))
-          (win (and buf (get-buffer-window buf))))
+          (buf    (get-buffer name))
+          (win    (and buf (get-buffer-window buf))))
     (cond
       ((eq win (selected-window)) (delete-window win))
       (win (select-window win))
@@ -59,11 +60,10 @@ Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
            (display-buffer
              (or buf
                (save-window-excursion
-                 (let ((default-directory
-                         (if-let ((proj (project-current)))
-                           (project-root proj)
-                           default-directory))
-                        (ghostel-buffer-name name))
+                 (let* ((root (when-let* ((proj (project-current)))
+                                (project-root proj)))
+                         (default-directory (or root default-directory))
+                         (ghostel-buffer-name name))
                    (ghostel))
                  (rename-buffer name)
                  (current-buffer)))
