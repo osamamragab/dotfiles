@@ -16,6 +16,8 @@
               jq
               age
               buku
+              atool
+              unzip
               fribidi
               dragon-drop
               ffmpeg
