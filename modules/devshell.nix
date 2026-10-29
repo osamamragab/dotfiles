@@ -7,6 +7,7 @@
         nixos-rebuild
         home-manager
         nixd
+        alejandra
       ];
     };
   };
