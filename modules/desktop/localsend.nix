@@ -11,7 +11,7 @@
       };
     };
 
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       home.packages = with pkgs; [
         localsend
       ];

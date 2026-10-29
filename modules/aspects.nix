@@ -3,47 +3,42 @@
   lib,
   config,
   ...
-}:
-let
-  getAspects =
-    aspects:
+}: let
+  getAspects = aspects:
     aspects
     |> lib.map (
       aspect:
-      if lib.isAttrs aspect then
-        aspect
-      else if lib.isString aspect then
-        config.flake.aspects.${aspect} or (lib.throw "Aspect '${aspect}' not found")
-      else
-        lib.throw "Invalid aspect reference: ${lib.toString aspect}"
+        if lib.isAttrs aspect
+        then aspect
+        else if lib.isString aspect
+        then config.flake.aspects.${aspect} or (lib.throw "Aspect '${aspect}' not found")
+        else lib.throw "Invalid aspect reference: ${lib.toString aspect}"
     );
-  getAspectsForClass =
-    class: aspects:
+  getAspectsForClass = class: aspects:
     aspects
     |> lib.map (aspect: aspect.${class} or null)
     |> lib.filter (aspect: aspect != null);
-in
-{
+in {
   options.flake.aspects = lib.mkOption {
     type = lib.types.attrsOf (
       lib.types.submodule {
         options = {
           nixos = lib.mkOption {
             type = lib.types.deferredModule;
-            default = { };
+            default = {};
           };
           homeManager = lib.mkOption {
             type = lib.types.deferredModule;
-            default = { };
+            default = {};
           };
           darwin = lib.mkOption {
             type = lib.types.deferredModule;
-            default = { };
+            default = {};
           };
         };
       }
     );
-    default = { };
+    default = {};
   };
 
   options.flake.hosts = lib.mkOption {
@@ -66,39 +61,38 @@ in
           };
           aspects = lib.mkOption {
             type = lib.types.listOf (lib.types.either lib.types.str lib.types.attrs);
-            default = [ ];
+            default = [];
           };
           module = lib.mkOption {
             type = lib.types.deferredModule;
-            default = { };
+            default = {};
           };
           extraModules = lib.mkOption {
             type = lib.types.listOf lib.types.deferredModule;
-            default = [ ];
+            default = [];
           };
           extraHomeModules = lib.mkOption {
             type = lib.types.listOf lib.types.deferredModule;
-            default = [ ];
+            default = [];
           };
           extraDarwinModules = lib.mkOption {
             type = lib.types.listOf lib.types.deferredModule;
-            default = [ ];
+            default = [];
           };
         };
       }
     );
-    default = { };
+    default = {};
   };
 
-  config.flake.modules = lib.genAttrs [ "nixos" "homeManager" "darwin" ] (
+  config.flake.modules = lib.genAttrs ["nixos" "homeManager" "darwin"] (
     class: config.flake.aspects |> lib.mapAttrs (_: aspect: aspect.${class})
   );
 
   config.flake.nixosConfigurations =
     config.flake.hosts
     |> lib.mapAttrs (
-      hostName: host:
-      let
+      hostName: host: let
         aspects = getAspects host.aspects;
         nixosModules = aspects |> getAspectsForClass "nixos";
         hmModules = aspects |> getAspectsForClass "homeManager";
@@ -106,49 +100,53 @@ in
           config.flake.hosts
           |> lib.filterAttrs (hn: h: hn != hostName && h.sshKey != "")
           |> lib.mapAttrs' (
-            hn: h: lib.nameValuePair hn {
-              hostNames = [ hn ];
-              publicKey = h.sshKey;
-            }
+            hn: h:
+              lib.nameValuePair hn {
+                hostNames = [hn];
+                publicKey = h.sshKey;
+              }
           );
       in
-      inputs.nixpkgs.lib.nixosSystem {
-        system = host.system;
-        specialArgs = { inherit inputs host; };
-        modules = [
-          inputs.nur.modules.nixos.default
-          inputs.disko.nixosModules.disko
-          inputs.home-manager.nixosModules.home-manager
-          {
-            system.stateVersion = host.stateVersion;
-            networking.hostName = hostName;
-            services.openssh = { inherit knownHosts; };
-            users.users.${host.user} = { };
-            home-manager = {
-              extraSpecialArgs = { inherit inputs host; };
-              users.${host.user} = (hmModules ++ host.extraHomeModules) |> lib.mkMerge;
-            };
-          }
-        ]
-        ++ nixosModules
-        ++ [ host.module ]
-        ++ host.extraModules;
-      }
+        inputs.nixpkgs.lib.nixosSystem {
+          system = host.system;
+          specialArgs = {inherit inputs host;};
+          modules =
+            [
+              inputs.nur.modules.nixos.default
+              inputs.disko.nixosModules.disko
+              inputs.home-manager.nixosModules.home-manager
+              {
+                system.stateVersion = host.stateVersion;
+                networking.hostName = hostName;
+                services.openssh = {inherit knownHosts;};
+                users.users.${host.user} = {};
+                home-manager = {
+                  extraSpecialArgs = {inherit inputs host;};
+                  users.${host.user} = (hmModules ++ host.extraHomeModules) |> lib.mkMerge;
+                };
+              }
+            ]
+            ++ nixosModules
+            ++ [host.module]
+            ++ host.extraModules;
+        }
     );
 
   config.flake.homeConfigurations =
     config.flake.hosts
     |> lib.mapAttrs' (
-      _: host: lib.nameValuePair host.user (
-        inputs.home-manager.lib.homeManagerConfiguration {
-          pkgs = import inputs.nixpkgs { inherit (host) system; };
-          extraSpecialArgs = { inherit inputs host; };
-          modules = [
-            inputs.nur.modules.homeManager.default
-          ]
-          ++ (getAspects host.aspects |> getAspectsForClass "homeManager")
-          ++ host.extraHomeModules;
-        }
-      )
+      _: host:
+        lib.nameValuePair host.user (
+          inputs.home-manager.lib.homeManagerConfiguration {
+            pkgs = import inputs.nixpkgs {inherit (host) system;};
+            extraSpecialArgs = {inherit inputs host;};
+            modules =
+              [
+                inputs.nur.modules.homeManager.default
+              ]
+              ++ (getAspects host.aspects |> getAspectsForClass "homeManager")
+              ++ host.extraHomeModules;
+          }
+        )
     );
 }

@@ -1,6 +1,6 @@
 {
   flake.aspects.dev = {
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       home.packages = [
         (pkgs.python3.withPackages (pypkgs: [
           pypkgs.jedi

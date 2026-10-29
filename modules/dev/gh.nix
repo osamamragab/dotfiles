@@ -1,6 +1,6 @@
 {
   flake.aspects.dev = {
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       programs.gh = {
         enable = true;
         package = pkgs.gh;

@@ -8,21 +8,9 @@
   nixConfig = {
     abort-on-warn = true;
     allow-import-from-derivation = false;
-    experimental-features = [
-      "nix-command"
-      "flakes"
-      "pipe-operators"
-    ];
-    substituters = [
-      "https://cache.nixos.org"
-      "https://nix-community.cachix.org"
-      "https://noctalia.cachix.org"
-    ];
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
-    ];
+    experimental-features = ["nix-command" "flakes" "pipe-operators"];
+    substituters = ["https://cache.nixos.org" "https://nix-community.cachix.org" "https://noctalia.cachix.org"];
+    trusted-public-keys = ["cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="];
   };
 
   inputs = {
@@ -38,19 +26,13 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-file = {
-      url = "github:denful/flake-file";
-    };
-    flake-parts = {
-      url = "github:hercules-ci/flake-parts";
-    };
+    flake-file = {url = "github:denful/flake-file";};
+    flake-parts = {url = "github:hercules-ci/flake-parts";};
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    import-tree = {
-      url = "github:denful/import-tree";
-    };
+    import-tree = {url = "github:denful/import-tree";};
     mangowm = {
       url = "github:mangowm/mango";
       inputs = {
@@ -58,15 +40,9 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
-    nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-unstable";
-    };
-    nixpkgs-lib = {
-      follows = "nixpkgs";
-    };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia/cachix";
-    };
+    nixpkgs = {url = "github:NixOS/nixpkgs/nixos-unstable";};
+    nixpkgs-lib = {follows = "nixpkgs";};
+    noctalia = {url = "github:noctalia-dev/noctalia/cachix";};
     noctalia-greeter = {
       url = "github:noctalia-dev/noctalia-greeter";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,6 +1,6 @@
 {
   flake.aspects.base = {
-    nixos = { lib, ... }: {
+    nixos = {lib, ...}: {
       services.logind = {
         enable = true;
         settings = {

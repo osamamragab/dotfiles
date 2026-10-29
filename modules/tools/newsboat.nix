@@ -1,6 +1,10 @@
 {
   flake.aspects.tools = {
-    homeManager = { pkgs, config, ... }: {
+    homeManager = {
+      pkgs,
+      config,
+      ...
+    }: {
       programs.newsboat = {
         enable = true;
         package = pkgs.newsboat;
@@ -207,7 +211,7 @@
             url = "https://fasterthanli.me/index.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://without.boats/index.xml";
           }
           {
@@ -218,63 +222,63 @@
             url = "https://readrust.net/all/feed.rss";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://drewdevault.com/blog/index.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://jvns.ca/atom.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "http://ericlippert.com/feed/";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://waldon.blog/feed";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://charity.wtf/feed/";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://macwright.com/atom.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://lethain.com/feeds.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://asthasr.github.io/index.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://desmondrivet.com/posts/feed_lifestream.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://jlelse.blog/posts.rss";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://dellacorte.me/feed.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://2ality.com/feeds/posts.atom";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://waitbutwhy.com/feed";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://pomp.substack.com/feed";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://www.htmhell.dev/feed.xml";
           }
           {
@@ -285,7 +289,7 @@
             url = "https://robertmelton.com/index.xml";
           }
           {
-            tags = [ "tech" ];
+            tags = ["tech"];
             url = "https://onethingwell.org/rss";
           }
           {
@@ -352,7 +356,7 @@
             url = "https://frontendmasters.com/blog/feed";
           }
           {
-            tags = [ "tech" ];
+            tags = ["tech"];
             url = "https://golangweekly.com/rss/";
           }
           {
@@ -413,7 +417,7 @@
             url = "https://changelog.com/master/feed";
           }
           {
-            tags = [ "ps" ];
+            tags = ["ps"];
             url = "https://projecteuler.net/rss2_euler.xml";
           }
           {
@@ -431,11 +435,11 @@
             url = "https://nautil.us/feed/";
           }
           {
-            tags = [ "news" ];
+            tags = ["news"];
             url = "https://babylonbee.com/feed";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://www.nirandfar.com/feed";
           }
           {
@@ -467,23 +471,23 @@
             url = "https://www.malone.news/feed";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://www.astralcodexten.com/feed";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://www.makeworld.space/feed.xml";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://fs.blog/feed";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://markmanson.net/feed";
           }
           {
-            tags = [ "blog" ];
+            tags = ["blog"];
             url = "https://adhdftw.com/feed/index.xml";
           }
         ];

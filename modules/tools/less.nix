@@ -1,6 +1,6 @@
 {
   flake.aspects.tools = {
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       programs.less = {
         enable = true;
         package = pkgs.less;

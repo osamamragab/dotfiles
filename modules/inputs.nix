@@ -1,6 +1,10 @@
-{ inputs, lib, ... }: {
-  systems = [ "x86_64-linux" ];
-  imports = [ inputs.flake-file.flakeModules.default ];
+{
+  inputs,
+  lib,
+  ...
+}: {
+  systems = ["x86_64-linux"];
+  imports = [inputs.flake-file.flakeModules.default];
 
   flake-file = {
     description = "Osama's NixOS configuration";

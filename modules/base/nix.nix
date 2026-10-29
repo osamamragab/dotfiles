@@ -1,5 +1,4 @@
-{ ... }:
-let
+{...}: let
   nixConfig = {
     experimental-features = [
       "nix-command"
@@ -17,17 +16,18 @@ let
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
     ];
   };
-in
-{
-  flake-file.nixConfig = nixConfig // {
-    abort-on-warn = true;
-    allow-import-from-derivation = false;
-  };
+in {
+  flake-file.nixConfig =
+    nixConfig
+    // {
+      abort-on-warn = true;
+      allow-import-from-derivation = false;
+    };
 
   flake-file.inputs.nur.url = "github:nix-community/NUR";
 
   flake.aspects.base = {
-    nixos = { pkgs, ... }: {
+    nixos = {pkgs, ...}: {
       nix = {
         package = pkgs.nixVersions.latest;
         checkConfig = true;
@@ -36,20 +36,22 @@ in
           dates = "weekly";
           options = "--delete-older-than 7d";
         };
-        settings = nixConfig // {
-          trusted-users = [
-            "root"
-            "@wheel"
-          ];
-          use-xdg-base-directories = true;
-          cores = 0; # use all cores
-          max-jobs = "auto";
-          sandbox = true;
-          http-connections = 25;
-          auto-optimise-store = true;
-          substitute = true;
-          max-substitution-jobs = 16;
-        };
+        settings =
+          nixConfig
+          // {
+            trusted-users = [
+              "root"
+              "@wheel"
+            ];
+            use-xdg-base-directories = true;
+            cores = 0; # use all cores
+            max-jobs = "auto";
+            sandbox = true;
+            http-connections = 25;
+            auto-optimise-store = true;
+            substitute = true;
+            max-substitution-jobs = 16;
+          };
       };
 
       programs.nix-ld = {

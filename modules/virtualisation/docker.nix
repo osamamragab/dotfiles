@@ -1,6 +1,10 @@
 {
   flake.aspects.virtualisation = {
-    nixos = { pkgs, config, ... }: {
+    nixos = {
+      pkgs,
+      config,
+      ...
+    }: {
       virtualisation.docker = {
         enable = true;
         package = pkgs.docker;

@@ -4,11 +4,11 @@
       services.gnome.gnome-keyring.enable = true;
     };
 
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       services.gnome-keyring = {
         enable = true;
         package = pkgs.gnome-keyring;
-        components = [ ];
+        components = [];
       };
     };
   };

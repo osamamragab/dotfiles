@@ -1,6 +1,6 @@
 {
   flake.aspects.tools = {
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       programs.btop = {
         enable = true;
         package = pkgs.btop;

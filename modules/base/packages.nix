@@ -1,6 +1,6 @@
 {
   flake.aspects.base = {
-    nixos = { pkgs, ... }: {
+    nixos = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [
         git
         vis

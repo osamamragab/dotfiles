@@ -1,6 +1,6 @@
 {
   flake.aspects.tools = {
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       home.packages = [
         pkgs.procps
       ];

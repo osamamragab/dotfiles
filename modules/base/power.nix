@@ -1,6 +1,6 @@
 {
   flake.aspects.base = {
-    nixos = { pkgs, ... }: {
+    nixos = {pkgs, ...}: {
       services.upower = {
         enable = true;
         package = pkgs.upower;

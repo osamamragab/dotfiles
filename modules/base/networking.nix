@@ -1,57 +1,58 @@
 {
   flake.aspects.base = {
-    nixos =
-      {
-        pkgs,
-        lib,
-        config,
-        host,
-        ...
-      }:
-      {
-        networking = {
-          nftables.enable = true;
-          networkmanager = {
-            enable = true;
-            package = pkgs.networkmanager;
-            dhcp = "internal";
-            dns = if config.services.resolved.enable then "systemd-resolved" else "default";
-          };
-          wireless = {
-            enableHardening = true;
-            scanOnLowSignal = true;
-          };
-          firewall = {
-            enable = true;
-            logRefusedConnections = true;
-            logRefusedPackets = false;
-            rejectPackets = false; # drop packets instead of rejecting them
-            trustedInterfaces = lib.optional config.services.tailscale.enable config.services.tailscale.interfaceName;
-            allowedUDPPorts = lib.optional config.services.tailscale.enable config.services.tailscale.port;
-          };
-        };
-
-        systemd.network.wait-online.enable = config.boot.initrd.systemd.enable;
-
-        users.groups.networkmanager.members = lib.optional config.networking.networkmanager.enable host.user;
-
-        services.resolved.enable = true;
-
-        services.vnstat = {
+    nixos = {
+      pkgs,
+      lib,
+      config,
+      host,
+      ...
+    }: {
+      networking = {
+        nftables.enable = true;
+        networkmanager = {
           enable = true;
-          package = pkgs.vnstat;
+          package = pkgs.networkmanager;
+          dhcp = "internal";
+          dns =
+            if config.services.resolved.enable
+            then "systemd-resolved"
+            else "default";
         };
-
-        services.tailscale = {
+        wireless = {
+          enableHardening = true;
+          scanOnLowSignal = true;
+        };
+        firewall = {
           enable = true;
-          package = pkgs.tailscale;
+          logRefusedConnections = true;
+          logRefusedPackets = false;
+          rejectPackets = false; # drop packets instead of rejecting them
+          trustedInterfaces = lib.optional config.services.tailscale.enable config.services.tailscale.interfaceName;
+          allowedUDPPorts = lib.optional config.services.tailscale.enable config.services.tailscale.port;
         };
-        systemd.services.tailscaled.serviceConfig.Environment = lib.optional (
-          config.services.tailscale.enable && config.networking.nftables.enable
-        ) "TS_DEBUG_FIREWALL_MODE=nftables";
       };
 
-    homeManager = { pkgs, ... }: {
+      systemd.network.wait-online.enable = config.boot.initrd.systemd.enable;
+
+      users.groups.networkmanager.members = lib.optional config.networking.networkmanager.enable host.user;
+
+      services.resolved.enable = true;
+
+      services.vnstat = {
+        enable = true;
+        package = pkgs.vnstat;
+      };
+
+      services.tailscale = {
+        enable = true;
+        package = pkgs.tailscale;
+      };
+      systemd.services.tailscaled.serviceConfig.Environment = lib.optional (
+        config.services.tailscale.enable && config.networking.nftables.enable
+      ) "TS_DEBUG_FIREWALL_MODE=nftables";
+    };
+
+    homeManager = {pkgs, ...}: {
       home = {
         packages = with pkgs; [
           dnsutils

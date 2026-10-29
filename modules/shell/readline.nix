@@ -24,7 +24,6 @@
           skip-completed-text = true;
         };
       };
-
     };
   };
 }

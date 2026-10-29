@@ -2,250 +2,247 @@
   flake-file.inputs.mangowm.url = "github:mangowm/mango";
 
   flake.aspects.desktop = {
-    nixos = { pkgs, ... }: {
+    nixos = {pkgs, ...}: {
       programs.mango = {
         enable = true;
         package = pkgs.mango;
       };
     };
 
-    homeManager =
-      {
-        inputs,
-        pkgs,
-        lib,
-        config,
-        ...
-      }:
-      let
-        cfg = config.wayland.windowManager.mango;
-        hexColor = c: "0x${c}${lib.optionalString (lib.stringLength c == 6) "ff"}";
-        mmsgBin = "${cfg.package}/bin/mmsg";
-        noctaliaBin = "${config.programs.noctalia.package}/bin/noctalia";
-        terminalBin =
-          if config.home.sessionVariables ? TERMINAL then
-            config.home.sessionVariables.TERMINAL
-          else if config.xdg.terminal-exec.enable then
-            "${config.xdg.terminal-exec.package}/bin/xdg-terminal-exec"
-          else
-            lib.throw "No terminal emulator found";
-        zoomerScript = pkgs.writeShellScript "zoomer-script" ''
-          set -eu
-          mon="$(${mmsgBin} get last_open_surface | ${pkgs.jq}/bin/jq -r ".monitor")"
-          ${pkgs.woomer}/bin/woomer --monitor "$mon"
-        '';
-      in
-      {
-        imports = [ inputs.mangowm.hmModules.mango ];
+    homeManager = {
+      inputs,
+      pkgs,
+      lib,
+      config,
+      ...
+    }: let
+      cfg = config.wayland.windowManager.mango;
+      hexColor = c: "0x${c}${lib.optionalString (lib.stringLength c == 6) "ff"}";
+      mmsgBin = "${cfg.package}/bin/mmsg";
+      noctaliaBin = "${config.programs.noctalia.package}/bin/noctalia";
+      terminalBin =
+        if config.home.sessionVariables ? TERMINAL
+        then config.home.sessionVariables.TERMINAL
+        else if config.xdg.terminal-exec.enable
+        then "${config.xdg.terminal-exec.package}/bin/xdg-terminal-exec"
+        else lib.throw "No terminal emulator found";
+      zoomerScript = pkgs.writeShellScript "zoomer-script" ''
+        set -eu
+        mon="$(${mmsgBin} get last_open_surface | ${pkgs.jq}/bin/jq -r ".monitor")"
+        ${pkgs.woomer}/bin/woomer --monitor "$mon"
+      '';
+    in {
+      imports = [inputs.mangowm.hmModules.mango];
 
-        wayland.windowManager.mango = {
+      wayland.windowManager.mango = {
+        enable = true;
+        systemd = {
           enable = true;
-          systemd = {
-            enable = true;
-            xdgAutostart = false;
-            variables = [
-              "DISPLAY"
-              "WAYLAND_DISPLAY"
-              "XDG_SESSION_TYPE"
-              "XDG_CURRENT_DESKTOP"
-              "XCURSOR_SIZE"
-              "XCURSOR_THEME"
-              "NIXOS_OZONE_WL"
-            ];
-            extraCommands = [
-              "systemctl --user reset-failed"
-              "systemctl --user restart mango-session.target"
-            ];
+          xdgAutostart = false;
+          variables = [
+            "DISPLAY"
+            "WAYLAND_DISPLAY"
+            "XDG_SESSION_TYPE"
+            "XDG_CURRENT_DESKTOP"
+            "XCURSOR_SIZE"
+            "XCURSOR_THEME"
+            "NIXOS_OZONE_WL"
+          ];
+          extraCommands = [
+            "systemctl --user reset-failed"
+            "systemctl --user restart mango-session.target"
+          ];
+        };
+        topPrefixes = [
+          "source"
+        ];
+        bottomPrefixes = [
+          "exec"
+          "exec_once"
+        ];
+        settings = {
+          # Window effect
+          blur = 1;
+          blur_layer = 0;
+          blur_optimized = 1;
+          blur_params = {
+            num_passes = 2;
+            radius = 5;
+            noise = 0.02;
+            brightness = 0.9;
+            contrast = 0.9;
+            saturation = 1.0;
           };
-          topPrefixes = [
-            "source"
+
+          shadows = 1;
+          layer_shadows = 0;
+          shadow_only_floating = 1;
+          shadows_size = 4;
+          shadows_blur = 12;
+          shadows_position = {
+            x = 0;
+            y = 0;
+          };
+          shadows_color = config.lib.stylix.colors.base00;
+
+          border_radius = 0;
+          no_radius_when_single = 0;
+          focused_opacity = 1.0;
+          unfocused_opacity = 0.9;
+
+          # Animation Configuration(support type:zoom,slide)
+          # tag_animation_direction: 1-horizontal,0-vertical
+          animations = 1;
+          layer_animations = 0;
+          animation_type = {
+            open = "slide";
+            close = "slide";
+          };
+          animation_fade_in = 1;
+          animation_fade_out = 1;
+          tag_animation_direction = 1;
+          zoom_initial_ratio = 0.4;
+          zoom_end_ratio = 0.8;
+          fade_in_begin_opacity = 0.5;
+          fade_out_begin_opacity = 0.8;
+          animation_duration = {
+            tag = 350;
+            move = 350;
+            open = 200;
+            close = 200;
+            focus = 0;
+          };
+          animation_curve = {
+            open = "0.46,1.0,0.29,1";
+            move = "0.46,1.0,0.29,1";
+            tag = "0.46,1.0,0.29,1";
+            close = "0.08,0.92,0,1";
+            focus = "0.46,1.0,0.29,1";
+            opacity = {
+              fade_in = "0.46,1.0,0.29,1";
+              fade_out = "0.5,0.5,0.5,0.5";
+            };
+          };
+
+          # Scroller Layout Setting
+          scroller = {
+            structs = 20;
+            default_proportion = 0.8;
+            focus_center = 0;
+            prefer_center = 0;
+            default_proportion_single = 1.0;
+            proportion_preset = "0.5,0.8,1.0";
+          };
+          edge_scroller_pointer_focus = 1;
+
+          # Master-Stack Layout Setting
+          new_is_master = 1;
+          default_master_count = 1;
+          default_master_factor = 0.55;
+          smart_gaps = 1;
+
+          # Dwindle Layout Setting
+          dwindle = {
+            smart_split = 0;
+            drop_simple_split = 1;
+            manual_split = 0;
+            vertical_split = 1;
+            horizontal_split = 1;
+            preserve_split = 0;
+          };
+
+          # Overview Setting
+          hotarea_size = 10;
+          enable_hotarea = 0;
+          overview_gap_inner = 5;
+          overview_gap_outer = 30;
+
+          # Misc
+          no_border_when_single = 0;
+          axis_bind_apply_timeout = 100;
+          focus_on_activate = 0;
+          idle_inhibit_ignore_visible = 1;
+          sloppy_focus = 1;
+          warp_cursor = 1;
+          cursor_hide_timeout = 5;
+          cursor_hide_on_keypress = 1;
+          focus_cross_monitor = 0;
+          focus_cross_tag = 0;
+          enable_floating_snap = 0;
+          snap_distance = 30;
+          drag_tile_to_tile = 1;
+          drag_tile_small = 1;
+          scratchpad_cross_monitor = 1;
+          single_scratchpad = 1;
+          xwayland_persistence = 1;
+          allow_shortcuts_inhibit = 1;
+
+          # keyboard
+          repeat = {
+            rate = 50;
+            delay = 200;
+          };
+          numlock_on = 0;
+          xkb_rules = {
+            layout = "us,ara";
+            options = "grp:alt_space_toggle,grp_led:caps";
+          };
+
+          # Trackpad
+          # need relogin to make it apply
+          disable_trackpad = 0;
+          tap_to_click = 1;
+          tap_and_drag = 1;
+          drag_lock = 1;
+          trackpad_natural_scrolling = 0;
+          trackpad_disable_while_typing = 1;
+          trackpad_left_handed = 0;
+          mouse_left_handed = 0;
+          mouse_middle_button_emulation = 0;
+          trackpad_middle_button_emulation = 0;
+          swipe_min_threshold = 1;
+
+          # mouse
+          # need relogin to make it apply
+          mouse_natural_scrolling = 0;
+
+          # Appearance
+          gap_inner_horizontal = 5;
+          gap_inner_vertical = 5;
+          gap_outer_horizontal = 0;
+          gap_outer_vertical = 0;
+          scratchpad_width_ratio = 0.6;
+          scratchpad_height_ratio = 0.7;
+          border_px = 2;
+          cursor_size = config.stylix.cursor.size;
+          cursor_theme = config.stylix.cursor.name;
+          root_color = hexColor config.lib.stylix.colors.base00;
+          border_color = hexColor config.lib.stylix.colors.base03;
+          drop_color = hexColor (config.lib.stylix.colors.base03 + "55");
+          split_color = hexColor config.lib.stylix.colors.base15;
+          focus_color = hexColor config.lib.stylix.colors.base0F;
+          maximized_screen_color = hexColor config.lib.stylix.colors.base0B;
+          urgent_color = hexColor config.lib.stylix.colors.base08;
+          scratchpad_color = hexColor config.lib.stylix.colors.base0F;
+          global_color = hexColor config.lib.stylix.colors.base0C;
+          overlay_color = hexColor config.lib.stylix.colors.base0E;
+
+          # layout support:
+          # tile,scroller,grid,deck,monocle,center_tile,vertical_tile,vertical_scroller
+          tag_rule = [
+            "id:1,layout_name:tile"
+            "id:2,layout_name:tile"
+            "id:3,layout_name:tile"
+            "id:4,layout_name:tile"
+            "id:5,layout_name:tile"
+            "id:6,layout_name:tile"
+            "id:7,layout_name:tile"
+            "id:8,layout_name:tile"
+            "id:9,layout_name:tile"
           ];
-          bottomPrefixes = [
-            "exec"
-            "exec_once"
-          ];
-          settings = {
-            # Window effect
-            blur = 1;
-            blur_layer = 0;
-            blur_optimized = 1;
-            blur_params = {
-              num_passes = 2;
-              radius = 5;
-              noise = 0.02;
-              brightness = 0.9;
-              contrast = 0.9;
-              saturation = 1.0;
-            };
 
-            shadows = 1;
-            layer_shadows = 0;
-            shadow_only_floating = 1;
-            shadows_size = 4;
-            shadows_blur = 12;
-            shadows_position = {
-              x = 0;
-              y = 0;
-            };
-            shadows_color = config.lib.stylix.colors.base00;
-
-            border_radius = 0;
-            no_radius_when_single = 0;
-            focused_opacity = 1.0;
-            unfocused_opacity = 0.9;
-
-            # Animation Configuration(support type:zoom,slide)
-            # tag_animation_direction: 1-horizontal,0-vertical
-            animations = 1;
-            layer_animations = 0;
-            animation_type = {
-              open = "slide";
-              close = "slide";
-            };
-            animation_fade_in = 1;
-            animation_fade_out = 1;
-            tag_animation_direction = 1;
-            zoom_initial_ratio = 0.4;
-            zoom_end_ratio = 0.8;
-            fade_in_begin_opacity = 0.5;
-            fade_out_begin_opacity = 0.8;
-            animation_duration = {
-              tag = 350;
-              move = 350;
-              open = 200;
-              close = 200;
-              focus = 0;
-            };
-            animation_curve = {
-              open = "0.46,1.0,0.29,1";
-              move = "0.46,1.0,0.29,1";
-              tag = "0.46,1.0,0.29,1";
-              close = "0.08,0.92,0,1";
-              focus = "0.46,1.0,0.29,1";
-              opacity = {
-                fade_in = "0.46,1.0,0.29,1";
-                fade_out = "0.5,0.5,0.5,0.5";
-              };
-            };
-
-            # Scroller Layout Setting
-            scroller = {
-              structs = 20;
-              default_proportion = 0.8;
-              focus_center = 0;
-              prefer_center = 0;
-              default_proportion_single = 1.0;
-              proportion_preset = "0.5,0.8,1.0";
-            };
-            edge_scroller_pointer_focus = 1;
-
-            # Master-Stack Layout Setting
-            new_is_master = 1;
-            default_master_count = 1;
-            default_master_factor = 0.55;
-            smart_gaps = 1;
-
-            # Dwindle Layout Setting
-            dwindle = {
-              smart_split = 0;
-              drop_simple_split = 1;
-              manual_split = 0;
-              vertical_split = 1;
-              horizontal_split = 1;
-              preserve_split = 0;
-            };
-
-            # Overview Setting
-            hotarea_size = 10;
-            enable_hotarea = 0;
-            overview_gap_inner = 5;
-            overview_gap_outer = 30;
-
-            # Misc
-            no_border_when_single = 0;
-            axis_bind_apply_timeout = 100;
-            focus_on_activate = 0;
-            idle_inhibit_ignore_visible = 1;
-            sloppy_focus = 1;
-            warp_cursor = 1;
-            cursor_hide_timeout = 5;
-            cursor_hide_on_keypress = 1;
-            focus_cross_monitor = 0;
-            focus_cross_tag = 0;
-            enable_floating_snap = 0;
-            snap_distance = 30;
-            drag_tile_to_tile = 1;
-            drag_tile_small = 1;
-            scratchpad_cross_monitor = 1;
-            single_scratchpad = 1;
-            xwayland_persistence = 1;
-            allow_shortcuts_inhibit = 1;
-
-            # keyboard
-            repeat = {
-              rate = 50;
-              delay = 200;
-            };
-            numlock_on = 0;
-            xkb_rules = {
-              layout = "us,ara";
-              options = "grp:alt_space_toggle,grp_led:caps";
-            };
-
-            # Trackpad
-            # need relogin to make it apply
-            disable_trackpad = 0;
-            tap_to_click = 1;
-            tap_and_drag = 1;
-            drag_lock = 1;
-            trackpad_natural_scrolling = 0;
-            trackpad_disable_while_typing = 1;
-            trackpad_left_handed = 0;
-            mouse_left_handed = 0;
-            mouse_middle_button_emulation = 0;
-            trackpad_middle_button_emulation = 0;
-            swipe_min_threshold = 1;
-
-            # mouse
-            # need relogin to make it apply
-            mouse_natural_scrolling = 0;
-
-            # Appearance
-            gap_inner_horizontal = 5;
-            gap_inner_vertical = 5;
-            gap_outer_horizontal = 0;
-            gap_outer_vertical = 0;
-            scratchpad_width_ratio = 0.6;
-            scratchpad_height_ratio = 0.7;
-            border_px = 2;
-            cursor_size = config.stylix.cursor.size;
-            cursor_theme = config.stylix.cursor.name;
-            root_color = hexColor config.lib.stylix.colors.base00;
-            border_color = hexColor config.lib.stylix.colors.base03;
-            drop_color = hexColor (config.lib.stylix.colors.base03 + "55");
-            split_color = hexColor config.lib.stylix.colors.base15;
-            focus_color = hexColor config.lib.stylix.colors.base0F;
-            maximized_screen_color = hexColor config.lib.stylix.colors.base0B;
-            urgent_color = hexColor config.lib.stylix.colors.base08;
-            scratchpad_color = hexColor config.lib.stylix.colors.base0F;
-            global_color = hexColor config.lib.stylix.colors.base0C;
-            overlay_color = hexColor config.lib.stylix.colors.base0E;
-
-            # layout support:
-            # tile,scroller,grid,deck,monocle,center_tile,vertical_tile,vertical_scroller
-            tag_rule = [
-              "id:1,layout_name:tile"
-              "id:2,layout_name:tile"
-              "id:3,layout_name:tile"
-              "id:4,layout_name:tile"
-              "id:5,layout_name:tile"
-              "id:6,layout_name:tile"
-              "id:7,layout_name:tile"
-              "id:8,layout_name:tile"
-              "id:9,layout_name:tile"
-            ];
-
-            bind = [
+          bind =
+            [
               "SUPER+SHIFT,R,reload_config"
               "SUPER+SHIFT,C,killclient"
 
@@ -362,37 +359,35 @@
                 pkg = config.programs.emacs.finalPackage;
                 bin = "${pkg}/bin/emacs";
                 cmd =
-                  if config.services.emacs.enable then
-                    "${pkg}/bin/emacsclient -nca ${bin}"
-                  else
-                    bin;
-              in
-              "SUPER,E,spawn,${cmd}"
-
+                  if config.services.emacs.enable
+                  then "${pkg}/bin/emacsclient -nca ${bin}"
+                  else bin;
+              in "SUPER,E,spawn,${cmd}"
             );
 
-            bindl = [
-              "NONE,XF86Eject,spawn,eject -T"
-              "NONE,XF86AudioRaiseVolume,spawn,${noctaliaBin} msg volume-up 5"
-              "NONE,XF86AudioLowerVolume,spawn,${noctaliaBin} msg volume-down 5"
-              "NONE,XF86AudioMute,spawn,${noctaliaBin} msg volume-mute"
-              "NONE,XF86AudioMicMute,spawn,${noctaliaBin} msg mic-mute"
-              "SUPER,Equal,spawn,${noctaliaBin} msg volume-up 5"
-              "SUPER,Minus,spawn,${noctaliaBin} msg volume-down 5"
-              "SUPER,Backspace,spawn,${noctaliaBin} msg volume-mute"
-              "SUPER+CTRL,Backspace,spawn,${noctaliaBin} msg mic-mute"
-              "NONE,XF86AudioNext,spawn,${noctaliaBin} msg media next"
-              "NONE,XF86AudioPrev,spawn,${noctaliaBin} msg media previous"
-              "NONE,XF86AudioPlay,spawn,${noctaliaBin} msg media toggle"
-              "NONE,XF86AudioMedia,spawn,${noctaliaBin} msg media toggle"
-              "SUPER+SHIFT,Equal,spawn,${noctaliaBin} msg media next"
-              "SUPER+SHIFT,Minus,spawn,${noctaliaBin} msg media previous"
-              "SUPER+SHIFT,Backspace,spawn,${noctaliaBin} msg media toggle"
-              "NONE,XF86MonBrightnessUp,spawn,${noctaliaBin} msg brightness-up all 5"
-              "NONE,XF86MonBrightnessDown,spawn,${noctaliaBin} msg brightness-down all 5"
-            ];
+          bindl = [
+            "NONE,XF86Eject,spawn,eject -T"
+            "NONE,XF86AudioRaiseVolume,spawn,${noctaliaBin} msg volume-up 5"
+            "NONE,XF86AudioLowerVolume,spawn,${noctaliaBin} msg volume-down 5"
+            "NONE,XF86AudioMute,spawn,${noctaliaBin} msg volume-mute"
+            "NONE,XF86AudioMicMute,spawn,${noctaliaBin} msg mic-mute"
+            "SUPER,Equal,spawn,${noctaliaBin} msg volume-up 5"
+            "SUPER,Minus,spawn,${noctaliaBin} msg volume-down 5"
+            "SUPER,Backspace,spawn,${noctaliaBin} msg volume-mute"
+            "SUPER+CTRL,Backspace,spawn,${noctaliaBin} msg mic-mute"
+            "NONE,XF86AudioNext,spawn,${noctaliaBin} msg media next"
+            "NONE,XF86AudioPrev,spawn,${noctaliaBin} msg media previous"
+            "NONE,XF86AudioPlay,spawn,${noctaliaBin} msg media toggle"
+            "NONE,XF86AudioMedia,spawn,${noctaliaBin} msg media toggle"
+            "SUPER+SHIFT,Equal,spawn,${noctaliaBin} msg media next"
+            "SUPER+SHIFT,Minus,spawn,${noctaliaBin} msg media previous"
+            "SUPER+SHIFT,Backspace,spawn,${noctaliaBin} msg media toggle"
+            "NONE,XF86MonBrightnessUp,spawn,${noctaliaBin} msg brightness-up all 5"
+            "NONE,XF86MonBrightnessDown,spawn,${noctaliaBin} msg brightness-down all 5"
+          ];
 
-            window_rule = [
+          window_rule =
+            [
               "is_term:1,is_named_scratchpad:1,width:840,height:560,app_id:terminal-scratchpad"
               "is_term:1,is_floating:1,width:840,height:560,app_id:terminal-floating"
               "no_swallow:1,app_id:wev"
@@ -404,61 +399,59 @@
               |> lib.concatLists
               |> lib.unique
               |> lib.map (
-                file:
-                let
+                file: let
                   name = lib.removeSuffix ".desktop" file;
-                in
-                "is_term:1,app_id:${name}"
+                in "is_term:1,app_id:${name}"
               )
             );
 
-            # layer rule
-            layer_rule = [
-              "animation_type_open:slide,layer_name:launcher"
-              "animation_type_close:slide,layer_name:launcher"
-            ];
+          # layer rule
+          layer_rule = [
+            "animation_type_open:slide,layer_name:launcher"
+            "animation_type_close:slide,layer_name:launcher"
+          ];
 
-            # Mouse Button Bindings
-            # btn_left and btn_right can't bind NONE mod key
-            mousebind = [
-              "SUPER,btn_left,moveresize,curmove"
-              "SUPER,btn_middle,togglemaximizescreen,0"
-              "SUPER,btn_right,moveresize,curresize"
-            ];
+          # Mouse Button Bindings
+          # btn_left and btn_right can't bind NONE mod key
+          mousebind = [
+            "SUPER,btn_left,moveresize,curmove"
+            "SUPER,btn_middle,togglemaximizescreen,0"
+            "SUPER,btn_right,moveresize,curresize"
+          ];
 
-            # Axis Bindings
-            axisbind = [
-              "SUPER,Up,viewtoleft_have_client"
-              "SUPER,Down,viewtoright_have_client"
-            ];
+          # Axis Bindings
+          axisbind = [
+            "SUPER,Up,viewtoleft_have_client"
+            "SUPER,Down,viewtoright_have_client"
+          ];
 
-            env = [
-              "SDL_VIDEODRIVER,wayland"
-              "CLUTTER_BACKEND,wayland"
-              "QT_QPA_PLATFORM,wayland;xcb"
-              "ELM_DISPLAY,wl"
-              "MOZ_ENABLE_WAYLAND,1"
-              "NO_AT_BRIDGE,1"
-              "_JAVA_AWT_WM_NONREPARENTING,1"
-              "AWT_TOOLKIT,MToolkit wmname LG3D"
-            ];
+          env = [
+            "SDL_VIDEODRIVER,wayland"
+            "CLUTTER_BACKEND,wayland"
+            "QT_QPA_PLATFORM,wayland;xcb"
+            "ELM_DISPLAY,wl"
+            "MOZ_ENABLE_WAYLAND,1"
+            "NO_AT_BRIDGE,1"
+            "_JAVA_AWT_WM_NONREPARENTING,1"
+            "AWT_TOOLKIT,MToolkit wmname LG3D"
+          ];
 
-            exec_once = [
-              # For some reason it does not start correctly when enabling the
-              # systemd integration.
-              "systemctl --user reset-failed"
-              "systemctl --user restart mango-session.target"
-            ];
-          };
-        };
-
-        xdg.portal = lib.mkIf (cfg.enable or false) {
-          config.mango = {
-            "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-            "org.freedesktop.impl.portal.Screenshot" = "wlr";
-          };
-          extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+          exec_once = [
+            # For some reason it does not start correctly when enabling the
+            # systemd integration.
+            "systemctl --user reset-failed"
+            "systemctl --user restart mango-session.target"
+          ];
         };
       };
+
+      xdg.portal = lib.mkIf (cfg.enable or false) {
+        config.mango = {
+          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+          "org.freedesktop.impl.portal.Screenshot" = "wlr";
+        };
+        extraPortals = [pkgs.xdg-desktop-portal-wlr];
+      };
+    };
   };
 }

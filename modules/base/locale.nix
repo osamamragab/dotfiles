@@ -1,6 +1,6 @@
 {
   flake.aspects.base = {
-    nixos = { lib, ... }: {
+    nixos = {lib, ...}: {
       time.timeZone = lib.mkDefault "Africa/Cairo";
       i18n = {
         defaultLocale = lib.mkDefault "en_US.UTF-8";

@@ -1,31 +1,33 @@
 {
   flake.aspects.base = {
-    nixos =
-      {
-        pkgs,
-        lib,
-        config,
-        host,
-        ...
-      }:
-      {
-        security.rtkit = {
-          enable = true;
-          package = pkgs.rtkit;
-        };
-
-        services.pipewire = {
-          enable = true;
-          package = pkgs.pipewire;
-          alsa.enable = true;
-          alsa.support32Bit = true;
-          pulse.enable = true;
-        };
-
-        users.groups.audio.members = [ host.user ];
+    nixos = {
+      pkgs,
+      lib,
+      config,
+      host,
+      ...
+    }: {
+      security.rtkit = {
+        enable = true;
+        package = pkgs.rtkit;
       };
 
-    homeManager = { pkgs, lib, ... }: {
+      services.pipewire = {
+        enable = true;
+        package = pkgs.pipewire;
+        alsa.enable = true;
+        alsa.support32Bit = true;
+        pulse.enable = true;
+      };
+
+      users.groups.audio.members = [host.user];
+    };
+
+    homeManager = {
+      pkgs,
+      lib,
+      ...
+    }: {
       home.packages = with pkgs; [
         alsa-utils
         wiremix
@@ -121,7 +123,7 @@
                   }
                 ];
                 actions = {
-                  quirks = [ "block-source-volume" ];
+                  quirks = ["block-source-volume"];
                 };
               }
               {
@@ -131,7 +133,7 @@
                   }
                 ];
                 actions = {
-                  quirks = [ "block-source-volume" ];
+                  quirks = ["block-source-volume"];
                 };
               }
             ];

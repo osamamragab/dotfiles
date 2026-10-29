@@ -1,6 +1,6 @@
 {
   flake.aspects.tools = {
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       programs.bat = {
         enable = true;
         package = pkgs.bat;
@@ -8,7 +8,6 @@
           map-syntax = "*.hurl:HTTP Request and Response";
         };
       };
-
     };
   };
 }

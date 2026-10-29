@@ -1,6 +1,10 @@
 {
   flake.aspects.dev = {
-    homeManager = { pkgs, config, ... }: {
+    homeManager = {
+      pkgs,
+      config,
+      ...
+    }: {
       programs.npm = {
         enable = true;
         package = pkgs.nodejs;

@@ -1,13 +1,13 @@
 {
   flake.aspects.desktop = {
-    nixos = { pkgs, ... }: {
+    nixos = {pkgs, ...}: {
       services.udisks2 = {
         enable = true;
         package = pkgs.udisks;
       };
     };
 
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       services.udiskie = {
         enable = true;
         package = pkgs.udiskie;

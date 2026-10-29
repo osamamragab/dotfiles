@@ -1,6 +1,6 @@
 {
   flake.aspects.dev = {
-    homeManager = { pkgs, ... }: {
+    homeManager = {pkgs, ...}: {
       programs.delta = {
         enable = true;
         package = pkgs.delta;

@@ -1,6 +1,10 @@
 {
   flake.aspects.base = {
-    nixos = { pkgs, config, ... }: {
+    nixos = {
+      pkgs,
+      config,
+      ...
+    }: {
       security = {
         apparmor = {
           enable = true;

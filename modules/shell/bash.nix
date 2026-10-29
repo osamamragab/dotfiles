@@ -1,6 +1,10 @@
 {
   flake.aspects.shell = {
-    homeManager = { pkgs, config, ... }: {
+    homeManager = {
+      pkgs,
+      config,
+      ...
+    }: {
       programs.bash = {
         enable = true;
         package = pkgs.bashInteractive;

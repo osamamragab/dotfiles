@@ -1,6 +1,10 @@
 {
   flake.aspects.dev = {
-    homeManager = { pkgs, config, ... }: {
+    homeManager = {
+      pkgs,
+      config,
+      ...
+    }: {
       home.packages = with pkgs; [
         gcc
         gnumake
