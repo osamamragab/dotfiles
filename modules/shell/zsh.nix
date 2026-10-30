@@ -2,8 +2,6 @@
   flake.aspects.shell = {
     nixos = {
       pkgs,
-      lib,
-      config,
       host,
       ...
     }: {
@@ -46,7 +44,7 @@
           size = 32 * 1024;
           save = cfg.history.size;
           path = "${config.xdg.stateHome}/history";
-          share = false;
+          share = true;
           ignoreAllDups = true;
           ignoreSpace = true;
           extended = false;
