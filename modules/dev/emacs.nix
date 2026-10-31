@@ -38,6 +38,7 @@
             pkgs.poppler-utils
             pkgs.mediainfo
             (pkgs.aspellWithDicts (d: [d.en]))
+            epkgs.treesit-grammars.with-all-grammars
           ];
         };
       };
