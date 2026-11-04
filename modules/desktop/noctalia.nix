@@ -321,12 +321,12 @@
               screen-off = {
                 enabled = lib.mkDefault true;
                 action = "screen_off";
-                timeout = 11 * 60;
+                timeout = 15 * 60;
               };
               suspend = {
                 enabled = lib.mkDefault true;
                 action = "suspend";
-                timeout = 15 * 60;
+                timeout = 20 * 60;
                 lock_before_suspend = true;
               };
             };
