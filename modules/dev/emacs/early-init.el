@@ -5,6 +5,8 @@
   inhibit-startup-message t
   initial-scratch-message nil
   initial-buffer-choice t
+  native-comp-async-report-warnings-errors 'silent
+  line-spacing 0.12
   menu-bar-mode nil
   tool-bar-mode nil
   scroll-bar-mode nil
@@ -44,25 +46,12 @@
 (prefer-coding-system 'utf-8)
 ; (set-default-toplevel-value 'lexical-binding t)
 
-(set-face-attribute 'default nil
-  :family "monospace"
-  :height 130
-  :weight 'regular)
-(set-face-attribute 'variable-pitch nil
-  :family "monospace"
-  :height 140
-  :weight 'regular)
-(set-face-attribute 'fixed-pitch nil
-  :family "monospace"
-  :height 130
-  :weight 'regular)
+(set-face-attribute 'default nil :family "monospace" :height 120)
+(set-face-attribute 'fixed-pitch nil :family "monospace")
+(set-face-attribute 'variable-pitch nil :family "sans-serif")
 (set-face-attribute 'font-lock-comment-face nil :slant 'italic)
 (set-face-attribute 'font-lock-keyword-face nil :slant 'italic)
-(add-to-list 'default-frame-alist '(font . "monospace-11"))
-
-(setopt line-spacing 0.12)
-(set-face-background 'mouse "#ffffff")
-
-(setopt native-comp-async-report-warnings-errors 'silent)
+(set-face-attribute 'mouse nil :background "#ffffcc" :inherit 'highlight)
+(set-fontset-font t 'emoji (font-spec :family "emoji") nil 'prepend)
 
 (setenv "LSP_USE_PLISTS" "true")
