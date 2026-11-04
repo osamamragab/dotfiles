@@ -3,7 +3,7 @@
 (use-package magit-section)
 
 (use-package magit
-  :hook (git-commit-mode . meow-insert)
+  :hook (git-commit-mode . evil-insert)
   :commands (magit-status magit-git-current-branch)
   :config
   (setopt magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
@@ -22,7 +22,7 @@
   :init
   (global-git-gutter-mode 1)
   :custom
-  (git-gutter:update-interval 0.02))
+  (git-gutter:update-interval 0.5))
 
 (use-package git-gutter-fringe
   :config
