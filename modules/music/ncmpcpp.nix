@@ -13,7 +13,7 @@
         settings = {
           ncmpcpp_directory = "${config.xdg.dataHome}/ncmpcpp";
           lyrics_directory = "${config.xdg.dataHome}/lyrics";
-          external_editor = "nvim";
+          external_editor = lib.toString config.home.sessionVariables.EDITOR;
           use_console_editor = "yes";
           current_item_prefix = "$(cyan)$r$b";
           current_item_suffix = "$/r$(end)$/b";

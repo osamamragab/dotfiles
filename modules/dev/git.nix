@@ -32,7 +32,7 @@
             defaultBranch = "main";
           };
           core = {
-            editor = "${config.programs.neovim.package}/bin/nvim";
+            editor = lib.toString config.home.sessionVariables.EDITOR;
             pager = "${config.programs.delta.package}/bin/delta";
           };
           user = lib.mkIf (primaryAccount != null) {
