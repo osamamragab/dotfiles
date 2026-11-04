@@ -29,7 +29,9 @@
 (use-package org-modern
   :hook (org-mode . org-modern-mode)
   :init
-  (setopt org-modern-star '("●" "○" "◆" "◇" "▸")))
+  (setopt
+    org-modern-star 'replace
+    org-modern-replace-stars '("●" "○" "◆" "◇" "▸")))
 
 (use-package toc-org
   :after org

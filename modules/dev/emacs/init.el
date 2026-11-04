@@ -12,10 +12,12 @@
     use-package-expand-minimally t))
 
 (require 'package)
-(setopt package-archives '(("melpa" . "https://melpa.org/packages/")
-                            ("elpa" . "https://elpa.gnu.org/packages/")
-                            ("org" . "https://orgmode.org/elpa/")))
-(setopt package-archive-priorities '(("melpa" . 10) ("elpa" . 5) ("org" . 5)))
+(setopt package-archives '(("melpa"   . "https://melpa.org/packages/")
+                            ("elpa"   . "https://elpa.gnu.org/packages/")
+                            ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
+(setopt package-archive-priorities '(("melpa" . 10)
+                                      ("elpa" . 5)
+                                      ("nongnu" . 5)))
 
 (package-initialize)
 (unless package-archive-contents
