@@ -11,8 +11,6 @@
     homeManager = {
       inputs,
       pkgs,
-      lib,
-      config,
       ...
     }: {
       imports = [inputs.stylix.homeModules.default];
@@ -22,6 +20,7 @@
         noto-fonts-cjk-sans
         noto-fonts-cjk-serif
         noto-fonts-color-emoji
+        nerd-fonts.symbols-only
       ];
 
       home.pointerCursor.enable = true;
