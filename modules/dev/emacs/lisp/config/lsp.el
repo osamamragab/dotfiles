@@ -1,17 +1,19 @@
 ;;; -*- lexical-binding: t; -*-
 
-(use-package flycheck
+(use-package flymake
   :hook
-  ((after-init . global-flycheck-annotate-mode))
+  ((prog-mode . flymake-mode))
   :custom
-  (flycheck-checkers '(lsp)))
+  (lsp-diagnostics-provider :flymake)
+  (flymake-no-changes-timeout nil)
+  (flymake-start-on-save-buffer t)
+  (flymake-show-diagnostics-at-end-of-line t)) ; or set `flymake-inline-diagnostics' to 'eol
 
 (use-package lsp-mode
   :init
   (setopt lsp-keymap-prefix "C-c l")
   :commands (lsp lsp-deferred)
   :custom
-  (lsp-completion-provider :flycheck)
   (lsp-keep-workspace-alive nil)
   (lsp-log-io nil)
   (lsp-enable-xref t)
@@ -32,11 +34,10 @@
     (lsp-completion-mode . (lambda ()
                              (setq-local completion-category-defaults
                                (assoc-delete-all 'lsp-capf completion-category-defaults))))
-    (lsp-headerline-breadcrumb-mode-hook . (lambda ()
-                                             (if lsp-headerline-breadcrumb-mode
-                                               (add-hook 'consult-after-jump-hook #'lsp-headerline-check-breadcrumb nil t)
-                                               (remove-hook 'consult-after-jump-hook #'lsp-headerline-check-breadcrumb t))))
-
+    (lsp-headerline-breadcrumb-mode . (lambda ()
+                                        (if lsp-headerline-breadcrumb-mode
+                                          (add-hook 'consult-after-jump-hook #'lsp-headerline-check-breadcrumb nil t)
+                                          (remove-hook 'consult-after-jump-hook #'lsp-headerline-check-breadcrumb t))))
     ((c-ts-mode
        zig-ts-mode
        go-ts-mode
