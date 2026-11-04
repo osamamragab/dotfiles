@@ -1,12 +1,14 @@
 ;;; -*- lexical-binding: t; -*-
 
 (use-package paren
+  :ensure nil
   :init
   (setopt show-paren-delay 0
     show-paren-when-point-inside-paren t
     show-paren-when-point-in-periphery t))
 
 (use-package python
+  :ensure nil
   :custom
   (python-indent-guess-indent-offset nil)
   (python-indent-offset 4))
@@ -23,6 +25,7 @@
 (use-package nix-mode)
 
 (use-package ediff
+  :ensure nil
   :config
   (setopt ediff-window-setup-function 'ediff-setup-windows-plain
     ediff-split-window-function 'split-window-horizontally))
