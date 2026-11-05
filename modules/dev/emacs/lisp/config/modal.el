@@ -7,6 +7,7 @@
     evil-want-keybinding nil
     evil-want-C-u-scroll t
     evil-want-C-i-jump t
+    evil-want-Y-yank-to-eol t
     evil-want-fine-undo t
     evil-undo-system 'undo-fu
     evil-search-module 'isearch
@@ -118,7 +119,6 @@
 
   (general-define-key
     :states 'normal
-    "Y"   (kbd "\"_y$")
     "g l" '(consult-line :which-key "Go to Line")
     "g t" '(next-buffer :which-key "Next Buffer")
     "g T" '(previous-buffer :which-key "Previous Buffer")
