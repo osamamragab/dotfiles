@@ -178,6 +178,7 @@
             launcher_position = "end";
           };
           shell = {
+            clipboard_auto_paste = "ctrl_shift_v";
             date_format = "%A, %F";
             polkit_agent = true;
             shadow.alpha = 0.15;
@@ -223,6 +224,7 @@
               filename_pattern = "screenshot_%Y%m%d-%H%M%S";
             };
             launcher = {
+              auto_paste = "ctrl_shift_v";
               sort_by_usage = true;
               provider_prefix = "/";
               fetch_exchange_rates = false;
