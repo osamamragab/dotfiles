@@ -37,6 +37,7 @@
 
   (general-create-definer leader
     :states '(normal visual)
+    :keymaps 'override
     :prefix "SPC")
 
   (leader
