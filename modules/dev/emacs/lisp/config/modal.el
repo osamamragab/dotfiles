@@ -11,6 +11,7 @@
     evil-want-fine-undo t
     evil-undo-system 'undo-fu
     evil-search-module 'isearch
+    evil-insert-state-cursor 'box
     evil-kill-on-visual-paste nil
     evil-visual-update-x-selection-p nil)
   :config
@@ -18,17 +19,17 @@
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal)
   :bind
   (:map evil-insert-state-map
     ("C-h" . #'evil-delete-backward-char-and-join)))
 
 (use-package evil-collection
-  :demand t
   :after (evil)
+  :demand t
   :config
   (evil-collection-init)
-  (setopt evil-collection-want-unimpaired-p t))
+  :custom
+  (evil-collection-want-unimpaired-p t))
 
 (use-package general
   :demand t

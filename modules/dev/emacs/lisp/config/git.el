@@ -3,7 +3,7 @@
 (use-package magit-section)
 
 (use-package magit
-  :hook (git-commit-mode . evil-insert)
+  :hook (git-commit-mode . evil-insert-state)
   :commands (magit-status magit-git-current-branch)
   :config
   (setopt magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
