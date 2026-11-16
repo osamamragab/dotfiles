@@ -8,6 +8,7 @@
       ...
     }: {
       networking = {
+        inherit (host) hostName;
         nftables.enable = true;
         networkmanager = {
           enable = true;
@@ -37,6 +38,8 @@
       users.groups.networkmanager.members = lib.optional config.networking.networkmanager.enable host.user;
 
       services.resolved.enable = true;
+
+      services.openssh = {inherit (host) knownHosts;};
 
       services.vnstat = {
         enable = true;

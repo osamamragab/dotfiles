@@ -4,7 +4,6 @@
     user = "osama";
     sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILIgsbWIOfq9autOqHLrP8PCoTrAOG50BPDSbWjoCQzC";
     aspects = with config.flake.aspects; [
-      base
       shell
       tools
       desktop
@@ -36,17 +35,13 @@
           "amdgpu.gpu_recovery=1"
           "amdgpu.lockup_timeout=10000"
         ];
-        extraModulePackages = [];
-        initrd = {
-          kernelModules = [];
-          availableKernelModules = [
-            "xhci_pci"
-            "nvme"
-            "usb_storage"
-            "usbhid"
-            "sd_mod"
-          ];
-        };
+        initrd.availableKernelModules = [
+          "xhci_pci"
+          "nvme"
+          "usb_storage"
+          "usbhid"
+          "sd_mod"
+        ];
         plymouth.enable = true;
       };
 

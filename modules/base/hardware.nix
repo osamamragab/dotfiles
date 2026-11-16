@@ -3,12 +3,15 @@
 
   flake.aspects.base = {
     nixos = {
+      inputs,
       pkgs,
       lib,
       config,
       host,
       ...
     }: {
+      imports = [inputs.disko.nixosModules.disko];
+
       hardware = {
         enableAllFirmware = lib.mkDefault true;
         enableRedistributableFirmware = lib.mkDefault config.hardware.enableAllFirmware;

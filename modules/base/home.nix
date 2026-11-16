@@ -3,11 +3,14 @@
 
   flake.aspects.base = {
     nixos = {
+      inputs,
       pkgs,
       lib,
       host,
       ...
     }: {
+      imports = [inputs.home-manager.nixosModules.home-manager];
+
       users = {
         defaultUserShell = lib.mkDefault pkgs.bashInteractive;
         users.${host.user} = {
@@ -23,6 +26,8 @@
       home-manager = {
         useGlobalPkgs = lib.mkDefault true;
         useUserPackages = lib.mkDefault true;
+        extraSpecialArgs = {inherit inputs host;};
+        users.${host.user}.imports = host.homeModules ++ host.extraHomeModules;
       };
     };
 

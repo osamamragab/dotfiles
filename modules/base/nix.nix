@@ -27,7 +27,18 @@ in {
   flake-file.inputs.nur.url = "github:nix-community/NUR";
 
   flake.aspects.base = {
-    nixos = {pkgs, ...}: {
+    nixos = {
+      inputs,
+      pkgs,
+      lib,
+      host,
+      ...
+    }: {
+      imports = [inputs.nur.modules.nixos.default];
+
+      system.stateVersion = host.stateVersion;
+      nixpkgs.hostPlatform = lib.mkDefault host.system;
+
       nix = {
         package = pkgs.nixVersions.latest;
         checkConfig = true;
@@ -65,6 +76,18 @@ in {
         enable = true;
         package = pkgs.nix-index;
       };
+    };
+
+    homeManager = {
+      inputs,
+      lib,
+      host,
+      osConfig ? {},
+      ...
+    }: let
+      standalone = !(osConfig.home-manager.useGlobalPkgs or false);
+    in {
+      imports = lib.optional standalone inputs.nur.modules.homeManager.default;
     };
   };
 }

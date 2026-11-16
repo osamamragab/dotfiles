@@ -3,9 +3,7 @@
 
   flake.aspects.dev = {
     nixos = {inputs, ...}: {
-      nixpkgs.overlays = [
-        inputs.emacs-overlay.overlays.default
-      ];
+      nixpkgs.overlays = [inputs.emacs-overlay.overlays.default];
     };
 
     homeManager = {
@@ -19,10 +17,9 @@
       cfg = config.programs.emacs;
       scfg = config.services.emacs;
       configPath = ./emacs;
+      standalone = !(osConfig.home-manager.useGlobalPkgs or false);
     in {
-      nixpkgs.overlays = lib.mkIf (!(osConfig.home-manager.useGlobalPkgs or false)) [
-        inputs.emacs-overlay.overlays.default
-      ];
+      nixpkgs.overlays = lib.mkIf standalone [inputs.emacs-overlay.overlays.default];
 
       programs.emacs = {
         enable = true;
