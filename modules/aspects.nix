@@ -4,19 +4,19 @@
   config,
   ...
 }: let
-  mkHost = hostName: hostAttrs: let
-    hasBase = hostAttrs.aspects |> lib.any (a: a == config.flake.aspects.base);
+  mkHost = hostAttrs: let
+    hasBase = hostAttrs.aspects |> lib.any (a: a.name == "base");
     base = lib.optional (!hasBase) config.flake.aspects.base;
     aspects = base ++ hostAttrs.aspects;
   in
     hostAttrs
     // {
-      inherit hostName aspects;
+      inherit aspects;
       nixosModules = aspects |> lib.map (a: a.nixos or {});
       homeModules = aspects |> lib.map (a: a.homeManager or {});
       knownHosts =
         config.flake.hosts
-        |> lib.filterAttrs (hn: h: hn != hostName && h.sshKey != "")
+        |> lib.filterAttrs (hn: h: hn != hostAttrs.name && h.sshKey != "")
         |> lib.mapAttrs' (
           hn: h:
             lib.nameValuePair hn {
@@ -27,9 +27,15 @@
     };
 in {
   options.flake.aspects = lib.mkOption {
+    default = {};
     type = lib.types.attrsOf (
-      lib.types.submodule {
+      lib.types.submodule ({name, ...}: {
         options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            default = name;
+            readOnly = true;
+          };
           nixos = lib.mkOption {
             type = lib.types.deferredModule;
             default = {};
@@ -39,15 +45,20 @@ in {
             default = {};
           };
         };
-      }
+      })
     );
-    default = {};
   };
 
   options.flake.hosts = lib.mkOption {
+    default = {};
     type = lib.types.attrsOf (
-      lib.types.submodule {
+      lib.types.submodule ({name, ...}: {
         options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            default = name;
+            readOnly = true;
+          };
           system = lib.mkOption {
             type = lib.types.str;
           };
@@ -79,9 +90,8 @@ in {
             default = [];
           };
         };
-      }
+      })
     );
-    default = {};
   };
 
   config.flake.modules = lib.genAttrs ["nixos" "homeManager"] (
@@ -91,8 +101,8 @@ in {
   config.flake.nixosConfigurations =
     config.flake.hosts
     |> lib.mapAttrs (
-      hostName: hostAttrs: let
-        host = mkHost hostName hostAttrs;
+      _: hostAttrs: let
+        host = mkHost hostAttrs;
       in
         inputs.nixpkgs.lib.nixosSystem {
           system = host.system;
@@ -104,10 +114,10 @@ in {
   config.flake.homeConfigurations =
     config.flake.hosts
     |> lib.mapAttrs' (
-      hostName: hostAttrs: let
-        host = mkHost hostName hostAttrs;
+      _: hostAttrs: let
+        host = mkHost hostAttrs;
       in
-        lib.nameValuePair "${host.user}@${host.hostName}" (
+        lib.nameValuePair "${host.user}@${host.name}" (
           inputs.home-manager.lib.homeManagerConfiguration {
             pkgs = import inputs.nixpkgs {inherit (host) system;};
             extraSpecialArgs = {inherit inputs host;};

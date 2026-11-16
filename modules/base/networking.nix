@@ -8,7 +8,7 @@
       ...
     }: {
       networking = {
-        inherit (host) hostName;
+        hostName = lib.mkDefault host.name;
         nftables.enable = true;
         networkmanager = {
           enable = true;

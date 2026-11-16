@@ -8,9 +8,13 @@
       lib,
       config,
       host,
+      modulesPath,
       ...
     }: {
-      imports = [inputs.disko.nixosModules.disko];
+      imports = [
+        (modulesPath + "/installer/scan/not-detected.nix")
+        inputs.disko.nixosModules.disko
+      ];
 
       hardware = {
         enableAllFirmware = lib.mkDefault true;
