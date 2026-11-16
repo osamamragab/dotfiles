@@ -1,10 +1,11 @@
 {
   inputs,
   lib,
+  config,
   ...
 }: {
-  systems = ["x86_64-linux"];
   imports = [inputs.flake-file.flakeModules.default];
+  systems = config.flake.hosts |> lib.map (h: h.system) |> lib.unique;
 
   flake-file = {
     description = "Osama's NixOS configuration";
