@@ -72,6 +72,17 @@
     };
 
     homeManager = {pkgs, ...}: {
+      programs.ssh = {
+        enable = true;
+        enableDefaultConfig = false;
+        settings = {
+          "*" = {
+            ForwardAgent = false;
+            AddKeysToAgent = true;
+          };
+        };
+      };
+
       home = {
         packages = with pkgs; [
           dnsutils
