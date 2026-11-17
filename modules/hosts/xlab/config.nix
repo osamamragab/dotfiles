@@ -11,11 +11,11 @@
       "virtualisation"
     ];
     module = {pkgs, ...}: {
-      networking.wireless.enable = true;
       boot = {
         kernelPackages = pkgs.linuxPackages_zen;
         plymouth.enable = true;
       };
+      networking.wireless.enable = true;
     };
   };
 }

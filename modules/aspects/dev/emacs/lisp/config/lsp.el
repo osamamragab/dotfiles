@@ -7,7 +7,7 @@
   (lsp-diagnostics-provider :flymake)
   (flymake-no-changes-timeout nil)
   (flymake-start-on-save-buffer t)
-  (flymake-show-diagnostics-at-end-of-line t)) ; or set `flymake-inline-diagnostics' to 'eol
+  (flymake-show-diagnostics-at-end-of-line t))
 
 (use-package lsp-mode
   :init

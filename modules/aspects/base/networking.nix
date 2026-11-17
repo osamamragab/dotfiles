@@ -39,11 +39,24 @@
 
       services.resolved.enable = true;
 
-      services.openssh.knownHosts = lib.mkDefault host.resolvedKnownHosts;
-
       services.vnstat = {
         enable = true;
         package = pkgs.vnstat;
+      };
+
+      services.openssh = {
+        enable = true;
+        openFirewall = lib.mkDefault false;
+        enableRecommendedAlgorithms = true;
+        knownHosts = lib.mkDefault host.resolvedKnownHosts;
+        settings = {
+          PasswordAuthentication = false;
+          KbdInteractiveAuthentication = false;
+          PermitRootLogin = "no";
+          AllowUsers = [host.user];
+          MaxAuthTries = 3;
+          PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
+        };
       };
 
       services.tailscale = {
