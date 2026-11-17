@@ -1,18 +1,15 @@
-{config, ...}: {
+{
   flake.hosts.boraiy = {
     system = "x86_64-linux";
     user = "x";
-    aspects = with config.flake.aspects; [
-      shell
-      tools
-      desktop
-      dev
-      virtualisation
+    aspects = [
+      "shell"
+      "tools"
+      "desktop"
+      "virtualisation"
     ];
     module = {
       pkgs,
-      lib,
-      config,
       host,
       ...
     }: {
@@ -43,10 +40,8 @@
         };
       };
     };
-    extraHomeModules = [
-      {
-        programs.noctalia.settings.idle.behavior.suspend.enabled = false;
-      }
-    ];
+    homeModule = {
+      programs.noctalia.settings.idle.behavior.suspend.enabled = false;
+    };
   };
 }

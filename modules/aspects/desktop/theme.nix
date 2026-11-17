@@ -33,7 +33,7 @@
         overlays.enable = false;
         polarity = "dark";
         base16Scheme = "${inputs.tinted-schemes}/base16/nord.yaml";
-        image = ../../assets/wallpaper.png;
+        image = ../../../assets/wallpaper.png;
         imageScalingMode = "stretch";
         fonts = {
           serif = {

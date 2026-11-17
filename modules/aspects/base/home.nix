@@ -27,7 +27,7 @@
         useGlobalPkgs = lib.mkDefault true;
         useUserPackages = lib.mkDefault true;
         extraSpecialArgs = {inherit inputs host;};
-        users.${host.user}.imports = host.homeModules ++ host.extraHomeModules;
+        users.${host.user}.imports = host.resolvedHomeModules;
       };
     };
 

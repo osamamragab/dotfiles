@@ -1,10 +1,6 @@
 {
   flake.hosts.boraiy = {
-    module = {
-      pkgs,
-      config,
-      ...
-    }: {
+    module = {config, ...}: {
       boot = {
         kernelModules = ["kvm-intel"];
         initrd.availableKernelModules = [

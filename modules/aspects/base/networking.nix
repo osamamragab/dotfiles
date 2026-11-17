@@ -39,7 +39,7 @@
 
       services.resolved.enable = true;
 
-      services.openssh = {inherit (host) knownHosts;};
+      services.openssh.knownHosts = lib.mkDefault host.resolvedKnownHosts;
 
       services.vnstat = {
         enable = true;

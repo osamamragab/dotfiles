@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  config,
+  ...
+}: {
   options.flake.aspects = lib.mkOption {
     default = {};
     type = lib.types.attrsOf (
@@ -21,4 +25,8 @@
       })
     );
   };
+
+  config.flake.modules = lib.genAttrs ["nixos" "homeManager"] (
+    class: config.flake.aspects |> lib.mapAttrs (_: aspect: aspect.${class})
+  );
 }
