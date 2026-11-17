@@ -48,8 +48,9 @@
         enable = true;
         openFirewall = lib.mkDefault false;
         enableRecommendedAlgorithms = true;
-        knownHosts = lib.mkDefault host.resolvedKnownHosts;
+        knownHosts = lib.mkDefault host.resolvedSSHKnownHosts;
         settings = {
+          PubkeyAuthentication = true;
           PasswordAuthentication = false;
           KbdInteractiveAuthentication = false;
           PermitRootLogin = "no";
@@ -58,6 +59,8 @@
           PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
         };
       };
+
+      users.users.${host.user}.openssh.authorizedKeys.keys = lib.mkDefault host.resolvedSSHAuthorizedKeys;
 
       services.tailscale = {
         enable = true;

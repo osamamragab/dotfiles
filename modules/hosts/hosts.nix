@@ -81,7 +81,16 @@
                 ++ config.extraHomeModules
                 ++ (config.resolvedAspects |> lib.map (a: flakeModules.homeManager.${a} or {}));
             };
-            resolvedKnownHosts = lib.mkOption {
+            resolvedSSHAuthorizedKeys = lib.mkOption {
+              type = lib.types.listOf lib.types.str;
+              readOnly = true;
+              default =
+                flakeHosts
+                |> lib.filterAttrs (hn: h: hn != name && h.sshKey != "")
+                |> lib.attrValues
+                |> lib.map (h: h.sshKey);
+            };
+            resolvedSSHKnownHosts = lib.mkOption {
               type = lib.types.attrsOf (lib.types.submodule {
                 options = {
                   hostNames = lib.mkOption {type = lib.types.listOf lib.types.str;};
