@@ -11,6 +11,8 @@
     |> lib.map (h: h.system)
     |> lib.unique;
 
+  flake.inputs = inputs;
+
   flake-file = {
     description = "Osama's NixOS configuration";
     auto-follow.enable = true;
