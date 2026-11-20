@@ -1,12 +1,11 @@
 {
-  flake.aspects.desktop = {
+  flake.aspects.base = {
     homeManager = {
       pkgs,
       lib,
       config,
       ...
     }: let
-      cfg = config.xdg;
       homeDir = config.home.homeDirectory;
     in {
       xdg = {
@@ -17,20 +16,6 @@
         dataHome = "${homeDir}/.local/share";
         stateHome = "${homeDir}/.local/state";
         binHome = "${homeDir}/.local/bin";
-        portal = {
-          enable = true;
-          config = {
-            common = {
-              default = ["gtk"];
-              "org.freedesktop.impl.portal.Secret" =
-                if config.services.gnome-keyring.enable
-                then "gnome-keyring"
-                else "none";
-              "org.freedesktop.impl.portal.Inhibit" = "none";
-            };
-          };
-          extraPortals = [pkgs.xdg-desktop-portal-gtk];
-        };
         terminal-exec = {
           enable = true;
           package = pkgs.xdg-terminal-exec;
@@ -61,20 +46,6 @@
           open = "xdg-open";
         };
       };
-
-      # TODO: select window
-      xdg.configFile."xdg-desktop-portal-wlr/config" = let
-        iniFormat = pkgs.formats.ini {};
-      in
-        lib.mkIf config.xdg.portal.enable {
-          source = iniFormat.generate "xdg-desktop-portal-wlr-config.ini" {
-            screencast = {
-              max_fps = 60;
-              chooser_type = "simple";
-              chooser_cmd = "${pkgs.slurp}/bin/slurp -or -f 'Monitor: %o'";
-            };
-          };
-        };
     };
   };
 }

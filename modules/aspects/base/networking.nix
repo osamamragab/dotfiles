@@ -1,4 +1,13 @@
 {
+  lib,
+  config,
+  ...
+}: let
+  sshKeys =
+    config.flake.hosts
+    |> lib.filterAttrs (hn: h: h.sshKey != "")
+    |> lib.mapAttrs' (hn: h: (lib.nameValuePair hn h.sshKey));
+in {
   flake.aspects.base = {
     nixos = {
       pkgs,
@@ -48,7 +57,13 @@
         enable = true;
         openFirewall = lib.mkDefault false;
         enableRecommendedAlgorithms = true;
-        knownHosts = lib.mkDefault host.resolvedSSHKnownHosts;
+        knownHosts =
+          sshKeys
+          |> lib.mapAttrs' (hostName: sshKey:
+            lib.nameValuePair hostName {
+              hostNames = [hostName];
+              publicKey = sshKey;
+            });
         settings = {
           PubkeyAuthentication = true;
           PasswordAuthentication = false;
@@ -60,7 +75,7 @@
         };
       };
 
-      users.users.${host.user}.openssh.authorizedKeys.keys = lib.mkDefault host.resolvedSSHAuthorizedKeys;
+      users.users.${host.user}.openssh.authorizedKeys.keys = lib.attrValues sshKeys;
 
       services.tailscale = {
         enable = true;

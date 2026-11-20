@@ -4,10 +4,32 @@
   config,
   ...
 }: {
+  options.flake.aspects = lib.mkOption {
+    default = {};
+    type = lib.types.attrsOf (
+      lib.types.submodule ({name, ...}: {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            default = name;
+            readOnly = true;
+          };
+          nixos = lib.mkOption {
+            type = lib.types.deferredModule;
+            default = {};
+          };
+          homeManager = lib.mkOption {
+            type = lib.types.deferredModule;
+            default = {};
+          };
+        };
+      })
+    );
+  };
+
   options.flake.hosts = lib.mkOption {
     default = {};
     type = let
-      flakeHosts = config.flake.hosts;
       flakeModules = config.flake.modules;
     in
       lib.types.attrsOf (
@@ -59,11 +81,7 @@
             resolvedAspects = lib.mkOption {
               type = lib.types.listOf lib.types.str;
               readOnly = true;
-              default = let
-                hasBase = config.aspects |> lib.any (a: a == "base");
-                base = lib.optional (!hasBase) "base";
-              in
-                base ++ config.aspects;
+              default = lib.unique (["base"] ++ config.aspects);
             };
             resolvedModules = lib.mkOption {
               type = lib.types.listOf lib.types.deferredModule;
@@ -81,36 +99,14 @@
                 ++ config.extraHomeModules
                 ++ (config.resolvedAspects |> lib.map (a: flakeModules.homeManager.${a} or {}));
             };
-            resolvedSSHAuthorizedKeys = lib.mkOption {
-              type = lib.types.listOf lib.types.str;
-              readOnly = true;
-              default =
-                flakeHosts
-                |> lib.filterAttrs (hn: h: hn != name && h.sshKey != "")
-                |> lib.attrValues
-                |> lib.map (h: h.sshKey);
-            };
-            resolvedSSHKnownHosts = lib.mkOption {
-              type = lib.types.attrsOf (lib.types.submodule {
-                options = {
-                  hostNames = lib.mkOption {type = lib.types.listOf lib.types.str;};
-                  publicKey = lib.mkOption {type = lib.types.str;};
-                };
-              });
-              readOnly = true;
-              default =
-                flakeHosts
-                |> lib.filterAttrs (hn: h: hn != name && h.sshKey != "")
-                |> lib.mapAttrs' (hn: h:
-                  lib.nameValuePair hn {
-                    hostNames = [hn];
-                    publicKey = h.sshKey;
-                  });
-            };
           };
         })
       );
   };
+
+  config.flake.modules = lib.genAttrs ["nixos" "homeManager"] (
+    class: config.flake.aspects |> lib.mapAttrs (_: aspect: aspect.${class})
+  );
 
   config.flake.nixosConfigurations =
     config.flake.hosts

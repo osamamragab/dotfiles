@@ -497,12 +497,6 @@
           };
         };
       };
-
-      wayland.windowManager =
-        lib.optionalAttrs (cfg.enable && (config.wayland.windowManager ? mango))
-        {
-          mango.settings.exec_once = ["${cfg.package}/bin/noctalia"];
-        };
     };
   };
 }

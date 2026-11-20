@@ -2,8 +2,6 @@
   flake.aspects.base = {
     nixos = {
       pkgs,
-      lib,
-      config,
       host,
       ...
     }: {

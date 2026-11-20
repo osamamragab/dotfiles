@@ -2,10 +2,21 @@
   flake-file.inputs.mangowm.url = "github:mangowm/mango";
 
   flake.aspects.desktop = {
-    nixos = {pkgs, ...}: {
+    nixos = {
+      pkgs,
+      lib,
+      ...
+    }: {
       programs.mango = {
         enable = true;
         package = pkgs.mango;
+      };
+
+      programs.dconf.enable = true;
+
+      services.logind.settings.Login = {
+        HandlePowerKey = lib.mkDefault "ignore";
+        HandleLidSwitchDocked = lib.mkDefault "ignore";
       };
     };
 
@@ -14,6 +25,7 @@
       pkgs,
       lib,
       config,
+      osConfig ? {},
       ...
     }: let
       cfg = config.wayland.windowManager.mango;
@@ -25,7 +37,7 @@
         then config.home.sessionVariables.TERMINAL
         else if config.xdg.terminal-exec.enable
         then "${config.xdg.terminal-exec.package}/bin/xdg-terminal-exec"
-        else lib.throw "No terminal emulator found";
+        else throw "No terminal emulator found";
       zoomerScript = pkgs.writeShellScript "zoomer-script" ''
         set -eu
         mon="$(${mmsgBin} get last_open_surface | ${pkgs.jq}/bin/jq -r ".monitor")"
@@ -436,22 +448,53 @@
             "AWT_TOOLKIT,MToolkit wmname LG3D"
           ];
 
-          exec_once = [
-            # For some reason it does not start correctly when enabling the
-            # systemd integration.
-            "systemctl --user reset-failed"
-            "systemctl --user restart mango-session.target"
-          ];
+          exec_once =
+            [
+              # For some reason it does not start correctly when enabling the
+              # systemd integration.
+              "systemctl --user reset-failed"
+              "systemctl --user restart mango-session.target"
+            ]
+            ++ lib.optional (osConfig.services.keyd.enable or false) "${pkgs.keyd}/bin/keyd-application-mapper"
+            ++ lib.optional (config.programs.noctalia.enable or false) "${config.programs.noctalia.package}/bin/noctalia";
         };
       };
 
-      xdg.portal = lib.mkIf (cfg.enable or false) {
-        config.mango = {
-          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-          "org.freedesktop.impl.portal.Screenshot" = "wlr";
+      xdg.portal = {
+        enable = true;
+        config = {
+          common = {
+            default = ["gtk"];
+            "org.freedesktop.impl.portal.Secret" =
+              if config.services.gnome-keyring.enable
+              then "gnome-keyring"
+              else "none";
+            "org.freedesktop.impl.portal.Inhibit" = "none";
+          };
+          mango = lib.mkIf cfg.enable {
+            "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+            "org.freedesktop.impl.portal.Screenshot" = "wlr";
+          };
         };
-        extraPortals = [pkgs.xdg-desktop-portal-wlr];
+        extraPortals = [
+          pkgs.xdg-desktop-portal-gtk
+          pkgs.xdg-desktop-portal-wlr
+        ];
       };
+
+      # TODO: select window
+      xdg.configFile."xdg-desktop-portal-wlr/config" = let
+        iniFormat = pkgs.formats.ini {};
+      in
+        lib.mkIf config.xdg.portal.enable {
+          source = iniFormat.generate "xdg-desktop-portal-wlr-config.ini" {
+            screencast = {
+              max_fps = 60;
+              chooser_type = "simple";
+              chooser_cmd = "${pkgs.slurp}/bin/slurp -or -f 'Monitor: %o'";
+            };
+          };
+        };
     };
   };
 }

@@ -470,9 +470,6 @@
         "import-tree": "import-tree",
         "mangowm": "mangowm",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-lib": [
-          "nixpkgs"
-        ],
         "noctalia": "noctalia",
         "noctalia-greeter": "noctalia-greeter",
         "nur": "nur",

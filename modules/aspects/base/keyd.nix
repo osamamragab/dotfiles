@@ -11,7 +11,6 @@
       iniFormat = pkgs.formats.ini {};
       mkSettings = settings:
         settings |> lib.recursiveUpdate (cfg.keyboards.default.settings or {});
-      mkMainSettings = settings: mkSettings {main = settings;};
     in {
       services.keyd = {
         enable = true;
@@ -27,15 +26,16 @@
           };
           redragon-k613 = {
             ids = ["258a:002a"];
-            settings = mkMainSettings {
-              esc = "`";
+            settings = mkSettings {
+              main = {
+                esc = "`";
+              };
             };
           };
         };
       };
 
-      systemd.services.keyd.serviceConfig.CapabilityBoundingSet =
-        lib.optional cfg.enable "CAP_SETGID";
+      systemd.services.keyd.serviceConfig.CapabilityBoundingSet = lib.optional cfg.enable "CAP_SETGID";
 
       users.groups.keyd.members = lib.optional cfg.enable host.user;
       users.groups.input.members = lib.optional cfg.enable host.user;
@@ -54,34 +54,28 @@
     homeManager = {
       pkgs,
       lib,
-      config,
       osConfig ? {},
       ...
     }: let
-      cfg = osConfig.services.keyd or null;
+      cfg = osConfig.services.keyd or {enable = false;};
       iniFormat = pkgs.formats.ini {};
-      common = {
-        "control.y" = "C-c";
-        "control.p" = "C-v";
-      };
     in {
-      home.packages = [pkgs.keyd];
+      home.packages = lib.optional cfg.enable pkgs.keyd;
 
-      xdg.configFile."keyd/app.conf".source = iniFormat.generate "app.conf" {
-        firefox = common;
-        org-mozilla-firefox = common;
-        chromium = common;
-        org-chromium-chromium = common;
-      };
-
-      wayland.windowManager =
-        lib.optionalAttrs
-        ((cfg.enable or false) && (config.wayland.windowManager ? mango))
-        {
-          mango.settings.exec_once = [
-            "${pkgs.keyd}/bin/keyd-application-mapper"
-          ];
-        };
+      xdg.configFile."keyd/app.conf".source = lib.mkIf cfg.enable (
+        iniFormat.generate "app.conf" (
+          lib.genAttrs [
+            "firefox"
+            "org-mozilla-firefox"
+            "chromium"
+            "org-chromium-chromium"
+          ]
+          (_: {
+            "control.y" = "C-c";
+            "control.p" = "C-v";
+          })
+        )
+      );
     };
   };
 }

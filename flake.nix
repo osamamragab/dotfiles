@@ -3,7 +3,7 @@
 {
   description = "Osama's NixOS configuration";
 
-  outputs = inputs: import ./outputs.nix inputs;
+  outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
 
   nixConfig = {
     abort-on-warn = true;
@@ -41,7 +41,6 @@
       };
     };
     nixpkgs = {url = "github:NixOS/nixpkgs/nixos-unstable";};
-    nixpkgs-lib = {follows = "nixpkgs";};
     noctalia = {url = "github:noctalia-dev/noctalia/cachix";};
     noctalia-greeter = {
       url = "github:noctalia-dev/noctalia-greeter";
