@@ -53,6 +53,12 @@ in {
         package = pkgs.vnstat;
       };
 
+      services.avahi = {
+        enable = true;
+        nssmdns4 = true;
+        openFirewall = lib.mkDefault true;
+      };
+
       services.openssh = {
         enable = true;
         openFirewall = lib.mkDefault false;
