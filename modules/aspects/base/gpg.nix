@@ -1,7 +1,8 @@
 {
-  flake.aspects.tools = {
+  flake.aspects.base = {
     homeManager = {
       pkgs,
+      lib,
       config,
       ...
     }: {
@@ -50,15 +51,14 @@
         maxCacheTtl = 1800;
         defaultCacheTtl = 600;
         pinentry = {
-          package = pkgs.pinentry-gnome3;
-          program = "pinentry-gnome3";
+          package = lib.mkDefault pkgs.pinentry-curses;
+          program = lib.mkDefault "pinentry-curses";
         };
       };
 
-      home.packages = with pkgs; [
-        gcr_4 # required for pinentry-gnome3 to work properly
-        pinentry-curses
-      ];
+      home.packages =
+        [pkgs.pinentry-curses]
+        ++ (lib.optional (config.services.gpg-agent.pinentry.program == "pinentry-gnome3") pkgs.gcr_4);
     };
   };
 }

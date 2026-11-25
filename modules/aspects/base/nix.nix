@@ -1,4 +1,4 @@
-{...}: let
+let
   nixConfig = {
     experimental-features = [
       "nix-command"
@@ -81,7 +81,6 @@ in {
     homeManager = {
       inputs,
       lib,
-      host,
       osConfig ? {},
       ...
     }: let
