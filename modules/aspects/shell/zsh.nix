@@ -54,6 +54,7 @@
           "INTERACTIVE_COMMENTS"
           "HIST_REDUCE_BLANKS"
           "HIST_VERIFY"
+          "NO_BANG_HIST"
         ];
         historySubstringSearch = {
           enable = true;
