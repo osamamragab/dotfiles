@@ -6,6 +6,7 @@
       inputs,
       pkgs,
       lib,
+      config,
       host,
       ...
     }: {
@@ -19,6 +20,7 @@
           isNormalUser = lib.mkDefault true;
           useDefaultShell = lib.mkDefault true;
           extraGroups = ["wheel"];
+          hashedPasswordFile = config.sops.secrets."${host.user}_password".path;
         };
         groups.${host.user} = {};
       };

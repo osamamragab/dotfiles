@@ -11,7 +11,6 @@
           [
             bc
             jq
-            age
             buku
             atool
             unzip

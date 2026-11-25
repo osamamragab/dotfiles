@@ -14,7 +14,6 @@
       pkgs,
       lib,
       config,
-      host,
       ...
     }: {
       networking.wireless.enable = true;
@@ -67,15 +66,16 @@
         VDPAU_DRIVER = "radeonsi";
       };
 
+      sops.secrets."luks_root".key = "luks/root";
+
       disko.devices.disk.main = {
         type = "disk";
         device = "/dev/disk/by-id/nvme-KXG50ZNV512G_TOSHIBA_Z8DF717FF6GS";
         content = {
           type = "gpt";
           partitions = {
-            ESP = {
+            boot = {
               label = "boot";
-              name = "ESP";
               size = "1G";
               type = "EF00";
               content = {
@@ -89,11 +89,14 @@
               label = "root";
               size = "100%";
               content = {
-                name = "root";
                 type = "luks";
+                name = "cryptroot";
+                passwordFile = config.sops.secrets."luks_root".path;
                 settings = {
                   allowDiscards = true;
                   bypassWorkqueues = true;
+                  crypttabExtraOpts = ["keyfile-timeout=10"];
+                  # keyFile = "/tmp/luks.key";
                 };
                 content = {
                   type = "btrfs";
@@ -137,7 +140,7 @@
         enable = true;
         algorithm = "zstd";
         priority = 5;
-        memoryPercent = 50;
+        memoryPercent = 30;
       };
 
       services.btrfs.autoScrub = {

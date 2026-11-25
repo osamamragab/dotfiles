@@ -42,7 +42,7 @@ in {
         };
       };
 
-      systemd.network.wait-online.enable = config.boot.initrd.systemd.enable;
+      systemd.network.wait-online.enable = lib.mkDefault config.boot.initrd.systemd.network.wait-online.enable;
 
       users.groups.networkmanager.members = lib.optional config.networking.networkmanager.enable host.user;
 

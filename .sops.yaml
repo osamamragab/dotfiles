@@ -1,0 +1,12 @@
+keys:
+  - &xlab age18kggdyxwuxpf7elpndcgs4fjqqld8ywtqvmam77l4l9juq7lwywst6wxfd
+  - &xlab-osama age1unuc4glvgcd32kcyf70v99tq26d90jzmxnjq94equ42944pkgywse03l68
+  - &boraiy age1dwgzf7f5c236hhffryq6mxzwq5je0ed09av7r8up79ausyqfdqpqkf3cs4
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *xlab
+        - *xlab-osama
+        - *boraiy

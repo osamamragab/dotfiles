@@ -57,8 +57,8 @@
       };
 
       home.packages =
-        [pkgs.pinentry-curses]
-        ++ (lib.optional (config.services.gpg-agent.pinentry.program == "pinentry-gnome3") pkgs.gcr_4);
+        [config.services.gpg-agent.pinentry.package]
+        ++ lib.optional (config.services.gpg-agent.pinentry.program == "pinentry-gnome3") pkgs.gcr_4;
     };
   };
 }

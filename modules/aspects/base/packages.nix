@@ -5,24 +5,25 @@
         git
         vis
         file
-        which
         tree
-        fdupes
+        gawk
         gnused
         gnutar
-        gawk
+        lsof
         btop
         iotop
+        which
         iftop
+        psmisc
         strace
         ltrace
-        traceroute
-        lsof
-        psmisc
+        parted
+        fdupes
         ethtool
         pciutils
         usbutils
         lm_sensors
+        traceroute
         smartmontools
       ];
     };

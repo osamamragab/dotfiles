@@ -10,9 +10,7 @@
     ];
     module = {
       pkgs,
-      lib,
       config,
-      host,
       ...
     }: {
       networking.wireless.enable = true;
@@ -26,7 +24,7 @@
       };
 
       boot = {
-        boot.kernelPackages = pkgs.linuxPackages_zen;
+        kernelPackages = pkgs.linuxPackages_zen;
         kernelModules = ["kvm-intel"];
         initrd.availableKernelModules = [
           "xhci_pci"
@@ -62,37 +60,29 @@
               label = "root";
               size = "100%";
               content = {
-                name = "root";
-                type = "luks";
-                settings = {
-                  allowDiscards = true;
-                  bypassWorkqueues = true;
-                };
-                content = {
-                  type = "btrfs";
-                  extraArgs = ["-f"];
-                  subvolumes = {
-                    "/root" = {
-                      mountpoint = "/";
-                      mountOptions = ["noatime" "compress=zstd"];
-                    };
-                    "/home" = {
-                      mountpoint = "/home";
-                      mountOptions = ["noatime" "compress=zstd"];
-                    };
-                    "/nix" = {
-                      mountpoint = "/nix";
-                      mountOptions = ["noatime" "compress=zstd"];
-                    };
-                    "/log" = {
-                      mountpoint = "/var/log";
-                      mountOptions = ["noatime" "compress=zstd"];
-                    };
-                    "/swap" = {
-                      mountpoint = "/var/swap";
-                      mountOptions = ["noatime" "nodatacow" "compress=no"];
-                      swap.swapfile.size = "18G";
-                    };
+                type = "btrfs";
+                extraArgs = ["-f"];
+                subvolumes = {
+                  "/root" = {
+                    mountpoint = "/";
+                    mountOptions = ["noatime" "compress=zstd"];
+                  };
+                  "/home" = {
+                    mountpoint = "/home";
+                    mountOptions = ["noatime" "compress=zstd"];
+                  };
+                  "/nix" = {
+                    mountpoint = "/nix";
+                    mountOptions = ["noatime" "compress=zstd"];
+                  };
+                  "/log" = {
+                    mountpoint = "/var/log";
+                    mountOptions = ["noatime" "compress=zstd"];
+                  };
+                  "/swap" = {
+                    mountpoint = "/var/swap";
+                    mountOptions = ["noatime" "nodatacow" "compress=no"];
+                    swap.swapfile.size = "18G";
                   };
                 };
               };
@@ -110,7 +100,7 @@
         enable = true;
         algorithm = "zstd";
         priority = 5;
-        memoryPercent = 50;
+        memoryPercent = 30;
       };
 
       services.btrfs.autoScrub = {
