@@ -24,10 +24,16 @@
 
 (use-package nix-mode)
 
+(use-package diff-mode
+  :ensure nil
+  :custom
+  (diff-refine nil))
+
 (use-package ediff
   :ensure nil
-  :config
-  (setopt ediff-window-setup-function 'ediff-setup-windows-plain
-    ediff-split-window-function 'split-window-horizontally))
+  :custom
+  (ediff-auto-refine 'nix)
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+  (ediff-split-window-function 'split-window-horizontally))
 
 (provide 'config/modes)
