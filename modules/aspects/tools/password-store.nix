@@ -37,46 +37,56 @@
       };
 
       home.file."${config.xdg.binHome}/passmenu" = lib.mkIf cfg.enable {
-        source = pkgs.writeShellScript "passmenu" ''
-          set -eu
+        source = lib.getExe (pkgs.writeShellApplication {
+          name = "passmenu";
+          runtimeInputs = with pkgs; [
+            findutils
+            gnused
+            coreutils
+            wl-clipboard
+            libnotify
+            cfg.package
+          ];
+          bashOptions = ["errexit" "nounset"];
+          text = ''
+            pass_list() {
+              find "${cfg.settings.PASSWORD_STORE_DIR}" \
+                -type f \
+                -name "*.gpg" \
+                -printf "%P\n" |
+                sed 's/\.gpg$//'
+            }
 
-          pass_list() {
-            find "${cfg.settings.PASSWORD_STORE_DIR}" \
-              -type f \
-              -name "*.gpg" \
-              -printf "%P\n" |
-              sed 's/\.gpg$//'
-          }
+            case "''${1:-}" in
+            -l | -list | --list)
+              pass_list
+              exit 0
+              ;;
+            esac
 
-          case "''${1:-}" in
-          -l | -list | --list)
-            pass_list
-            exit 0
-            ;;
-          esac
+            app="$(basename "$0")"
+            sel="''${1:-$(pass_list | ${menuBin} -p "Passwords> ")}" || exit 1
+            content="$(${passBin} "$sel")" || {
+              ec=$?
+              echo "$app: pass command failed" >&2
+              ${notifySendBin} -a "$app" -u critical error "pass command failed"
+              exit $ec
+            }
+            field="$(
+              echo "$content" |
+              sed "1s/.*/password/;s/otpauth:\/\/.*/otp/;s/^\([^:]*\)\s*:\s*.*/\1/" |
+              ${menuBin} -p "Password Fields: $sel> "
+            )" || exit $?
+            case "$field" in
+            password) pass="$(echo "$content" | sed 1q)" ;;
+            otp) pass="$(${passBin} otp code "$sel")" ;;
+            *) pass="$(echo "$content" | sed -n "s/^$field\s\+\?:\s\+\?\(.*\)/\1/p")" ;;
+            esac
 
-          app="$(basename "$0")"
-          sel="''${1:-$(pass_list | ${menuBin} -p "Passwords> ")}" || exit 1
-          content="$(${passBin} "$sel")" || {
-            ec=$?
-            echo "$app: pass command failed" >&2
-            ${notifySendBin} -a "$app" -u critical error "pass command failed"
-            exit $ec
-          }
-          field="$(
-            echo "$content" |
-            sed "1s/.*/password/;s/otpauth:\/\/.*/otp/;s/^\([^:]*\)\s*:\s*.*/\1/" |
-            ${menuBin} -p "Password Fields: $sel> "
-          )" || exit $?
-          case "$field" in
-          password) pass="$(echo "$content" | sed 1q)" ;;
-          otp) pass="$(${passBin} otp code "$sel")" ;;
-          *) pass="$(echo "$content" | sed -n "s/^$field\s\+\?:\s\+\?\(.*\)/\1/p")" ;;
-          esac
-
-          printf "%s" "$pass" | ${wlCopyBin} --sensitive --type text/plain --foreground --trim-newline
-          ${notifySendBin} -a "$app" "$sel" "$field copied to clipboard"
-        '';
+            printf "%s" "$pass" | ${wlCopyBin} --sensitive --type text/plain --foreground --trim-newline
+            ${notifySendBin} -a "$app" "$sel" "$field copied to clipboard"
+          '';
+        });
       };
     };
   };

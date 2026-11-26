@@ -178,13 +178,23 @@
       };
 
       home.file."${config.xdg.binHome}/fftabs" = lib.mkIf cfg.enable {
-        source = pkgs.writeShellScript "fftabs" ''
-          set -eu
-          sed -n "s/Path=\(.*\)/\1/p" "${cfg.configPath}/profiles.ini" | while IFS= read -r p; do
-            ${pkgs.dejsonlz4}/bin/dejsonlz4 "${cfg.configPath}/$p/sessionstore-backups/recovery.jsonlz4" |
-              ${pkgs.jq}/bin/jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
-          done
-        '';
+        source = lib.getExe (pkgs.writeShellApplication {
+          name = "fftabs";
+          runtimeInputs = with pkgs; [
+            jq
+            gnused
+            dejsonlz4
+          ];
+          bashOptions = ["errexit" "nounset"];
+          text = let
+            firefoxDir = "${config.home.homeDirectory}/${cfg.configPath}";
+          in ''
+            sed -n "s/Path=\(.*\)/\1/p" "${firefoxDir}/profiles.ini" | while IFS= read -r p; do
+              dejsonlz4 "${firefoxDir}/$p/sessionstore-backups/recovery.jsonlz4" |
+                jq -r '.windows[].tabs[] | .entries[.index-1] | "\(.title) (\(.url))"'
+            done
+          '';
+        });
       };
 
       xdg.mimeApps.defaultApplications = lib.mkIf cfg.enable (

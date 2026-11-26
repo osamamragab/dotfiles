@@ -46,7 +46,6 @@
             x509.program = "${config.programs.gpg.package}/bin/gpgsm";
             ssh.program = lib.toString (
               pkgs.writeShellScript "ssh-signkey" ''
-                #!/bin/sh
                 # A workaround to stop git from being annoying when using ssh signing keys.
                 # By default, git uses ssh-keygen to sign commits. ssh-keygen does not honor
                 # AddKeysToAgent in ssh config. So here you go.
