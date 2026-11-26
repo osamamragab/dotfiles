@@ -37,7 +37,7 @@
 (setopt display-fill-column-indicator-column 80)
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
-; (electric-pair-mode 1)
+;; (electric-pair-mode 1)
 (save-place-mode 1)
 (global-hl-line-mode 1)
 (column-number-mode 1)
