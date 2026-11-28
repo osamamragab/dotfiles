@@ -1,5 +1,5 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     homeManager = {
       pkgs,
       lib,
@@ -8,7 +8,6 @@
     }: {
       programs.gpg = {
         enable = true;
-        package = pkgs.gnupg;
         homedir = "${config.xdg.dataHome}/gnupg";
         mutableKeys = true;
         mutableTrust = true;

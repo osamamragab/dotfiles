@@ -1,13 +1,8 @@
 {
-  flake.aspects.virtualisation = {
-    nixos = {
-      pkgs,
-      config,
-      ...
-    }: {
+  den.aspects.virtualisation = {
+    nixos = {config, ...}: {
       virtualisation.docker = {
         enable = true;
-        package = pkgs.docker;
         storageDriver = "overlay2";
         rootless = {
           enable = true;

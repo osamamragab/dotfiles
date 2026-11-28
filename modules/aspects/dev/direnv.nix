@@ -1,22 +1,12 @@
 {
-  flake.aspects.dev = {
-    homeManager = {
-      pkgs,
-      config,
-      ...
-    }: {
+  den.aspects.dev = {
+    homeManager = {config, ...}: {
       programs.direnv = {
         enable = true;
-        package = pkgs.direnv;
         silent = false;
-        nix-direnv = {
-          enable = true;
-          package = pkgs.nix-direnv;
-        };
-        mise = {
-          enable = config.programs.mise.enable;
-          package = pkgs.mise;
-        };
+        enableGitIntegration = config.programs.git.enable;
+        nix-direnv.enable = config.programs.direnv.enable;
+        mise.enable = config.programs.mise.enable;
       };
     };
   };

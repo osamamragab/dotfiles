@@ -1,19 +1,11 @@
-{
+{inputs, ...}: {
   flake-file.inputs.mangowm.url = "github:mangowm/mango";
 
-  flake.aspects.desktop = {
-    nixos = {
-      pkgs,
-      lib,
-      ...
-    }: {
-      programs.mango = {
-        enable = true;
-        package = pkgs.mango;
-      };
-
+  den.aspects.desktop = {
+    nixos = {lib, ...}: {
+      programs.mango.enable = true;
       programs.dconf.enable = true;
-
+      services.gnome.gnome-keyring.enable = true;
       services.logind.settings.Login = {
         HandlePowerKey = lib.mkDefault "ignore";
         HandleLidSwitchDocked = lib.mkDefault "ignore";
@@ -21,11 +13,10 @@
     };
 
     homeManager = {
-      inputs,
       pkgs,
       lib,
       config,
-      osConfig ? {},
+      osConfig ? null,
       ...
     }: let
       cfg = config.wayland.windowManager.mango;
@@ -499,6 +490,11 @@
       services.gpg-agent.pinentry = {
         package = pkgs.pinentry-gnome3;
         program = "pinentry-gnome3";
+      };
+
+      services.gnome-keyring = {
+        enable = true;
+        components = [];
       };
     };
   };

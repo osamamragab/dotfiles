@@ -1,7 +1,6 @@
 {
-  flake.aspects.dev = {
+  den.aspects.dev = {
     nixos = {
-      pkgs,
       lib,
       config,
       host,
@@ -12,7 +11,10 @@
         group = "i2c";
       };
 
-      users.groups.i2c.members = lib.optional config.hardware.i2c.enable host.user;
+      users.groups.i2c.members =
+        host.users
+        |> lib.mapAttrsToList (_: u: u.userName)
+        |> lib.optionals config.hardware.i2c.enable;
     };
   };
 }

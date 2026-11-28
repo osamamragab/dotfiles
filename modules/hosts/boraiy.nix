@@ -1,14 +1,20 @@
-{
-  flake.hosts.boraiy = {
+{den, ...}: {
+  den.hosts.boraiy = {
+    class = "nixos";
     system = "x86_64-linux";
-    user = "x";
-    aspects = [
-      "shell"
-      "tools"
-      "desktop"
-      "virtualisation"
+    users.x = {};
+  };
+
+  den.aspects.boraiy = {
+    den.aspects.boraiy.includes = with den.aspects; [
+      base
+      shell
+      tools
+      desktop
+      virtualisation
     ];
-    module = {
+
+    nixos = {
       pkgs,
       config,
       ...
@@ -109,7 +115,8 @@
         fileSystems = ["/"];
       };
     };
-    homeModule = {
+
+    homeManager = {
       programs.noctalia.settings.idle.behavior.suspend.enabled = false;
     };
   };

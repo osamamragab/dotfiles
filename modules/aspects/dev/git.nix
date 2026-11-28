@@ -1,5 +1,5 @@
 {
-  flake.aspects.dev = {
+  den.aspects.dev = {
     homeManager = {
       pkgs,
       lib,
@@ -15,7 +15,6 @@
     in {
       programs.git = {
         enable = true;
-        package = pkgs.git;
         ignores = [
           "/node_modules/"
           "/__pycache__/"
@@ -106,7 +105,6 @@
         };
         lfs = {
           enable = true;
-          package = pkgs.git-lfs;
           skipSmudge = false;
         };
       };

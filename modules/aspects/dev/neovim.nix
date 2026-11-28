@@ -1,5 +1,5 @@
 {
-  flake.aspects.dev = {
+  den.aspects.dev = {
     homeManager = {
       pkgs,
       lib,
@@ -10,7 +10,6 @@
     in {
       programs.neovim = {
         enable = true;
-        package = pkgs.neovim-unwrapped;
         defaultEditor = lib.mkDefault false;
         waylandSupport = pkgs.stdenv.hostPlatform.isLinux;
         vimAlias = true;

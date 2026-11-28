@@ -1,13 +1,8 @@
 {
-  flake.aspects.dev = {
-    homeManager = {
-      pkgs,
-      config,
-      ...
-    }: {
+  den.aspects.dev = {
+    homeManager = {config, ...}: {
       programs.npm = {
         enable = true;
-        package = pkgs.nodejs;
         settings = {
           prefix = "${config.xdg.dataHome}/npm";
           cache = "${config.xdg.cacheHome}/npm";

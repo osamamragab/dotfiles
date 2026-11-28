@@ -1,14 +1,12 @@
 {
-  flake.aspects.tools = {
+  den.aspects.tools = {
     homeManager = {
-      pkgs,
       lib,
       config,
       ...
     }: {
       programs.fzf = {
         enable = true;
-        package = pkgs.fzf;
         defaultCommand = lib.mkIf config.programs.fd.enable "fd --type f --type symlink --hidden --strip-cwd-prefix";
         defaultOptions = [
           "--tiebreak=begin"

@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   flake-file.inputs = {
     noctalia = {
       url = "github:noctalia-dev/noctalia/cachix";
@@ -7,14 +7,18 @@
     noctalia-greeter.url = "github:noctalia-dev/noctalia-greeter";
   };
 
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     nixos = {
-      inputs,
+      lib,
       config,
-      host,
       ...
     }: let
-      hm = config.home-manager.users.${host.user};
+      hm =
+        config.home-manager.users
+        |> lib.filterAttrs (_: u: u.programs.noctalia.enable or false)
+        |> lib.attrNames
+        |> lib.head
+        |> (name: config.home-manager.users.${name});
       cfg = hm.programs.noctalia;
     in {
       imports = [inputs.noctalia-greeter.nixosModules.default];
@@ -30,16 +34,16 @@
         };
       };
 
-      # required for noctalia/screen_recorder plugin
-      programs.gpu-screen-recorder.enable = cfg.enable;
+      programs.gpu-screen-recorder.enable =
+        cfg.enable
+        && (lib.elem "noctalia/screen_recorder" cfg.settings.plugins.enabled);
     };
 
     homeManager = {
-      inputs,
       pkgs,
       lib,
       config,
-      osConfig ? {},
+      osConfig ? null,
       ...
     }: let
       cfg = config.programs.noctalia;
@@ -251,7 +255,7 @@
                   exec = "echo '{selection}' | cut -d ' ' -f 1 | xargs -r buku --nostdin -o";
                 };
                 power-profiles =
-                  lib.mkIf (osConfig.services.power-profiles-daemon.enable or false)
+                  lib.mkIf (config.submoduleSupport.enable && (osConfig.services.power-profiles-daemon.enable or false))
                   {
                     label = "Power Profiles";
                     glyph = "bolt";

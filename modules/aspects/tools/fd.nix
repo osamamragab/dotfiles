@@ -1,9 +1,8 @@
 {
-  flake.aspects.tools = {
-    homeManager = {pkgs, ...}: {
+  den.aspects.tools = {
+    homeManager = {
       programs.fd = {
         enable = true;
-        package = pkgs.fd;
         ignores = [
           ".git/"
         ];

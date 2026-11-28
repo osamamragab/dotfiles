@@ -1,5 +1,5 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {
       pkgs,
       lib,
@@ -8,10 +8,10 @@
       ...
     }: let
       cfg = config.services.printing;
+      userNames = host.users |> lib.mapAttrsToList (_: u: u.userName);
     in {
       services.printing = {
         enable = true;
-        package = pkgs.cups;
         drivers = with pkgs; [
           gutenprint
           hplip
@@ -19,8 +19,8 @@
         ];
       };
 
-      users.groups.lp.members = lib.optional cfg.enable host.user;
-      users.groups.lpadmin.members = lib.optional cfg.enable host.user;
+      users.groups.lp.members = lib.optionals cfg.enable userNames;
+      users.groups.lpadmin.members = lib.optionals cfg.enable userNames;
     };
   };
 }

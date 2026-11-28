@@ -1,10 +1,7 @@
 {
-  flake.aspects.tools = {
-    homeManager = {pkgs, ...}: {
-      programs.fastfetch = {
-        enable = true;
-        package = pkgs.fastfetch;
-      };
+  den.aspects.tools = {
+    homeManager = {
+      programs.fastfetch.enable = true;
     };
   };
 }

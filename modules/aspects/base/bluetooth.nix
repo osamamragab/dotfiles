@@ -1,9 +1,8 @@
 {
-  flake.aspects.base = {
-    nixos = {pkgs, ...}: {
+  den.aspects.base = {
+    nixos = {
       hardware.bluetooth = {
         enable = true;
-        package = pkgs.bluez;
         powerOnBoot = true;
         settings = {
           General = {
@@ -19,11 +18,8 @@
       };
     };
 
-    homeManager = {pkgs, ...}: {
-      services.mpris-proxy = {
-        enable = true;
-        package = pkgs.bluez;
-      };
+    homeManager = {
+      services.mpris-proxy.enable = true;
     };
   };
 }

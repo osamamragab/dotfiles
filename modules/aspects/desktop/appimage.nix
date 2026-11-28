@@ -1,5 +1,5 @@
 {
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     nixos = {pkgs, ...}: let
       mountOptions = [
         "ro"
@@ -32,7 +32,6 @@
       programs.appimage = {
         enable = true;
         binfmt = true;
-        package = pkgs.appimage-run;
       };
     };
   };

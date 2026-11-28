@@ -1,4 +1,4 @@
-let
+{inputs, ...}: let
   nixConfig = {
     experimental-features = [
       "nix-command"
@@ -26,21 +26,13 @@ in {
 
   flake-file.inputs.nur.url = "github:nix-community/NUR";
 
-  flake.aspects.base = {
-    nixos = {
-      inputs,
-      pkgs,
-      lib,
-      host,
-      ...
-    }: {
+  den.aspects.base = {
+    nixos = {lib, ...}: {
       imports = [inputs.nur.modules.nixos.default];
 
-      system.stateVersion = host.stateVersion;
-      nixpkgs.hostPlatform = lib.mkDefault host.system;
+      system.stateVersion = lib.mkDefault "26.11";
 
       nix = {
-        package = pkgs.nixVersions.latest;
         checkConfig = true;
         gc = {
           automatic = true;
@@ -67,26 +59,17 @@ in {
           };
       };
 
-      programs.nix-ld = {
-        enable = true;
-        package = pkgs.nix-ld;
-      };
+      programs.nix-ld.enable = true;
+      programs.nix-index.enable = true;
 
-      programs.nix-index = {
-        enable = true;
-        package = pkgs.nix-index;
+      home-manager = {
+        useGlobalPkgs = lib.mkDefault true;
+        useUserPackages = lib.mkDefault true;
       };
     };
 
-    homeManager = {
-      inputs,
-      lib,
-      osConfig ? {},
-      ...
-    }: let
-      standalone = !(osConfig.home-manager.useGlobalPkgs or false);
-    in {
-      imports = lib.optional standalone inputs.nur.modules.homeManager.default;
+    homeManager = {lib, ...}: {
+      home.stateVersion = lib.mkDefault "26.11";
     };
   };
 }

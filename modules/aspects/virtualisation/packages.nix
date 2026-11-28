@@ -1,5 +1,5 @@
 {
-  flake.aspects.virtualisation = {
+  den.aspects.virtualisation = {
     nixos = {
       pkgs,
       lib,

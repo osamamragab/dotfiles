@@ -1,5 +1,5 @@
 {
-  flake.aspects.tools = {
+  den.aspects.tools = {
     homeManager = {
       pkgs,
       lib,
@@ -10,7 +10,6 @@
     in {
       programs.yt-dlp = {
         enable = true;
-        package = pkgs.yt-dlp;
         settings = {
           continue = true;
           downloader = "aria2c";

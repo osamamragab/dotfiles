@@ -1,5 +1,5 @@
 {
-  flake.aspects.shell = {
+  den.aspects.shell = {
     homeManager = {
       programs.readline = {
         enable = true;

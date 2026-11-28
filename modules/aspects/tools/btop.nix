@@ -1,9 +1,8 @@
 {
-  flake.aspects.tools = {
-    homeManager = {pkgs, ...}: {
+  den.aspects.tools = {
+    homeManager = {
       programs.btop = {
         enable = true;
-        package = pkgs.btop;
         settings = {
           vim_keys = true;
           truecolor = true;

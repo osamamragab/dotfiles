@@ -1,14 +1,12 @@
 {
-  flake.aspects.music = {
+  den.aspects.music = {
     homeManager = {
-      pkgs,
       lib,
       config,
       ...
     }: {
       services.mpd = {
         enable = true;
-        package = pkgs.mpd;
         enableSessionVariables = true;
         musicDirectory = config.xdg.userDirs.music;
         dataDir = "${config.xdg.dataHome}/mpd";
@@ -36,7 +34,6 @@
       };
       services.mpdris2-rs = {
         enable = true;
-        package = pkgs.mpdris2-rs;
         host = "${config.services.mpd.network.listenAddress}:${lib.toString config.services.mpd.network.port}";
         notifications.enable = false;
       };

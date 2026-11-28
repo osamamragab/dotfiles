@@ -1,7 +1,6 @@
 {
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     homeManager = {
-      pkgs,
       lib,
       config,
       ...
@@ -24,7 +23,6 @@
     in {
       services.kanshi = {
         enable = true;
-        package = pkgs.kanshi;
         systemdTarget = config.wayland.systemd.target;
         settings = [
           {

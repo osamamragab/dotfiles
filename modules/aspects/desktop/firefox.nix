@@ -1,9 +1,8 @@
-{
+{inputs, ...}: {
   flake-file.inputs.arkenfox.url = "github:dwarfmaster/arkenfox-nixos";
 
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     homeManager = {
-      inputs,
       pkgs,
       lib,
       config,
@@ -151,7 +150,6 @@
 
       programs.firefox = {
         enable = true;
-        package = pkgs.firefox;
         arkenfox.enable = true;
         profiles =
           lib.foldl' (

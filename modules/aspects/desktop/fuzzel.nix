@@ -1,9 +1,8 @@
 {
-  flake.aspects.desktop = {
-    homeManager = {pkgs, ...}: {
+  den.aspects.desktop = {
+    homeManager = {
       programs.fuzzel = {
         enable = true;
-        package = pkgs.fuzzel;
         settings = {
           main = {
             dpi-aware = "no";

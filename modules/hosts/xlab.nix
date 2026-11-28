@@ -1,16 +1,21 @@
-{
-  flake.hosts.xlab = {
+{den, ...}: {
+  den.hosts.xlab = {
+    class = "nixos";
     system = "x86_64-linux";
-    user = "osama";
-    sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILIgsbWIOfq9autOqHLrP8PCoTrAOG50BPDSbWjoCQzC";
-    aspects = [
-      "shell"
-      "tools"
-      "desktop"
-      "dev"
-      "virtualisation"
+    users.osama.settings.sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILIgsbWIOfq9autOqHLrP8PCoTrAOG50BPDSbWjoCQzC";
+  };
+
+  den.aspects.xlab = {
+    includes = with den.aspects; [
+      base
+      shell
+      tools
+      desktop
+      dev
+      virtualisation
     ];
-    module = {
+
+    nixos = {
       pkgs,
       lib,
       config,
@@ -96,7 +101,7 @@
                   allowDiscards = true;
                   bypassWorkqueues = true;
                   crypttabExtraOpts = ["keyfile-timeout=10"];
-                  # keyFile = "/tmp/luks.key";
+                  # keyFile = "/tmp/luks_root.key";
                 };
                 content = {
                   type = "btrfs";

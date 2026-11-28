@@ -1,13 +1,8 @@
 {
-  flake.aspects.dev = {
-    homeManager = {
-      pkgs,
-      config,
-      ...
-    }: {
+  den.aspects.dev = {
+    homeManager = {config, ...}: {
       programs.go = {
         enable = true;
-        package = pkgs.go;
         telemetry.mode = "off";
         env = {
           GOPATH = ["${config.xdg.dataHome}/go"];

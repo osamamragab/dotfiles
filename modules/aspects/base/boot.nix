@@ -1,5 +1,5 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {
       pkgs,
       lib,

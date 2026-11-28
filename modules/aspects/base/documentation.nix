@@ -1,5 +1,5 @@
 {
-  flake.aspects.docs = {
+  den.aspects.docs = {
     nixos = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [
         man-pages
@@ -27,15 +27,11 @@
       };
     };
     homeManager = {
-      pkgs,
       lib,
       config,
       ...
     }: {
-      programs.info = {
-        enable = true;
-        package = pkgs.texinfoInteractive;
-      };
+      programs.info.enable = true;
 
       home.shellAliases = lib.mkIf config.programs.info.enable {
         info = "info --vi-keys";
@@ -43,7 +39,6 @@
 
       programs.tealdeer = {
         enable = true;
-        package = pkgs.tealdeer;
         enableAutoUpdates = false;
         settings = {
           display = {

@@ -1,10 +1,10 @@
-{
+{inputs, ...}: {
   flake-file.inputs.sops-nix.url = "github:Mic92/sops-nix";
 
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {
-      inputs,
       pkgs,
+      lib,
       host,
       ...
     }: let
@@ -14,12 +14,13 @@
 
       sops = {
         defaultSopsFile = "${secretsDir}/${host.name}.yaml";
-        secrets = {
-          "${host.user}_password" = {
-            key = "users/${host.user}/password";
-            neededForUsers = true;
-          };
-        };
+        secrets =
+          host.users
+          |> lib.mapAttrs' (_: u:
+            lib.nameValuePair "users_${u.userName}_password" {
+              key = "users/${u.userName}/password";
+              neededForUsers = true;
+            });
       };
 
       environment.systemPackages = [
@@ -28,11 +29,7 @@
         pkgs.ssh-to-age
       ];
     };
-    homeManager = {
-      inputs,
-      pkgs,
-      ...
-    }: {
+    homeManager = {pkgs, ...}: {
       imports = [inputs.sops-nix.homeManagerModules.sops];
 
       home.packages = with pkgs; [

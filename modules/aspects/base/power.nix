@@ -1,9 +1,8 @@
 {
-  flake.aspects.base = {
-    nixos = {pkgs, ...}: {
+  den.aspects.base = {
+    nixos = {
       services.upower = {
         enable = true;
-        package = pkgs.upower;
         usePercentageForPolicy = true;
         allowRiskyCriticalPowerAction = false;
         percentageLow = 20;
@@ -15,10 +14,7 @@
         criticalPowerAction = "HybridSleep";
       };
 
-      services.power-profiles-daemon = {
-        enable = true;
-        package = pkgs.power-profiles-daemon;
-      };
+      services.power-profiles-daemon.enable = true;
     };
   };
 }

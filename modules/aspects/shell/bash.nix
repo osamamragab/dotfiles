@@ -1,13 +1,8 @@
 {
-  flake.aspects.shell = {
-    homeManager = {
-      pkgs,
-      config,
-      ...
-    }: {
+  den.aspects.shell = {
+    homeManager = {config, ...}: {
       programs.bash = {
         enable = true;
-        package = pkgs.bashInteractive;
         enableCompletion = true;
         enableVteIntegration = true;
         historyFile = "${config.xdg.stateHome}/history";

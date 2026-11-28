@@ -1,14 +1,12 @@
 {
-  flake.aspects.music = {
+  den.aspects.music = {
     homeManager = {
       lib,
-      pkgs,
       config,
       ...
     }: {
       programs.ncmpcpp = {
         enable = true;
-        package = pkgs.ncmpcpp;
         mpdMusicDir = lib.mkIf config.services.mpd.enable config.services.mpd.musicDirectory;
         settings = {
           ncmpcpp_directory = "${config.xdg.dataHome}/ncmpcpp";

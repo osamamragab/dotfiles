@@ -1,5 +1,5 @@
 {
-  flake.aspects.tools = {
+  den.aspects.tools = {
     homeManager = {
       pkgs,
       lib,

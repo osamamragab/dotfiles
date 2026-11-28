@@ -1,7 +1,6 @@
 {
-  flake.aspects.dev = {
+  den.aspects.dev = {
     homeManager = {
-      pkgs,
       lib,
       config,
       ...
@@ -15,7 +14,6 @@
     in {
       programs.jujutsu = {
         enable = true;
-        package = pkgs.jujutsu;
         ediff = config.programs.emacs.enable;
         settings = {
           user = lib.mkIf (gitSettings ? user && gitSettings.user != null) {

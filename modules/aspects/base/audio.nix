@@ -1,24 +1,20 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {
-      pkgs,
+      lib,
       host,
       ...
     }: {
-      security.rtkit = {
-        enable = true;
-        package = pkgs.rtkit;
-      };
+      security.rtkit.enable = true;
 
       services.pipewire = {
         enable = true;
-        package = pkgs.pipewire;
         alsa.enable = true;
         alsa.support32Bit = true;
         pulse.enable = true;
       };
 
-      users.groups.audio.members = [host.user];
+      users.groups.audio.members = lib.mapAttrsToList (_: u: u.userName) host.users;
     };
 
     homeManager = {

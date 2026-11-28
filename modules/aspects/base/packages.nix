@@ -1,5 +1,5 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {pkgs, ...}: {
       environment.systemPackages = with pkgs; [
         git

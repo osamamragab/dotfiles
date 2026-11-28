@@ -1,9 +1,8 @@
 {
-  flake.aspects.dev = {
-    homeManager = {pkgs, ...}: {
+  den.aspects.dev = {
+    homeManager = {
       programs.gh = {
         enable = true;
-        package = pkgs.gh;
         gitCredentialHelper.enable = true;
         settings = {
           git_protocol = "ssh";

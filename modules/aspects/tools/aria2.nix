@@ -1,9 +1,8 @@
 {
-  flake.aspects.tools = {
-    homeManager = {pkgs, ...}: {
+  den.aspects.tools = {
+    homeManager = {
       programs.aria2 = {
         enable = true;
-        package = pkgs.aria2;
         systemd.enable = false;
         settings = {
           continue = true;

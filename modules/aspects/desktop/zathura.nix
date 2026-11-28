@@ -1,7 +1,6 @@
 {
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     homeManager = {
-      pkgs,
       lib,
       config,
       ...
@@ -10,7 +9,6 @@
     in {
       programs.zathura = {
         enable = true;
-        package = pkgs.zathura;
         options = {
           database = "sqlite";
           selection-clipboard = "clipboard";

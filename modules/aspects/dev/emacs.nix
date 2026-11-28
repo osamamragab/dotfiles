@@ -1,26 +1,21 @@
-{
+{inputs, ...}: {
   flake-file.inputs.emacs-overlay.url = "github:nix-community/emacs-overlay";
 
-  flake.aspects.dev = {
-    nixos = {inputs, ...}: {
+  den.aspects.dev = {
+    nixos = {
       nixpkgs.overlays = [inputs.emacs-overlay.overlays.default];
     };
 
     homeManager = {
-      inputs,
       pkgs,
       lib,
       config,
-      osConfig ? {},
       ...
     }: let
       cfg = config.programs.emacs;
       scfg = config.services.emacs;
       configPath = ./emacs;
-      standalone = !(osConfig.home-manager.useGlobalPkgs or false);
     in {
-      nixpkgs.overlays = lib.mkIf standalone [inputs.emacs-overlay.overlays.default];
-
       programs.emacs = {
         enable = true;
         package = pkgs.emacsWithPackagesFromUsePackage {

@@ -1,5 +1,5 @@
 {
-  flake.aspects.shell = {
+  den.aspects.shell = {
     homeManager = {
       home.shell.enableShellIntegration = true;
     };

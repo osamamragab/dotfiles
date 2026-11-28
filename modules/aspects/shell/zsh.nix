@@ -1,7 +1,8 @@
 {
-  flake.aspects.shell = {
+  den.aspects.shell = {
     nixos = {
       pkgs,
+      lib,
       host,
       ...
     }: {
@@ -10,7 +11,10 @@
         enableGlobalCompInit = false;
       };
 
-      users.users.${host.user}.shell = pkgs.zsh;
+      users.users =
+        lib.genAttrs
+        (host.users |> lib.mapAttrsToList (_: u: u.userName))
+        (_: {shell = pkgs.zsh;});
     };
 
     homeManager = {
@@ -23,7 +27,6 @@
     in {
       programs.zsh = {
         enable = true;
-        package = pkgs.zsh;
         dotDir =
           if config.xdg.enable
           then "${config.xdg.configHome}/zsh"
@@ -45,6 +48,7 @@
           save = cfg.history.size;
           path = "${config.xdg.stateHome}/history";
           share = false;
+          append = true;
           ignoreAllDups = true;
           ignoreSpace = true;
           extended = false;
@@ -69,7 +73,6 @@
         };
         fastSyntaxHighlighting = {
           enable = true;
-          package = pkgs.zsh-fast-syntax-highlighting;
           theme = "XDG:overlay";
         };
         plugins = [
@@ -172,10 +175,9 @@
         '';
       };
 
-      home.sessionVariables._Z_DATA = lib.mkIf (lib.any (
-          p: p.src == pkgs.zsh-z
-        )
-        cfg.plugins) "${config.xdg.stateHome}/zdata";
+      home.sessionVariables._Z_DATA =
+        lib.mkIf (lib.any (p: p.src == pkgs.zsh-z) cfg.plugins)
+        "${config.xdg.stateHome}/zdata";
     };
   };
 }

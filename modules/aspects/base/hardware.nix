@@ -1,9 +1,8 @@
-{
+{inputs, ...}: {
   flake-file.inputs.disko.url = "github:nix-community/disko";
 
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {
-      inputs,
       lib,
       config,
       host,
@@ -34,7 +33,10 @@
         };
       };
 
-      users.groups.video.members = lib.optional config.hardware.graphics.enable host.user;
+      users.groups.video.members =
+        host.users
+        |> lib.mapAttrsToList (_: u: u.userName)
+        |> lib.optionals config.hardware.graphics.enable;
 
       services.udev = {
         enable = true;

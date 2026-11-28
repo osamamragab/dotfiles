@@ -1,5 +1,5 @@
 {
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     nixos = {pkgs, ...}: {
       services.udisks2 = {
         enable = true;

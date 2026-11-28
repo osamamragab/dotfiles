@@ -1,27 +1,31 @@
 {
   lib,
-  config,
+  den,
   ...
 }: let
   sshKeys =
-    config.flake.hosts
-    |> lib.filterAttrs (hn: h: h.sshKey != "")
-    |> lib.mapAttrs' (hn: h: (lib.nameValuePair hn h.sshKey));
+    den.hosts
+    |> lib.concatMapAttrs (
+      _: hosts:
+        hosts
+        |> lib.mapAttrs (_: h: h.sshKey or "")
+        |> lib.filterAttrs (_: key: key != "")
+    );
 in {
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {
-      pkgs,
       lib,
       config,
       host,
       ...
-    }: {
+    }: let
+      userNames = host.users |> lib.mapAttrsToList (_: u: u.userName);
+    in {
       networking = {
         hostName = lib.mkDefault host.name;
         nftables.enable = true;
         networkmanager = {
           enable = true;
-          package = pkgs.networkmanager;
           dhcp = "internal";
           dns =
             if config.services.resolved.enable
@@ -44,14 +48,10 @@ in {
 
       systemd.network.wait-online.enable = lib.mkDefault config.boot.initrd.systemd.network.wait-online.enable;
 
-      users.groups.networkmanager.members = lib.optional config.networking.networkmanager.enable host.user;
+      users.groups.networkmanager.members = lib.optionals config.networking.networkmanager.enable userNames;
 
       services.resolved.enable = true;
-
-      services.vnstat = {
-        enable = true;
-        package = pkgs.vnstat;
-      };
+      services.vnstat.enable = true;
 
       services.avahi = {
         enable = true;
@@ -75,18 +75,17 @@ in {
           PasswordAuthentication = false;
           KbdInteractiveAuthentication = false;
           PermitRootLogin = "no";
-          AllowUsers = [host.user];
+          AllowUsers = userNames;
           MaxAuthTries = 3;
           PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
         };
       };
 
-      users.users.${host.user}.openssh.authorizedKeys.keys = lib.attrValues sshKeys;
+      users.users = lib.genAttrs userNames (_: {
+        openssh.authorizedKeys.keys = lib.attrValues sshKeys;
+      });
 
-      services.tailscale = {
-        enable = true;
-        package = pkgs.tailscale;
-      };
+      services.tailscale.enable = true;
       systemd.services.tailscaled.serviceConfig.Environment = lib.optional (
         config.services.tailscale.enable && config.networking.nftables.enable
       ) "TS_DEBUG_FIREWALL_MODE=nftables";

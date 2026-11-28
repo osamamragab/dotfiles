@@ -1,5 +1,5 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {
       pkgs,
       lib,
@@ -8,13 +8,13 @@
       ...
     }: let
       cfg = config.services.keyd;
+      userNames = host.users |> lib.mapAttrsToList (_: u: u.userName);
       iniFormat = pkgs.formats.ini {};
       mkSettings = settings:
         settings |> lib.recursiveUpdate (cfg.keyboards.default.settings or {});
     in {
       services.keyd = {
         enable = true;
-        package = pkgs.keyd;
         keyboards = {
           default = {
             ids = ["*"];
@@ -37,8 +37,8 @@
 
       systemd.services.keyd.serviceConfig.CapabilityBoundingSet = lib.optional cfg.enable "CAP_SETGID";
 
-      users.groups.keyd.members = lib.optional cfg.enable host.user;
-      users.groups.input.members = lib.optional cfg.enable host.user;
+      users.groups.keyd.members = lib.optionals cfg.enable userNames;
+      users.groups.input.members = lib.optionals cfg.enable userNames;
 
       environment.etc."libinput/local-overrides.quirks" = lib.mkIf cfg.enable {
         source = iniFormat.generate "libinput-local-overrides.quirks" {
@@ -54,7 +54,7 @@
     homeManager = {
       pkgs,
       lib,
-      osConfig ? {},
+      osConfig ? null,
       ...
     }: let
       cfg = osConfig.services.keyd or {enable = false;};

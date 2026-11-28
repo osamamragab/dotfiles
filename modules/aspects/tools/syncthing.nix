@@ -1,5 +1,5 @@
 {
-  flake.aspects.tools = {
+  den.aspects.tools = {
     nixos = {
       networking.firewall = {
         allowedTCPPorts = [
@@ -12,10 +12,9 @@
       };
     };
 
-    homeManager = {pkgs, ...}: {
+    homeManager = {
       services.syncthing = {
         enable = true;
-        package = pkgs.syncthing;
         guiAddress = "127.0.0.1:8384";
         overrideDevices = false;
         overrideFolders = false;
@@ -31,7 +30,6 @@
         };
         tray = {
           enable = true;
-          package = pkgs.syncthingtray-minimal;
           command = "syncthingtray --wait";
         };
       };

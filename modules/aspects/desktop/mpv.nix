@@ -1,5 +1,5 @@
 {
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     homeManager = {
       pkgs,
       lib,
@@ -10,7 +10,6 @@
     in {
       programs.mpv = {
         enable = true;
-        package = pkgs.mpv;
         config = {
           hwdec = "auto";
           profile = "gpu-hq";

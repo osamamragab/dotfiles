@@ -1,5 +1,5 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {lib, ...}: {
       time.timeZone = lib.mkDefault "Africa/Cairo";
       i18n = {

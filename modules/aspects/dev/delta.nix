@@ -1,11 +1,10 @@
 {
-  flake.aspects.dev = {
-    homeManager = {pkgs, ...}: {
+  den.aspects.dev = {
+    homeManager = {config, ...}: {
       programs.delta = {
         enable = true;
-        package = pkgs.delta;
-        enableGitIntegration = true;
-        enableJujutsuIntegration = true;
+        enableGitIntegration = config.programs.git.enable;
+        enableJujutsuIntegration = config.programs.jujutsu.enable;
         options = {
           tabs = 4;
           side-by-side = false;

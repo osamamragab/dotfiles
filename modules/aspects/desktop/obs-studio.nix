@@ -1,10 +1,7 @@
 {
-  flake.aspects.desktop = {
-    homeManager = {pkgs, ...}: {
-      programs.obs-studio = {
-        enable = true;
-        package = pkgs.obs-studio;
-      };
+  den.aspects.desktop = {
+    homeManager = {
+      programs.obs-studio.enable = true;
     };
   };
 }

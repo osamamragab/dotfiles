@@ -1,9 +1,8 @@
 {
-  flake.aspects.tools = {
-    homeManager = {pkgs, ...}: {
+  den.aspects.tools = {
+    homeManager = {
       programs.less = {
         enable = true;
-        package = pkgs.less;
         options = {
           quiet = true;
           no-init = true;
@@ -16,10 +15,7 @@
         };
       };
 
-      programs.lesspipe = {
-        enable = true;
-        package = pkgs.lesspipe;
-      };
+      programs.lesspipe.enable = true;
     };
   };
 }

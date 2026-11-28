@@ -1,4 +1,4 @@
-{
+{inputs, ...}: {
   flake-file.inputs = {
     stylix.url = "github:nix-community/stylix";
     tinted-schemes = {
@@ -7,9 +7,8 @@
     };
   };
 
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     homeManager = {
-      inputs,
       pkgs,
       ...
     }: {

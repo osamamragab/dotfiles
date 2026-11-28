@@ -1,5 +1,5 @@
 {
-  flake.aspects.dev = {
+  den.aspects.dev = {
     homeManager = {
       pkgs,
       lib,
@@ -12,7 +12,6 @@
     in {
       programs.tmux = {
         enable = true;
-        package = pkgs.tmux;
         aggressiveResize = false;
         baseIndex = 1;
         escapeTime = 0;

@@ -1,9 +1,9 @@
 {
-  flake.aspects.tools = {
+  den.aspects.tools = {
     homeManager = {
       pkgs,
       lib,
-      osConfig ? {},
+      osConfig ? null,
       ...
     }: {
       home = {

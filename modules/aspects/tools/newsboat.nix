@@ -1,5 +1,5 @@
 {
-  flake.aspects.tools = {
+  den.aspects.tools = {
     homeManager = {
       pkgs,
       config,
@@ -7,7 +7,6 @@
     }: {
       programs.newsboat = {
         enable = true;
-        package = pkgs.newsboat;
         browser = "${pkgs.xdg-utils}/bin/xdg-open";
         maxItems = 0;
         reloadTime = 60; # mins

@@ -1,26 +1,13 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     nixos = {
-      pkgs,
-      config,
-      ...
-    }: {
       security = {
+        audit.enable = true;
+        auditd.enable = true;
+        polkit.enable = true;
         apparmor = {
           enable = true;
           killUnconfinedConfinables = true;
-        };
-        audit = {
-          enable = true;
-          package = pkgs.audit;
-        };
-        auditd = {
-          enable = true;
-          package = config.security.audit.package;
-        };
-        polkit = {
-          enable = true;
-          package = pkgs.polkit;
         };
       };
     };

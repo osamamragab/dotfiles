@@ -1,7 +1,6 @@
 {
-  flake.aspects.base = {
+  den.aspects.base = {
     homeManager = {
-      pkgs,
       lib,
       config,
       ...
@@ -16,13 +15,10 @@
         dataHome = "${homeDir}/.local/share";
         stateHome = "${homeDir}/.local/state";
         binHome = "${homeDir}/.local/bin";
-        terminal-exec = {
-          enable = true;
-          package = pkgs.xdg-terminal-exec;
-        };
+        mimeApps.enable = true;
+        terminal-exec.enable = true;
         userDirs = {
           enable = true;
-          package = pkgs.xdg-user-dirs;
           createDirectories = true;
           setSessionVariables = false;
           desktop = "${homeDir}";
@@ -34,9 +30,6 @@
           music = "${homeDir}/docs/music";
           videos = "${homeDir}/docs/vids";
           pictures = "${homeDir}/docs/pics";
-        };
-        mimeApps = {
-          enable = true;
         };
       };
 

@@ -1,14 +1,12 @@
 {
-  flake.aspects.desktop = {
+  den.aspects.desktop = {
     homeManager = {
-      pkgs,
       lib,
       config,
       ...
     }: {
       programs.satty = {
         enable = true;
-        package = pkgs.satty;
         settings = {
           general = {
             fullscreen = true;
